@@ -1,0 +1,3 @@
+# Recruitment-preparation
+Taking notes for recruitment
+秋招复习了这么久，看了这忘了那，做个笔记吧……
