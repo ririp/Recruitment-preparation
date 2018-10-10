@@ -1,0 +1,376 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="referrer" content="origin" />
+<title>C++构造函数详解（复制构造函数） - 王小北 - 博客园</title>
+<meta property="og:description" content="拷贝构造函数（复制构造函数）" />
+<link type="text/css" rel="stylesheet" href="/bundles/blog-common.css?v=PX31qVjOE47mNaZI9JUSFK-ajuzMnpXA9PeteRNR1Qw1"/>
+<link id="MainCss" type="text/css" rel="stylesheet" href="/skins/sea/bundle-sea.css?v=PPe3jt1rcXPno6kucw0iQU2MWF3DbrvubQHRM0FEMas1"/>
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/sea/bundle-sea-mobile.css?v=TUq9b8RqI4cnYtP4OpVmWEjd-0geHVUfEk1cNxZl3IA1"/>
+<link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/raichen/rss"/>
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/raichen/rsd.xml"/>
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/raichen/wlwmanifest.xml"/>
+<script src="//common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+<script type="text/javascript">var currentBlogApp = 'raichen', cb_enable_mathjax=false;var isLogined=false;</script>
+<script src="/bundles/blog-common.js?v=M03aVfZ8QFd-WbinG9a-QXWifrkNB2YI5lN9M8cSzzg1" type="text/javascript"></script>
+</head>
+<body>
+<a name="top"></a>
+
+<!--done-->
+<div id="header">
+	
+<!--done-->
+<div class="header">
+	<div class="headerText">
+		<a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/raichen/">我是王小北</a><br>
+		如果有来生，要做一棵树
+站成永恒，没有悲欢的姿势
+一半在尘土里安详，一半在风里飞扬
+一半洒落阴凉，一半沐浴阳光
+	</div>
+</div>
+
+</div>
+
+<div id="mytopmenu" >
+	
+		<div id="mylinks"><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">博客园</a> &nbsp;
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/raichen/">首页</a> &nbsp;
+<a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a> &nbsp;
+<a id="blog_nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/%E7%8E%8B%E5%B0%8F%E5%8C%97">联系</a> &nbsp;
+&nbsp;
+<a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a>
+</div>
+		<DIV id="mystats"><div id="blog_stats">
+随笔-276&nbsp;
+评论-14&nbsp;
+文章-0&nbsp;
+<!--trackbacks-0-->
+</div></DIV>
+	
+</div>
+<div id="centercontent" >
+	
+<div id="post_detail">
+<div class = "post">
+	<h1 class = "postTitle"><a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/raichen/p/4752025.html">C++构造函数详解（复制构造函数）</a></h1>
+	<div id="cnblogs_post_body" class="blogpost-body"><h2>构造函数是干什么的</h2>
+<p>该类对象被创建时，编译系统对象分配内存空间，并自动调用该构造函数，由构造函数完成成员的初始化工作，<span style="color: #ff0000;">故：构造函数的作用：初始化对象的数据成员。</span></p>
+<h2>构造函数的种类</h2>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #0000ff;">class</span><span style="color: #000000;"> Complex 
+</span><span style="color: #008080;"> 2</span> <span style="color: #000000;">{         
+</span><span style="color: #008080;"> 3</span>  
+<span style="color: #008080;"> 4</span> <span style="color: #0000ff;">private</span><span style="color: #000000;"> :
+</span><span style="color: #008080;"> 5</span>     <span style="color: #0000ff;">double</span><span style="color: #000000;"> m_real;
+</span><span style="color: #008080;"> 6</span>     <span style="color: #0000ff;">double</span><span style="color: #000000;"> m_imag;
+</span><span style="color: #008080;"> 7</span>  
+<span style="color: #008080;"> 8</span> <span style="color: #0000ff;">public</span><span style="color: #000000;">:
+</span><span style="color: #008080;"> 9</span>  
+<span style="color: #008080;">10</span>     <span style="color: #008000;">//</span><span style="color: #008000;"> 无参数构造函数
+</span><span style="color: #008080;">11</span>     <span style="color: #008000;">//</span><span style="color: #008000;"> 如果创建一个类你没有写任何构造函数,则系统会自动生成默认的无参构造函数，函数为空，什么都不做
+</span><span style="color: #008080;">12</span>     <span style="color: #008000;">//</span><span style="color: #008000;"> 只要你写了一个下面的某一种构造函数，系统就不会再自动生成这样一个默认的构造函数，如果希望有一个这样的无参构造函数，则需要自己显示地写出来</span>
+<span style="color: #008080;">13</span>     Complex(<span style="color: #0000ff;">void</span><span style="color: #000000;">)
+</span><span style="color: #008080;">14</span> <span style="color: #000000;">    {
+</span><span style="color: #008080;">15</span>          m_real = <span style="color: #800080;">0.0</span><span style="color: #000000;">;
+</span><span style="color: #008080;">16</span>          m_imag = <span style="color: #800080;">0.0</span><span style="color: #000000;">;
+</span><span style="color: #008080;">17</span> <span style="color: #000000;">    } 
+</span><span style="color: #008080;">18</span>          
+<span style="color: #008080;">19</span>     <span style="color: #008000;">//</span><span style="color: #008000;"> 一般构造函数（也称重载构造函数）
+</span><span style="color: #008080;">20</span>     <span style="color: #008000;">//</span><span style="color: #008000;"> 一般构造函数可以有各种参数形式,一个类可以有多个一般构造函数，前提是参数的个数或者类型不同（基于c++的重载函数原理）
+</span><span style="color: #008080;">21</span>     <span style="color: #008000;">//</span><span style="color: #008000;"> 例如：你还可以写一个 Complex( int num)的构造函数出来
+</span><span style="color: #008080;">22</span>     <span style="color: #008000;">//</span><span style="color: #008000;"> 创建对象时根据传入的参数不同调用不同的构造函数</span>
+<span style="color: #008080;">23</span>     Complex(<span style="color: #0000ff;">double</span> real, <span style="color: #0000ff;">double</span><span style="color: #000000;"> imag)
+</span><span style="color: #008080;">24</span> <span style="color: #000000;">    {
+</span><span style="color: #008080;">25</span>          m_real =<span style="color: #000000;"> real;
+</span><span style="color: #008080;">26</span>          m_imag =<span style="color: #000000;"> imag;         
+</span><span style="color: #008080;">27</span> <span style="color: #000000;">     }
+</span><span style="color: #008080;">28</span>      
+<span style="color: #008080;">29</span>     <span style="color: #008000;">//</span><span style="color: #008000;"> 复制构造函数（也称为拷贝构造函数）
+</span><span style="color: #008080;">30</span>     <span style="color: #008000;">//</span><span style="color: #008000;"> 复制构造函数参数为类对象本身的引用，用于根据一个已存在的对象复制出一个新的该类的对象，一般在函数中会将已存在对象的数据成员的值复制一份到新创建的对象中
+</span><span style="color: #008080;">31</span>     <span style="color: #008000;">//</span><span style="color: #008000;"> 若没有显示的写复制构造函数，则系统会默认创建一个复制构造函数，但当类中有指针成员时，由系统默认创建该复制构造函数会存在风险，具体原因请查询有关 &ldquo;浅拷贝&rdquo; 、&ldquo;深拷贝&rdquo;的文章论述</span>
+<span style="color: #008080;">32</span>     Complex(<span style="color: #0000ff;">const</span> Complex &amp;<span style="color: #000000;"> c)
+</span><span style="color: #008080;">33</span> <span style="color: #000000;">    {
+</span><span style="color: #008080;">34</span>         <span style="color: #008000;">//</span><span style="color: #008000;"> 将对象c中的数据成员值复制过来</span>
+<span style="color: #008080;">35</span>         m_real =<span style="color: #000000;"> c.m_real;
+</span><span style="color: #008080;">36</span>         m_img  =<span style="color: #000000;"> c.m_img;
+</span><span style="color: #008080;">37</span> <span style="color: #000000;">    }            
+</span><span style="color: #008080;">38</span>  
+<span style="color: #008080;">39</span>     <span style="color: #008000;">//</span><span style="color: #008000;"> 类型转换构造函数，根据一个指定的类型的对象创建一个本类的对象
+</span><span style="color: #008080;">40</span>     <span style="color: #008000;">//</span><span style="color: #008000;"> 例如：下面将根据一个double类型的对象创建了一个Complex对象</span>
+<span style="color: #008080;">41</span>     Complex::Complex(<span style="color: #0000ff;">double</span><span style="color: #000000;"> r)
+</span><span style="color: #008080;">42</span> <span style="color: #000000;">    {
+</span><span style="color: #008080;">43</span>         m_real =<span style="color: #000000;"> r;
+</span><span style="color: #008080;">44</span>         m_imag = <span style="color: #800080;">0.0</span><span style="color: #000000;">;
+</span><span style="color: #008080;">45</span> <span style="color: #000000;">    }
+</span><span style="color: #008080;">46</span>  
+<span style="color: #008080;">47</span>     <span style="color: #008000;">//</span><span style="color: #008000;"> 等号运算符重载
+</span><span style="color: #008080;">48</span>     <span style="color: #008000;">//</span><span style="color: #008000;"> 注意，这个类似复制构造函数，将=右边的本类对象的值复制给等号左边的对象，它不属于构造函数，等号左右两边的对象必须已经被创建
+</span><span style="color: #008080;">49</span>     <span style="color: #008000;">//</span><span style="color: #008000;"> 若没有显示的写=运算符重载，则系统也会创建一个默认的=运算符重载，只做一些基本的拷贝工作</span>
+<span style="color: #008080;">50</span>     Complex &amp;<span style="color: #0000ff;">operator</span>=(<span style="color: #0000ff;">const</span> Complex &amp;<span style="color: #000000;">rhs)
+</span><span style="color: #008080;">51</span> <span style="color: #000000;">    {
+</span><span style="color: #008080;">52</span>         <span style="color: #008000;">//</span><span style="color: #008000;"> 首先检测等号右边的是否就是左边的对象本，若是本对象本身,则直接返回</span>
+<span style="color: #008080;">53</span>         <span style="color: #0000ff;">if</span> ( <span style="color: #0000ff;">this</span> == &amp;<span style="color: #000000;">rhs ) 
+</span><span style="color: #008080;">54</span> <span style="color: #000000;">        {
+</span><span style="color: #008080;">55</span>             <span style="color: #0000ff;">return</span> *<span style="color: #0000ff;">this</span><span style="color: #000000;">;
+</span><span style="color: #008080;">56</span> <span style="color: #000000;">        }
+</span><span style="color: #008080;">57</span>              
+<span style="color: #008080;">58</span>         <span style="color: #008000;">//</span><span style="color: #008000;"> 复制等号右边的成员到左边的对象中</span>
+<span style="color: #008080;">59</span>         <span style="color: #0000ff;">this</span>-&gt;m_real =<span style="color: #000000;"> rhs.m_real;
+</span><span style="color: #008080;">60</span>         <span style="color: #0000ff;">this</span>-&gt;m_imag =<span style="color: #000000;"> rhs.m_imag;
+</span><span style="color: #008080;">61</span>              
+<span style="color: #008080;">62</span>         <span style="color: #008000;">//</span><span style="color: #008000;"> 把等号左边的对象再次传出
+</span><span style="color: #008080;">63</span>         <span style="color: #008000;">//</span><span style="color: #008000;"> 目的是为了支持连等 eg:    a=b=c 系统首先运行 b=c
+</span><span style="color: #008080;">64</span>         <span style="color: #008000;">//</span><span style="color: #008000;"> 然后运行 a= ( b=c的返回值,这里应该是复制c值后的b对象)    </span>
+<span style="color: #008080;">65</span>         <span style="color: #0000ff;">return</span> *<span style="color: #0000ff;">this</span><span style="color: #000000;">;
+</span><span style="color: #008080;">66</span> <span style="color: #000000;">    }
+</span><span style="color: #008080;">67</span> };</pre>
+</div>
+<p>&nbsp;下面使用上面定义的类对象来说明各个构造函数的用法：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> <span style="color: #0000ff;">void</span><span style="color: #000000;"> main()
+</span><span style="color: #008080;"> 2</span> <span style="color: #000000;">{
+</span><span style="color: #008080;"> 3</span>     <span style="color: #008000;">//</span><span style="color: #008000;"> 调用了无参构造函数，数据成员初值被赋为0.0</span>
+<span style="color: #008080;"> 4</span> <span style="color: #000000;">    Complex c1，c2;
+</span><span style="color: #008080;"> 5</span>  
+<span style="color: #008080;"> 6</span>     <span style="color: #008000;">//</span><span style="color: #008000;"> 调用一般构造函数，数据成员初值被赋为指定值</span>
+<span style="color: #008080;"> 7</span>     Complex c3(<span style="color: #800080;">1.0</span>,<span style="color: #800080;">2.5</span><span style="color: #000000;">);
+</span><span style="color: #008080;"> 8</span>     <span style="color: #008000;">//</span><span style="color: #008000;"> 也可以使用下面的形式</span>
+<span style="color: #008080;"> 9</span>     Complex c3 = Complex(<span style="color: #800080;">1.0</span>,<span style="color: #800080;">2.5</span><span style="color: #000000;">);
+</span><span style="color: #008080;">10</span>          
+<span style="color: #008080;">11</span>     <span style="color: #008000;">//</span><span style="color: #008000;"> 把c3的数据成员的值赋值给c1
+</span><span style="color: #008080;">12</span>     <span style="color: #008000;">//</span><span style="color: #008000;"> 由于c1已经事先被创建，故此处不会调用任何构造函数
+</span><span style="color: #008080;">13</span>     <span style="color: #008000;">//</span><span style="color: #008000;"> 只会调用 = 号运算符重载函数</span>
+<span style="color: #008080;">14</span>     c1 =<span style="color: #000000;"> c3;
+</span><span style="color: #008080;">15</span>          
+<span style="color: #008080;">16</span>     <span style="color: #008000;">//</span><span style="color: #008000;"> 调用类型转换构造函数
+</span><span style="color: #008080;">17</span>     <span style="color: #008000;">//</span><span style="color: #008000;"> 系统首先调用类型转换构造函数，将5.2创建为一个本类的临时对象，然后调用等号运算符重载，将该临时对象赋值给c1</span>
+<span style="color: #008080;">18</span>     c2 = <span style="color: #800080;">5.2</span><span style="color: #000000;">;
+</span><span style="color: #008080;">19</span>        
+<span style="color: #008080;">20</span>     <span style="color: #008000;">//</span><span style="color: #008000;"> 调用拷贝构造函数( 有下面两种调用方式) </span>
+<span style="color: #008080;">21</span> <span style="color: #000000;">    Complex c5(c2);
+</span><span style="color: #008080;">22</span>     Complex c4 = c2;  <span style="color: #008000;">//</span><span style="color: #008000;"> 注意和 = 运算符重载区分,这里等号左边的对象不是事先已经创建，故需要调用拷贝构造函数，参数为c2       </span>
+<span style="color: #008080;">23</span>          
+<span style="color: #008080;">24</span> }</pre>
+</div>
+<p>参考：http://www.cnblogs.com/xkfz007/archive/2012/05/11/2496447.html</p>
+<h2>复制构造函数</h2>
+<p>几个原则：</p>
+<p>C++ primer p406 ：复制构造函数是一种特殊的构造函数，具有单个形参，该形参（常用const修饰）是对该类类型的引用。当定义一个新对象并用一个同类型的对象对它进行初始化时，将显示使用复制构造函数。当该类型的对象传递给函数或从函数返回该类型的对象时，将隐式调用复制构造函数。</p>
+<p>&nbsp;</p>
+<p>C++支持两种初始化形式：复制初始化（int a = 5;）和直接初始化（int a(5);）对于其他类型没有什么区别，对于类类型直接初始化直接调用实参匹配的构造函数，复制初始化总是调用复制构造函数，也就是说：</p>
+<p> A x(2);　　//直接初始化，调用构造函数<br />    A y = x;　　//复制初始化，调用复制构造函数</p>
+<p>&nbsp;</p>
+<p>必须定义复制构造函数的情况：</p>
+<p>只包含类类型成员或内置类型（但不是指针类型）成员的类，无须显式地定义复制构造函数也可以复制；有的类有一个<span style="color: #ff0000;">数据成员是指针</span>，或者是有成员表示在构造函数中分配的其他资源，这两种情况下都必须定义复制构造函数。</p>
+<p>&nbsp;</p>
+<p>什么情况使用复制构造函数：</p>
+<p>类的对象需要拷贝时，拷贝构造函数将会被调用。以下情况都会调用拷贝构造函数：<br />（1）一个对象以值传递的方式传入函数体 <br />（2）一个对象以值传递的方式从函数返回 <br />（3）一个对象需要通过另外一个对象进行初始化。</p>
+<p>&nbsp;</p>
+<p>深拷贝和浅拷贝：</p>
+<p>所谓浅拷贝，指的是在对象复制时，只对对象中的数据成员进行简单的赋值，默认拷贝构造函数执行的也是浅拷贝。在&ldquo;深拷贝&rdquo;的情况下，对于对象中动态成员，就不能仅仅简单地赋值了，而应该重新动态分配空间</p>
+<p><span style="color: #ff0000;">如果一个类拥有资源，当这个类的对象发生复制过程的时候，资源重新分配，这个过程就是深拷贝</span></p>
+<p>上面提到，如果没有自定义复制构造函数，则系统会创建默认的复制构造函数，但系统创建的默认复制构造函数只会执行&ldquo;浅拷贝&rdquo;，即将被拷贝对象的数据成员的值一一赋值给新创建的对象，若该类的数据成员中有指针成员，则会使得新的对象的指针所指向的地址与被拷贝对象的指针所指向的地址相同，delete该指针时则会导致两次重复delete而出错。下面是示例：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> #include &lt;iostream.h&gt;
+<span style="color: #008080;"> 2</span> #include &lt;<span style="color: #0000ff;">string</span>.h&gt;
+<span style="color: #008080;"> 3</span> <span style="color: #0000ff;">class</span><span style="color: #000000;"> Person 
+</span><span style="color: #008080;"> 4</span> <span style="color: #000000;">{
+</span><span style="color: #008080;"> 5</span> <span style="color: #0000ff;">public</span><span style="color: #000000;"> :
+</span><span style="color: #008080;"> 6</span>          
+<span style="color: #008080;"> 7</span>     <span style="color: #008000;">//</span><span style="color: #008000;"> 构造函数</span>
+<span style="color: #008080;"> 8</span>     Person(<span style="color: #0000ff;">char</span> *<span style="color: #000000;"> pN)
+</span><span style="color: #008080;"> 9</span> <span style="color: #000000;">    {
+</span><span style="color: #008080;">10</span>         cout &lt;&lt; <span style="color: #800000;">"</span><span style="color: #800000;">一般构造函数被调用 !\n</span><span style="color: #800000;">"</span><span style="color: #000000;">;
+</span><span style="color: #008080;">11</span>         m_pName = <span style="color: #0000ff;">new</span> <span style="color: #0000ff;">char</span>[strlen(pN) + <span style="color: #800080;">1</span><span style="color: #000000;">];
+</span><span style="color: #008080;">12</span>         <span style="color: #008000;">//</span><span style="color: #008000;">在堆中开辟一个内存块存放pN所指的字符串</span>
+<span style="color: #008080;">13</span>         <span style="color: #0000ff;">if</span>(m_pName !=<span style="color: #000000;"> NULL) 
+</span><span style="color: #008080;">14</span> <span style="color: #000000;">        {
+</span><span style="color: #008080;">15</span>            <span style="color: #008000;">//</span><span style="color: #008000;">如果m_pName不是空指针，则把形参指针pN所指的字符串复制给它</span>
+<span style="color: #008080;">16</span> <span style="color: #000000;">             strcpy(m_pName ,pN);
+</span><span style="color: #008080;">17</span> <span style="color: #000000;">        }
+</span><span style="color: #008080;">18</span> <span style="color: #000000;">    }        
+</span><span style="color: #008080;">19</span>        
+<span style="color: #008080;">20</span>     <span style="color: #008000;">//</span><span style="color: #008000;"> 系统创建的默认复制构造函数，只做位模式拷贝</span>
+<span style="color: #008080;">21</span>     Person(Person &amp;<span style="color: #000000;"> p)    
+</span><span style="color: #008080;">22</span> <span style="color: #000000;">    { 
+</span><span style="color: #008080;">23</span>         <span style="color: #008000;">//</span><span style="color: #008000;">使两个字符串指针指向同一地址位置         </span>
+<span style="color: #008080;">24</span>         m_pName =<span style="color: #000000;"> p.m_pName;         
+</span><span style="color: #008080;">25</span> <span style="color: #000000;">    }
+</span><span style="color: #008080;">26</span>  
+<span style="color: #008080;">27</span>     ~<span style="color: #000000;">Person( )
+</span><span style="color: #008080;">28</span> <span style="color: #000000;">    {
+</span><span style="color: #008080;">29</span>         <span style="color: #0000ff;">delete</span><span style="color: #000000;"> m_pName;
+</span><span style="color: #008080;">30</span> <span style="color: #000000;">    }
+</span><span style="color: #008080;">31</span>          
+<span style="color: #008080;">32</span> <span style="color: #0000ff;">private</span><span style="color: #000000;"> :
+</span><span style="color: #008080;">33</span>     <span style="color: #0000ff;">char</span> *<span style="color: #000000;"> m_pName;
+</span><span style="color: #008080;">34</span> <span style="color: #000000;">};
+</span><span style="color: #008080;">35</span>  
+<span style="color: #008080;">36</span> <span style="color: #0000ff;">void</span><span style="color: #000000;"> main( )
+</span><span style="color: #008080;">37</span> <span style="color: #000000;">{ 
+</span><span style="color: #008080;">38</span>     Person man(<span style="color: #800000;">"</span><span style="color: #800000;">lujun</span><span style="color: #800000;">"</span><span style="color: #000000;">);
+</span><span style="color: #008080;">39</span> <span style="color: #000000;">    Person woman(man); 
+</span><span style="color: #008080;">40</span>      
+<span style="color: #008080;">41</span>     <span style="color: #008000;">//</span><span style="color: #008000;"> 结果导致   man 和    woman 的指针都指向了同一个地址
+</span><span style="color: #008080;">42</span>      
+<span style="color: #008080;">43</span>     <span style="color: #008000;">//</span><span style="color: #008000;"> 函数结束析构时
+</span><span style="color: #008080;">44</span>     <span style="color: #008000;">//</span><span style="color: #008000;"> 同一个地址被delete两次</span>
+<span style="color: #008080;">45</span> <span style="color: #000000;">}
+</span><span style="color: #008080;">46</span>  
+<span style="color: #008080;">47</span>  
+<span style="color: #008080;">48</span> <span style="color: #008000;">//</span><span style="color: #008000;"> 下面自己设计复制构造函数，实现&ldquo;深拷贝&rdquo;，即不让指针指向同一地址，而是重新申请一块内存给新的对象的指针数据成员</span>
+<span style="color: #008080;">49</span> Person(Person &amp;<span style="color: #000000;"> chs);
+</span><span style="color: #008080;">50</span> <span style="color: #000000;">{
+</span><span style="color: #008080;">51</span>      <span style="color: #008000;">//</span><span style="color: #008000;"> 用运算符new为新对象的指针数据成员分配空间</span>
+<span style="color: #008080;">52</span>      m_pName=<span style="color: #0000ff;">new</span> <span style="color: #0000ff;">char</span>[strlen(p.m_pName)+ <span style="color: #800080;">1</span><span style="color: #000000;">];
+</span><span style="color: #008080;">53</span>  
+<span style="color: #008080;">54</span>      <span style="color: #0000ff;">if</span><span style="color: #000000;">(m_pName)         
+</span><span style="color: #008080;">55</span> <span style="color: #000000;">     {
+</span><span style="color: #008080;">56</span>              <span style="color: #008000;">//</span><span style="color: #008000;"> 复制内容</span>
+<span style="color: #008080;">57</span> <span style="color: #000000;">            strcpy(m_pName ,chs.m_pName);
+</span><span style="color: #008080;">58</span> <span style="color: #000000;">     }
+</span><span style="color: #008080;">59</span>    
+<span style="color: #008080;">60</span>     <span style="color: #008000;">//</span><span style="color: #008000;"> 则新创建的对象的m_pName与原对象chs的m_pName不再指向同一地址了</span>
+<span style="color: #008080;">61</span> }</pre>
+</div>
+<p>&nbsp;</p>
+<p>重载赋值操作符：</p>
+<p>通过定义operate=的函数，可以对赋值进行定义。像其他任何函数一样，操作符函数有一个返回值和形参表。形参表必须具有与该操作符操作数书目相同的形参（如果操作符是一个成员，则包括隐式this形参）。赋值是二元运算，所以该操作符函数有两个形参：第一个形参（隐含的this指针）对应着左操作数，第二个形参对应右操作数。</p>
+<p>&nbsp;一个应用了对赋值号重载的拷贝构造函数的例子：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;"> 1</span> #include &lt;iostream&gt;
+<span style="color: #008080;"> 2</span> 
+<span style="color: #008080;"> 3</span> <span style="color: #0000ff;">using</span> <span style="color: #0000ff;">namespace</span><span style="color: #000000;"> std;
+</span><span style="color: #008080;"> 4</span> 
+<span style="color: #008080;"> 5</span> <span style="color: #0000ff;">class</span><span style="color: #000000;"> A
+</span><span style="color: #008080;"> 6</span> <span style="color: #000000;">{
+</span><span style="color: #008080;"> 7</span> <span style="color: #0000ff;">public</span><span style="color: #000000;">:
+</span><span style="color: #008080;"> 8</span>     A(<span style="color: #0000ff;">int</span>);<span style="color: #008000;">//</span><span style="color: #008000;">构造函数</span>
+<span style="color: #008080;"> 9</span>     A(<span style="color: #0000ff;">const</span> A &amp;);<span style="color: #008000;">//</span><span style="color: #008000;">拷贝构造函数</span>
+<span style="color: #008080;">10</span>     ~<span style="color: #000000;">A();
+</span><span style="color: #008080;">11</span>     <span style="color: #0000ff;">void</span><span style="color: #000000;"> print();
+</span><span style="color: #008080;">12</span>     <span style="color: #0000ff;">int</span> *<span style="color: #000000;">point;
+</span><span style="color: #008080;">13</span>     A &amp;<span style="color: #0000ff;">operator</span>=(<span style="color: #0000ff;">const</span> A &amp;<span style="color: #000000;">);
+</span><span style="color: #008080;">14</span> <span style="color: #000000;">};
+</span><span style="color: #008080;">15</span> 
+<span style="color: #008080;">16</span> A::A(<span style="color: #0000ff;">int</span><span style="color: #000000;"> p)
+</span><span style="color: #008080;">17</span> <span style="color: #000000;">{
+</span><span style="color: #008080;">18</span>     point = <span style="color: #0000ff;">new</span> <span style="color: #0000ff;">int</span><span style="color: #000000;">;
+</span><span style="color: #008080;">19</span>     *point =<span style="color: #000000;"> p;
+</span><span style="color: #008080;">20</span> <span style="color: #000000;">}
+</span><span style="color: #008080;">21</span> 
+<span style="color: #008080;">22</span> A::A(<span style="color: #0000ff;">const</span> A &amp;<span style="color: #000000;">b)
+</span><span style="color: #008080;">23</span> <span style="color: #000000;">{
+</span><span style="color: #008080;">24</span>     *<span style="color: #0000ff;">this</span> =<span style="color: #000000;"> b;
+</span><span style="color: #008080;">25</span>     cout&lt;&lt;<span style="color: #800000;">"</span><span style="color: #800000;">调用拷贝构造函数</span><span style="color: #800000;">"</span>&lt;&lt;<span style="color: #000000;">endl;
+</span><span style="color: #008080;">26</span> <span style="color: #000000;">}
+</span><span style="color: #008080;">27</span> 
+<span style="color: #008080;">28</span> A::~<span style="color: #000000;">A()
+</span><span style="color: #008080;">29</span> <span style="color: #000000;">{
+</span><span style="color: #008080;">30</span>     <span style="color: #0000ff;">delete</span><span style="color: #000000;"> point;
+</span><span style="color: #008080;">31</span> <span style="color: #000000;">}
+</span><span style="color: #008080;">32</span> 
+<span style="color: #008080;">33</span> <span style="color: #0000ff;">void</span><span style="color: #000000;"> A::print()
+</span><span style="color: #008080;">34</span> <span style="color: #000000;">{
+</span><span style="color: #008080;">35</span>     cout&lt;&lt;<span style="color: #800000;">"</span><span style="color: #800000;">Address:</span><span style="color: #800000;">"</span>&lt;&lt;point&lt;&lt;<span style="color: #800000;">"</span><span style="color: #800000;"> value:</span><span style="color: #800000;">"</span>&lt;&lt;*point&lt;&lt;<span style="color: #000000;">endl;
+</span><span style="color: #008080;">36</span> <span style="color: #000000;">}
+</span><span style="color: #008080;">37</span> 
+<span style="color: #008080;">38</span> A &amp;A::<span style="color: #0000ff;">operator</span>=(<span style="color: #0000ff;">const</span> A &amp;<span style="color: #000000;">b)
+</span><span style="color: #008080;">39</span> <span style="color: #000000;">{
+</span><span style="color: #008080;">40</span>     <span style="color: #0000ff;">if</span>( <span style="color: #0000ff;">this</span> != &amp;<span style="color: #000000;">b)
+</span><span style="color: #008080;">41</span> <span style="color: #000000;">    {
+</span><span style="color: #008080;">42</span>         <span style="color: #0000ff;">delete</span><span style="color: #000000;"> point;
+</span><span style="color: #008080;">43</span>         point = <span style="color: #0000ff;">new</span> <span style="color: #0000ff;">int</span><span style="color: #000000;">;
+</span><span style="color: #008080;">44</span>         *point = *<span style="color: #000000;">b.point;
+</span><span style="color: #008080;">45</span> <span style="color: #000000;">    }
+</span><span style="color: #008080;">46</span> <span style="color: #000000;">}
+</span><span style="color: #008080;">47</span> 
+<span style="color: #008080;">48</span> 
+<span style="color: #008080;">49</span> <span style="color: #0000ff;">int</span><span style="color: #000000;"> main()
+</span><span style="color: #008080;">50</span> <span style="color: #000000;">{
+</span><span style="color: #008080;">51</span>     A x(<span style="color: #800080;">2</span><span style="color: #000000;">);
+</span><span style="color: #008080;">52</span>     A y =<span style="color: #000000;"> x;
+</span><span style="color: #008080;">53</span> <span style="color: #000000;">    x.print();
+</span><span style="color: #008080;">54</span>     <span style="color: #0000ff;">delete</span><span style="color: #000000;"> x.point;
+</span><span style="color: #008080;">55</span> <span style="color: #000000;">    y.print();
+</span><span style="color: #008080;">56</span> 
+<span style="color: #008080;">57</span>     <span style="color: #0000ff;">return</span> <span style="color: #800080;">0</span><span style="color: #000000;">;
+</span><span style="color: #008080;">58</span> }</pre>
+</div>
+<p>&nbsp;</p>
+<p>参见：C++拷贝构造函数详解：http://blog.csdn.net/lwbeyond/article/details/6202256<a href="http://blog.csdn.net/lwbeyond/article/details/6202256"><br /></a></p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory"></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info">
+</div>
+<div class="clear"></div>
+<div id="post_next_prev"></div>
+</div>
+
+
+	<div class = "postDesc">posted on <span id="post-date">2015-08-23 10:30</span> <a href='https://www.cnblogs.com/raichen/'>王小北</a> 阅读(<span id="post_view_count">...</span>) 评论(<span id="post_comment_count">...</span>)  <a href ="https://i.cnblogs.com/EditPosts.aspx?postid=4752025" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(4752025);return false;">收藏</a></div>
+</div>
+<script type="text/javascript">var allowComments=true,cb_blogId=132029,cb_entryId=4752025,cb_blogApp=currentBlogApp,cb_blogUserGuid='46b42e7d-a921-e211-aa8f-842b2b196315',cb_entryCreatedDate='2015/8/23 10:30:00';loadViewCount(cb_entryId);var cb_postType=1;</script>
+
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id='comment_form' class='commentform'>
+<a name='commentform'></a>
+<div id='divCommentShow'></div>
+<div id='comment_nav'><span id='span_refresh_tips'></span><a href='javascript:void(0);' onclick='return RefreshCommentList();' id='lnk_RefreshComments' runat='server' clientidmode='Static'>刷新评论</a><a href='#' onclick='return RefreshPage();'>刷新页面</a><a href='#top'>返回顶部</a></div>
+<div id='comment_form_container'></div>
+<div class='ad_text_commentbox' id='ad_text_under_commentbox'></div>
+<div id='ad_t2'></div>
+<div id='opt_under_post'></div>
+<div id='cnblogs_c1' class='c_ad_block'></div>
+<div id='under_post_news'></div>
+<div id='cnblogs_c2' class='c_ad_block'></div>
+<div id='under_post_kb'></div>
+<div id='HistoryToday' class='c_ad_block'></div>
+<script type='text/javascript'>
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+</div>
+<div id="leftcontent">
+	
+		<DIV id="leftcontentcontainer">
+			
+<!--done-->
+<div class="newsItem">
+	<div id="blog-news"></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-calendar" style="display:none"></div><script type="text/javascript">loadBlogDefaultCalendar();</script><br>
+			<div id="blog-sidecolumn"></div><script type="text/javascript">loadBlogSideColumn();</script></DIV>
+	
+</div>
+
+<!--done-->
+<div class="footer">
+	Powered by: <a href="http://www.cnblogs.com">博客园</a>	模板提供：<a href="http://blog.hjenglish.com">沪江博客</a>
+	Copyright &copy;2018 王小北
+</div>
+
+
+
+</body>
+</html>

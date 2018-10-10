@@ -1,0 +1,1794 @@
+<!DOCTYPE html>
+<!--STATUS OK-->
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<meta http-equiv="content-type" content="text/html;charset=gbk" />
+<meta property="wb:webmaster" content="3aababe5ed22e23c" />
+<meta name="referrer" content="always" />
+<title>简述操作系统具有的五个主要功能_百度知道</title>
+<link rel="shortcut icon" href="//www.baidu.com/favicon.ico?t=20171027" type="image/x-icon" />
+<link rel="icon" sizes="any" mask href="//www.baidu.com/img/baidu.svg" />
+
+<script>
+    window.alogObjectConfig = {
+        product: '102',
+        page: '102_3', 
+        monkey_page: 'zhidao-ques',
+        speed_page: '3',
+        speed: {
+            sample: '0.02'
+        },
+        monkey: {
+            sample: '0.01'
+        },
+        exception: { 
+            sample: '0.01'
+        },
+        feature: {
+            sample: '0.01'
+        },
+        cus: {
+            sample: '0.01',
+            custom_metrics: ['c_sbox', 'c_menu', 'c_ask', 'c_best']
+        },
+        csp: {
+            sample: '0.02',
+            'default-src': [
+                {match: '*bae.baidu.com', target: 'Accept,Warn'},
+                {match: '*.baidu.com,*.bdstatic.com,*.bdimg.com,localhost,*.hao123.com,*.hao123img.com', target: 'Accept'},
+                {match: /^(127|172|192|10)(\.\d+){3}$/, target: 'Accept'},
+                {match: '*', target: 'Accept,Warn'}
+            ]
+        }
+    };
+ 
+    void function(a,b,c,d,e,f,g){a.alogObjectName=e,a[e]=a[e]||function(){(a[e].q=a[e].q||[]).push(arguments)},a[e].l=a[e].l||+new Date,d="https:"===a.location.protocol?"https://fex.bdstatic.com"+d:"http://fex.bdstatic.com"+d;var h=!0;if(a.alogObjectConfig&&a.alogObjectConfig.sample){var i=Math.random();a.alogObjectConfig.rand=i,i>a.alogObjectConfig.sample&&(h=!1)}h&&(f=b.createElement(c),f.async=!0,f.src=d+"?v="+~(new Date/864e5)+~(new Date/864e5),g=b.getElementsByTagName(c)[0],g.parentNode.insertBefore(f,g))}(window,document,"script","/hunter/alog/alog.min.js","alog"),void function(){function a(){}window.PDC={mark:function(a,b){alog("speed.set",a,b||+new Date),alog.fire&&alog.fire("mark")},init:function(a){alog("speed.set","options",a)},view_start:a,tti:a,page_ready:a}}();
+    void function(n){var o=!1;n.onerror=function(n,e,t,c){var i=!0;return!e&&/^script error/i.test(n)&&(o?i=!1:o=!0),i&&alog("exception.send","exception",{msg:n,js:e,ln:t,col:c}),!1},alog("exception.on","catch",function(n){alog("exception.send","exception",{msg:n.msg,js:n.path,ln:n.ln,method:n.method,flag:"catch"})})}(window);
+</script>
+
+<script>
+	!function(document, window){
+		var log = {
+			list: [],
+			host: 'https://' + location.host + '/api/httpscheck',
+			log: function(param) {
+				var a = [];
+		    	for(var k in param) {
+		    		a.push(k + '=' + param[k]);
+		    	}
+		    	var msg = a.join('&');
+		    	if(~this.list.indexOf(msg)){
+		    		return;
+		    	}
+		    	this.list.push(msg);
+		  		var img = new Image();
+		    	var key = '_ik_log_' + (Math.random()*2147483648 ^ 0).toString(36);
+		    	window[key] = img;
+		    		img.onload = img.onerror = img.onabort = function() {
+		        		img.onload = img.onerror = img.onabort = null;
+		        		window[key] = null;
+			    		img = null;
+		    	};
+		  		img.src = this.host + '?' + msg;
+			}
+		};
+
+		function HTTPSWarningLog(){
+			this.selector = [
+				'link',
+				'script',
+				'img',
+				'embed',
+				'iframe'
+			];
+			this.warningCounter = 0;
+			this.init();
+		};
+
+		HTTPSWarningLog.prototype = {
+			init: function(){
+				this.fetch();
+			},
+
+			fetch: function(){
+				for(var tags = this.selector, i =0, len = tags.length; i < len;i++) {
+					this.getTag(tags[i]);
+				}
+			},
+
+			getTag: function(tag) {
+				var domList = document.getElementsByTagName(tag);
+				if(!domList.length) {
+					return;
+				}
+				for(var i = 0,len = domList.length;i<len;i++) {
+					var el = domList[i];
+					var url = el.getAttribute(el.tagName==='LINK' ? 'href' : 'src');
+                    if(el.getAttribute('rel') === 'canonical') {
+                        continue;
+                    }
+					if(url && 'https:' === location.protocol && !url.indexOf('http:')){
+						this.sendLog(el, el.tagName.toLowerCase(),url);
+						this.warningCounter++;
+					}
+				}
+			},
+			
+			sendLog: function(el, type, url){
+				log.log({
+					url: location.href,
+					wtype: type,
+					wurl: url
+				});
+			}
+		};
+
+		function domReady(fn){
+		    if(document.addEventListener) {
+		        document.addEventListener('DOMContentLoaded', function() {
+		            document.removeEventListener('DOMContentLoaded',arguments.callee, false);
+		            fn();
+		        }, false);
+		    }else if(document.attachEvent) {
+		        document.attachEvent('onreadystatechange', function() {
+		            if(document.readyState == 'complete') {
+		                document.detachEvent('onreadystatechange', arguments.callee);
+		                fn();
+		            }
+		        });
+		    }
+		};
+
+		domReady(function(){
+			new HTTPSWarningLog();
+			for(var i=1; i<6; i++) {
+				!function(i){
+					setTimeout(function(){
+						new HTTPSWarningLog();
+					}, i*i*i*1000);
+				}(i);
+			}
+		});
+	}(document, window);
+</script>
+
+<meta itemprop="dateUpdate" content="2018-03-30 12:57:03" />
+<meta itemprop="datePublished" content="2016-11-24 08:59:48" />
+<meta itemprop="dateLatestReply" content="2018-03-30 12:57:03" />
+
+<script type="text/javascript">
+			!function(){var n={},t={};n.context=function(n,e){var i=arguments.length;if(i>1)t[n]=e;else if(1==i){if("object"!=typeof n)return t[n];for(var o in n)n.hasOwnProperty(o)&&(t[o]=n[o])}},"F"in window||(window.F=n)}();;
+			
+            
+																																							
+			F.context('user', {"isLogin":"0","isRealName":"","stoken":"","name":"","imId":"","id":"","euid":"","wealth":"","gradeIndex":"","isMavin":""});
+			F.context('user')['internalAdmin'] = null;
+
+							F.context('defaultQuery', '{"title":"","value":""}');
+									
+			            F.context('isQuality', false);
+            F.context('now', 1537943326);
+		</script>
+<script>F.context('sysTaskAutoInit', 1);</script>
+
+<script type="text/javascript">
+    	var dontTriggerPrompt = true;
+        F.context('page',{
+        	isAdopted: '0'
+            ,adsAll:{
+                adsEids: []
+            }
+            ,misAsk: '0'
+            ,delAsk: '0'
+            ,isLocked: '0'
+            ,isReplyLocked: '0'
+            ,isFromWap: "1"
+            ,cid: '1287'
+            ,cidTop: '74'
+            ,cidMid: '89'
+            ,qid: '1950653765113090748'
+            ,encodeQid: '1950653765113090748'
+            ,tags: '理工学科_操作系统_学习'
+            ,title: '简述操作系统具有的五个主要功能'
+            ,giveScore: '0'
+            ,encodeUid: '50d04069236f25705e795b1c'
+                        ,uid: '475779152'
+            ,createTime: '1479949188'
+            ,imId: '50d0c5a3c5a354413236365b1c'
+            ,passPhoto: '0'
+            ,rpRecommand: 'false'                        ,rankFile: '0'
+                                    ,con: ''
+                                    ,answerNum: '2'
+            ,isView: '1'
+            ,isGetWealth:'0'
+                        ,pgcArr: [790,791,792,794,795]
+            ,isCompanyIask: '0'
+            ,bdplayer:'mozilla\/5.0 (windows nt 10.0; win64; x64) applewebkit\/537.36 (khtml, like gecko) chrome\/69.0.3497.100 safari\/537.36'
+        });
+
+        F.context('user')['internalAdmin'] = null;
+
+                F.context('answers', {});
+        F.context('relateWords', {});
+                F.context('newbest', '1');
+                
+        F.context('isForAnswerHq', '0');
+        F.context('isForceAnswer', '0');
+        F.context('isExpandAnswer', '0');
+
+    </script>
+
+<!--[if lte IE 8]>
+<script>
+                (function(){
+                    var e="abbr,article,aside,audio,canvas,datalist,details,dialog,eventsource,figure,footer,header,hgroup,mark,menu,meter,nav,output,progress,section,time,video".split(","),
+                    i=e.length;
+                    while(i--){document.createElement(e[i])}
+                 })();
+            </script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="https://iknowpc.bdimg.com/static/common/pkg/common.613a3e7.css" /><link rel="stylesheet" type="text/css" href="https://iknowpc.bdimg.com/static/common/widget/header-metis/header.4b73688.css" /><link rel="stylesheet" type="text/css" href="https://iknowpc.bdimg.com/static/question-new/pkg/aio.57a068b.css" /><link rel="stylesheet" type="text/css" href="https://iknowpc.bdimg.com/static/question-new/pkg/editor.9a07820.css" /><link rel="stylesheet" type="text/css" href="https://iknowpc.bdimg.com/static/common/widget/upgrade-tips/upgrade-tips.02cec46.css" /></head>
+
+<script> alog('speed.set', 'ht', +new Date()); </script>
+
+<body class="layout-center has-menu">
+
+<div id="userbar" class="userbar userbar-renew" data="">
+<ul class="aside-list">
+<li>
+<a href="http://www.baidu.com/" class="toindex">百度首页</a>
+</li>
+<li><a rel="nofollow" alog-alias="usrbar-login" href="javascript:;" id="userbar-login" log="type:2026,pname:account,mod:login,action:show,pos:pop">登录</a></li>
+<li><a rel="nofollow" alog-alias="usrbar-reg" id="userbar-reg" href="https://passport.baidu.com/v2/?reg&tpl=ik&color=green&u=" target="_blank">注册</a></li>
+<li class="shop-entrance">
+<a href="/shop" title="知道商城" log="type:2026,pos:top-right,target:shop-entrance">商城<i class="i-house" style="display: none;"></i></a>
+<span class="lucky-try"></span>
+</li>
+</ul>
+</div>
+
+
+<div class="head-wrap">
+<hr class="divider">
+<header id="header" class="container">
+<a log="page:question,action:click,pos:fyb-word" href="#" target="_blank" class="adTopImg from-fyb"></a>
+
+
+<div id="search-box" class="search-box-new line">
+<ul class="channel grid">
+<li><a log="sc_pos:c_baidu" rel="nofollow" href="http://www.baidu.com/s?cl=3&wd=%B2%D9%D7%F7%CF%B5%CD%B3%D6%F7%D2%AA%B9%A6%C4%DC">网页</a></li>
+<li><a log="sc_pos:c_news" rel="nofollow" href="https://www.baidu.com/s?rtt=1&bsst=1&cl=2&tn=news&word=%B2%D9%D7%F7%CF%B5%CD%B3%D6%F7%D2%AA%B9%A6%C4%DC&fr=zhidao">资讯</a></li>
+<li><a log="sc_pos:c_tieba" rel="nofollow" href="http://tieba.baidu.com/f?kw=%B2%D9%D7%F7%CF%B5%CD%B3%D6%F7%D2%AA%B9%A6%C4%DC&t=4">贴吧</a></li><li><strong>知道</strong></li><li><a log="sc_pos:c_mp3" rel="nofollow" href="http://music.baidu.com/search?fr=zhidao&key=%B2%D9%D7%F7%CF%B5%CD%B3%D6%F7%D2%AA%B9%A6%C4%DC">音乐</a></li><li><a log="sc_pos:c_pic" rel="nofollow" href="http://image.baidu.com/search/index?tn=baiduimage&ct=201326592&lm=-1&cl=2&word=%B2%D9%D7%F7%CF%B5%CD%B3%D6%F7%D2%AA%B9%A6%C4%DC&t=3&ie=gbk">图片</a></li>
+<li><a log="sc_pos:c_video" rel="nofollow" href="http://v.baidu.com/v?ct=301989888&rn=20&pn=0&db=0&s=22&word=%B2%D9%D7%F7%CF%B5%CD%B3%D6%F7%D2%AA%B9%A6%C4%DC">视频</a></li><li><a log="sc_pos:c_map" rel="nofollow" href="http://map.baidu.com/m?word=%B2%D9%D7%F7%CF%B5%CD%B3%D6%F7%D2%AA%B9%A6%C4%DC&fr=map007">地图</a></li><li><a log="sc_pos:c_doc" rel="nofollow" href="http://wenku.baidu.com/search?word=%B2%D9%D7%F7%CF%B5%CD%B3%D6%F7%D2%AA%B9%A6%C4%DC&lm=0&od=0">文库</a></li>
+<li><a log="sc_pos:c_more" href="http://www.baidu.com/more/">更多&raquo;</a></li>
+</ul>
+<div class="search-block clearfix">
+<div class="search-cont clearfix">
+<a class="logo" href="/" title="百度知道"></a>
+<form action="/search" name="search-form" method="get" id="search-form-new" class="search-form">
+<input class="hdi" id="kw" maxlength="256" tabindex="1" size="46" name="word" value="操作系统主要功能" autocomplete="off" placeholder="" />
+<button alog-action="g-search-anwser" type="submit" id="search-btn" hidefocus="true"  tabindex="2" class="btn-global">搜索答案</button>
+<a href="#" alog-action="g-i-ask" class="i-ask-link" id="ask-btn-new">我要提问</a>
+</form>
+</div>
+</div>
+</div>
+<script>
+                    // 搜索框可用时间打点
+                    alog && alog('speed.set', 'c_sbox', +new Date); alog.fire && alog.fire("mark");
+                </script>
+
+<div class="wgt-header-title">
+<div class="wgt-header-title-content">
+<h1 class="wgt-header-title-text">简述操作系统具有的五个主要功能</h1>
+<span  class="iknow-icons wgt-header-title-btn">&#xe768; 我来答</span>
+</div>
+</div>
+
+</header>
+</div>
+
+<div class="nav-menu-container" id="j-nav-menu-container">
+<div class="nav-show-control">
+<div class="nav-menu-layout">
+<div class="nav-menu line">
+<div class="nav-menu-content container">
+<div class="content-box">
+<div class="menu-item menu-item-index">
+<a class="menu-title " href="/">
+首页</a>
+</div>
+<div class="menu-item-box">
+<div class="menu-item menu-item-cat">
+<a class="menu-title " href="/list?fr=daohang" target="_blank">
+问题</a>
+<div class="menu-content">
+<ul class="menu-sub-list">
+<li class="menu-sub-item-wp">
+<a class="menu-sub-item" href="/list?fr=daohang" target="_blank" target="_blank">
+全部问题</a>
+</li>
+<li class="menu-sub-item-wp">
+<a class="menu-sub-item" href="/list?cid=101&fr=daohang" target="_blank" target="_blank">
+经济金融</a>
+</li>
+<li class="menu-sub-item-wp">
+<a class="menu-sub-item" href="/list?cid=102&fr=daohang" target="_blank" target="_blank">
+企业管理</a>
+</li>
+<li class="menu-sub-item-wp">
+<a class="menu-sub-item" href="/list?cid=103&fr=daohang" target="_blank" target="_blank">
+法律法规</a>
+</li>
+<li class="menu-sub-item-wp">
+<a class="menu-sub-item" href="/list?cid=104&fr=daohang" target="_blank" target="_blank">
+社会民生</a>
+</li>
+<li class="menu-sub-item-wp">
+<a class="menu-sub-item" href="/list?cid=105&fr=daohang" target="_blank" target="_blank">
+科学教育</a>
+</li>
+<li class="menu-sub-item-wp">
+<a class="menu-sub-item" href="/list?cid=106&fr=daohang" target="_blank" target="_blank">
+健康生活</a>
+</li>
+<li class="menu-sub-item-wp">
+<a class="menu-sub-item" href="/list?cid=107&fr=daohang" target="_blank" target="_blank">
+体育运动</a>
+</li>
+<li class="menu-sub-item-wp">
+<a class="menu-sub-item" href="/list?cid=108&fr=daohang" target="_blank" target="_blank">
+文化艺术</a>
+</li>
+<li class="menu-sub-item-wp">
+<a class="menu-sub-item" href="/list?cid=109&fr=daohang" target="_blank" target="_blank">
+电子数码</a>
+</li>
+<li class="menu-sub-item-wp">
+<a class="menu-sub-item" href="/list?cid=110&fr=daohang" target="_blank" target="_blank">
+电脑网络</a>
+</li>
+<li class="menu-sub-item-wp">
+<a class="menu-sub-item" href="/list?cid=111&fr=daohang" target="_blank" target="_blank">
+娱乐休闲</a>
+</li>
+<li class="menu-sub-item-wp">
+<a class="menu-sub-item" href="/list?cid=113&fr=daohang" target="_blank" target="_blank">
+行政地区</a>
+</li>
+<li class="menu-sub-item-wp">
+<a class="menu-sub-item" href="/list?cid=114&fr=daohang" target="_blank" target="_blank">
+心理分析</a>
+</li>
+<li class="menu-sub-item-wp">
+<a class="menu-sub-item" href="/list?cid=115&fr=daohang" target="_blank" target="_blank">
+医疗卫生</a>
+</li>
+</ul>
+</div>
+</div>
+<div class="menu-item menu-item-lanmu">
+<a class="menu-title" href="javascript:;">
+精选</a>
+<div class="menu-content">
+<ul class="menu-sub-list">
+<li class="menu-sub-item-wp">
+<a class="menu-sub-item column-sub-item" href="/special/column?fr=daohang" target="_blank">
+知道专栏</a>
+</li>
+<li class="menu-sub-item-wp">
+<a class="menu-sub-item" href="/daily?fr=daohang" target="_blank">
+知道日报</a>
+</li>
+<li class="menu-sub-item-wp">
+<a class="menu-sub-item" href="/bigdata/view" target="_blank">
+知道大数据</a>
+</li>
+<li class="menu-sub-item-wp">
+<a class="menu-sub-item" href="/culture/index?fr=daohang" target="_blank">
+知道非遗</a>
+</li>
+</ul>
+</div>
+</div>
+<div class="menu-item menu-item-user">
+<a class="menu-title" href="javascript:;">
+用户<div class="menu-title-icon">
+<i class="iknow-icons">&#xe715;</i>
+</div>
+</a>
+<div class="menu-content">
+<ul class="menu-sub-list">
+<li class="menu-sub-itemline-wp">
+<a class="menu-sub-item metis-sub-item" href="/home/partnerhome?fr=daohang" target="_blank">
+知道合伙人<div class="menu-title-icon">
+<i class="iknow-icons">&#xe715;</i>
+</div>
+</a>
+</li>
+<li class="menu-sub-item-wp">
+<a class="menu-sub-item" href="/uteam?fr=daohang" target="_blank">
+芝麻团</a>
+</li>
+<li class="menu-sub-item-wp">
+<a class="menu-sub-item" href="/user/admin?fr=daohang" target="_blank">
+芝麻将</a>
+</li>
+<li class="menu-sub-item-wp">
+<a class="menu-sub-item" href="/daily/authorcenter?fr=daohang" target="_blank">
+日报作者</a>
+</li>
+<li class="menu-sub-item-wp">
+<a class="menu-sub-item" href="/misc/nowshowstar?fr=daohang" target="_blank">
+知道之星</a>
+</li>
+<div class="menu-item-user-list">机构合作<div class="line-bar"></div></div>
+<li class="menu-sub-item-wp">
+<a class="menu-sub-item" href="/opendev?fr=daohang" target="_blank">
+开放平台</a>
+</li>
+<li class="menu-sub-item-wp">
+<a class="menu-sub-item" href="/special/view/cooperation?fr=daohang" target="_blank">
+品牌合作</a>
+</li>
+<div class="menu-item-user-list">知道福利<div class="line-bar"></div></div>
+<li class="menu-sub-item-wp">
+<a class="menu-sub-item" href="/shop?fr=daohang" target="_blank">
+财富商城</a>
+</li>
+</ul>
+</div>
+</div>
+<div class="menu-item menu-item-expert">
+<a class="menu-title" href="javascript:;">
+特色</a>
+<div class="menu-content">
+<ul class="menu-sub-list">
+<li class="menu-sub-item-wp">
+<a class="menu-sub-item menu-sub-item-expert" href="http://jingyan.baidu.com/" target="_blank">
+<span class="expert-icon expert-icon-jy"></span>
+<span>经验</span>
+</a>
+</li>
+<li class="menu-sub-item-wp">
+<a class="menu-sub-item menu-sub-item-expert" href="https://baobao.baidu.com" target="_blank">
+<span class="expert-icon expert-icon-baby"></span>
+<span>宝宝知道</span>
+</a>
+</li>
+<li class="menu-sub-item-wp">
+<a class="menu-sub-item menu-sub-item-expert" href="https://www.zybang.com" target="_blank">
+<span class="expert-icon expert-icon-zuoye"></span>
+<span>作业帮</span>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="menu-right-section">
+<ul class="menu-right-list">
+<li class="menu-right-list-item zhidao-app">
+<a href="/activity/simpleindexact?tplName=nareplace&type=pc" class="menu-right-list-link" target="_blank">
+<span class="item-icon">
+</span>
+<span class="item-name">
+手机版</span>
+</a>
+<span class="right-list-item-devide">
+</span>
+</li>
+<li class="menu-right-list-item user-center">
+<a href="/ihome" class="menu-right-list-link" target="_blank">
+<span class="item-icon">
+</span>
+<span class="item-name">
+我的知道</span>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+        // 导航可用时间
+        alog && alog('speed.set', 'c_menu', +new Date); alog.fire && alog.fire("mark");
+    </script>
+
+<div id="body" class="container">
+
+<div class="layout-wrap">
+<div style="display:none">
+<nav class="wgt-nav f-12" alog-group="qb-cate-nav">
+<a href="/">百度知道</a>
+&gt;<a href="/browse/74">电脑/网络</a>
+&gt;<a href="/browse/89">操作系统/系统故障</a>
+&gt;<a href="/browse/1287">其它操作系统</a>
+</nav>
+</div>
+<section class="line qb-section">
+<article class="grid qb-content" id="qb-content">
+<div class="wgt-ask accuse-response line" id="wgt-ask">
+<h1 accuse="qTitle">
+<span class="ask-title">简述操作系统具有的五个主要功能</span>
+<span class="excellent-icon f-pending">精选</span>
+</h1>
+<div class="line f-aid ask-info ff-arial" id="ask-info">
+<div class="line wgt-replyer-line">
+<span  class="iknow-icons wgt-askreplyer-lottery" alog-alias="qb-answer-bar" id="answer-bar"><img src="https://iknowpc.bdimg.com/static/question-new/widget/ask/replyer/img/gift.7b31617.gif?1537943326" class="wgt-askreplyer-lottery-icon">&nbsp;我来答</span>
+<div class="wgt-askreplyer-lottery-card">
+<div class="wgt-askreplyer-lottery-triangle1"></div><div class="wgt-askreplyer-lottery-triangle2"></div>
+<h2 class="wgt-askreplyer-lottery-title"><i class="iknow-icons wgt-askreplyer-lottery-gift">&#xe6b9;</i>答题抽奖</h2>
+<p class="wgt-askreplyer-lottery-text first-line">首次认真答题后</p>
+<p class="wgt-askreplyer-lottery-text">即可获得<span class="text-green">3次</span>抽奖机会，<span class="text-green">100%</span>中奖。</p>
+<a href="/list?type=feed&fr=datichoujiang" target="blank" log="module:question,page:question,area:datichoujiang,action:click" class="wgt-askreplyer-lottery-btn">更多问题<i class="iknow-icons wgt-askreplyer-lottery-arrow">&#xe6a1;</i></a>
+</div>
+</div>
+<div class="wgt-search-relate f-yahei f-pening" style="display:none;">
+<p class="title">可选中1个或多个下面的关键词，搜索相关资料。也可直接点“搜索资料”搜索整个问题。</p>
+<ul class="word-list line">
+<li class="word grid "><span class="word-check"><i class="iknow-icons word-check-icon">&#xe654;</i></span><span class="word-text">操作系统</span></li>
+<li class="word grid }word-last"><span class="word-check"><i class="iknow-icons word-check-icon">&#xe654;</i></span><span class="word-text">主要功能</span></li>
+<li class="word grid word-search"><em class="iknow-icons">&#xe631;</em>搜索资料</li>
+</ul>
+</div>
+<div class="line " id="answer-editor" data-realName=""></div>
+<script type="text/html" id="replyer-addtags-tmpl">
+<div class="addtags-box">
+    <div class="addtags-mask"></div>
+    <div class="addtags-content">
+        <i class="iknow-qb_replyer_icons i-ask-close addtags-close"></i>
+        <div class="addtags-head"><div class="addtags-head-img"></div><span>回答提交成功！</span></div>
+        <div class="addtags-subhead">选择擅长的领域继续答题？</div>
+        <div class="tags-box">
+            {@each tagList as item}
+            <li class="{@if item.isQuesTag && item.isQuesTag == 1}selected{@/if}">${item.tagName}</li>
+            {@/each}
+        </div>
+        <div class="addtags-bottom">
+            <div class="addtags-sub">继续回答</div><div class="addtags-notip ml-10">不再提示</div>
+        </div>
+    </div>
+</div>
+</script>
+<script type="text/html" id="replyer-tags-tmpl">
+<div class="tags-box">
+    <div class="tags-mask"></div>
+    <div class="tags-content">
+        <i class="iknow-qb_replyer_icons i-ask-close tags-close"></i>
+        <div class="tags-head">回答提交成功！</div>
+        <div class="tags-subhead">是否继续回答问题？</div>
+        <div class="tags-bottom">
+            <div class="tags-sub">继续回答</div><div class="tags-notip ml-10">不再提示</div>
+        </div>
+    </div>
+</div>
+</script>
+<script type="text/html" id="answer-for-lottery">
+    <div class="affairs-box answer-for-lottery">
+        <div class="affairs-mask"></div>
+        <div class="affairs-content">
+            <i class="iknow-qb_replyer_icons i-ask-close affairs-close"></i>
+            <a log="pos:government-affairs-act,action:click" href="https://zhidao.baidu.com/shop/lottery?from=datichoujiang" class="affairs-img">
+                <img src="https://gss0.bdstatic.com/7051cy89RcgCncy6lo7D0j9wexYrbOWh7c50/answer-for-lottery.png">
+            </a>
+        </div>
+    </div>
+</script>
+<script type="text/html" id="government-affairs-template">
+    <div class="affairs-box">
+        <div class="affairs-mask"></div>
+        <div class="affairs-content">
+            <i class="iknow-qb_replyer_icons i-ask-close affairs-close"></i>
+            <a log="pos:government-affairs-act,action:click" href="https://zhidao.baidu.com/activity/university" class="affairs-img">
+                <img src="https://gss0.bdstatic.com/7051cy89RcgCncy6lo7D0j9wexYrbOWh7c50/shenghuochuilei%2Fgaoxiao%2Fwuliao%2F650305.png">
+            </a>
+        </div>
+    </div>
+</script>
+<script type="text/html" id="visit-join-model-template">
+    <p class="visit-join-model-title">加入团队，和一群志同道合之人相结识，一起帮助更多人</p>
+    <div class="visit-join-model-content" id="visit-join-model-content">
+        <div class="carousel-misc"><a href="javascript:void(0);" data-action="left" class="visit-join-control visit-join-control-left visit-join-control-left-disable"></a><a href="javascript:void(0);" data-action="right" class="visit-join-control visit-join-control-right"></a></div>
+    </div>
+    <div class="visit-join-model-warn" id="visit-join-warn">请先选择一个要加入的团队</div>
+</script>
+<ins class="share-area "></ins>
+<ins class="accuse-area "></ins>
+<span id="v-times"></span>
+</div>
+</div>
+<script>
+    // 提问区域可用时间
+    alog && alog('speed.set', 'c_ask', +new Date); alog.fire && alog.fire("mark");
+</script>
+<div class="question-all-answers-number">
+<span class="question-all-answers-line"></span>
+<span class="question-all-answers-title">3个回答</span>
+<div class="question-number-text-chain">
+<a href="https://zhidao.baidu.com/question/1738135105350034067.html?entry=hottopic" target="_blank" log="module:question,page:question,action:click,area:question_text_chain" class="text-chain-wrapper">
+<span class="text-chain-title">#抖机灵#</span>
+<span class="text-chain-content">假如你的爱豆直接公布婚讯你会怎样？</span>
+</a>
+</div>
+</div>
+<script type="text/javascript">
+        F.context('answers')['2893131645'] = {uid:"3128529623",imId:"d792ccd5ccd565723579ba",id:"2893131645",userName:"陶陶er5",userNameEnc:"%CC%D5%CC%D5er5",user:{sex:"1",iconType:"6",gradeIndex:"9",grAnswerNum:"732",isAuth:"0",authTitle:"",isUserAdmin:"0",userAdminLevel:"",userAdminTitle:"",userAdminType:"",isFamous:"0",isMaster:"0",goodRate:"99"},isAnonymous:"0",isCurrentUser:"0",mapUrl:"",refer:"",replyAskNum:"",threadId:"11572526581",hasComment:"0",qid:"1950653765113090748",raid:"",recommendCanceled:"0"};
+        F.context('answers')['2893131645'].user && F.context('answers')['2893131645'].user.business && (F.context('answers')['2893131645'].user.business.insType = 0);
+        F.context('answers')['2893131645'].encodeUid = 'd7924069236f25705e7979ba';
+                    F.context('answers')['2893131645'].ext_pack = {"mode_qtype":"0","mode_begintime":"0","reply_entry":"qb_excellent","submit_refer":"excellent_reverse","op_uid":"3128529623","team_id":"12671","partner":"0","excellent_reverse":"1","anony_good_value":"3","anony_bad_value":"18","reason_2_1":"6","reco_weight":"3","reco_time":"1528982058","reason_2_2":"1"};
+                            F.context('answers')['2893131645'].bit_pack = {"is_recommend":"1","wap_flag":"0","is_pic_contained":"0","media_flag":"0","help_flag":"0","anonymous":"0","is_really_anonymous":"0","level_new":"1","comment_flag":"0","in_mis":"0","auto_recommend":"0","content_rich_flag":"1","prior_flag":"0","hidden_flag":"0","rec_canceled_flag":"0","mis_flag":"0","file_flag":"0","read_flag":"0","is_challenge":"0","ikaudio_flag":"0","mavin_flag":"0","authentic_state":"0","is_compulsory_best":"0","dynamic_stick_flag":"0"};
+                    </script>
+<div class="wgt-best
+            " id="best-answer-2893131645">
+<div class="hd line ">
+<span class="answer-title h2 grid">
+最佳答案<img class="answer-title-bg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIgAAAAmCAMAAAAociP+AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAEmUExURQAAAEvLbUrLbUrKbkvKbUzLcVX/qlLRbUrLbkvLbUvLbkvKblXVgErKbkvKblTOdVDPcErKbUvLbkvLbUrLbVPNdUzLbU7McFDPcErNbkvLbUvLbkvKbkvKbUrOc03McEvKbkvLblbOdkrLbUrLblnPeU/ObUvKbmbMmV3RdEvLbkzLb0vLb0rKbUvSeErKbU7NcUrLbk3Mb0vLbljPeEvKbkzLb0vLbUvKb0zLbkrKbkvKbUzLcP///0rKbez672/Vi9Hy2u/78uL36Pj9+n7al4zeotr04fv++7Tpwrfqxfb998Xu0KHks6PktaznvXbXkGLRgM3x12XSg/7//rjrxordoPT89tv14pbhqr7sy3jYko7epPL89aDjsr3symHRf8jv0yiB0vUAAAA9dFJOUwDN4u3nNgMc5qZ79gazOv4gvZmY/v6K/hBW9eF01B9Qz7X++on+KsEFC/5eeukR9ySX/v3+vGzbXErV3kBkHM2LAAAA8ElEQVRYw83YZUKCARQF0UeDCWKLooRgd/uGtBW7C/e/CZfx3VnB+T1miVSSwDs6tkQEhQ4txUnNg+6XkCUJ3vG9zb5B4A7/YscUIA3W1hUg548smwKkw3RVAdIaGx4wBcgdWVOAPBMdV4A0C0yYAuSFOVOAPDA5owBp35MzBcgNs3EFyNUIMVOAXJMxCcgtoxqQS4Y0IGdE+yQgXqdHA9KgNy0B8VP6NSDNQfISEL9gakEC8lSnJAHxt8XivATE36loQF7LLElA/IOVVQmIf7KhAWltbsUkIP5DKC6xJdpddjVGzR9hlXUVNo2Zt3fwD9amp3fW/DHBAAAAAElFTkSuQmCC" />
+</span>
+</div>
+<div id="wgt-replyer-all-2893131645" class="wgt-replyer-all">
+<img class="wgt-replyer-all-avatar" src ="https://gss0.bdstatic.com/7Ls0a8Sm1A5BphGlnYG/sys/portrait/item/d792ccd5ccd565723579ba.jpg" data-href="https://zhidao.baidu.com/usercenter?uid=d7924069236f25705e7979ba&amp;teamType=2">
+<span class="wgt-replyer-all-v ikonw-qb-new-icon
+                                wgt-replyer-all-v-yellow
+        "></span>
+<span class="wgt-replyer-all-uname 
+        " data-href="https://zhidao.baidu.com/usercenter?uid=d7924069236f25705e7979ba&amp;teamType=2">陶陶er5</span><img class="wgt-replyer-all-partner
+            " src="data:image/png;base64,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" />
+<br />
+<span class="wgt-replyer-all-box">
+<span class="wgt-replyer-all-slogan">来自百度知道认证团队</span>
+<span class="wgt-replyer-all-time">
+2018-03-30
+</span>
+</span>
+<div class="wgt-replyer-all-card">
+<div class="wgt-replyer-all-triangle1"></div><div class="wgt-replyer-all-triangle2"></div>
+<div class="wgt-replyer-all-card-avatar-wrap">
+<img class="wgt-replyer-all-card-avatar wgt-replyer-all-card-avatars" 
+                src ="https://gss0.bdstatic.com/7Ls0a8Sm1A5BphGlnYG/sys/portrait/item/d792ccd5ccd565723579ba.jpg"
+                data-href="https://zhidao.baidu.com/usercenter?uid=d7924069236f25705e7979ba&amp;teamType=2">
+</div>
+<span class="wgt-replyer-all-v wgt-replyer-all-card-v wgt-replyer-all-v-yellow ikonw-qb-new-icon"></span>
+<span class="wgt-replyer-all-card-name wgt-replyer-all-card-names" data-href="https://zhidao.baidu.com/usercenter?uid=d7924069236f25705e7979ba&amp;teamType=2">陶陶er5</span>
+<br />
+<span class="wgt-replyer-all-card-accept">采纳数：<span class="wgt-replyer-all-card-green">732</span></span>
+<span class="wgt-replyer-all-card-praise">获赞数：<span class="wgt-replyer-all-card-green">3963</span></span>
+<span class="wgt-replyer-all-card-level">LV9</span>
+<br />
+<span class="wgt-replyer-all-card-good">擅长：<span class="wgt-replyer-all-card-green">暂未定制</span>
+</span>
+<br />
+<a href="/new?fix=%CC%D5%CC%D5er5" target="_blank" class="wgt-replyer-all-card-ask">向TA提问</a>
+<a href="/ichat/chatlist?concats=%CC%D5%CC%D5er5" target="_blank" class="wgt-replyer-all-card-letter">私信TA</a>
+</div>
+</div>
+<div class="bd answer" id="answer-2893131645">
+<div class="line info f-aid">
+</div>
+<div class="line content">
+<div id="best-content-2893131645" accuse="aContent" class="best-text mb-10">
+<div class="wgt-best-mask">
+<div class="wgt-best-showbtn">
+展开全部<span class="wgt-best-arrowdown"></span>
+</div>
+</div>
+<p>操作系统是配置在计算机硬件上第一层软件，它是一组控制和管理计算机硬件与软件资源，合理地对各类作业进行调度，以及方便用户的程序的集合。<br />操作系统的五大功能包括:处理机管理功能，储存器管理功能，设备管理功能，文件管理功能，以及作为用户与硬件系统之间的接口。</p><div class="excellent-qb-divider"></div><ol><li><p>操作系统：操作系统所处位置操作系统（英语：Operating&nbsp;System，简称OS）是管理和控制计算机硬件与软件资源的计算机程序，是直接运行在“裸机”上的最基本的系统软件，任何其他软件都必须在操作系统的支持下才能运行。</p><p>操作系统操作系统是用户和计算机的接口，同时也是计算机硬件和其他软件的接口。操作系统的功能包括管理计算机系统的硬件、软件及数据资源，控制程序运行，改善人机界面，为其它应用软件提供支持等，使计算机系统所有资源最大限度地发挥作用，提供了各种形式的用户界面，使用户有一个好的工作环境，为其它软件的开发提供必要的服务和相应的接口。实际上，用户是不用接触操作系统的，操作系统管理着计算机硬件资源，同时按着应用程序的资源请求，为其分配资源，如：划分CPU时间，内存空间的开辟，调用打印机等。</p></li><li><p>种类划分：操作系统的种类相当多，各种设备安装的操作系统可从简单到复杂，可分为智能卡操作系统、实时操作系统、传感器节点操作系统、嵌入式操作系统、个人计算机操作系统、多处理器操作系统、网络操作系统和大型机操作系统。按应用领域划分主要有三种：桌面操作系统、服务器操作系统和嵌入式操作系统。<br /></p></li></ol><div class="excellent-qb-divider"></div>
+</div>
+<div class="quality-content-view-more mb-15">
+</div>
+<div class="newbest-content-meta line ff-arial">
+<div class="wgt-best-operator f-aid ">
+<img src="data:image/jpeg;base64,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bG9uZwAAAAAAOEJJTQPtAAAAAAAQAEgAAAABAAIASAAAAAEAAjhCSU0EJgAAAAAADgAAAAAAAAAAAAA/gAAAOEJJTQQNAAAAAAAEAAAAHjhCSU0EGQAAAAAABAAAAB44QklNA/MAAAAAAAkAAAAAAAAAAAEAOEJJTScQAAAAAAAKAAEAAAAAAAAAAjhCSU0D9QAAAAAASAAvZmYAAQBsZmYABgAAAAAAAQAvZmYAAQChmZoABgAAAAAAAQAyAAAAAQBaAAAABgAAAAAAAQA1AAAAAQAtAAAABgAAAAAAAThCSU0D+AAAAAAAcAAA/////////////////////////////wPoAAAAAP////////////////////////////8D6AAAAAD/////////////////////////////A+gAAAAA/////////////////////////////wPoAAA4QklNBAAAAAAAAAIAAThCSU0EAgAAAAAABAAAAAA4QklNBDAAAAAAAAIBAThCSU0ELQAAAAAABgABAAAABDhCSU0ECAAAAAAAEAAAAAEAAAJAAAACQAAAAAA4QklNBB4AAAAAAAQAAAAAOEJJTQQaAAAAAANXAAAABgAAAAAAAAAAAAAAEAAABfoAAAARAFIAZQBjAHQAYQBuAGcAbABlACAAMQA3ACAAQwBvAHAAeQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAF+gAAABAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAQAAAAAAAG51bGwAAAACAAAABmJvdW5kc09iamMAAAABAAAAAAAAUmN0MQAAAAQAAAAAVG9wIGxvbmcAAAAAAAAAAExlZnRsb25nAAAAAAAAAABCdG9tbG9uZwAAABAAAAAAUmdodGxvbmcAAAX6AAAABnNsaWNlc1ZsTHMAAAABT2JqYwAAAAEAAAAAAAVzbGljZQAAABIAAAAHc2xpY2VJRGxvbmcAAAAAAAAAB2dyb3VwSURsb25nAAAAAAAAAAZvcmlnaW5lbnVtAAAADEVTbGljZU9yaWdpbgAAAA1hdXRvR2VuZXJhdGVkAAAAAFR5cGVlbnVtAAAACkVTbGljZVR5cGUAAAAASW1nIAAAAAZib3VuZHNPYmpjAAAAAQAAAAAAAFJj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LjAvc1R5cGUvUmVzb3VyY2VFdmVudCMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKE1hY2ludG9zaCkiIHhtcDpDcmVhdGVEYXRlPSIyMDE4LTA2LTI4VDE5OjUzOjAzKzA4OjAwIiB4bXA6TW9kaWZ5RGF0ZT0iMjAxOC0wNi0yOFQyMDowMDoxOSswODowMCIgeG1wOk1ldGFkYXRhRGF0ZT0iMjAxOC0wNi0yOFQyMDowMDoxOSswODowMCIgZGM6Zm9ybWF0PSJpbWFnZS9qcGVnIiBwaG90b3Nob3A6Q29sb3JNb2RlPSIzIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjM2ZDUyMDlmLTk0Y2EtNGM5Mi1iMTIyLTBmODg3MjQ5OTAzZSIgeG1wTU06RG9jdW1lbnRJRD0iYWRvYmU6ZG9jaWQ6cGhvdG9zaG9wOjMwYjIxN2FlLWJiNTktMTE3Yi05MTU2LWE1Y2QxNDQzZTdhYiIgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjkzYjIxMWM0LWJlYWItNGIxZi1iY2YwLTlmNjA5NTNmNjIxZiI+IDx4bXBNTTpIaXN0b3J5PiA8cmRmOlNlcT4gPHJkZjpsaSBzdEV2dDphY3Rpb249ImNyZWF0ZWQiIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6OTNiMjExYzQtYmVhYi00YjFmLWJjZjAtOWY2MDk1M2Y2MjFmIiBzdEV2dDp3aGVuPSIyMDE4LTA2LTI4VDE5OjUzOjAzKzA4OjAwIiBzdEV2dDpzb2Z0d2FyZUFnZW50PSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxNSAoTWFjaW50b3NoKSIvPiA8cmRmOmxpIHN0RXZ0OmFjdGlvbj0iY29udmVydGVkIiBzdEV2dDpwYXJhbWV0ZXJzPSJmcm9tIGltYWdlL3BuZyB0byBpbWFnZS9qcGVnIi8+IDxyZGY6bGkgc3RFdnQ6YWN0aW9uPSJzYXZlZCIgc3RFdnQ6aW5zdGFuY2VJRD0ieG1wLmlpZDozNmQ1MjA5Zi05NGNhLTRjOTItYjEyMi0wZjg4NzI0OTkwM2UiIHN0RXZ0OndoZW49IjIwMTgtMDYtMjhUMjA6MDA6MTkrMDg6MDAiIHN0RXZ0OnNvZnR3YXJlQWdlbnQ9IkFkb2JlIFBob3Rvc2hvcCBDQyAyMDE1IChNYWNpbnRvc2gpIiBzdEV2dDpjaGFuZ2VkPSIvIi8+IDwvcmRmOlNlcT4gPC94bXBNTTpIaXN0b3J5PiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8P3hwYWNrZXQgZW5kPSJ3Ij8+/+4AIUFkb2JlAGRAAAAAAQMAEAMCAwYAAAAAAAAAAAAAAAD/2wCEAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQECAQEBAQEBAgICAgICAgICAgICAgIDAwMDAwMDAwMDAwMDAwMBAQEBAQEBAgEBAgMCAgIDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA//CABEIABAF+gMBEQACEQEDEQH/xABmAAEBAQAAAAAAAAAAAAAAAAAABgoBAQAAAAAAAAAAAAAAAAAAAAAQAAMBAQAAAAAAAAAAAAAAAAACExWAEQACAwAAAAAAAAAAAAAAAAAAMqGxAhIBAAAAAAAAAAAAAAAAAAAAgP/aAAwDAQECEQMRAAAA30AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAf/9oACAECAAEFAOgP/9oACAEDAAEFAOgP/9oACAEBAAEFALqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1NVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VP/aAAgBAgIGPwBAf//aAAgBAwIGPwBAf//aAAgBAQEGPwBsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmR7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsez/2Q==" class="wgt-best-operator-shadow">
+<div id="wgt-eva-2893131645" class="wgt-eva">
+<span 
+        alog-action="qb-zan-btnbestbox" 
+        class="evaluate evaluate-32  evaluate-good-6" 
+        id="evaluate-2893131645" 
+        data-evaluate="6">
+<i class="ikonw-qb-new-icon icon-evaluate "></i>
+<b class="evaluate-num"></b>
+</span>
+<span class="wgt-eva-pipe"></span>
+<span 
+        alog-action="qb-evaluate-outer" 
+        class="evaluate-bad evaluate-32 " 
+        id="evaluate-bad-2893131645">
+<i class="ikonw-qb-new-icon icon-evaluate-bad "></i>
+</span>
+<span class="wgt-eva-hasgood"><i class="ikonw-qb-new-icon icon-evaluated"></i><b class="evaluate-text">已赞过</b></span>
+<span class="wgt-eva-hasbad"><i class="ikonw-qb-new-icon icon-evaluated-bad"></i><b class="evaluate-text">已踩过</b><</span>
+</div>
+<span alog-action="qb-comment-btnbestbox" class="comment " id="comment-2893131645" data-answererid="d7924069236f25705e7979ba"><i class="ikonw-qb-new-icon qb-comment-icon"></i>评论</span>
+<ins class="share-area"></ins>
+<ins class="accuse-area" alog-alias="qb-accuse-link-best" data-rid="2893131645"></ins>
+<span class="wgt-best-hidebtn">收起<i class="wgt-best-arrowup"></i></span>
+</div>
+</div>
+</div>
+</div>
+</div><img src="data:image/png;base64,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" class="bottom-dashed-line" style="margin-top: -10px;">
+<script>
+                    // 高质or满意or特型or推荐答案打点时间
+                    alog && alog('speed.set', 'c_best', +new Date); alog.fire && alog.fire("mark");
+                </script>
+<script>
+                    // 首屏时间打点
+                    void function(e,t){for(var n=t.getElementsByTagName("img"),a=+new Date,i=[],o=function(){this.removeEventListener&&this.removeEventListener("load",o,!1),i.push({img:this,time:+new Date})},s=0;s< n.length;s++)!function(){var e=n[s];e.addEventListener?!e.complete&&e.addEventListener("load",o,!1):e.attachEvent&&e.attachEvent("onreadystatechange",function(){"complete"==e.readyState&&o.call(e,o)})}();alog("speed.set",{fsItems:i,fs:a})}(window,document);
+                </script>
+<div class="wgt-answers has-other  " id="wgt-answers">
+<div class="bd-wrap">
+<script type="text/javascript">
+                    F.context('answers')['2655038013'] = {uid:"582287170",imId:"42ff3033323437376161b422",passPhoto:"1",id:"2655038013",userName:"032477aa",userNameEnc:"032477aa",user:{sex:"1",iconType:"10",gradeIndex:"20",grAnswerNum:"69805",carefield: [{cid:"148",cname:"美食/烹饪"}],isFromTeam:"1",teamName:"数学之美",teamId:"28973",isAuth:"0",authTitle:"",isUserAdmin:"0",userAdminLevel:"",userAdminTitle:"",userAdminType:"",isFamous:"0",isMaster:"0",goodRate:"73",mavinUtype:"0",mavinIsNew:"1",mavinName:"032477aa",mavinTitle:"老师",mavinAnswerNum:"18.2万",mavinAdoptNum:"7万",mavinLevel:"3",mavinLevelTitle:"知道天文行家",mavinMajor:"1",mavinHelpNum:"1.3亿",mavinPraise:"37.6万",mavinLevelDesc:"天文行业资深行家",mavinFields: ["天文"],mavinAvatar:"http://h.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=c9a2200fcc1b9d168a929265c6ee98b9/bf096b63f6246b60b35700a4e9f81a4c500fa281.jpg",mavinDesc:"本人1997年毕业于浙江师范大学。一直任教初中科学学科。包括初中物理、化学、生物、地理、天文等内容。"},isAnonymous:"0",isCurrentUser:"0",mapUrl:"",refer:"",replyAskNum:"",threadId:"10620152053",hasComment:"0",qid:"1950653765113090748",raid:"",recommendCanceled:"0"};
+                    F.context('answers')['2655038013']['c_timestamp'] = '1479949239';
+                    F.context('answers')['2655038013'].encodeUid = '42ff4069236f25705e79b422';
+                                            F.context('answers')['2655038013'].ext_pack = {"reply_entry":"qb_list_default","mode_qtype":"0","mode_begintime":"0","op_uid":"582287170","anony_good_value":"14","anony_bad_value":"9","reco_time":"1518334347","recTime":"1519135011"};
+                                                                F.context('answers')['2655038013'].bit_pack = {"is_recommend":"1","wap_flag":"0","is_pic_contained":"0","media_flag":"0","help_flag":"0","anonymous":"0","is_really_anonymous":"0","level_new":"1","comment_flag":"0","in_mis":"0","auto_recommend":"1","content_rich_flag":"0","prior_flag":"1","hidden_flag":"0","rec_canceled_flag":"0","mis_flag":"0","file_flag":"0","read_flag":"0","is_challenge":"0","ikaudio_flag":"0","mavin_flag":"1","authentic_state":"0","is_compulsory_best":"0","dynamic_stick_flag":"0"};
+                                                                            </script>
+<div class="bd answer
+                reply-user-ismavin                                                 
+                " id="answer-2655038013">
+<div id="wgt-replyer-all-2655038013" class="wgt-replyer-all">
+<img class="wgt-replyer-all-avatar" src ="https://gss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/zhidao/wh%3D450%2C600/sign=c9a2200fcc1b9d168a929265c6ee98b9/bf096b63f6246b60b35700a4e9f81a4c500fa281.jpg" data-href="https://zhidao.baidu.com/hangjia/profile/032477aa?ie=gbk">
+<span class="wgt-replyer-all-v ikonw-qb-new-icon
+                                wgt-replyer-all-v-yellow
+        "></span>
+<span class="wgt-replyer-all-uname 
+        " data-href="https://zhidao.baidu.com/hangjia/profile/032477aa?ie=gbk">032477aa</span><img class="wgt-replyer-all-partner
+                                wgt-replyer-all-partner-show
+            " src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIQAAAAgCAMAAADkFyBtAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAL3UExURQAAAA6nOBGqOQ2lOA6mOA+lNw2mOE7LbUrLbg2mOA2lNxWqQA2mOAymNwylNw2nOQ6nOg2mOAylOAymOA2lNwymOAylOP///wylORCvQAymNw2mOFWqVQ+nOTPMZg6qOQymOAymOAylOID/gByqOQymOCuqVQylNw2lNw2mNw2mNw6mNw2mNwylOA2mOA6oOxCtOg2nOBSnOw6lOQymOSS2SQ+lPA2mOBCoPEC/QAynOAylNw2lNw6mOQ2mOAymOSC/QA2nOQ2mOQ2mN0vLbRqzTQylNwymOAymN1LMcAymNwymOErKbg2lOA+qPgymOA2mOAymOA6mOA2lNwymOA2oOQymOA2lNw2lOA2oOg6lNw2mNxGqPA2mOBKnPg6lOQ+oOA2mOA+oOg2lNw2uQw2mNw6mOQ+mOBamNxStPQ+oOheuOgylNwynOg6lNwymOBGqRA2lOA+lOA2lOBGoOg2mOAymNwyoOA2mOQylNw2lOAylNw2lOA+nOw2lNw2mNw6lNw2mOBGmN0vLbQ6lOA6lOQymNw+mOkvLbQ+mNw2lNw2mOE3LcFDMbQ2mOA6lOBWqQAyoOA+lPAymOEzKbgynOA2mN0vLbQ2lNw2lOA2lOA2lN07Odg6qOUvKbkvLbgymOErKblXVcU3Mb0vLbkrKbU3MbkvKbkzOcmDfgA2mNw2qOxCqOgylOAynOA2mOA2lNw2mOEvKbUvLbg2mOEvLbkvMbg2mOA6nOg2lN0vMcEvKb0vKbg2mOAymOA2mNw2mNw2mQAylOAymOA2lOAymOAypOg6mNxSxOwymOQymNwymNw2mOA2mNwyqPQ2mOBOqORKmOw6mOA2nOQ2mNw2nOA6nOQylOA6oOg2lNxCnOA2nOxCnOAylNw2lOAylOA2mOhe5Rg2mOBK2SUvLbg6oOA2lN0vLbgymNw+nOA2mOQ2mNw2pOA2mOAyqPQ2mOA6lOE3Kb0zLcQ6nOBCnOQ6nOQ2lOA6lOQynOBCpOw2mOErKbQylN5ZDXXgAAAD7dFJOUwBuLduVM+0xztfvGGS49XRLctKp8af3AVUQ/rIDQwUk/PilAgn7Br6LwtlctLzDOB9gGkeQBxFNLwR//cdw1j8IUYfw8wrjzvkZ1PbjtiHT6r9twehMutjuT0p4HsAdNjLII94TikhWFxlGFvpUb+UPn0TyLInnKSjPen2zNLBhJbcu7ltsakK7RfSbSSOMlwxSIuRvfHPJ1a2I3RoS8mbRxxJaWL1kvC8IqycwzZPc7K6M+fP9i6NdZkuWwZ6Soa8UqKTKez6BDX7ij7WdKtobK4Ri62VraTXMQD0g5pzpOQuNDp1JmZy9V3nLO18VsYM1NnExWuBeaEGgl/QE5wAABRJJREFUWMPFl2VAG0kUxwdJ7tCWkpISSEgIocDhxYq7O5RSvMULFChOXa9Xueq1vbq7u1713N3d3XXfh5vZ3SS7SbblW/4fxuWX93beTBBC0gO7d1Bm0o7dB6QIK+sgZVYdzMJ22E/l7t2GzKRte3Op/VK0k8rdg8yoPbnUTrSJ2sdWk6JDTQxSJDJ5ePN0knVtOcbv9woL8zKcM2EOk1csdTdeMPpJfn0ftQmlUllsbWrMTyYYZgdG0IXthX+F46wRLHj9a6oBqtfw50hfVm2nC7NhovGKnZP59SwqFVEUW5kGJWzJ3ZXRM6SyMWZzDd36NzghlK/K4P0411iwsIBYV96yk+BFpuAPJkxbmm3QgAl0EI/Bz/a08kXAyIZZ8lx6r1oikfSAUiJxARUuJmvnNxwnhpkBGbe4qwbIXmIKLyhNQJzKEIbw3spuDc0iqPbBEjMQ6H3H9WnORDdBTOfOP7LT7QpgBsnjINtOv6gl5OFPJakKoTwVqc9rTONsqVb5CkM4gadc3n5SLpe3iWAUabFhIdDMBDaHJ3izO/oZBoR+h/TRumZPeBihWijGEMtpw5RLOZM+AAdBiAbbnjbkzXwWhhD0z8N+8gdr4q5LTEvraXD5R9td3A6325jiOEjHaQghWWBLTJwzl7tlE3ysFoIIg+8QagE3IQgn0ElMN9jbwt0Bff8fu0A8jxSqbMEKZz7Qgs8bwXkK4rhbxgF8IgSx7gaOB0fhoiFE3QSsYAIR6cGoiEBEfAOZw/8CR/JfNBCQhtwDgYYY/wZOPozHyRZYyN1yNUCy8OnACoIThhD+ZAMLAhHFDvInEO4FQ5ZocCxHg0hUUIZDEdzcjCFald3YEbKcRCR9jhcXpDaSyfFCELMcsVSgwWkyF6I2MrKYgXBxZKSk3eGhMD583jjiOhxPG2NFhj+CgwrAdPQePMsd8yV8VQzHBCAWu2FZQSxOXzf4JiwZiD4LRtnie10FU0IRgSgrxTGtA+BRlBA4nxdDoLZrucO93PE4rDPxYVqacAdR72ieerWrEAh1MFlONtXA8mghFCC0AmYKQygKNRHCEHfHMzqlhbAGnqy5EESfuwR2EK9w5QxrEZrvkiEVhLAH8A0XhMjzZNSph7g8TqfLxhAhsDRREsBjWAKnmRviLSEI95NQmXlEPWJ3WAMnVtsZQXhZibvQZzCHs51ck0K/FhTZmiYBiEswF9OHCUEMP8RoaIQQjeTWbUh511s3ZppYtpiNBZk9USYh7Oo1R0nk3GgI0QTDJiLm/SDqlPXEtZX4gLDKj9fHzuaY9TUmIFpt6OvJ+3tZkggK/bAyGQh7fH3/iW5Z6jQwEgg7m/YgUplYImOvtim2MEs//m0olRtBhPqBs4KxWZ0I6n2xcmiISBiSF0FfhHFIsIYiB52K+BCv+MESlq5flURgfGSyp7mzK2Ux0WoDiAVwnb3canjuCC7vbEGKO6Ac43D7zo3u6/9dHHvE7SMWQmKrk4QHEbwVntdW3ylXvonCA0E8ySCspUCZOx/i1T790Y34dpBkCeQZsVZDv29/OFFi0y9OOZfjQrTifu6oUL6m74oqXI1Qd2yVoSU9diVrLbGIWnXPJ/mAYE9QCOeZ7RUSpC1WROITxR0YjH/wpybuGi/6GbyKWoSWURuQWbWBWoZWUqmHzMlwKJVaidDX1NkLVx4wk65cOEt9gVEOnzlvzv/D588cpi3y29VrD5pJ167+igH+By1KpdYWlmIaAAAAAElFTkSuQmCC" />
+<br />
+<span class="wgt-replyer-all-box">
+<span class="wgt-replyer-all-slogan">来自知道合伙人认证行家</span>
+<span class="wgt-replyer-all-time">
+推荐于2018-02-20
+</span>
+</span>
+<div class="wgt-replyer-all-card">
+<div class="wgt-replyer-all-triangle1"></div><div class="wgt-replyer-all-triangle2"></div>
+<img class="wgt-replyer-all-card-avatar1 wgt-replyer-all-card-avatars" 
+                src ="https://gss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/zhidao/wh%3D450%2C600/sign=c9a2200fcc1b9d168a929265c6ee98b9/bf096b63f6246b60b35700a4e9f81a4c500fa281.jpg"
+                data-href="https://zhidao.baidu.com/hangjia/profile/032477aa?ie=gbk">
+<span class="wgt-replyer-all-v wgt-replyer-all-card-v wgt-replyer-all-v-yellow ikonw-qb-new-icon"></span>
+<span class="wgt-replyer-all-card-name2 wgt-replyer-all-card-names" data-href="https://zhidao.baidu.com/hangjia/profile/032477aa?ie=gbk">032477aa</span>
+<img class="wgt-replyer-all-partner wgt-replyer-all-card-partner" src="data:image/png;base64,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">
+<br />
+<span class="wgt-replyer-all-card-field">天文类行家</span>
+<div class="wgt-replyer-all-card-praisebox">
+<span class="wgt-replyer-all-card-accept-m">采纳数：<span class="wgt-replyer-all-card-green">69805</span></span>
+<span class="wgt-replyer-all-card-praise-m">获赞数：<span class="wgt-replyer-all-card-green">379776</span></span>
+</div>
+<div class="wgt-replyer-all-card-mavin-desc">本人1997年毕业于浙江师范大学。一直任教初中科学学科。包括初中物理、化学、生物、地理、天文等内容。</div>
+<a href="/new?fix=032477aa" target="_blank" class="wgt-replyer-all-card-ask1">向TA提问</a>
+</div>
+</div>
+<div class="line">
+<a id="here" name="here"></a><div class="line content" data-valuerrank="100001">
+<div id="answer-content-2655038013" accuse="aContent" class="answer-text mb-10 line">
+<div class="wgt-answers-mask">
+<div class="wgt-answers-showbtn">
+展开全部<span class="wgt-answers-arrowdown"></span>
+</div>
+</div>
+1．处理器管理 <br />    处理器是完成运算和控制的设备。在多道程序运行时，每个程序都需要一个处理器，而一般计算机中只有一个处理器。操作系统的一个功能就是安排好处理器的使用权，也就是说，在每个时刻处理器分配给哪个程序使用是操作系统决定的。   <br />  2．存储管理 <br />    计算机的内存中有成千上万个存储单元，都存放着程序和数据。何处存放哪个程序，何处存放哪个数据．都是由操作系统来统一安排与管理的o这是操作系统的存储功能o <br />    3．设备管理 <br />    计算机系统中配有各种各样的外部设备。操作系统的设备管理功能采用统一管理模式，自动处理内存和设备间的数据传递，从而减轻用户为这些设备设计输入输出程序的负担。   <br />  4．作业管理 <br />    作业是指独立的、要求计算机完成的一个任务。操作系统的作业管理功能包括两点尸是在多道程序运行IC现货商时，使得备用户合理地共享计算机系统资源22是提供给操作人员一套控制命令用来控制程序的运行o   <br />  5．文件管理 <br />计算机系统中的程序或数据都要存放在相应存储介质上。为了便于管理，操作系统招相关的信息集中在一起，称为文件。操作系统的文件管理功能就是负责这些文件的存储、检索、更新、保护和共享。
+</div>
+<div class="line f-light-gray f-12 ff-arial" >
+<i class="ikonw-qb-new-icon i-quality-icons"></i>
+本回答被网友采纳</div>
+<div class="line info f-light-gray mt-10 mb-5 f-12">
+<div class="wgt-answers-operator f-aid ">
+<img src="data:image/jpeg;base64,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bG9uZwAAAAAAOEJJTQPtAAAAAAAQAEgAAAABAAIASAAAAAEAAjhCSU0EJgAAAAAADgAAAAAAAAAAAAA/gAAAOEJJTQQNAAAAAAAEAAAAHjhCSU0EGQAAAAAABAAAAB44QklNA/MAAAAAAAkAAAAAAAAAAAEAOEJJTScQAAAAAAAKAAEAAAAAAAAAAjhCSU0D9QAAAAAASAAvZmYAAQBsZmYABgAAAAAAAQAvZmYAAQChmZoABgAAAAAAAQAyAAAAAQBaAAAABgAAAAAAAQA1AAAAAQAtAAAABgAAAAAAAThCSU0D+AAAAAAAcAAA/////////////////////////////wPoAAAAAP////////////////////////////8D6AAAAAD/////////////////////////////A+gAAAAA/////////////////////////////wPoAAA4QklNBAAAAAAAAAIAAThCSU0EAgAAAAAABAAAAAA4QklNBDAAAAAAAAIBAThCSU0ELQAAAAAABgABAAAABDhCSU0ECAAAAAAAEAAAAAEAAAJAAAACQAAAAAA4QklNBB4AAAAAAAQAAAAAOEJJTQQaAAAAAANXAAAABgAAAAAAAAAAAAAAEAAABfoAAAARAFIAZQBjAHQAYQBuAGcAbABlACAAMQA3ACAAQwBvAHAAeQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAF+gAAABAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAQAAAAAAAG51bGwAAAACAAAABmJvdW5kc09iamMAAAABAAAAAAAAUmN0MQAAAAQAAAAAVG9wIGxvbmcAAAAAAAAAAExlZnRsb25nAAAAAAAAAABCdG9tbG9uZwAAABAAAAAAUmdodGxvbmcAAAX6AAAABnNsaWNlc1ZsTHMAAAABT2JqYwAAAAEAAAAAAAVzbGljZQAAABIAAAAHc2xpY2VJRGxvbmcAAAAAAAAAB2dyb3VwSURsb25nAAAAAAAAAAZvcmlnaW5lbnVtAAAADEVTbGljZU9yaWdpbgAAAA1hdXRvR2VuZXJhdGVkAAAAAFR5cGVlbnVtAAAACkVTbGljZVR5cGUAAAAASW1nIAAAAAZib3VuZHNPYmpjAAAAAQAAAAAAAFJj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LjAvc1R5cGUvUmVzb3VyY2VFdmVudCMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKE1hY2ludG9zaCkiIHhtcDpDcmVhdGVEYXRlPSIyMDE4LTA2LTI4VDE5OjUzOjAzKzA4OjAwIiB4bXA6TW9kaWZ5RGF0ZT0iMjAxOC0wNi0yOFQyMDowMDoxOSswODowMCIgeG1wOk1ldGFkYXRhRGF0ZT0iMjAxOC0wNi0yOFQyMDowMDoxOSswODowMCIgZGM6Zm9ybWF0PSJpbWFnZS9qcGVnIiBwaG90b3Nob3A6Q29sb3JNb2RlPSIzIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjM2ZDUyMDlmLTk0Y2EtNGM5Mi1iMTIyLTBmODg3MjQ5OTAzZSIgeG1wTU06RG9jdW1lbnRJRD0iYWRvYmU6ZG9jaWQ6cGhvdG9zaG9wOjMwYjIxN2FlLWJiNTktMTE3Yi05MTU2LWE1Y2QxNDQzZTdhYiIgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjkzYjIxMWM0LWJlYWItNGIxZi1iY2YwLTlmNjA5NTNmNjIxZiI+IDx4bXBNTTpIaXN0b3J5PiA8cmRmOlNlcT4gPHJkZjpsaSBzdEV2dDphY3Rpb249ImNyZWF0ZWQiIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6OTNiMjExYzQtYmVhYi00YjFmLWJjZjAtOWY2MDk1M2Y2MjFmIiBzdEV2dDp3aGVuPSIyMDE4LTA2LTI4VDE5OjUzOjAzKzA4OjAwIiBzdEV2dDpzb2Z0d2FyZUFnZW50PSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxNSAoTWFjaW50b3NoKSIvPiA8cmRmOmxpIHN0RXZ0OmFjdGlvbj0iY29udmVydGVkIiBzdEV2dDpwYXJhbWV0ZXJzPSJmcm9tIGltYWdlL3BuZyB0byBpbWFnZS9qcGVnIi8+IDxyZGY6bGkgc3RFdnQ6YWN0aW9uPSJzYXZlZCIgc3RFdnQ6aW5zdGFuY2VJRD0ieG1wLmlpZDozNmQ1MjA5Zi05NGNhLTRjOTItYjEyMi0wZjg4NzI0OTkwM2UiIHN0RXZ0OndoZW49IjIwMTgtMDYtMjhUMjA6MDA6MTkrMDg6MDAiIHN0RXZ0OnNvZnR3YXJlQWdlbnQ9IkFkb2JlIFBob3Rvc2hvcCBDQyAyMDE1IChNYWNpbnRvc2gpIiBzdEV2dDpjaGFuZ2VkPSIvIi8+IDwvcmRmOlNlcT4gPC94bXBNTTpIaXN0b3J5PiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8P3hwYWNrZXQgZW5kPSJ3Ij8+/+4AIUFkb2JlAGRAAAAAAQMAEAMCAwYAAAAAAAAAAAAAAAD/2wCEAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQECAQEBAQEBAgICAgICAgICAgICAgIDAwMDAwMDAwMDAwMDAwMBAQEBAQEBAgEBAgMCAgIDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA//CABEIABAF+gMBEQACEQEDEQH/xABmAAEBAQAAAAAAAAAAAAAAAAAABgoBAQAAAAAAAAAAAAAAAAAAAAAQAAMBAQAAAAAAAAAAAAAAAAACExWAEQACAwAAAAAAAAAAAAAAAAAAMqGxAhIBAAAAAAAAAAAAAAAAAAAAgP/aAAwDAQECEQMRAAAA30AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAf/9oACAECAAEFAOgP/9oACAEDAAEFAOgP/9oACAEBAAEFALqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1NVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VP/aAAgBAgIGPwBAf//aAAgBAwIGPwBAf//aAAgBAQEGPwBsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmR7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsez/2Q==" class="wgt-answers-operator-shadow">
+<div id="wgt-eva-2655038013" class="wgt-eva">
+<span 
+        alog-action="qb-zan-btn" 
+        class="evaluate evaluate-32  evaluate-good-31" 
+        id="evaluate-2655038013" 
+        data-evaluate="31">
+<i class="ikonw-qb-new-icon icon-evaluate "></i>
+<b class="evaluate-num"></b>
+</span>
+<span class="wgt-eva-pipe"></span>
+<span 
+        alog-action="qb-evaluate-outer" 
+        class="evaluate-bad evaluate-32 " 
+        id="evaluate-bad-2655038013">
+<i class="ikonw-qb-new-icon icon-evaluate-bad "></i>
+</span>
+<span class="wgt-eva-hasgood"><i class="ikonw-qb-new-icon icon-evaluated"></i><b class="evaluate-text">已赞过</b></span>
+<span class="wgt-eva-hasbad"><i class="ikonw-qb-new-icon icon-evaluated-bad"></i><b class="evaluate-text">已踩过</b><</span>
+</div>
+<span alog-action="qb-comment-btn" class="comment " id="comment-2655038013" data-answererid="42ff4069236f25705e79b422"><i class="ikonw-qb-new-icon qb-comment-icon"></i>评论</span>
+<ins class="share-area"></ins>
+<ins class="accuse-area" alog-action="qb-accuse-link" data-rid="2655038013"></ins>
+<span class="wgt-answers-hidebtn">收起<i class="wgt-answers-arrowup"></i></span>
+</div>
+</div>
+</div>
+</div><img src="data:image/png;base64,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" class="bottom-dashed-line"></div>
+<script type="text/javascript">
+                    F.context('answers')['2655038295'] = {uid:"275572493",imId:"0de7e8aeb8e58d8ee6968c323030326c10",passPhoto:"1",id:"2655038295",userName:"许华斌2002",userNameEnc:"%D0%ED%BB%AA%B1%F32002",user:{sex:"1",iconType:"6",gradeIndex:"16",grAnswerNum:"6347",carefield: [{cid:"1094",cname:"英语翻译"},{cid:"79",cname:"医疗健康"},{cid:"80",cname:"生活"}],isFromTeam:"1",teamName:"学习顶起",teamId:"80802",isAuth:"0",authTitle:"",isUserAdmin:"0",userAdminLevel:"3",userAdminTitle:"初级芝麻将",userAdminType:"1",isFamous:"0",isMaster:"0",goodRate:"65",mavinUtype:"0",mavinIsNew:"1",mavinName:"许华斌",mavinTitle:"中学数学高级教师",mavinAnswerNum:"1.8万",mavinAdoptNum:"6347",mavinLevel:"1",mavinLevelTitle:"知道数学行家",mavinMajor:"1",mavinHelpNum:"1745万",mavinPraise:"2万",mavinLevelDesc:"数学行业行家",mavinFields: ["数学"],mavinAvatar:"http://a.hiphotos.baidu.com/zhidao/wh%3D450%2C600/sign=d100db0f80025aafd36776cfcedd8752/9d82d158ccbf6c818019b127be3eb13532fa40d6.jpg",mavinDesc:"江西师范大学数学教育专业毕业，2011年江西财经大学数量经济学硕士毕业 执教12年"},isAnonymous:"0",isCurrentUser:"0",mapUrl:"",refer:"",replyAskNum:"",threadId:"10620153181",hasComment:"0",qid:"1950653765113090748",raid:"",recommendCanceled:"0"};
+                    F.context('answers')['2655038295']['c_timestamp'] = '1479949267';
+                    F.context('answers')['2655038295'].encodeUid = '0de74069236f25705e796c10';
+                                            F.context('answers')['2655038295'].ext_pack = {"reply_entry":"qb_dafuweng_tag","mode_qtype":"0","mode_begintime":"0","op_uid":"0","anony_bad_value":"5","reason_2_1":"4","reason_1_2":"1"};
+                                                                F.context('answers')['2655038295'].bit_pack = {"is_recommend":"0","wap_flag":"0","is_pic_contained":"0","media_flag":"0","help_flag":"0","anonymous":"0","is_really_anonymous":"0","level_new":"1","comment_flag":"0","in_mis":"0","auto_recommend":"0","content_rich_flag":"0","prior_flag":"1","hidden_flag":"0","rec_canceled_flag":"0","mis_flag":"0","file_flag":"0","read_flag":"0","is_challenge":"0","ikaudio_flag":"0","mavin_flag":"1","authentic_state":"0","is_compulsory_best":"0","dynamic_stick_flag":"0"};
+                                                                            </script>
+<div class="bd answer
+                reply-user-ismavin                                answer-last                 
+                " id="answer-2655038295">
+<div id="wgt-replyer-all-2655038295" class="wgt-replyer-all">
+<img class="wgt-replyer-all-avatar" src ="https://gss0.baidu.com/94o3dSag_xI4khGko9WTAnF6hhy/zhidao/wh%3D450%2C600/sign=d100db0f80025aafd36776cfcedd8752/9d82d158ccbf6c818019b127be3eb13532fa40d6.jpg" data-href="https://zhidao.baidu.com/hangjia/profile/%D0%ED%BB%AA%B1%F32002?ie=gbk">
+<span class="wgt-replyer-all-v ikonw-qb-new-icon
+                                wgt-replyer-all-v-yellow
+        "></span>
+<span class="wgt-replyer-all-uname 
+        " data-href="https://zhidao.baidu.com/hangjia/profile/%D0%ED%BB%AA%B1%F32002?ie=gbk">许华斌</span><img class="wgt-replyer-all-partner
+                                wgt-replyer-all-partner-show
+            " src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIQAAAAgCAMAAADkFyBtAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAL3UExURQAAAA6nOBGqOQ2lOA6mOA+lNw2mOE7LbUrLbg2mOA2lNxWqQA2mOAymNwylNw2nOQ6nOg2mOAylOAymOA2lNwymOAylOP///wylORCvQAymNw2mOFWqVQ+nOTPMZg6qOQymOAymOAylOID/gByqOQymOCuqVQylNw2lNw2mNw2mNw6mNw2mNwylOA2mOA6oOxCtOg2nOBSnOw6lOQymOSS2SQ+lPA2mOBCoPEC/QAynOAylNw2lNw6mOQ2mOAymOSC/QA2nOQ2mOQ2mN0vLbRqzTQylNwymOAymN1LMcAymNwymOErKbg2lOA+qPgymOA2mOAymOA6mOA2lNwymOA2oOQymOA2lNw2lOA2oOg6lNw2mNxGqPA2mOBKnPg6lOQ+oOA2mOA+oOg2lNw2uQw2mNw6mOQ+mOBamNxStPQ+oOheuOgylNwynOg6lNwymOBGqRA2lOA+lOA2lOBGoOg2mOAymNwyoOA2mOQylNw2lOAylNw2lOA+nOw2lNw2mNw6lNw2mOBGmN0vLbQ6lOA6lOQymNw+mOkvLbQ+mNw2lNw2mOE3LcFDMbQ2mOA6lOBWqQAyoOA+lPAymOEzKbgynOA2mN0vLbQ2lNw2lOA2lOA2lN07Odg6qOUvKbkvLbgymOErKblXVcU3Mb0vLbkrKbU3MbkvKbkzOcmDfgA2mNw2qOxCqOgylOAynOA2mOA2lNw2mOEvKbUvLbg2mOEvLbkvMbg2mOA6nOg2lN0vMcEvKb0vKbg2mOAymOA2mNw2mNw2mQAylOAymOA2lOAymOAypOg6mNxSxOwymOQymNwymNw2mOA2mNwyqPQ2mOBOqORKmOw6mOA2nOQ2mNw2nOA6nOQylOA6oOg2lNxCnOA2nOxCnOAylNw2lOAylOA2mOhe5Rg2mOBK2SUvLbg6oOA2lN0vLbgymNw+nOA2mOQ2mNw2pOA2mOAyqPQ2mOA6lOE3Kb0zLcQ6nOBCnOQ6nOQ2lOA6lOQynOBCpOw2mOErKbQylN5ZDXXgAAAD7dFJOUwBuLduVM+0xztfvGGS49XRLctKp8af3AVUQ/rIDQwUk/PilAgn7Br6LwtlctLzDOB9gGkeQBxFNLwR//cdw1j8IUYfw8wrjzvkZ1PbjtiHT6r9twehMutjuT0p4HsAdNjLII94TikhWFxlGFvpUb+UPn0TyLInnKSjPen2zNLBhJbcu7ltsakK7RfSbSSOMlwxSIuRvfHPJ1a2I3RoS8mbRxxJaWL1kvC8IqycwzZPc7K6M+fP9i6NdZkuWwZ6Soa8UqKTKez6BDX7ij7WdKtobK4Ri62VraTXMQD0g5pzpOQuNDp1JmZy9V3nLO18VsYM1NnExWuBeaEGgl/QE5wAABRJJREFUWMPFl2VAG0kUxwdJ7tCWkpISSEgIocDhxYq7O5RSvMULFChOXa9Xueq1vbq7u1713N3d3XXfh5vZ3SS7SbblW/4fxuWX93beTBBC0gO7d1Bm0o7dB6QIK+sgZVYdzMJ22E/l7t2GzKRte3Op/VK0k8rdg8yoPbnUTrSJ2sdWk6JDTQxSJDJ5ePN0knVtOcbv9woL8zKcM2EOk1csdTdeMPpJfn0ftQmlUllsbWrMTyYYZgdG0IXthX+F46wRLHj9a6oBqtfw50hfVm2nC7NhovGKnZP59SwqFVEUW5kGJWzJ3ZXRM6SyMWZzDd36NzghlK/K4P0411iwsIBYV96yk+BFpuAPJkxbmm3QgAl0EI/Bz/a08kXAyIZZ8lx6r1oikfSAUiJxARUuJmvnNxwnhpkBGbe4qwbIXmIKLyhNQJzKEIbw3spuDc0iqPbBEjMQ6H3H9WnORDdBTOfOP7LT7QpgBsnjINtOv6gl5OFPJakKoTwVqc9rTONsqVb5CkM4gadc3n5SLpe3iWAUabFhIdDMBDaHJ3izO/oZBoR+h/TRumZPeBihWijGEMtpw5RLOZM+AAdBiAbbnjbkzXwWhhD0z8N+8gdr4q5LTEvraXD5R9td3A6325jiOEjHaQghWWBLTJwzl7tlE3ysFoIIg+8QagE3IQgn0ElMN9jbwt0Bff8fu0A8jxSqbMEKZz7Qgs8bwXkK4rhbxgF8IgSx7gaOB0fhoiFE3QSsYAIR6cGoiEBEfAOZw/8CR/JfNBCQhtwDgYYY/wZOPozHyRZYyN1yNUCy8OnACoIThhD+ZAMLAhHFDvInEO4FQ5ZocCxHg0hUUIZDEdzcjCFald3YEbKcRCR9jhcXpDaSyfFCELMcsVSgwWkyF6I2MrKYgXBxZKSk3eGhMD583jjiOhxPG2NFhj+CgwrAdPQePMsd8yV8VQzHBCAWu2FZQSxOXzf4JiwZiD4LRtnie10FU0IRgSgrxTGtA+BRlBA4nxdDoLZrucO93PE4rDPxYVqacAdR72ieerWrEAh1MFlONtXA8mghFCC0AmYKQygKNRHCEHfHMzqlhbAGnqy5EESfuwR2EK9w5QxrEZrvkiEVhLAH8A0XhMjzZNSph7g8TqfLxhAhsDRREsBjWAKnmRviLSEI95NQmXlEPWJ3WAMnVtsZQXhZibvQZzCHs51ck0K/FhTZmiYBiEswF9OHCUEMP8RoaIQQjeTWbUh511s3ZppYtpiNBZk9USYh7Oo1R0nk3GgI0QTDJiLm/SDqlPXEtZX4gLDKj9fHzuaY9TUmIFpt6OvJ+3tZkggK/bAyGQh7fH3/iW5Z6jQwEgg7m/YgUplYImOvtim2MEs//m0olRtBhPqBs4KxWZ0I6n2xcmiISBiSF0FfhHFIsIYiB52K+BCv+MESlq5flURgfGSyp7mzK2Ux0WoDiAVwnb3canjuCC7vbEGKO6Ac43D7zo3u6/9dHHvE7SMWQmKrk4QHEbwVntdW3ylXvonCA0E8ySCspUCZOx/i1T790Y34dpBkCeQZsVZDv29/OFFi0y9OOZfjQrTifu6oUL6m74oqXI1Qd2yVoSU9diVrLbGIWnXPJ/mAYE9QCOeZ7RUSpC1WROITxR0YjH/wpybuGi/6GbyKWoSWURuQWbWBWoZWUqmHzMlwKJVaidDX1NkLVx4wk65cOEt9gVEOnzlvzv/D588cpi3y29VrD5pJ167+igH+By1KpdYWlmIaAAAAAElFTkSuQmCC" />
+<br />
+<span class="wgt-replyer-all-box">
+<span class="wgt-replyer-all-slogan">来自知道合伙人认证行家</span>
+<span class="wgt-replyer-all-time">
+2016-11-24
+</span>
+</span>
+<div class="wgt-replyer-all-card">
+<div class="wgt-replyer-all-triangle1"></div><div class="wgt-replyer-all-triangle2"></div>
+<img class="wgt-replyer-all-card-avatar1 wgt-replyer-all-card-avatars" 
+                src ="https://gss0.baidu.com/94o3dSag_xI4khGko9WTAnF6hhy/zhidao/wh%3D450%2C600/sign=d100db0f80025aafd36776cfcedd8752/9d82d158ccbf6c818019b127be3eb13532fa40d6.jpg"
+                data-href="https://zhidao.baidu.com/hangjia/profile/%D0%ED%BB%AA%B1%F32002?ie=gbk">
+<span class="wgt-replyer-all-v wgt-replyer-all-card-v wgt-replyer-all-v-yellow ikonw-qb-new-icon"></span>
+<span class="wgt-replyer-all-card-name2 wgt-replyer-all-card-names" data-href="https://zhidao.baidu.com/hangjia/profile/%D0%ED%BB%AA%B1%F32002?ie=gbk">许华斌</span>
+<img class="wgt-replyer-all-partner wgt-replyer-all-card-partner" src="data:image/png;base64,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">
+<br />
+<span class="wgt-replyer-all-card-field">数学类行家</span>
+<div class="wgt-replyer-all-card-praisebox">
+<span class="wgt-replyer-all-card-accept-m">采纳数：<span class="wgt-replyer-all-card-green">6347</span></span>
+<span class="wgt-replyer-all-card-praise-m">获赞数：<span class="wgt-replyer-all-card-green">20380</span></span>
+</div>
+<div class="wgt-replyer-all-card-mavin-desc">江西师范大学数学教育专业毕业，2011年江西财经大学数量经济学硕士毕业 执教12年</div>
+<a href="/new?fix=%D0%ED%BB%AA%B1%F3" target="_blank" class="wgt-replyer-all-card-ask1">向TA提问</a>
+</div>
+</div>
+<div class="line">
+<a id="here" name="here"></a><div class="line content" data-valuerrank="100002">
+<div id="answer-content-2655038295" accuse="aContent" class="answer-text mb-10 line">
+<div class="wgt-answers-mask">
+<div class="wgt-answers-showbtn">
+展开全部<span class="wgt-answers-arrowdown"></span>
+</div>
+</div>
+操作系统（英语；Operating System，简称OS）是一管理电脑硬件与软件资源的程序，同时也是计算机系统的内核与基石。操作系统身负诸如管理与配置内存、决定系统资源供需的优先次序、控制输入与输出设备、操作网络与管理文件系统等基本事务。<br />操作系统是管理计算机系统的全部硬件资源包括软件资源及数据资源;控制程序运行;改善人机界面;为其它应用软件提供支持等，使计算机系统所有资源最大限度地发挥作用，为用户提供方便的、有效的、友善的服务界面。操作系统是一个庞大的管理控制程序，大致包括5个方面的管理功能:进程与处理机管理、作业管理、存储管理、设备管理、文件管理。<br />目前微机上常见的操作系统有DOS、OS/2、UNIX、XENIX、LINUX、Windows、Netware等。但所有的操作系统具有并发性、共享性、虚拟性和不确定性四个基本特征。 <br /> <br /> 操作系统的型态非常多样，不同机器安装的OS可从简单到复杂，可从手机的嵌入式系统到超级电脑的大型操作系统。许多操作系统制造者对OS的定义也不大一致，例如有些OS集成了图形化使用者界面，而有些OS仅使用文本接口，而将图形界面视为一种非必要的应用程序。 <br /> <br /> 操作系统理论在计算机科学中为历史悠久而又活跃的分支，而操作系统的设计与实现则是软件工业的基础与内核。<br /> 类型 <br /> 操作系统大致可分为6种类型。<br /> ①简单操作系统。它是计算机初期所配置的操作系统，如IBM公司的磁盘操作系统DOS／360和微型计算机的操作系统CP／M等。这类操作系统的功能主要是操作命令的执行，文件服务，支持高级程序设计语言编译程序和控制外部设备等。<br /> ②分时系统。它支持位于不同终端的多个用户同时使用一台计算机，彼此独立互不干扰，用户感到好像一台计算机全为他所用。<br /> ③实时操作系统。它是为实时计算机系统配置的操作系统。其主要特点是资源的分配和调度首先要考虑实时性然后才是效率。此外，实时操作系统应有较强的容错能力。<br /> ④网络操作系统。它是为计算机网络配置的操作系统。在其支持下，网络中的各台计算机能互相通信和共享资源。其主要特点是与网络的硬件相结合来完成网络的通信任务。<br /> ⑤分布操作系统。它是为分布计算系统配置的操作系统。它在资源管理，通信控制和操作系统的结构等方面都与其他操作系统有较大的区别。<br />由于分布计算机系统的资源分布于系统的不同计算机上，操作系统对用户的资源需求不能像一般的操作系统那样等待有资源时直接分配的简单做法而是要在系统的各台计算机上搜索，找到所需资源后才可进行分配。<br />对于有些资源，如具有多个副本的文件，还必须考虑一致性。所谓一致性是指若干个用户对同一个文件所同时读出的数据是一致的。为了保证一致性，操作系统须控制文件的读、写、操作，使得多个用户可同时读一个文件，而任一时刻最多只能有一个用户在修改文件。分布操作系统的通信功能类似于网络操作系统。由于分布计算机系统不像网络分布得很广，同时分布操作系统还要支持并行处理，因此它提供的通信机制和网络操作系统提供的有所不同，它要求通信速度高。分布操作系统的结构也不同于其他操作系统，它分布于系统的各台计算机上，能并行地处理用户的各种需求，有较强的容错能力。⑥智能操作系统（见智能软件）。<br /> 功能 <br /> 操作系统的主要功能是资源管理，程序控制和人机交互等。计算机系统的资源可分为设备资源和信息资源两大类。<br />设备资源指的是组成计算机的硬件设备，如中央处理器，主存储器，磁盘存储器，打印机，磁带存储器，显示器，键盘输入设备和鼠标等。信息资源指的是存放于计算机内的各种数据，如文件，程序库，知识库，系统软件和应用软件等。<br /> 资源管理 <br /> <br /> 系统的设备资源和信息资源都是操作系统根据用户需求按一定的策略来进行分配和调度的。操作系统的存储管理就负责把内存单元分配给需要内存的程序以便让它执行，在程序执行结束后将它占用的内存单元收回以便再使用。<br />对于提供虚拟存储的计算机系统，操作系统还要与硬件配合做好页面调度工作，根据执行程序的要求分配页面，在执行中将页面调入和调出内存以及回收页面等。<br /> 处理器管理或称处理器调度，是操作系统资源管理功能的另一个重要内容。在一个允许多道程序同时执行的系统里，操作系统会根据一定的策略将处理器交替地分配给系统内等待运行的程序。一道等待运行的程序只有在获得了处理器后才能运行。一道程序在运行中若遇到某个事件，例如启动外部设备而暂时不能继续运行下去，或一个外部事件的发生等等，操作系统就要来处理相应的事件，然后将处理器重新分配。<br /> 操作系统的设备管理功能主要是分配和回收外部设备以及控制外部设备按用户程序的要求进行操作等。对于非存储型外部设备，如打印机、显示器等，它们可以直接作为一个设备分配给一个用户程序，在使用完毕后回收以便给另一个需求的用户使用。对于存储型的外部设备，如磁盘、磁带等，则是提供存储空间给用户，用来存放文件和数据。存储性外部设备的管理与信息管理是密切结合的。<br /> 信息管理是操作系统的一个重要的功能，主要是向用户提供一个文件系统。一般说，一个文件系统向用户提供创建文件，撤销文件，读写文件，打开和关闭文件等功能。有了文件系统后，用户可按文件名存取数据而无需知道这些数据存放在哪里。这种做法不仅便于用户使用而且还有利于用户共享公共数据。此外，由于文件建立时允许创建者规定使用权限，这就可以保证数据的安全性。 <br /> <br /> 程序控制 <br /> <br /> 一个用户程序的执行自始至终是在操作系统控制下进行的。一个用户将他要解决的问题用某一种程序设计语言编写了一个程序后就将该程序连同对它执行的要求输入到计算机内，操作系统就根据要求控制这个用户程序的执行直到结束。<br />操作系统控制用户的执行主要有以下一些内容：<br />调入相应的编译程序，将用某种程序设计语言编写的源程序编译成计算机可执行的目标程序，分配内存储等资源将程序调入内存并启动，按用户指定的要求处理执行中出现的各种事件以及与操作员联系请示有关意外事件的处理等。 <br /> 人机交互 <br /> <br /> 操作系统的人机交互功能是决定计算机系统“友善性”的一个重要因素。人机交互功能主要靠可输入输出的外部设备和相应的软件来完成。可供人机交互使用的设备主要有键盘显示、鼠标、各种模式识别设备等。与这些设备相应的软件就是操作系统提供人机交互功能的部分。人机交互部分的主要作用是控制有关设备的运行和理解并执行通过人机交互设备传来的有关的各种命令和要求。早期的人机交互设施是键盘显示器。操作员通过键盘打入命令，操作系统接到命令后立即执行并将结果通过显示器显示。打入的命令可以有不同方式，但每一条命令的解释是清楚的，唯一的。随着计算机技术的发展，操作命令也越来越多，功能也越来越强。随着模式识别，如语音识别、汉字识别等输入设备的发展，操作员和计算机在类似于自然语言或受限制的自然语言这一级上进行交互成为可能。此外，通过图形进行人机交互也吸引着人们去进行研究。这些人机交互可称为智能化的人机交互。这方面的研究工作正在积极开展。
+</div>
+<div class="line info f-light-gray mt-10 mb-5 f-12">
+<div class="wgt-answers-operator f-aid ">
+<img src="data:image/jpeg;base64,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bG9uZwAAAAAAOEJJTQPtAAAAAAAQAEgAAAABAAIASAAAAAEAAjhCSU0EJgAAAAAADgAAAAAAAAAAAAA/gAAAOEJJTQQNAAAAAAAEAAAAHjhCSU0EGQAAAAAABAAAAB44QklNA/MAAAAAAAkAAAAAAAAAAAEAOEJJTScQAAAAAAAKAAEAAAAAAAAAAjhCSU0D9QAAAAAASAAvZmYAAQBsZmYABgAAAAAAAQAvZmYAAQChmZoABgAAAAAAAQAyAAAAAQBaAAAABgAAAAAAAQA1AAAAAQAtAAAABgAAAAAAAThCSU0D+AAAAAAAcAAA/////////////////////////////wPoAAAAAP////////////////////////////8D6AAAAAD/////////////////////////////A+gAAAAA/////////////////////////////wPoAAA4QklNBAAAAAAAAAIAAThCSU0EAgAAAAAABAAAAAA4QklNBDAAAAAAAAIBAThCSU0ELQAAAAAABgABAAAABDhCSU0ECAAAAAAAEAAAAAEAAAJAAAACQAAAAAA4QklNBB4AAAAAAAQAAAAAOEJJTQQaAAAAAANXAAAABgAAAAAAAAAAAAAAEAAABfoAAAARAFIAZQBjAHQAYQBuAGcAbABlACAAMQA3ACAAQwBvAHAAeQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAF+gAAABAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAQAAAAAAAG51bGwAAAACAAAABmJvdW5kc09iamMAAAABAAAAAAAAUmN0MQAAAAQAAAAAVG9wIGxvbmcAAAAAAAAAAExlZnRsb25nAAAAAAAAAABCdG9tbG9uZwAAABAAAAAAUmdodGxvbmcAAAX6AAAABnNsaWNlc1ZsTHMAAAABT2JqYwAAAAEAAAAAAAVzbGljZQAAABIAAAAHc2xpY2VJRGxvbmcAAAAAAAAAB2dyb3VwSURsb25nAAAAAAAAAAZvcmlnaW5lbnVtAAAADEVTbGljZU9yaWdpbgAAAA1hdXRvR2VuZXJhdGVkAAAAAFR5cGVlbnVtAAAACkVTbGljZVR5cGUAAAAASW1nIAAAAAZib3VuZHNPYmpjAAAAAQAAAAAAAFJj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LjAvc1R5cGUvUmVzb3VyY2VFdmVudCMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKE1hY2ludG9zaCkiIHhtcDpDcmVhdGVEYXRlPSIyMDE4LTA2LTI4VDE5OjUzOjAzKzA4OjAwIiB4bXA6TW9kaWZ5RGF0ZT0iMjAxOC0wNi0yOFQyMDowMDoxOSswODowMCIgeG1wOk1ldGFkYXRhRGF0ZT0iMjAxOC0wNi0yOFQyMDowMDoxOSswODowMCIgZGM6Zm9ybWF0PSJpbWFnZS9qcGVnIiBwaG90b3Nob3A6Q29sb3JNb2RlPSIzIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjM2ZDUyMDlmLTk0Y2EtNGM5Mi1iMTIyLTBmODg3MjQ5OTAzZSIgeG1wTU06RG9jdW1lbnRJRD0iYWRvYmU6ZG9jaWQ6cGhvdG9zaG9wOjMwYjIxN2FlLWJiNTktMTE3Yi05MTU2LWE1Y2QxNDQzZTdhYiIgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjkzYjIxMWM0LWJlYWItNGIxZi1iY2YwLTlmNjA5NTNmNjIxZiI+IDx4bXBNTTpIaXN0b3J5PiA8cmRmOlNlcT4gPHJkZjpsaSBzdEV2dDphY3Rpb249ImNyZWF0ZWQiIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6OTNiMjExYzQtYmVhYi00YjFmLWJjZjAtOWY2MDk1M2Y2MjFmIiBzdEV2dDp3aGVuPSIyMDE4LTA2LTI4VDE5OjUzOjAzKzA4OjAwIiBzdEV2dDpzb2Z0d2FyZUFnZW50PSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxNSAoTWFjaW50b3NoKSIvPiA8cmRmOmxpIHN0RXZ0OmFjdGlvbj0iY29udmVydGVkIiBzdEV2dDpwYXJhbWV0ZXJzPSJmcm9tIGltYWdlL3BuZyB0byBpbWFnZS9qcGVnIi8+IDxyZGY6bGkgc3RFdnQ6YWN0aW9uPSJzYXZlZCIgc3RFdnQ6aW5zdGFuY2VJRD0ieG1wLmlpZDozNmQ1MjA5Zi05NGNhLTRjOTItYjEyMi0wZjg4NzI0OTkwM2UiIHN0RXZ0OndoZW49IjIwMTgtMDYtMjhUMjA6MDA6MTkrMDg6MDAiIHN0RXZ0OnNvZnR3YXJlQWdlbnQ9IkFkb2JlIFBob3Rvc2hvcCBDQyAyMDE1IChNYWNpbnRvc2gpIiBzdEV2dDpjaGFuZ2VkPSIvIi8+IDwvcmRmOlNlcT4gPC94bXBNTTpIaXN0b3J5PiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8P3hwYWNrZXQgZW5kPSJ3Ij8+/+4AIUFkb2JlAGRAAAAAAQMAEAMCAwYAAAAAAAAAAAAAAAD/2wCEAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQECAQEBAQEBAgICAgICAgICAgICAgIDAwMDAwMDAwMDAwMDAwMBAQEBAQEBAgEBAgMCAgIDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA//CABEIABAF+gMBEQACEQEDEQH/xABmAAEBAQAAAAAAAAAAAAAAAAAABgoBAQAAAAAAAAAAAAAAAAAAAAAQAAMBAQAAAAAAAAAAAAAAAAACExWAEQACAwAAAAAAAAAAAAAAAAAAMqGxAhIBAAAAAAAAAAAAAAAAAAAAgP/aAAwDAQECEQMRAAAA30AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAf/9oACAECAAEFAOgP/9oACAEDAAEFAOgP/9oACAEBAAEFALqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1LqXUupdS6l1NVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VNVTVU1VP/aAAgBAgIGPwBAf//aAAgBAwIGPwBAf//aAAgBAQEGPwBsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmRsyNmR7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsex7Hsez/2Q==" class="wgt-answers-operator-shadow">
+<div id="wgt-eva-2655038295" class="wgt-eva">
+<span 
+        alog-action="qb-zan-btn" 
+        class="evaluate evaluate-32  evaluate-good-2" 
+        id="evaluate-2655038295" 
+        data-evaluate="2">
+<i class="ikonw-qb-new-icon icon-evaluate "></i>
+<b class="evaluate-num"></b>
+</span>
+<span class="wgt-eva-pipe"></span>
+<span 
+        alog-action="qb-evaluate-outer" 
+        class="evaluate-bad evaluate-32 " 
+        id="evaluate-bad-2655038295">
+<i class="ikonw-qb-new-icon icon-evaluate-bad "></i>
+</span>
+<span class="wgt-eva-hasgood"><i class="ikonw-qb-new-icon icon-evaluated"></i><b class="evaluate-text">已赞过</b></span>
+<span class="wgt-eva-hasbad"><i class="ikonw-qb-new-icon icon-evaluated-bad"></i><b class="evaluate-text">已踩过</b><</span>
+</div>
+<span alog-action="qb-comment-btn" class="comment " id="comment-2655038295" data-answererid="0de74069236f25705e796c10"><i class="ikonw-qb-new-icon qb-comment-icon"></i>评论</span>
+<ins class="share-area"></ins>
+<ins class="accuse-area" alog-action="qb-accuse-link" data-rid="2655038295"></ins>
+<span class="wgt-answers-hidebtn">收起<i class="wgt-answers-arrowup"></i></span>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+</div>
+<div class="wgt-related mt-5 mod-shadow" id="wgt-related">
+<h2><i class="iknow-qb_home_icons"></i>其他类似问题</h2>
+<div class="related-list line">
+<ul class="list-34 related-ul" alog-group="qb-relative-que">
+<li >
+<span class="grid-r f-aid ff-arial">2018-05-05</span>
+<a href="/question/416565899.html?qbl=relate_question_0&word=%B2%D9%D7%F7%CF%B5%CD%B3%D6%F7%D2%AA%B9%A6%C4%DC" target="_blank"
+                    log="fr:qrl,pms:newqb,page:qb-new,pos:relative_title,qtype:zd,index:1,cid:1287,fr2:query" class="related-link related-link-zd" data-qid="416565899">
+<span class="related-restrict-title grid">操作系统的五个基本功能是?</span>
+<em class="praise-num ml-5" title="所有回答获得26个赞同">
+<i class="ikonw-qb-new-icon wgt-related-praise"></i><span class="ml-5 ff-arial">26</span>
+</em>
+</a>
+</li>
+<li >
+<span class="grid-r f-aid ff-arial">2018-03-30</span>
+<a href="/question/398736692.html?qbl=relate_question_1&word=%B2%D9%D7%F7%CF%B5%CD%B3%D6%F7%D2%AA%B9%A6%C4%DC" target="_blank"
+                    log="fr:qrl,pms:newqb,page:qb-new,pos:relative_title,qtype:zd,index:2,cid:1287,fr2:query" class="related-link related-link-zd" data-qid="398736692">
+<span class="related-restrict-title grid">计算机操作系统通常具有的5大功能是</span>
+<em class="praise-num ml-5" title="所有回答获得116个赞同">
+<i class="ikonw-qb-new-icon wgt-related-praise"></i><span class="ml-5 ff-arial">116</span>
+</em>
+</a>
+</li>
+<li >
+<span class="grid-r f-aid ff-arial">2017-12-12</span>
+<a href="/question/1900115356003153940.html?qbl=relate_question_2&word=%B2%D9%D7%F7%CF%B5%CD%B3%D6%F7%D2%AA%B9%A6%C4%DC" target="_blank"
+                    log="fr:qrl,pms:newqb,page:qb-new,pos:relative_title,qtype:zd,index:3,cid:1287,fr2:query" class="related-link related-link-zd" data-qid="1900115356003153940">
+<span class="related-restrict-title grid">计算机操作系统通常具有的5大功能是什么？</span>
+</a>
+</li>
+<li >
+<span class="grid-r f-aid ff-arial">2017-12-15</span>
+<a href="/question/570585313.html?qbl=relate_question_3&word=%B2%D9%D7%F7%CF%B5%CD%B3%D6%F7%D2%AA%B9%A6%C4%DC" target="_blank"
+                    log="fr:qrl,pms:newqb,page:qb-new,pos:relative_title,qtype:zd,index:4,cid:1287,fr2:query" class="related-link related-link-zd" data-qid="570585313">
+<span class="related-restrict-title grid">简述操作系统的五大管理功能，五大类型操作系统各自的特点。</span>
+<em class="praise-num ml-5" title="所有回答获得6个赞同">
+<i class="ikonw-qb-new-icon wgt-related-praise"></i><span class="ml-5 ff-arial">6</span>
+</em>
+</a>
+</li>
+<li >
+<span class="grid-r f-aid ff-arial">2017-09-22</span>
+<a href="/question/4952825.html?qbl=relate_question_4&word=%B2%D9%D7%F7%CF%B5%CD%B3%D6%F7%D2%AA%B9%A6%C4%DC" target="_blank"
+                    log="fr:qrl,pms:newqb,page:qb-new,pos:relative_title,qtype:zd,index:5,cid:1287,fr2:query" class="related-link related-link-zd" data-qid="4952825">
+<span class="related-restrict-title grid">操作系统具有五大功能，分别都是什么？</span>
+<em class="praise-num ml-5" title="所有回答获得20个赞同">
+<i class="ikonw-qb-new-icon wgt-related-praise"></i><span class="ml-5 ff-arial">20</span>
+</em>
+</a>
+</li>
+<li >
+<span class="grid-r f-aid ff-arial">2017-12-11</span>
+<a href="/question/630090217328564404.html?qbl=relate_question_5&word=%B2%D9%D7%F7%CF%B5%CD%B3%D6%F7%D2%AA%B9%A6%C4%DC" target="_blank"
+                    log="fr:qrl,pms:newqb,page:qb-new,pos:relative_title,qtype:jx,index:6,cid:1287,fr2:query" class="related-link related-link-jx" data-qid="630090217328564404">
+<span class="related-restrict-title grid">简述操作系统具有的五个主要功能是什么？</span>
+</a>
+</li>
+<li >
+<span class="grid-r f-aid ff-arial">2017-09-23</span>
+<a href="/question/185897420.html?qbl=relate_question_6&word=%B2%D9%D7%F7%CF%B5%CD%B3%D6%F7%D2%AA%B9%A6%C4%DC" target="_blank"
+                    log="fr:qrl,pms:newqb,page:qb-new,pos:relative_title,qtype:zd,index:7,cid:1287,fr2:query" class="related-link related-link-zd" data-qid="185897420">
+<span class="related-restrict-title grid">写出操作系统的五大功能及作用。</span>
+<em class="praise-num ml-5" title="所有回答获得193个赞同">
+<i class="ikonw-qb-new-icon wgt-related-praise"></i><span class="ml-5 ff-arial">193</span>
+</em>
+</a>
+</li>
+<li >
+<span class="grid-r f-aid ff-arial">2017-09-15</span>
+<a href="/question/2266458792465748108.html?qbl=relate_question_7&word=%B2%D9%D7%F7%CF%B5%CD%B3%D6%F7%D2%AA%B9%A6%C4%DC" target="_blank"
+                    log="fr:qrl,pms:newqb,page:qb-new,pos:relative_title,qtype:zd,index:8,cid:1287,fr2:query" class="related-link related-link-zd" data-qid="2266458792465748108">
+<span class="related-restrict-title grid">什么是操作系统，简述操作系统的主要功能</span>
+<em class="praise-num ml-5" title="所有回答获得6个赞同">
+<i class="ikonw-qb-new-icon wgt-related-praise"></i><span class="ml-5 ff-arial">6</span>
+</em>
+</a>
+</li>
+</ul>
+</div>
+<div class="related-more clearfix">
+<a log="fr:qrl,pms:newqb,pos:relative_more" alog-action="qb-relative-more" target="_blank" rel="nofollow" href="/search?word=%B2%D9%D7%F7%CF%B5%CD%B3%D6%F7%D2%AA%B9%A6%C4%DC&ie=gbk&fr=qrl&cid=1287&qbl=relate_question_more" class="line f-14 mt-5">
+更多相关<em>操作系统主要功能</em>的问题<span class="ff-arial">&nbsp;&gt;</span>
+</a>
+</div>
+</div>
+<div class="wgt-bottom-union mod-shadow last line wgt-union-bottom">
+<h2><i class="iknow-qb_home_icons"></i>为你推荐：</h2>
+<script type="text/javascript" src="//mountain.zhidao.baidu.com/rmeiloouv.js"></script>
+</div>
+</article>
+<aside class="grid-r qb-side" id="qb-side">
+<div style="display:none">
+1
+2
+3
+</div>
+<div class="cms-slide cms-slide-lazy mod-noshadow">
+<p class="cms-link-title">特别推荐</p>
+<script type="text/javascript">
+        F.context('cmsRight', [
+                                                            
+                            {
+                    'url':'https://zhidao.baidu.com/kit/topic?name=xuefulan01',
+                    'src':'https://gss0.bdstatic.com/7051cy89RcgCncy6lo7D0j9wexYrbOWh7c50/xuefulan/xuefulan270x140.png?t=1537873815'
+                },                                                                        
+                            {
+                    'url':'https://zhidao.baidu.com/activity/commonone?name=fangChan',
+                    'src':'https://gss0.bdstatic.com/7051cy89Q1gCncy6lo7D0j9wexYrbOWh7c50/%E6%88%BF%E4%BA%A7%E4%B8%93%E9%A2%98-%E6%90%9C%E7%8B%90%E7%84%A6%E7%82%B9%2FPC%2F%E7%89%A9%E6%96%99270-140.png?t=1537873815'
+                }                            ]);
+    </script>
+<div class="cms-scroll" id="cms-scroll">
+<div class="cms-mask" id="cms-mask"></div>
+</div>
+<div class="cms-inner">
+<ul id="cms-link">
+<li><a alog-action="qb-inner-link" href="http://zhidao.baidu.com/daily/view?id=141743" target="_blank" log="page:question,area:knowledge,index:0">印度政府为什么热衷于占领西藏？</a></li>
+<li><a alog-action="qb-inner-link" href="http://zhidao.baidu.com/daily/view?id=141763" target="_blank" log="page:question,area:knowledge,index:1">如何约到你“高攀不起”的人?</a></li>
+<li><a alog-action="qb-inner-link" href="http://zhidao.baidu.com/daily/view?id=141684" target="_blank" log="page:question,area:knowledge,index:2">宇航员在太空可能遭受永久损伤</a></li>
+<li><a alog-action="qb-inner-link" href="http://zhidao.baidu.com/daily/view?id=141760" target="_blank" log="page:question,area:knowledge,index:3">食物让你上瘾的“罪恶之路”终被发现</a></li>
+</ul>
+</div>
+</div>
+<div id="wgt-ad-right-fixed">
+<div class="wgt-push hidden">
+<div class="wgt-push-title">
+<h2 class="hd line">等你来答</h2>
+<div class="wgt-push-change">
+<i class="iknow-icons">&#xe675;</i><span>换一换</span>
+</div>
+</div>
+<ul class="push-ul">
+</ul>
+</div>
+<div class="widget-new-graphic">
+<style>.ec-ad {margin-left: -10px;padding-top: 5px;padding-bottom: 12px;}.ec-ad .ec-row-title .ec-title {font: normal 14px/34px 'Microsoft YaHei';padding-left: 10px;color: #666;}.ec-ad .ec-img-list {font-size: 0;}.ec-ad .ec-img-list .ec-img-item {width: 83px;display: inline-block;font-size: 12px;margin-left: 10px;vertical-align: top;}.ec-ad .ec-img {vertical-align: top;}.ec-ad .ec-img-desc {margin-top: 7px;text-align: center;color: #2d64b3;display: block;font-size: 12px;line-height: 18px;}</style><div class="ec-ad"><div class="ec-row-title"><h3 class="ec-title">相关搜索</h3></div><div class="ec-row-desc"><div class="ec-img-list"><a href="https://www.baidu.com/s?wd=%B5%E7%C4%D4%B7%EC%B1%BB%BB%FA&tn=SE_pczhidaotuwenqb_bvf4ih05&lqsource=-1&dmaseid=dmaseid0&qid=029c1b7c49aa6033" class="ec-img-item" target="_blank"><img src="https://gss0.baidu.com/7LsWdDW5_xN3otqbppnN2DJv/dmas/pic/item/9403918fa0ec08fa4c058f3251ee3d6d55fbda1a.jpg" class="ec-img" width="83" height="83" alt=""><span class="ec-img-desc">电脑缝被机</span></a><a href="https://www.baidu.com/s?wd=37%CA%D6%D3%CE%CD%F8&tn=SE_pczhidaotuwenqb_bvf4ih05&lqsource=2&dmaseid=dmaseid0&qid=029c1b7c49aa6033" class="ec-img-item" target="_blank"><img src="https://gss0.baidu.com/7LsWdDW5_xN3otqbppnN2DJv/dmas/pic/item/f3529822720e0cf3c269ba6e0246f21fbf09aa8d.jpg" class="ec-img" width="83" height="83" alt=""><span class="ec-img-desc">37手游网</span></a><a href="https://www.baidu.com/s?wd=%B4%D3%CD%F8%C9%CF%D4%F5%C3%B4%C2%F2%BB%FA%C6%B1&tn=SE_pczhidaotuwenqb_bvf4ih05&lqsource=-1&dmaseid=dmaseid0&qid=029c1b7c49aa6033" class="ec-img-item" target="_blank"><img src="https://gss0.baidu.com/7LsWdDW5_xN3otqbppnN2DJv/dmas/pic/item/18899e510fb30f241f91f995c095d143ad4b0318.jpg" class="ec-img" width="83" height="83" alt=""><span class="ec-img-desc">从网上怎么买机票</span></a></div></div></div>
+</div>
+<style type="text/css">
+        .ec-ad .ec-row-title .ec-title {
+            padding-left: 0;
+        }
+        .ec-ad .ec-img-list {
+            width: 290px;
+        }
+        .ec-ad .ec-img-list .ec-img-item {
+            margin-left: 0;
+            margin-right: 10px;
+        }
+        </style>
+</div>
+</aside>
+</section>
+</div>
+</div>
+<div class="wgt-mask" id="js-mask" style="display: none;"></div>
+<div class="wgt-accusation" id="js-accuse">
+<div class="close-btn" id="js-accuse-closebtn">×</div>
+<ul class="accusation-tip">
+<li class="accusation-tip-item">个人、企业类<a href="javascript:void(0)" class="tort-entry">侵权投诉</a></li>
+<li class="accusation-tip-item">违法有害信息,请在下方选择后提交</li>
+</ul>
+<p class="title-item">类别</p>
+<div class="types">
+<ul class="types-wrap clearfix">
+<li class="type-item js-accuse-type-item" data-reason="2">垃圾广告</li>
+<li class="type-item js-accuse-type-item" data-reason="3">低质灌水</li>
+<li class="type-item js-accuse-type-item" data-reason="4">色情、暴力</li>
+<li class="type-item js-accuse-type-item" data-reason="5">政治敏感</li>
+</ul>
+</div>
+<p class="desc">我们会通过消息、邮箱等方式尽快将举报结果通知您。</p>
+<p class="title-item">说明</p>
+<div class="text-container">
+<textarea class="accusation-content" id="js-accuse-content" placeholder="详细的说明，有助于我们更快的理解您的反馈。"></textarea>
+<p class="words"><span class="words-current" id="js-accuse-words-current">0</span>/200</p>
+</div>
+<div class="accusation-btn-group">
+<p class="errmsg" id="js-errmsg"></p>
+<div class="accusation-btn accusation-btn-submit disabled" id="js-accuse-btn-submit">提交</div>
+<div class="accusation-btn accusation-btn-cancel" id="js-accuse-btn-cancel">取消</div>
+</div>
+</div>
+
+
+<div class="wgt-footer-new">
+<div class="footer-wp">
+<ul class="footer-list clearfix">
+<li class="footer-list-item footer-list-guide">
+<div class="footer-title"><span class="icon-guide"></span>新手帮助</div>
+<ul class="footer-link clearfix">
+<li><a href="http://help.baidu.com/question?prod_en=zhidao&class=320&id=1525" target="_blank">如何答题</a></li>
+<li><a href="http://help.baidu.com/question?prod_id=9&class=320&id=1526" target="_blank">获取采纳</a></li>
+<li><a href="http://help.baidu.com/question?prod_id=9&class=337&id=1513" target="_blank">使用财富值</a></li>
+</ul>
+</li>
+<li class="footer-list-item footer-list-intro">
+<div class="footer-title"><span class="icon-intro"></span>玩法介绍</div>
+<ul class="footer-link clearfix">
+<li><a href="/shop" target="_blank">知道商城</a></li>
+<li><a href="http://zhidao.baidu.com/pcs/zhimatuan/index.html" target="_blank">知道团队</a></li>
+<li><a href="/home/partnerhome" target="_blank">合伙人认证</a></li>
+<li><a href="http://zhidao.baidu.com/s/hi-quality/index.html" target="_blank">高质量问答</a></li>
+</ul>
+</li>
+<li class="footer-list-item footer-list-sug">
+<div class="user-tip" id="js-footer-user-tip" style="display: none;">
+<p class="title">您的帐号状态正常</p>
+<p class="desc">感谢您对我们的支持</p>
+</div>
+<div class="footer-title"><span class="icon-sug"></span>投诉建议</div>
+<ul class="footer-link clearfix">
+<li><a href="javascript:;" log="module:common,action:click,area:footer_feedback" target="_blank" id="footer-feedback">意见反馈</a></li>
+<li><a href="/misc/appeal" log="module:common,action:click,area:footer_appeal" target="_blank" id="js-footer-appeal">账号申诉</a></li>
+<li><a href="http://ikefu.baidu.com/web/zhishisousuo#" log="module:common,action:click,area:footer_consult" target="_blank">智能咨询</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="footer-new">
+<p class="jt1128">
+京ICP证030173号-1&nbsp;&nbsp;&nbsp;京网文【2013】0934-983号&nbsp;&nbsp;&nbsp;&nbsp;        &copy;2018Baidu&nbsp;&nbsp;<a rel="nofollow" href="http://www.baidu.com/duty/" target="_blank">使用百度前必读</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a rel="nofollow" href="http://help.baidu.com/question?prod_id=9&class=325&id=2760" target="_blank">知道协议</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a rel="nofollow" href="/special/view/cooperation" target="_blank">百度知道品牌合作</a>
+</p>
+</div>
+</div>
+
+
+<div id="anttongji"></div>
+
+
+
+
+
+<script>
+    void function(a,b,c,d,e,f){function g(b){a.attachEvent?a.attachEvent("onload",b,!1):a.addEventListener&&a.addEventListener("load",b)}function h(a,c,d){d=d||15;var e=new Date;e.setTime((new Date).getTime()+1e3*d),b.cookie=a+"="+escape(c)+";path=/;expires="+e.toGMTString()}function i(a){var c=b.cookie.match(new RegExp("(^| )"+a+"=([^;]*)(;|$)"));return null!=c?unescape(c[2]):null}function j(){var a=i("PMS_JT");if(a){h("PMS_JT","",-1);try{a=a.match(/{["']s["']:(\d+),["']r["']:["']([\s\S]+)["']}/),a=a&&a[1]&&a[2]?{s:parseInt(a[1]),r:a[2]}:{}}catch(c){a={}}a.r&&b.referrer.replace(/#.*/,"")!=a.r||alog("speed.set","wt",a.s)}}if(a.alogObjectConfig){var k=a.alogObjectConfig.sample,l=a.alogObjectConfig.rand;d="https:"===a.location.protocol?"https://fex.bdstatic.com"+d:"http://fex.bdstatic.com"+d,k&&l&&l>k||(g(function(){alog("speed.set","lt",+new Date),e=b.createElement(c),e.async=!0,e.src=d+"?v="+~(new Date/864e5)+~(new Date/864e5),f=b.getElementsByTagName(c)[0],f.parentNode.insertBefore(e,f)}),j())}}(window,document,"script","/hunter/alog/dp.min.js");
+    </script>
+
+<script>
+				var _hmt = _hmt || [];
+				(function() {
+					var hm = document.createElement("script");
+					hm.src = "https://hm.baidu.com/hm.js?6859ce5aaf00fb00387e6434e4fcc925";
+					var s = document.getElementsByTagName("script")[0];
+					s.parentNode.insertBefore(hm, s);
+				})();
+			</script>
+
+</body><script type="text/javascript" src="https://iknowpc.bdimg.com/static/common/lib/mod.75d1f98.js"></script><script type="text/javascript">(window.__IKNOW_GLOBAL__ || window).require.resourceMap({"res":{"common:widget\/lib\/jquery\/jquery.origin.js":{"pkg":"common:p3"},"common:widget\/js\/util\/https\/https.js":{"pkg":"common:p6"},"common:widget\/bottom-ask\/bottom-ask.js":{"pkg":"common:p0","deps":["common:widget\/js\/util\/tangram\/tangram.js","common:widget\/js\/util\/event\/event.js","common:widget\/js\/util\/log\/log.js"]},"common:widget\/css\/fonts\/iconfont.min.js":{"pkg":"common:p0"},"common:widget\/footer-new\/footer-new.js":{"pkg":"common:p0","deps":["common:widget\/lib\/jquery\/jquery.js","common:widget\/js\/util\/event\/event.js"]},"common:widget\/footer\/footer.js":{"pkg":"common:p0"},"common:widget\/header-metis\/header.js":{"pkg":"common:p0","deps":["common:widget\/lib\/jquery\/jquery.js","common:widget\/js\/ui\/dialog\/dialog.js","common:widget\/js\/util\/template\/template.js","common:widget\/js\/ui\/scrollbar-new\/scrollbar-new.js","common:widget\/js\/util\/store\/store.js"]},"common:widget\/menu\/menu.js":{"pkg":"common:p0","deps":["common:widget\/js\/util\/tangram\/tangram.js","common:widget\/js\/util\/log\/log.js"]},"common:widget\/search-box-new\/search-box-new.js":{"pkg":"common:p0","deps":["common:widget\/js\/util\/tangram\/tangram.js","common:widget\/js\/ui\/suggestion-new\/suggestion-new.js","common:widget\/js\/util\/event\/event.js","common:widget\/js\/util\/form\/form.js","common:widget\/js\/util\/log\/log.js","common:widget\/js\/ui\/dialog\/dialog.js","common:widget\/lib\/jquery.placeholder\/jquery.placeholder.js"]},"common:widget\/userbar-renew\/userbar-renew.js":{"pkg":"common:p0","deps":["common:widget\/js\/util\/tangram\/tangram.js","common:widget\/js\/util\/event\/event.js","common:widget\/js\/logic\/login\/login.js","common:widget\/js\/util\/log\/log.js","common:widget\/js\/util\/store\/store.js"]},"question-new:widget\/mini-editor\/mini-editor.js":{"pkg":"question-new:p2","deps":["common:widget\/js\/util\/tangram\/tangram.js","common:widget\/js\/util\/event\/event.js","common:widget\/js\/ui\/base\/base.js"]},"common:widget\/js\/ui\/clipboard\/clipboard.min.js":{"pkg":"common:p4"},"question-new:widget\/ask\/editor-guide\/editor-guide.js":{"pkg":"question-new:p3","deps":["common:widget\/js\/util\/tangram\/tangram.js","common:widget\/js\/util\/tangram\/cookie.js"]},"question-new:widget\/ask\/pc-exp\/ask-img.js":{"url":"https:\/\/iknowpc.bdimg.com\/static\/question-new\/widget\/ask\/pc-exp\/ask-img.ab60204.js","deps":["common:widget\/lib\/jquery\/jquery.js","question-new:widget\/read-opt\/img-preview\/preview.js"]},"common:widget\/upgrade-tips\/upgrade-tips.js":{"url":"https:\/\/iknowpc.bdimg.com\/static\/common\/widget\/upgrade-tips\/upgrade-tips.aae0426.js","deps":["common:widget\/js\/util\/tangram\/tangram.js","common:widget\/js\/util\/log\/log.js","common:widget\/js\/util\/https\/https.js"]},"question-new:widget\/js\/submitjump\/submitjump.js":{"pkg":"question-new:p5","deps":["common:widget\/js\/util\/tangram\/tangram.js","common:widget\/js\/util\/event\/event.js","common:widget\/js\/logic\/submit\/submit.js","common:widget\/js\/util\/log\/log.js","common:widget\/js\/ui\/dialog\/dialog.js"]},"question-new:widget\/js\/accuse\/accuse.js":{"pkg":"question-new:p5","deps":["common:widget\/js\/util\/tangram\/tangram.js","common:widget\/js\/util\/log\/log.js","common:widget\/js\/util\/event\/event.js","common:widget\/js\/logic\/login\/login.js","common:widget\/js\/ui\/dialog\/dialog.js"]},"question-new:widget\/js\/psask-bindsms\/psask-bindsms.js":{"url":"https:\/\/iknowpc.bdimg.com\/static\/question-new\/widget\/js\/psask-bindsms\/psask-bindsms.54daf62.js","deps":["common:widget\/js\/util\/tangram\/tangram.js","common:widget\/js\/util\/log\/log.js","common:widget\/js\/util\/event\/event.js","common:widget\/js\/ui\/dialog\/dialog.js","common:widget\/js\/logic\/phone-bind\/phone-bind.js"]},"question-new:widget\/js\/admin\/officialAdmin\/officialAdmin.js":{"url":"https:\/\/iknowpc.bdimg.com\/static\/question-new\/widget\/js\/admin\/officialAdmin\/officialAdmin.b7eef55.js","deps":["common:widget\/js\/util\/tangram\/tangram.js","common:widget\/js\/ui\/dialog\/dialog.js","common:widget\/js\/logic\/category\/category.js","common:widget\/js\/util\/event\/event.js"]},"question-new:widget\/js\/set-tag\/set-tag.js":{"url":"https:\/\/iknowpc.bdimg.com\/static\/question-new\/widget\/js\/set-tag\/set-tag.2811869.js","deps":["common:widget\/js\/util\/tangram\/tangram.js","common:widget\/js\/util\/event\/event.js","common:widget\/js\/ui\/base\/base.js","common:widget\/js\/util\/template\/template.js","common:widget\/js\/ui\/dialog\/dialog.js","common:widget\/js\/ui\/scrollbar\/scrollbar.js","common:widget\/js\/util\/tangram\/string.js"]},"question-new:widget\/js\/admin\/userAdmin\/userAdmin.js":{"url":"https:\/\/iknowpc.bdimg.com\/static\/question-new\/widget\/js\/admin\/userAdmin\/userAdmin.4415133.js","deps":["common:widget\/js\/util\/tangram\/tangram.js","common:widget\/js\/util\/event\/event.js","common:widget\/js\/ui\/dialog\/dialog.js","common:widget\/js\/logic\/category\/category.js","question-new:widget\/js\/set-tag\/set-tag.js","common:widget\/lib\/jquery.placeholder\/jquery.placeholder.js"]},"question-new:widget\/js\/unloginask-bindsms\/unloginask-bindsms.js":{"url":"https:\/\/iknowpc.bdimg.com\/static\/question-new\/widget\/js\/unloginask-bindsms\/unloginask-bindsms.3038abd.js","deps":["common:widget\/js\/util\/tangram\/tangram.js","common:widget\/js\/util\/log\/log.js","common:widget\/js\/util\/event\/event.js","common:widget\/js\/ui\/dialog\/dialog.js"]}},"pkg":{"common:p0":{"url":"https:\/\/iknowpc.bdimg.com\/static\/common\/pkg\/more.99de797.js","has":["common:widget\/bottom-ask\/bottom-ask.js","common:widget\/css\/fonts\/iconfont.min.js","common:widget\/footer-new\/footer-new.js","common:widget\/footer\/footer.js","common:widget\/header-metis\/header.js","common:widget\/menu\/menu.js","common:widget\/search-box-new\/search-box-new.js","common:widget\/userbar-renew\/userbar-renew.js"]},"common:p4":{"url":"https:\/\/iknowpc.bdimg.com\/static\/common\/pkg\/clipboard.0c05b89.js","has":["common:widget\/js\/ui\/clipboard\/clipboard.min.js"]},"question-new:p5":{"url":"https:\/\/iknowpc.bdimg.com\/static\/question-new\/pkg\/login.a2d211e.js","has":["question-new:widget\/js\/submitjump\/submitjump.js","question-new:widget\/js\/accuse\/accuse.js"]}}});</script><script type="text/javascript" src="https://iknowpc.bdimg.com/static/common/pkg/lib.33719ed.js"></script><script type="text/javascript" src="https://iknowpc.bdimg.com/static/common/pkg/commonjs.8339909.js"></script><script type="text/javascript" src="https://iknowpc.bdimg.com/static/common/pkg/ueditor.37f34f3.js"></script><script type="text/javascript" src="https://iknowpc.bdimg.com/static/question-new/pkg/module.9b77e3a.js"></script><script type="text/javascript" src="https://iknowpc.bdimg.com/static/question-new/pkg/editor.bd546be.js"></script><script type="text/javascript" src="https://iknowpc.bdimg.com/static/question-new/widget/js/ck/ck.0af7fcd.js"></script><script type="text/javascript" src="https://iknowpc.bdimg.com/static/question-new/pkg/replyer.7f71d88.js"></script><script type="text/javascript">
+!function(){var F = (window.__IKNOW_GLOBAL__ || window).F;var require = (window.__IKNOW_GLOBAL__ || window).require;    require.async(['common:widget/userbar-renew/userbar-renew']);
+}();
+!function(){var F = (window.__IKNOW_GLOBAL__ || window).F;var require = (window.__IKNOW_GLOBAL__ || window).require;    require.async(['question-new:widget/ad-header/ad-header'], function (Header) {
+    	Header.init({
+    		hotList: [{"keyword":"\u5434\u79c0\u6ce2\u539f\u914d","searches":"494938","changeRate":"4174","isNew":"1","trend":"rise","gentime":"2018-09-26 14:21:19","interfere":"0","srchCalcu":"494938","eventid":"50fdcd1a65daaf6995d30cbfe850833f"},{"keyword":"\u6797\u9752\u971e\u88ab\u66dd\u79bb\u5a5a","searches":"493251","changeRate":"350","isNew":"1","trend":"rise","interfere":"0","srchCalcu":"493251","eventid":"2333e5a7938f0fb1e945c6ebd6b33bff"},{"keyword":"\u5fb7\u56fd\u897f\u95e8\u5b50\u88c1\u5458","searches":"383029","changeRate":"4399","isNew":"1","trend":"rise","interfere":"0","srchCalcu":"383029","eventid":"be53116e17d9a8c98bd89ea2e5246826"},{"keyword":"\u6d59\u6c5f\u5973\u9996\u5bcc\u9677\u5371\u673a","searches":"372119","changeRate":"6311","isNew":"1","trend":"rise","interfere":"0","srchCalcu":"372119","eventid":"f0eac9d7917db06cb249c9a051032d82"},{"keyword":"\u7ae0\u6cfd\u5929\u670b\u53cb\u5708","searches":"359297","changeRate":"4399","isNew":"0","trend":"rise","interfere":"0","srchCalcu":"359297","eventid":"d7340a794947f63522b849cdc0d1ff5e"},{"keyword":"\u6bb5\u5965\u5a1f\u79d2\u5220","searches":"266170","changeRate":"-1000","isNew":"0","trend":"fall","interfere":"0","srchCalcu":"266170","eventid":"c0d2fce76f092f707c8a08394467b6da"},{"keyword":"\u5706\u901a\u901f\u9012\u5ba3\u5e03\u6da8\u4ef7","searches":"235578","changeRate":"125","isNew":"1","trend":"rise","interfere":"0","srchCalcu":"235578","eventid":"545efc63748e753c8f6b92e3f1eb9522"},{"keyword":"\u9ece\u66fc\u731c\u60f3\u8bc1\u660e\u73b0\u573a","searches":"202961","changeRate":"52986","isNew":"0","trend":"rise","interfere":"0","srchCalcu":"202961","eventid":"49fe2e9f96336e74d4df1db0e1f5d0aa"},{"keyword":"ez\u91cd\u505a","searches":"196325","changeRate":"48600","isNew":"0","trend":"rise","interfere":"0","srchCalcu":"196325","eventid":"1d2d487b27b9acc40653438b2f5dd1f6"},{"keyword":"\u8096\u91d1\u950b \u610f\u5916\u8eab\u4ea1","searches":"194526","changeRate":"50400","isNew":"0","trend":"rise","interfere":"0","srchCalcu":"194526","eventid":"8992fc529637752dc82b2f45e3c411b7"},{"keyword":"\u745e\u5178\u9996\u76f8\u9762\u4e34\u4e0b\u53f0","searches":"192951","changeRate":"125","isNew":"0","trend":"rise","interfere":"0","srchCalcu":"192951","eventid":"ae57dd3511c28b33f07ed056f1b94e1d"},{"keyword":"\u591a\u5730\u65b0\u623f\u964d\u4ef7\u4fc3\u9500","searches":"181367","changeRate":"-100","isNew":"0","trend":"fall","interfere":"0","srchCalcu":"181367","eventid":"d1f3e57c9f44a376f180cee3f61eb1bb"},{"keyword":"\u5973\u5b69\u51fa\u8d70\u540e\u6eba\u4ea1","searches":"161684","changeRate":"-34516","isNew":"0","trend":"fall","interfere":"0","srchCalcu":"161684","eventid":"4b0eaa3f8e02e50574fa6fa2469a157c"},{"keyword":"\u5317\u4eac\u5730\u94c1\u8eba\u53604\u5ea7","searches":"160334","changeRate":"462","isNew":"0","trend":"rise","interfere":"0","srchCalcu":"160334","eventid":"c80033eff639277f491ff25863f7545e"},{"keyword":"\u5973\u5b50\u76f2\u4eba\u6309\u6469\u9003\u5355","searches":"157635","changeRate":"1137","isNew":"0","trend":"rise","interfere":"0","srchCalcu":"157635","eventid":"abd933577b0876a1a2948daa8ce5cf76"},{"keyword":"\u6c83\u5c14\u739b\u852c\u83dc\u4f9b\u5e94\u94fe","searches":"155161","changeRate":"13","isNew":"0","trend":"rise","interfere":"0","srchCalcu":"155161","eventid":"6450e1345a2db8b01e345ebe608efd85"},{"keyword":"\u661f\u5df4\u514b\u88c1\u5458","searches":"152574","changeRate":"350","isNew":"0","trend":"rise","interfere":"0","srchCalcu":"152574","eventid":"a3039a6bbc2023b224ebe86fc95922e2"},{"keyword":"\u56fd\u7c73\u4e3b\u5e2d\u6536\u8d2d\u82f1\u7532","searches":"149875","changeRate":"-53861","isNew":"0","trend":"fall","interfere":"0","srchCalcu":"149875","eventid":"b9014ebcf61e64b6a268096f001bda2c"},{"keyword":"fifa\u6700\u4f73\u9635\u5bb9","searches":"144251","changeRate":"-50262","isNew":"0","trend":"fall","interfere":"0","srchCalcu":"144251","eventid":"a22425bea3a90b607fe01ac6034ad05c"},{"keyword":"\u9ec4\u535a\u6587\u56de\u5e94\u5220\u535a","searches":"141327","changeRate":"13","isNew":"1","trend":"rise","interfere":"0","srchCalcu":"141327","eventid":"799337f2178c0c81f107a06e20ba26d1"},{"keyword":"\u90d1\u723d\u5f20\u6052\u5408\u7167","searches":"140877","changeRate":"13","isNew":"1","trend":"rise","interfere":"0","srchCalcu":"140877","eventid":"0e14705929a4742034c0b8e1cdc944ad"},{"keyword":"\u6df1\u5733\u76f4\u8f96\u5e02\u8f9f\u8c23","searches":"140764","changeRate":"12","isNew":"0","trend":"rise","interfere":"0","srchCalcu":"140764","eventid":"960c2589164c9d3c91ae16c5ce59dd3d"},{"keyword":"\u5201\u5353","searches":"140539","changeRate":"1024","isNew":"0","trend":"rise","interfere":"0","srchCalcu":"140539","eventid":"9cb2edb6a94390fd126b6226a2f22caf"},{"keyword":"\u5973\u6392\u51fa\u5f81\u4e16\u9526\u8d5b","searches":"138740","changeRate":"238","isNew":"0","trend":"rise","interfere":"0","srchCalcu":"138740","eventid":"042a489cd0ee2fbbaaa7c504ff4ebde4"},{"keyword":"\u65c5\u6e38\u6536\u5165435\u4ebf","searches":"135141","changeRate":"-212","isNew":"0","trend":"fall","interfere":"0","srchCalcu":"135141","eventid":"f9284649130a8b30f05cf70fcf1be354"},{"keyword":"\u5370\u5ea6\u60f9\u607c\u5df4\u57fa\u65af\u5766","searches":"134466","changeRate":"687","isNew":"0","trend":"rise","interfere":"0","srchCalcu":"134466","eventid":"1e27dc4caaaf999fad22e1966dbfbbb8"},{"keyword":"\u5973\u603b\u7406\u5e26\u5b69\u5b50\u53c2\u4f1a","searches":"132666","changeRate":"125","isNew":"0","trend":"rise","interfere":"0","srchCalcu":"132666","eventid":"2b1fd7f57bcf5a1fc4c69b982efe5baf"},{"keyword":"\u4e91\u7c73IPO\u53d1\u884c\u4ef7","searches":"124231","changeRate":"-1450","isNew":"1","trend":"fall","interfere":"0","srchCalcu":"124231","eventid":"0bc1dbd277238f684293c8d81b8965a6"},{"keyword":"\u9662\u957f\u4fb5\u541e\u6276\u8d2b\u6b3e","searches":"124006","changeRate":"9685","isNew":"0","trend":"rise","interfere":"0","srchCalcu":"124006","eventid":"a803621bb3a7947f46609ba75ad4a31b"},{"keyword":"\u6885\u897f\u6295\u7968C\u7f57","searches":"123331","changeRate":"350","isNew":"0","trend":"rise","interfere":"0","srchCalcu":"123331","eventid":"0347e09ac2a4b6b97fb930de3010ddca"},{"keyword":"\u5f20\u9707\u5cb3\u513f\u5b50\u4fa7\u9762\u7167","searches":"122769","changeRate":"-662","isNew":"0","trend":"fall","interfere":"0","srchCalcu":"122769","eventid":"b6d7ba6f23f732716cb10656c6f04128"},{"keyword":"\u97e9\u56fd\u5de5\u5382\u7a81\u53d1\u5927\u706b","searches":"120969","changeRate":"-100","isNew":"0","trend":"fall","interfere":"0","srchCalcu":"120969","eventid":"034866cbdf58fb969a8dcf89a1e64f78"},{"keyword":"\u9999\u6e2f\u5404\u754c\u60bc\u5ff5\u9ad8\u951f","searches":"120969","changeRate":"-2350","isNew":"0","trend":"fall","interfere":"0","srchCalcu":"120969","eventid":"af51c1bee4a2d3475506d59c919de438"},{"keyword":"\u80e1\u5148\u7166\u5973\u670b\u53cb","searches":"118720","changeRate":"-100","isNew":"0","trend":"fall","interfere":"0","srchCalcu":"118720","eventid":"ceb637f4c1a39d7c5d4929485816d618"},{"keyword":"\u65e0\u5370\u826f\u54c1\u5de5\u5546\u62bd\u68c0","searches":"118495","changeRate":"-662","isNew":"0","trend":"fall","interfere":"0","srchCalcu":"118495","eventid":"b01d2df2299c5c6f4e40bba2286cccb0"},{"keyword":"\u9648\u610f\u6db5\u633a\u5b55\u809a\u8dd1\u6b65","searches":"118157","changeRate":"3949","isNew":"0","trend":"rise","interfere":"0","srchCalcu":"118157","eventid":"1fcbbdf226875568581beaa698a11633"},{"keyword":"\u4e94\u4ec1\u6708\u997c\u7ffb\u8eab","searches":"117820","changeRate":"-100","isNew":"0","trend":"fall","interfere":"0","srchCalcu":"117820","eventid":"ca44a946ff6881ba6d42a8f3079adc14"},{"keyword":"\u674e\u5c0f\u7490\u5e26\u5973\u513f\u8d2d\u7269","searches":"116470","changeRate":"-100","isNew":"0","trend":"fall","interfere":"0","srchCalcu":"116470","eventid":"7bd06f4befa01dccf7d59c54119e2cb3"},{"keyword":"\u6731\u4e9a\u6587 \u5434\u79c0\u6ce2","searches":"116245","changeRate":"-100","isNew":"0","trend":"fall","interfere":"0","srchCalcu":"116245","eventid":"a755077f978baa83308a4280de7ef762"},{"keyword":"\u80e1\u5148\u7166\u516c\u5e03\u604b\u60c5","searches":"115571","changeRate":"125","isNew":"0","trend":"rise","interfere":"0","srchCalcu":"115571","eventid":"1a3bb214519d4cc4470d0fcf24178790"},{"keyword":"\u6768\u70c1\u5a5a\u793c\u6d6a\u6f2b\u4e3e\u884c","searches":"112984","changeRate":"-100","isNew":"0","trend":"fall","interfere":"0","srchCalcu":"112984","eventid":"378d36927314a8891f73f7711046b97b"},{"keyword":"\u8d3e\u6a1f\u67ef\u56de\u5e94\u80e1\u9521\u8fdb","searches":"112871","changeRate":"-100","isNew":"1","trend":"fall","interfere":"0","srchCalcu":"112871","eventid":"9d182662dce2fdd65ea8b9a80f8ad2a4"},{"keyword":"\u8bb8\u51ef\u56de\u5e94\u673a\u573a\u81ed\u8138","searches":"112421","changeRate":"-100","isNew":"0","trend":"fall","interfere":"0","srchCalcu":"112421","eventid":"744c67a2f3c41a315075c0a3712e12f0"},{"keyword":"\u6885\u897fC\u7f57\u7f3a\u5e2d","searches":"111297","changeRate":"-212","isNew":"0","trend":"fall","interfere":"0","srchCalcu":"111297","eventid":"a5bf8b69189c9a562489b5336f500413"},{"keyword":"\u767e\u5ea6\u533a\u5757\u94fe\u767d\u76ae\u4e66","searches":"106685","changeRate":"56473","isNew":"1","trend":"rise","interfere":"0","srchCalcu":"106685","eventid":"f6171df4e40b2a0070a3a3bd09d8781f"},{"keyword":"\u906d\u7236\u4eb2\u8650\u5f85\u7ed1\u9633\u53f0","searches":"105223","changeRate":"-100","isNew":"0","trend":"fall","interfere":"0","srchCalcu":"105223","eventid":"b313dc65ff5dce9f556d80605a9cd1ce"},{"keyword":"\u5012\u98de\u76f4\u5347\u673a\u6551\u8239\u5458","searches":"104548","changeRate":"-100","isNew":"0","trend":"fall","interfere":"0","srchCalcu":"104548","eventid":"9f05bcea96d8b5210091984142d82612"},{"keyword":"\u9999\u6e2f\u9ad8\u94c1\u9996\u65e5\u5165\u5883","searches":"103874","changeRate":"-100","isNew":"0","trend":"fall","interfere":"0","srchCalcu":"103874","eventid":"2d419a8c42991b39190bee874650ee32"},{"keyword":"\u652f\u4ed8\u5b9d \u91d1\u878d\u4eba\u58eb","searches":"102636","changeRate":"-100","isNew":"0","trend":"fall","interfere":"0","srchCalcu":"102636","eventid":"78bfc088953584d894d23a5eb6bb102f"},{"keyword":"\u534e\u590f\u94f6\u884c\u5012\u6302\u4e25\u91cd","searches":"102186","changeRate":"-100","isNew":"0","trend":"fall","interfere":"0","srchCalcu":"102186","eventid":"4729d9c1247fb39865a01e003a5654b5"}]
+    	});
+    });
+}();
+!function(){var F = (window.__IKNOW_GLOBAL__ || window).F;var require = (window.__IKNOW_GLOBAL__ || window).require;    require.async(['common:widget/search-box-new/search-box-new']);
+}();
+!function(){var F = (window.__IKNOW_GLOBAL__ || window).F;var require = (window.__IKNOW_GLOBAL__ || window).require;    require.async(['question-new:widget/header-title/header-title.es'], function (HeaderTitle) {
+        var headerTitle = new HeaderTitle();
+    });
+}();
+!function(){var F = (window.__IKNOW_GLOBAL__ || window).F;var require = (window.__IKNOW_GLOBAL__ || window).require;    require.async(['common:widget/menu/menu'], function(menu){
+    	menu.init();
+    });
+    // 导航menu可用时间打点
+    alog && alog('speed.set', 'c_menu', +new Date); alog.fire && alog.fire("mark");
+}();
+!function(){var F = (window.__IKNOW_GLOBAL__ || window).F;var require = (window.__IKNOW_GLOBAL__ || window).require;    require.async(['question-new:widget/ask/search-relate/search-relate'], function (searchRelate) {
+        searchRelate.init();
+    });
+}();
+!function(){var F = (window.__IKNOW_GLOBAL__ || window).F;var require = (window.__IKNOW_GLOBAL__ || window).require;            F.context('page').relatedKeyword = 1;
+        F.context('feedback', '1');
+    F.context('springActivityShow', '0')
+    require.async(['question-new:widget/ask/replyer/replyer']);
+}();
+!function(){var F = (window.__IKNOW_GLOBAL__ || window).F;var require = (window.__IKNOW_GLOBAL__ || window).require;    require.async(['question-new:widget/ask/ask'], function(ask){
+        ask.init({
+            picture: []
+        }, {
+            askContentType: 'default',
+            timely: {
+                isNeed: '',
+                leftTime: '-57993238'
+            }
+        });
+    });
+    require.async(['question-new:widget/ask/pc-exp/ask-img']);
+}();
+!function(){var F = (window.__IKNOW_GLOBAL__ || window).F;var require = (window.__IKNOW_GLOBAL__ || window).require;    require.async(['question-new:widget/replyer-all/replyer-all.es'], function (Replyer) {
+        var replyer2893131645 = new Replyer('#wgt-replyer-all-2893131645');
+    });
+}();
+!function(){var F = (window.__IKNOW_GLOBAL__ || window).F;var require = (window.__IKNOW_GLOBAL__ || window).require;    require.async(['question-new:widget/value-comment/value-comment'],function(vc){
+        vc.init('2893131645');
+    });
+}();
+!function(){var F = (window.__IKNOW_GLOBAL__ || window).F;var require = (window.__IKNOW_GLOBAL__ || window).require;    require.async(['question-new:widget/newbest/newbest-init','common:widget/lib/jquery/jquery','common:widget/js/util/log/log'], function(newbest, $, log) {
+        newbest.init();
+
+        if ($('.wgt-best .best-text .answer-expand').size() != 0) {
+            log.addKey({
+                answer_expand_show: 1
+            });
+        }
+        $(".wgt-best .best-text").on('click', ".answer-expand", function(e) {
+            $(this).hide();
+            $(".wgt-best .best-text .answer-expand-content").hide();
+            $(".wgt-best .best-text .answer-collapse-content").show();
+            $(".wgt-best .best-text .answer-collapse").css('display', 'block');
+            log.send({page:'question',pos:'qb-detail-expand-btn-click'});
+        });
+        $(".wgt-best .best-text").on('click', ".answer-collapse", function(e) {
+            $(this).hide();
+            $(".wgt-best .best-text .answer-collapse-content").hide();
+            $(".wgt-best .best-text .answer-expand-content").show();
+            $(".wgt-best .best-text .answer-expand").show();
+        });
+    });
+}();
+!function(){var F = (window.__IKNOW_GLOBAL__ || window).F;var require = (window.__IKNOW_GLOBAL__ || window).require;    require.async(['question-new:widget/replyer-all/replyer-all.es'], function (Replyer) {
+        var replyer2655038013 = new Replyer('#wgt-replyer-all-2655038013');
+    });
+}();
+!function(){var F = (window.__IKNOW_GLOBAL__ || window).F;var require = (window.__IKNOW_GLOBAL__ || window).require;    require.async(['question-new:widget/value-comment/value-comment'],function(vc){
+        vc.init('2655038013');
+    });
+}();
+!function(){var F = (window.__IKNOW_GLOBAL__ || window).F;var require = (window.__IKNOW_GLOBAL__ || window).require;    require.async(['question-new:widget/replyer-all/replyer-all.es'], function (Replyer) {
+        var replyer2655038295 = new Replyer('#wgt-replyer-all-2655038295');
+    });
+}();
+!function(){var F = (window.__IKNOW_GLOBAL__ || window).F;var require = (window.__IKNOW_GLOBAL__ || window).require;    require.async(['question-new:widget/value-comment/value-comment'],function(vc){
+        vc.init('2655038295');
+    });
+}();
+!function(){var F = (window.__IKNOW_GLOBAL__ || window).F;var require = (window.__IKNOW_GLOBAL__ || window).require;    require.async(['question-new:widget/answers/answers']);
+}();
+!function(){var F = (window.__IKNOW_GLOBAL__ || window).F;var require = (window.__IKNOW_GLOBAL__ || window).require;    require.async(['question-new:widget/related/related'], function(rel){
+        rel({
+            isRelatedLog: true,
+                    });
+    });
+}();
+!function(){var F = (window.__IKNOW_GLOBAL__ || window).F;var require = (window.__IKNOW_GLOBAL__ || window).require;        require.async(['common:widget/js/util/log/log'], function(log) {
+            // 展现相关问题的PV，ps：不知道以前怎么这么写，related_search_show和网友都在找参数是一样的？
+            log.addKey({related_search_show: '1'});
+            // 为您推荐展现pv
+            log.addKey({bottom_union: '1'});
+        });
+    }();
+!function(){var F = (window.__IKNOW_GLOBAL__ || window).F;var require = (window.__IKNOW_GLOBAL__ || window).require;    require.async(['question-new:widget/push/push'], function(push){
+        push.init();
+    });
+}();
+!function(){var F = (window.__IKNOW_GLOBAL__ || window).F;var require = (window.__IKNOW_GLOBAL__ || window).require;    require.async(['question-new:widget/ad-right/ad-right']);
+}();
+!function(){var F = (window.__IKNOW_GLOBAL__ || window).F;var require = (window.__IKNOW_GLOBAL__ || window).require;    require.async(['common:widget/js/util/tangram/tangram','question-new:widget/link-union/link-union'], function($, LU) {
+        LU.init({
+            newbest: [{"id":2893131645,"qid":"1950653765113090748","encode_qid":"1950653765113090748","threadId":"11572526581","deleted":0,"isBest":0,"isHighQuality":0,"isExcellent":0,"isRecommend":1,"isSpecial":0,"c_timestamp":1522385823,"createTime":"2018-03-30","recommendCanceled":0,"hasImage":0,"hasComment":0,"isFromHelp":0,"isFromWap":0,"valueNum":6,"valueBadNum":42,"refContent":"","content":null,"contentText":null,"mapUrl":"","contentRich":null,"contentRichOrig":null,"imgUrl":null,"fileName":[],"fileAttrs":[],"bit_pack":{"is_recommend":1,"wap_flag":0,"is_pic_contained":0,"media_flag":0,"help_flag":0,"anonymous":0,"is_really_anonymous":0,"level_new":1,"comment_flag":0,"in_mis":0,"auto_recommend":0,"content_rich_flag":1,"prior_flag":0,"hidden_flag":0,"rec_canceled_flag":0,"mis_flag":0,"file_flag":0,"read_flag":0,"is_challenge":0,"ikaudio_flag":0,"mavin_flag":0,"authentic_state":0,"is_compulsory_best":0,"dynamic_stick_flag":0},"ext_pack":{"mode_qtype":0,"mode_begintime":0,"reply_entry":"qb_excellent","submit_refer":"excellent_reverse","op_uid":3128529623,"team_id":12671,"partner":0,"excellent_reverse":1,"anony_good_value":3,"anony_bad_value":18,"reason_2_1":6,"reco_weight":3,"reco_time":1528982058,"reason_2_2":1},"import_id":1583,"uscore":{"level":0,"sublevel":0,"good_rate":0,"icon_sysno":0,"sex":0},"inMis":0,"isHard":0,"value_rank":0,"next_rid":null,"pre_rid":null,"applyStatus":{"applyExcType":0,"applyNum":0},"area":1,"user":{"uid":3128529623,"name":null,"imId":"d792ccd5ccd565723579ba","isAnonymous":0,"isUnLogin":0,"isCurrentUser":0,"ipNum":1805504140,"isNoUserName":0,"iconType":6,"sex":1,"isAuth":0,"isExpert":0,"isExpertImport":0,"isUserAdmin":0,"isFamous":0,"isMaster":0,"isFromTorch":0,"isOpenApp":0,"encodeUid":"d7924069236f25705e7979ba","gradeIndex":9,"grAnswerNum":732,"goodRate":99.863574351978,"selfDefinedPhoto":0,"isAppAuth":0,"showInfo":{"imgUrl":"http:\/\/himg.bdimg.com\/sys\/portrait\/item\/d792ccd5ccd565723579ba.jpg","type":5,"slogan":null,"name":null,"siteUrl":"https:\/\/zhidao.baidu.com\/usercenter?uid=d7924069236f25705e7979ba&teamType=2"},"praiseNum":3963},"oldQid":1382156557,"relateWords":[],"type":"excellent"}],
+            recommend: null,
+            answerList: [{"id":2655038013,"qid":"1950653765113090748","encode_qid":"1950653765113090748","threadId":"10620152053","deleted":0,"isBest":0,"isHighQuality":0,"isExcellent":0,"isRecommend":1,"isSpecial":0,"c_timestamp":1479949239,"createTime":"2016-11-24","recommendCanceled":0,"hasImage":0,"hasComment":0,"isFromHelp":0,"isFromWap":0,"valueNum":31,"valueBadNum":15,"refContent":"","content":null,"contentText":null,"mapUrl":"","contentRich":"","contentRichOrig":"","imgUrl":[],"fileName":[],"fileAttrs":[],"bit_pack":{"is_recommend":1,"wap_flag":0,"is_pic_contained":0,"media_flag":0,"help_flag":0,"anonymous":0,"is_really_anonymous":0,"level_new":1,"comment_flag":0,"in_mis":0,"auto_recommend":1,"content_rich_flag":0,"prior_flag":1,"hidden_flag":0,"rec_canceled_flag":0,"mis_flag":0,"file_flag":0,"read_flag":0,"is_challenge":0,"ikaudio_flag":0,"mavin_flag":1,"authentic_state":0,"is_compulsory_best":0,"dynamic_stick_flag":0},"ext_pack":{"reply_entry":"qb_list_default","mode_qtype":0,"mode_begintime":0,"op_uid":582287170,"anony_good_value":14,"anony_bad_value":9,"reco_time":1518334347,"recTime":1519135011},"import_id":0,"uscore":{"level":20,"sublevel":0,"good_rate":67,"icon_sysno":10,"sex":1},"inMis":0,"isHard":0,"value_rank":100001,"next_rid":null,"pre_rid":null,"applyStatus":{"applyExcType":8,"applyNum":0},"area":1,"user":{"uid":582287170,"name":"032477aa","imId":"42ff3033323437376161b422","isAnonymous":0,"isUnLogin":0,"isCurrentUser":0,"ipNum":4155483197,"isNoUserName":0,"iconType":10,"sex":1,"isAuth":0,"isExpert":0,"isExpertImport":0,"isUserAdmin":0,"isFamous":0,"isMaster":0,"isFromTorch":0,"isOpenApp":0,"encodeUid":"42ff4069236f25705e79b422","gradeIndex":20,"grAnswerNum":69805,"goodRate":73.336134895204,"carefield":[{"cid":148,"cname":null}],"selfDefinedPhoto":1,"isAppAuth":0,"mavin":{"career":null,"authLevel":3,"field":105101,"title":null,"avatar":"http:\/\/h.hiphotos.baidu.com\/zhidao\/wh%3D450%2C600\/sign=c9a2200fcc1b9d168a929265c6ee98b9\/bf096b63f6246b60b35700a4e9f81a4c500fa281.jpg","isShowRealName":0,"realName":"032477aa","answerNum":null,"adoptNum":null,"isDisplay":1,"isNew":1,"utype":0,"qualityNum":null,"helpNum":null,"praise":null,"major":1,"desc":null,"fields":[{"id":105101,"name":null}],"levelTitle":null,"levelDesc":null},"teamId":28973,"teamName":null,"teamUrl":"http:\/\/hiphotos.baidu.com\/wusongsha0926\/pic\/item\/95679e368744ebf863991286d9f9d72a6159a7a8.jpg","isFromTeam":1,"showInfo":{"imgUrl":"http:\/\/h.hiphotos.baidu.com\/zhidao\/wh%3D450%2C600\/sign=c9a2200fcc1b9d168a929265c6ee98b9\/bf096b63f6246b60b35700a4e9f81a4c500fa281.jpg","type":3,"slogan":null,"name":"032477aa","siteUrl":"https:\/\/zhidao.baidu.com\/hangjia\/profile\/032477aa?ie=gbk"},"praiseNum":379776},"oldQid":1382156557,"relateWords":[]},{"id":2655038295,"qid":"1950653765113090748","encode_qid":"1950653765113090748","threadId":"10620153181","deleted":0,"isBest":0,"isHighQuality":0,"isExcellent":0,"isRecommend":0,"isSpecial":0,"c_timestamp":1479949267,"createTime":"2016-11-24","recommendCanceled":0,"hasImage":0,"hasComment":0,"isFromHelp":0,"isFromWap":0,"valueNum":2,"valueBadNum":20,"refContent":"","content":null,"contentText":null,"mapUrl":"","contentRich":"","contentRichOrig":"","imgUrl":[],"fileName":[],"fileAttrs":[],"bit_pack":{"is_recommend":0,"wap_flag":0,"is_pic_contained":0,"media_flag":0,"help_flag":0,"anonymous":0,"is_really_anonymous":0,"level_new":1,"comment_flag":0,"in_mis":0,"auto_recommend":0,"content_rich_flag":0,"prior_flag":1,"hidden_flag":0,"rec_canceled_flag":0,"mis_flag":0,"file_flag":0,"read_flag":0,"is_challenge":0,"ikaudio_flag":0,"mavin_flag":1,"authentic_state":0,"is_compulsory_best":0,"dynamic_stick_flag":0},"ext_pack":{"reply_entry":"qb_dafuweng_tag","mode_qtype":0,"mode_begintime":0,"op_uid":0,"anony_bad_value":5,"reason_2_1":4,"reason_1_2":1},"import_id":0,"uscore":{"level":16,"sublevel":0,"good_rate":65,"icon_sysno":0,"sex":1},"inMis":0,"isHard":0,"value_rank":100002,"next_rid":null,"pre_rid":null,"applyStatus":{"applyExcType":8,"applyNum":0},"area":1,"user":{"uid":275572493,"name":null,"imId":"0de7e8aeb8e58d8ee6968c323030326c10","isAnonymous":0,"isUnLogin":0,"isCurrentUser":0,"ipNum":105726170,"isNoUserName":0,"iconType":6,"sex":1,"isAuth":0,"isExpert":0,"isExpertImport":0,"isUserAdmin":0,"isFamous":0,"isMaster":0,"isFromTorch":0,"isOpenApp":0,"encodeUid":"0de74069236f25705e796c10","gradeIndex":16,"grAnswerNum":6347,"goodRate":65.860745045139,"carefield":[{"cid":1094,"cname":null},{"cid":79,"cname":null},{"cid":80,"cname":null}],"userAdminType":1,"userAdminLevel":3,"userAdminTitle":null,"selfDefinedPhoto":1,"isAppAuth":0,"mavin":{"career":null,"authLevel":1,"field":105108,"title":null,"avatar":"http:\/\/a.hiphotos.baidu.com\/zhidao\/wh%3D450%2C600\/sign=d100db0f80025aafd36776cfcedd8752\/9d82d158ccbf6c818019b127be3eb13532fa40d6.jpg","isShowRealName":1,"realName":null,"answerNum":null,"adoptNum":"6347","isDisplay":1,"isNew":1,"utype":0,"qualityNum":"79","helpNum":null,"praise":null,"major":1,"desc":null,"fields":[{"id":105108,"name":null}],"levelTitle":null,"levelDesc":null},"teamId":80802,"teamName":null,"teamUrl":"http:\/\/a.hiphotos.baidu.com\/album\/pic\/item\/0bd162d9f2d3572c456e7b518b13632763d0c3ab.jpg","isFromTeam":1,"showInfo":{"imgUrl":"http:\/\/a.hiphotos.baidu.com\/zhidao\/wh%3D450%2C600\/sign=d100db0f80025aafd36776cfcedd8752\/9d82d158ccbf6c818019b127be3eb13532fa40d6.jpg","type":3,"slogan":null,"name":null,"siteUrl":"https:\/\/zhidao.baidu.com\/hangjia\/profile\/%D0%ED%BB%AA%B1%F32002?ie=gbk"},"praiseNum":20380},"oldQid":1382156557,"relateWords":[]}],
+            sid: '',
+            askQid: '1950653765113090748'
+        });
+        $.getScript("https://gh.bdstatic.com/static/gh/js/ll/m_word.js");
+    });
+}();
+!function(){var F = (window.__IKNOW_GLOBAL__ || window).F;var require = (window.__IKNOW_GLOBAL__ || window).require;require.async(['question-new:widget/image-scale/image-scale'], function(imageScale){
+    imageScale.init('.ikqb_img');
+});
+}();
+!function(){var F = (window.__IKNOW_GLOBAL__ || window).F;var require = (window.__IKNOW_GLOBAL__ || window).require;        require.async(['common:widget/js/util/log/log'], function (log) {
+            log.addKey({
+                pageRole: 'browser'
+            });
+        });
+    }();
+!function(){var F = (window.__IKNOW_GLOBAL__ || window).F;var require = (window.__IKNOW_GLOBAL__ || window).require;require.async(['question-new:widget/mask/mask.es'], function(mask) {
+    mask.init();
+});
+}();
+!function(){var F = (window.__IKNOW_GLOBAL__ || window).F;var require = (window.__IKNOW_GLOBAL__ || window).require;require.async(['question-new:widget/view/accusation/accusation.es'], function(accusation) {
+    accusation.init();
+});
+}();
+!function(){var F = (window.__IKNOW_GLOBAL__ || window).F;var require = (window.__IKNOW_GLOBAL__ || window).require;    require('common:widget/js/logic/ie-prompt/ie-prompt');
+    require.async(['common:widget/footer-new/footer-new'], function(footer) {
+        footer.init();
+    });
+}();
+!function(){var F = (window.__IKNOW_GLOBAL__ || window).F;var require = (window.__IKNOW_GLOBAL__ || window).require;require.async(['common:widget/js/util/tangram/tangram','common:widget/js/util/log/log','common:widget/js/util/event/event','common:widget/js/ui/dialog/dialog','question-new:widget/js/file/file','question-new:widget/js/video/video','common:widget/js/ui/tip/tip','common:widget/js/util/https/https','common:widget/js/util/store/store','question-new:widget/mavin-statistics/mavin-statistics'], function($, log, ec, Dialog, File, Video, Tip, https, store, mavinStatistics){
+
+        // 打点QB页用户可操作时间
+        alog && alog('speed.set', 'drt', +new Date);
+                        require.async(['question-new:widget/js/accuse/accuse'], function(accuse){
+                    accuse.init({ target: '#wgt-ask .accuse-area', response: 'wgt-ask', accusetype: 0 });
+                    if (!$.isEmptyObject(F.context('answers'))){
+
+                        accuse.init({ target: '.wgt-best .accuse-area',	response: 'wgt-best', accusetype: 1 });
+                        accuse.init({ target: '#wgt-answers .accuse-area', response: 'answer', accusetype: 1 });
+                    }
+                });
+                                            
+            log.addKey({
+                qbleftdown: $('.qbleftdown').find('li').size(),
+                qbrightdown:$('.qbrightdown').find('.r').size()
+            });
+            if ( $( '.qbleftdown a' ).size() ) {
+                log.addKey({
+                    ec_ads: '2',
+                    ec_ads_count: $('.qbleftdown').find('a.ec_ad_title, span.ec_qad_title, a.EC_ad_title').size()
+                });
+                $('.qbleftdown a').click(function(){
+                    var $parent = $( this ).parent();
+                    if ( this.id || this.className == 'EC_ad_title'
+                        || $(this).hasClass('ec_ik220_adtitle')
+                        || $(this).hasClass('ec_ik220_desc')
+                        || $parent.hasClass( 'EC_ads_answer' )
+                        || this.className == 'EC_ads_listurl'
+                        || this.className == 'ec_ad_title'
+                        || $parent.hasClass('ec_qad_title')
+                        || $parent.hasClass('ec_qad_answerer') ) {
+                        log.send({
+                            type: 2014,
+                            evtType: 'click',
+                            pos: 'ec_ads'
+                        });
+                    }
+                });
+            }
+            require.async(['question-new:widget/js/card/card'], function(card){
+                $('.user-name').each(function(index, item){
+                    new card({ target: item, type: 'normal' });
+                });
+                $('.mavin-name').each(function(index, item){
+                    new card({target: item, type: 'mavin' });
+                });
+                $('.opendev-name').each(function(index, item){
+                    new card({target: item, type: 'opendev'});
+                });
+                $('.uadmin-a').each(function(index, item) {
+                    new card({target: item, type: 'uadminIcon'});
+                });
+                $('.business-name').each(function(index, item){
+                    new card({target: item, type: 'business' });
+                });
+                $('.quality-business-name').each(function (index, item) {
+                    new card({target: item, type: 'qbusiness'});
+                });
+            });
+            $('.replyask-shrink a').click(function(e){
+                e.preventDefault();
+                var flag = this.innerHTML.indexOf('更多追问') != -1;
+
+                var dl = $(this).html( flag ? '<i class="i-incline-up"></i>收起追问' : '<i class="i-incline-down"></i>更多追问' ).parent().prevAll('.replyask');
+                $($.makeArray(dl).reverse().slice(flag ? 0 : 2, dl.length)).css('display', flag ? 'block' : 'none');
+            });
+            $('.replyask-box').each(function (index, item) {
+                if ($(item).find('.replyask-shrink').size() == 0) {
+                    if ($(item).find('.ask-supply').size() == 2) {
+                        // $(item).find('.replyask').last().find('.ask-supply-line').hide();
+                    }
+                    if ($(item).find('.ask-supply').size() == 1) {
+                        // $(item).find('.ask-supply-line').hide();
+                    }
+                    $(item).find('.ask-supply-line').last().hide();
+                }
+            });
+            if($('.thunder-wrap').size()){
+                require.async(['question-new:widget/js/thunder/thunder'], function(thunder){
+                    $(function(){
+                        thunder.init();
+                    });
+                });
+            }
+            $.each(F.context('answers'), function(index, item){
+                if (item.user && item.user.isFromBusiness > 0) {
+                    $.ajax({
+                        url: '/business/submit/onbusinessbrowse',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            businessId: item.user.business.businessId,
+                            page: '1',
+                            token: F.context('businessToken'),
+                            qid: F.context('page')['qid']
+                        }
+                    });
+                }
+                if (item.ext_pack && item.ext_pack.team_id) {
+                    log.send({
+                        teamId: item.ext_pack.team_id,
+                        excellentReverse: item.ext_pack.excellent_reverse ? 1 : 0,
+                        isExcellent: +item.ext_pack.excellent_aduit_pass === 1 ? 1 : 0
+                    });
+                }
+            });
+            mavinStatistics.scan();
+            require.async(['question-new:widget/js/comment/comment'], function(comm){
+                comm.getCount();
+            });
+            $('.recommend-text, .best-text, .answer-text, .replyask-content').each(function(i, answerText){
+                $(answerText).find('pre[t="code"]').each(function(i, pre){
+                    var loadSyntax = function(){
+                        SyntaxHighlighter(pre);
+                    };
+
+                    $(pre).text($(pre).html($(pre).html().replace(/<br\s*\/?>/ig, '##IK_LINEBREAK##')).text().split('##IK_LINEBREAK##').join('\n'));
+
+                    $(pre).addClass('brush:'+$(pre).attr('l')+';toolbar:false;');
+                    if (window.SyntaxHighlighter) {
+                        SyntaxHighlighter.highlight(pre);
+                        $(answerText).find('.syntaxhighlighter .code .line').each(function(index, line){
+                            $(answerText).find('.syntaxhighlighter .gutter .line').eq(index).height($(line).height());
+                        });
+                    } else {
+                        var sioUrl = https.autoTrans('http://img.iknow.bdimg.com/libs/SyntaxHighlighter/shCore.min.js');
+                        $.sio(sioUrl).callByBrowser(function(){
+                            SyntaxHighlighter.defaults['quick-code'] = false;
+                            SyntaxHighlighter.config.stripBrs = true;
+                            SyntaxHighlighter.highlight(pre);
+                            $(answerText).find('.syntaxhighlighter .code .line').each(function(index, line){
+                                $(answerText).find('.syntaxhighlighter .gutter .line').eq(index).height($(line).height());
+                            });
+                        });
+                    }
+                });
+
+                $(answerText).find('ikvideo').each(function(i, video){
+                    var id = 'VIDEO_' + $.id(),
+                        src = $(video).attr('src'),
+                        sid;
+
+                    var container = $('<div/>').attr('id', id).insertBefore($(video));
+                    if (src.indexOf('v.baidu.com') > -1 ) {
+                        container.html('<iframe src="'+src+'" frameborder=0 scrolling="no" width="'+$(video).attr('width')+'" height="'+$(video).attr('height')+'" class="'+$(video).attr('class')+'"></iframe>');
+                        return;
+                    }
+                    if (src.indexOf('youku') > -1 && (sid = src.match(/sid\/(.*?)[\?\/]/))) {
+                        if (sid[1]) {
+                            src = 'http://player.youku.com/player.php/sid/'+sid[1]+'/v.swf';
+                        }
+                    }
+
+                    container.html('<embed src="'+src+'" allowFullScreen="true" quality="high" width="'+$(video).attr('width')+'" height="'+$(video).attr('height')+'" align="'+$(video).attr('align')+'" allowScriptAccess="never" type="application/x-shockwave-flash"></embed>');
+                });
+            });
+
+                var scrollLogged = false;
+        var middleLogged = false;
+        var bottomLogged = false;
+        $(document).on('scroll', function () {
+            var docViewTop = $(window).scrollTop();
+            var docViewBottom = docViewTop + $(window).height();
+
+            var $cmsScroll = $('#cms-scroll');
+
+            if ($cmsScroll.length > 0) {
+                var scrollElemTop = $cmsScroll.offset().top;
+
+                if (!scrollLogged && (scrollElemTop > docViewTop && scrollElemTop < docViewBottom)) {
+                    scrollLogged = true;
+                    log.send({
+                        area: 'quesion_right_scoll'
+                    });
+                }
+            }
+
+            var $cmsCompany = $('#cms-company');
+
+            if ($cmsScroll.length > 0) {
+                var middleElemTop = $cmsScroll.offset().top;
+
+                if (!middleLogged && (middleElemTop > docViewTop && middleElemTop < docViewBottom)) {
+                    middleLogged = true;
+                    log.send({
+                        area: 'question_middle_ads'
+                    });
+                }
+            }
+
+            var $knowledge = $('.knowledge');
+
+            if ($knowledge.length > 0) {
+                var bottomElemTop = $knowledge.offset().top;
+
+                if (!bottomLogged && (bottomElemTop > docViewTop && bottomElemTop < docViewBottom)) {
+                    bottomLogged = true;
+                    log.send({
+                        area: 'question_knowledge'
+                    });
+                }
+            }
+        });
+        require.async(['common:widget/js/ui/lazyload/lazyload'], function(lazyload){
+            $('.wgt-replyer-best .avatar-48 a, .wgt-replyer-best .avatar-66 a, .wgt-replyer-special .avatar-66 a,.wgt-replyer-best .avatar-69 a, .wgt-replyer-best .avatar-70 a, .wgt-replyer-best .avatar-66 a, #cms-company a').lazyload();
+        });
+        $('.ikqb-map').each(function(index, item) {
+            var ifreamObj = $("<iframe/>").attr({
+                frameborder: '0'
+                ,width:"430"
+                ,height:"310"
+                ,style: 'display:none;'
+                ,className: 'answer-map'
+            }),
+            tmpsrc = $(item).attr("map") || $(item).attr("src");
+            
+            var iframeSrc = !/ueditor\/dialogs\/map/i.test(tmpsrc) ? '//zhidao.baidu.com/html/map' + tmpsrc.replace(/^iknow/i, '') : tmpsrc;
+
+            ifreamObj.attr('src', iframeSrc);
+
+            $(item).before(ifreamObj).remove();
+            ifreamObj.after(
+                $("<p/>").addClass('f-aid').html("本数据来源于百度地图，最终结果以百度地图最新数据为准。")
+            ).show();
+        });
+        if ($('video.edui-faked-video').size() > 0) {
+            Video.init();
+        }
+        require.async(['common:widget/js/logic/ut/ut'], function(UT){
+            UT.start(['userbar','header','wgt-ask','answer-editor','wgt-answers']);
+        });
+
+        File.init();
+
+        logPV();
+        if (F.context('user')['isUserAdmin'] != '1'){
+            require.async(['question-new:widget/js/select-search/select-search'], function(A){
+                A.init();
+            });
+        }
+        log.init({key:2014, query: 'body',action:'click'});
+        function logPV(){
+            var logOptions = {
+                module: 'question',
+                screen: parseInt($('body').height()/$(window).height()),
+                cid: F.context('page')['cid'],
+                view: F.context('page').isView,
+                cidTop: F.context('page')['cidTop'],
+                cidMid: F.context('page')['cidMid'],
+                refer: document.referrer,
+                userStatus:  '',
+                adsEids: F.context('page').adsAll.adsEids.join(','),
+                create_time: F.context('page').createTime || 0,
+                asker_uid: F.context('page').uid || 0,
+                viewer_uid: F.context('user').uid || 0,
+                isNewPcQbPage: 1,
+                rand: (+new Date()) + Math.random().toString().substring(2),
+                entry: $.url.getQueryValue(location.href, 'entry')
+            };
+
+            log.addKey({
+                evaSampling: 72,
+                qid: F.context('page')['qid']
+            });
+
+            if (F.context('page').relateQids) {
+                logOptions.relateQids = F.context('page').relateQids;
+            }
+
+            if (F.context('page').relateTopicQids) {
+                logOptions.relateTopicQids = F.context('page').relateTopicQids;
+            }
+            if ($('.classinfo').length) {
+                log.addKey({'classinfo': 1});
+            }
+            var uadminIcon = $('.uadmin-a');
+            var uadminIconSize = uadminIcon.length;
+            if (uadminIconSize) {
+                logOptions.uadminIconNum = uadminIconSize;
+            }
+
+            log.addKey(logOptions);
+        }
+        var grid68  = $('.qb-content'),
+            qid = F.context('page')['qid'];
+        $.each({
+            'qb-content'            : '.q-content a@',
+            'qb-supply-content'     : '.q-supply-content a@',
+            'qb-best-text'          : '.wgt-best .best-text a@',
+            'qb-special-bast-text'  : '.wgt-special .best-text a@',
+            'qb-recommend-text'     : '.wgt-recommend .recommend-text a@',
+            'qb-answer-text'        : '.answer-text a@',
+            'qb-replyask-ask'       : '.ask+dd a',
+            'qb-replyask-reply'     : '.reply+dd a',
+            'qb-best-thank'         : '.thank pre a',
+            'qb-answer-refer'       : '.answer-refer a'
+        }, function(key, val){
+            var aLink = grid68.find( val.replace(/\@$/, '[title!="点击查看大图"]') )
+                        .not('.app-keyword,.inner-link')
+                        .filter(function(){
+                            return this.getAttribute('href').match(/^http/i) && this.innerHTML != '' && !$(this).closest('.ed2k-wrap').size() && !$(this).closest('.thunder-wrap').size()
+                        });
+            aLink.click(function(){
+                log.send({
+                    'type'  : 2014,
+                    'page'  : 'question',
+                    'qid'   : qid,
+                    'area'  : key,
+                    'action': 'linkClick',
+                    'text'  : this.getAttribute('href'),
+                    'host'  : this.getAttribute('href').split('/')[2]
+                });
+            });
+            grid68.find( val.replace(/\@$/, '') ).attr('rel', 'nofollow');
+        });
+
+                            $(document).on('click', '.ikqb_img_alink', function(evt){
+                if($.browser.msie&&$.browser.version==6){
+                    return false;
+                }
+                var imgTarget = $(this).find('img'),
+                    imgBigSrc = $(this).attr('href'),
+                    maxWidth = $(this).parent('p').outerWidth(),
+                    imgSmallSrc = imgTarget.attr('esrc'),
+                    sourceWidth = imgTarget.width(),
+                    sourceHeight = imgTarget.height();
+
+                if(imgTarget.hasClass('img_show')){
+                    imgTarget.attr('src',imgBigSrc);
+                    if(!imgTarget.hasClass('ikqb_img')){
+                        imgTarget.removeClass('ikqb_img');
+                        imgTarget.animate({
+                            'width':'100%'
+                        },500);
+                    }else{
+                        imgTarget.animate({
+                            'maxWidth':'500px',
+                            'maxHeight':'340px'
+                        },500);
+                    }
+                    imgTarget.removeClass('img_show');
+                }else{
+                    $(this).append('<i class="ikqb_img_loading"></i>');
+                    var bigImg = new Image();
+                    bigImg.onload = function(){
+                        imgTarget.attr('src',imgBigSrc);
+                        if(sourceWidth == bigImg.width){
+                            imgTarget.removeClass('ikqb_img');
+                            imgTarget.animate({
+                                'width':'120%'
+                            },500);
+                        }else{
+                            imgTarget.animate({
+                                'maxWidth':bigImg.width>maxWidth?maxWidth:bigImg.width,
+                                'maxHeight':bigImg.height
+                            },500);
+                        }
+                        imgTarget.addClass('img_show');
+                        $('.ikqb_img_loading').remove();
+                    }
+                    bigImg.src = imgBigSrc;
+                }
+                evt.preventDefault();
+            });
+            // 答案折叠策略，要获取所有内容后再折叠，需要放在图片处理后
+    $(window).on('load', function () {
+        var hasLoged;
+        // 其他答案折叠策略
+        $('#wgt-answers .answer-text').each(function (index, item) {
+            var $item = $(item);
+            var $height = $item.height();
+            $item.data('oriheight', $height);
+            $item.data('showstatus', 'hide');
+            if ($height > 300) {
+                if (!hasLoged) {
+                    log.send({
+                        area: 'answer-hascut-normal',
+                        action: 'pv'
+                    });
+                    hasLoged = true;
+                }
+                $item.height(300);
+                $item.find('.wgt-answers-mask').show();
+            } 
+        });
+        // 最佳答案折叠策略
+        (function () {
+            var $content = $('.wgt-best .best-text');
+            var $height = $content.height();
+            $content.data('oriheight', $height);
+            $content.data('showstatus', 'hide');
+            if ($height > 750) {
+                    log.send({
+                        area: 'answer-hascut-best',
+                        action: 'pv'
+                    });
+                    hasLoged = true;
+                $content.height(750);
+                $content.find('.wgt-best-mask').show();
+            }
+        })();
+    })
+
+
+
+    // 图片居中
+    $(window).load(function () {
+        $('.wgt-best .best-text').add('#wgt-answers .answer-text').find('.ikqb_img_alink').each(function (index, item) {
+            var $item = $(item);
+            var $img = $item.find('img');
+            if ($img.size()) {
+                $item.css({
+                    display: 'block',
+                    width: $img.width(),
+                    margin: '0 auto'
+                });
+            }
+        });
+    });
+    var loc_ans = $.url.getQueryValue(location.href, 'loc_ans');
+    if(!loc_ans) {
+        var myAnswerList = $('.wgt-best .answer-mine, .wgt-recommend .answer-mine, .wgt-special .answer-mine'),
+            myAnswer = null;
+        if(myAnswerList.size()){
+            myAnswer = myAnswerList.first();
+            setTimeout(function(){
+                $(document).scrollTop(myAnswer.offset().top - 10);
+            }, 200);
+        // 保证其它回答翻页时定位到首个回答的顶部
+        } else if (location.hash === '#wgt-answers' && $('#wgt-answers').size()) {
+            // 防止刷新时重复定位
+            try {
+                if (document.referrer === sessionStorage.getItem('sessionPreReferrer')) {
+                    return;
+                } else {
+                    sessionStorage.setItem('sessionPreReferrer', document.referrer);
+                }
+            }
+            catch (e) {}
+            // 顺序要在答案折叠后面，以免影响计算
+            $(window).on('load', function () {
+                // 变为异步排除其他定位干扰
+                setTimeout(function () {
+                    var top = $('#wgt-answers').offset().top;
+                    // 主要是排除吸顶头部的干扰防止覆盖住回答顶部
+                    var $title = $('.wgt-ask .ask-title');
+                    var diff = top > $title.offset().top + $title.height() - 50 ? 55 : 0;
+                    $(window).scrollTop(top - diff);
+                }, 0)
+            })
+        }
+    }else {
+        var locAnswerList = $('.wgt-best .answer, .wgt-recommend .answer, .wgt-special .answer'),
+            locAnswer = null;
+        locAnswerList.each(function(index, item) {
+            if($(item).attr("id").indexOf(loc_ans) != -1) {
+                locAnswer = $(item);
+            }
+        });
+        if(locAnswer) {
+            setTimeout(function(){
+                $(document).scrollTop(locAnswer.parent().offset().top - 10);
+            }, 200);
+        }
+    }
+});
+}();
+!function(){var F = (window.__IKNOW_GLOBAL__ || window).F;var require = (window.__IKNOW_GLOBAL__ || window).require;    require.async(['question-new:widget/dom-ready/dom-ready'], function(domReady) {
+        domReady.init();
+    });
+}();
+!function(){var F = (window.__IKNOW_GLOBAL__ || window).F;var require = (window.__IKNOW_GLOBAL__ || window).require;								                				require.async(['common:widget/js/logic/dom-ready/dom-ready'], function(D){ D.init([]) });
+            }();
+</script>
+<script type="text/javascript">
+    require.async(['common:widget/lib/jquery/jquery'], function ($) {
+        if (!/chrome|firefox|safari|msie 10|rsv:11|msie [89]/i.test(navigator.userAgent)) {
+            return;
+        }
+
+        window.BaiduHttps = window.BaiduHttps || {};
+        window.BaiduHttps.callbacks = function (data) {
+            if (data && data.s === 0) {
+                window.supportHttps = 1;
+                setTimeout(function () {
+                    $('a[href^="http://www.baidu.com/s?"]').each(function (index, item) {
+                        var link = $(item).attr('href');
+                        if (~link.indexOf('?wd=') || ~link.indexOf('&wd=')) {
+                            link = link.replace(/^http/, 'https');
+                            $(item).attr('href', link);
+                        }
+                    });
+                }, 2000);
+            }
+        };
+
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'https://www.baidu.com/con?from=zhidao';
+        document.body.appendChild(script);
+    });
+</script>
+
+
+</html>

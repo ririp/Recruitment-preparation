@@ -1,0 +1,240 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="referrer" content="origin" />
+<title>HashMap和HashTable的区别 - 吴庆龙 - 博客园</title>
+<meta property="og:description" content="概述 关于HashMap 和 HashTable 的区别, 在这里进行一次总结. 1. 存储结构 HashTable 数组 + 链表 HashMap的存储规则: 优先使用数组存储, 如果出现Hash冲" />
+<link type="text/css" rel="stylesheet" href="/bundles/blog-common.css?v=PX31qVjOE47mNaZI9JUSFK-ajuzMnpXA9PeteRNR1Qw1"/>
+<link id="MainCss" type="text/css" rel="stylesheet" href="/skins/marvin2/bundle-marvin2-brown.css?v=XX5jb76xyBTDkuz4GHc9T_qGUR-1oOf-1_iv8KwHFqI1"/>
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/marvin2/bundle-marvin2-brown-mobile.css?v=daOHU_gxW8RLdzDvomxkSmocrcPirdO1j0yfZrCDa_w1"/>
+<link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/wuqinglong/rss"/>
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/wuqinglong/rsd.xml"/>
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/wuqinglong/wlwmanifest.xml"/>
+<script src="//common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+<script type="text/javascript">var currentBlogApp = 'wuqinglong', cb_enable_mathjax=true;var isLogined=false;</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'blogpost-body', processEscapes: true },
+        TeX: { 
+            equationNumbers: { autoNumber: ['AMS'], useLabelIds: true }, extensions: ['extpfeil.js'] },
+            'HTML-CSS': { linebreaks: { automatic: true } },
+            SVG: { linebreaks: { automatic: true } }
+        });
+    </script><script src="//mathjax.cnblogs.com/2_7_2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="/bundles/blog-common.js?v=M03aVfZ8QFd-WbinG9a-QXWifrkNB2YI5lN9M8cSzzg1" type="text/javascript"></script>
+</head>
+<body>
+<a name="top"></a>
+
+<div id="top">
+
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/wuqinglong/">削个椰子皮</a></h1>
+<p id="tagline">不积跬步无以至千里</p>
+</div>
+<div id="leftmenu">
+
+	
+<h3>导航</h3>
+<ul>
+	<li>
+		<a id="blog_nav_sitehome" href="https://www.cnblogs.com/">博客园</a>
+	<li><a id="blog_nav_myhome" href="https://www.cnblogs.com/wuqinglong/">首页</a></li>
+	<li><a id="blog_nav_newpost" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+	<li>
+		<a id="blog_nav_contact" accesskey="9" rel="nofollow" href="https://msg.cnblogs.com/send/%E5%90%B4%E5%BA%86%E9%BE%99">联系</a>
+	<li>
+		<a id="blog_nav_rss" href="https://www.cnblogs.com/wuqinglong/rss">订阅</a><a id="blog_nav_rss_image" href="https://www.cnblogs.com/wuqinglong/rss"><img src="//www.cnblogs.com/images/xml.gif" alt="订阅" /></a>
+	<li>
+		<a id="blog_nav_admin" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+
+	<div id="blog-calendar" style="display:none"></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+	<div id="blog_stats">
+<h3>统计</h3>
+<ul>
+	<li>
+		随笔 -
+		24
+	<li>
+		文章 -
+		0
+	<li>
+		评论 -
+		5
+	<li>
+		引用 -
+		0
+	</li>
+</ul>
+</div>
+	
+	<div id="blog-sidecolumn"></div><script type="text/javascript">loadBlogSideColumn();</script>
+
+</div>
+<div id="main">
+	
+<div id="post_detail">
+	<div class="post">
+		<h2>
+			<a id="cb_post_title_url" href="https://www.cnblogs.com/wuqinglong/p/5746473.html">HashMap和HashTable的区别</a>
+		</h2>
+		<div id="cnblogs_post_body" class="blogpost-body"><h1>概述</h1>
+<p>关于HashMap 和 HashTable 的区别, 在这里进行一次总结.</p>
+<p>&nbsp;</p>
+<h1>1. 存储结构</h1>
+<table style="height: 42px; width: 314px;" border="0" align="left">
+<tbody>
+<tr>
+<td>HashMap</td>
+<td>
+<p>HashTable</p>
+</td>
+</tr>
+<tr>
+<td>数组 + 链表/红黑树</td>
+<td>
+<p>数组 + 链表</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>HashMap的存储规则:</p>
+<p>优先使用数组存储, 如果出现Hash冲突, 将在数组的该位置拉伸出链表进行存储(在链表的尾部进行添加), 如果链表的长度大于设定值后, 将链表转为红黑树.</p>
+<p>&nbsp;</p>
+<p>HashTable的存储规则:</p>
+<p>优先使用数组存储, 存储元素时, 先取出下标上的元素(可能为null), 然后添加到数组元素Entry对象的next属性中(在链表的头部进行添加).</p>
+<p>出现Hash冲突时, 新元素next属性会指向冲突的元素. 如果没有Hash冲突, 则新元素的next属性就是null</p>
+<p>描述的有点模糊, 贴出源码会清晰一点:</p>
+<div class="cnblogs_code">
+<pre>Entry&lt;K,V&gt; e = (Entry&lt;K,V&gt;<span style="color: #000000;">) tab[index];
+tab[index] </span>= <span style="color: #0000ff;">new</span> Entry&lt;&gt;(hash, key, value, e);</pre>
+</div>
+<p>&nbsp;</p>
+<h1>2. 扩容方式</h1>
+<table style="height: 82px; width: 520px;" border="0" align="left">
+<tbody>
+<tr>
+<td>HashMap</td>
+<td>
+<p>HashTable</p>
+</td>
+</tr>
+<tr>
+<td>oldCap * 2</td>
+<td>
+<p>oldCap * 2 + 1</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h1>3. 关于null值</h1>
+<table style="height: 42px; width: 482px;" border="0" align="left">
+<tbody>
+<tr>
+<td>
+<p>HashMap</p>
+</td>
+<td>HashTable</td>
+</tr>
+<tr>
+<td>
+<p>key, value 均可以为 null</p>
+</td>
+<td>key, value 均<strong>不</strong>可以为 null</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h1>4. 线程安全</h1>
+<table style="height: 78px; width: 483px;" border="0" align="left">
+<tbody>
+<tr>
+<td>HashMap</td>
+<td>HashTable</td>
+</tr>
+<tr>
+<td>线程不安全</td>
+<td>线程安全</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>HashMap虽然是线程不安全的, 但还是推荐使用, 因为 HashTable实现线程安全的方式太低效了, 直接在方法上加了 synchronized 关键字来实现的.</p>
+<p>我们可以使用 ConcurrentHashMap 来实现线程安全(推荐使用).</p>
+<p>或者使用 Collections.synchronizedMap(map); 来实现线程安全(不推荐, 因为内部是使用了synchronized代码块进行控制并发的).</p>
+<p>&nbsp;</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory"></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info">
+</div>
+<div class="clear"></div>
+<div id="post_next_prev"></div>
+</div>
+
+
+		<p class="postfoot">
+			posted on <span id="post-date">2016-08-07 16:22</span> <a href='https://www.cnblogs.com/wuqinglong/'>吴庆龙</a> 阅读(<span id="post_view_count">...</span>) 评论(<span id="post_comment_count">...</span>)  <a href ="https://i.cnblogs.com/EditPosts.aspx?postid=5746473" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(5746473);return false;">收藏</a>
+		</p>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=263965,cb_entryId=5746473,cb_blogApp=currentBlogApp,cb_blogUserGuid='6d64e7e3-cfbd-e511-9fc1-ac853d9f53cc',cb_entryCreatedDate='2016/8/7 16:22:00';loadViewCount(cb_entryId);var cb_postType=1;</script>
+	
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id='comment_form' class='commentform'>
+<a name='commentform'></a>
+<div id='divCommentShow'></div>
+<div id='comment_nav'><span id='span_refresh_tips'></span><a href='javascript:void(0);' onclick='return RefreshCommentList();' id='lnk_RefreshComments' runat='server' clientidmode='Static'>刷新评论</a><a href='#' onclick='return RefreshPage();'>刷新页面</a><a href='#top'>返回顶部</a></div>
+<div id='comment_form_container'></div>
+<div class='ad_text_commentbox' id='ad_text_under_commentbox'></div>
+<div id='ad_t2'></div>
+<div id='opt_under_post'></div>
+<div id='cnblogs_c1' class='c_ad_block'></div>
+<div id='under_post_news'></div>
+<div id='cnblogs_c2' class='c_ad_block'></div>
+<div id='under_post_kb'></div>
+<div id='HistoryToday' class='c_ad_block'></div>
+<script type='text/javascript'>
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+</div>
+
+<p id="footer">
+	Powered by: 
+	<br />
+	
+	<a id="Footer1_Hyperlink3" NAME="Hyperlink1" href="https://www.cnblogs.com/" style="font-family:Verdana;font-size:12px;">博客园</a>
+	<br />
+	Copyright &copy; 吴庆龙
+</p>
+</body>
+</html>

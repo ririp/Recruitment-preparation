@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<!-- html svn version:1995 -->
+
+
+
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>C++面试题目总结_笔经面经_牛客网</title>
+<meta name="description"
+content="C++面试题目总结,1：进程与线程的区别？
+
+
+	答案：https:/...,百度阿里腾讯网易谷歌小米笔试面试分享">
+<meta name="keywords"
+content="C++面试题目总结,面经,C++工程师,秋招,,笔经面经,笔经,面经,牛客网,IT笔试面试题库">
+<meta itemprop="image" content="https://static.nowcoder.com/images/logo_87_87.png"/>
+<link rel="stylesheet" href="https://static.nowcoder.com/nc/fontcustom/release/ncfontcustom.css?t=1.2.1101">
+<link rel="stylesheet" href="//static.nowcoder.com/nowcoder/1.2.1101/stylesheets/styles/discuss/discuss.css"/>
+</head>
+<body>
+<div class="nk-container    ">
+<div class="nowcoder-header">
+<div class="header-main clearfix">
+<a class="nowcoder-logo" href="/" title="牛客网"></a>
+<ul class="nowcoder-navbar">
+<li>
+<a href="/">首页</a>
+</li>
+<li>
+<a href="/contestRoom">题库</a>
+<ul class="sub-nav">
+<li><a href="/contestRoom">公司真题</a></li>
+<li><a href="/intelligentTest">专项练习</a></li>
+<li><a href="/activity/oj">在线编程</a></li>
+<li><a href="/mockexam/MockExam">模拟笔试</a></li>
+<li><a href="/schoolbooks">教材全解</a></li>
+<li><a href="/kaoyan">考研真题</a></li>
+<li><a href="/finalexam">期末考题</a></li>
+<li><a href="/activity/topics">精华专题</a></li>
+<li><a href="/questionCenter">试题广场</a></li>
+</ul>
+</li>
+<li>
+<a href="/courses">学习</a>
+<ul class="sub-nav">
+<li><a href="/courses">课程</a></li>
+<li><a href="/project/recommend">项目实战</a></li>
+<li><a href="/stacks">技术栈</a></li>
+</ul>
+</li>
+<li>
+<span class="ico-nav-new"></span>
+<a href="/recommend">求职</a>
+</li>
+<li class="active">
+<a href="/discuss">讨论区</a>
+</li>
+<li>
+<a href="/acm/contest/vip-index">发现</a>
+<ul class="sub-nav">
+<li><a href="/acm/contest/vip-index">竞赛</a></li>
+<li><a href="/show-offer/index">Offer神器</a></li>
+<li><a href="/ranking">排行榜</a></li>
+<li><a href="/coin/index">牛币兑换中心</a></li>
+</ul>
+</li>
+</ul>
+<div class="nav-account">
+<a href="/login" class="nav-account-login" id="nav-login">登录</a>/
+<a href="/register" class="nav-account-reg" data-permalink="">注册</a>
+</div>
+<ul class="nowcoder-navbar nowcoder-other-nav">
+<li class="nav-search">
+<a href="javascript:void(0);" class="icon-search js-search-btn">搜索</a>
+<div class="newnav-search-wrap">
+<div class="newnav-search-cont">
+<form method="get" action="/search">
+<input class="nav-search-txt" name="query" type="text">
+<input type="hidden" name="type" value="all"/>
+<input type="submit" class="nk-invisible"/>
+<a href="javascript:void(0);" class="icon-search-colse  js-close-search-btn"></a>
+</form>
+</div>
+</div
+</li>
+<li>
+<a href="/app" class="icon-mobile-phone">APP</a>
+</li>
+<li>
+<a href="http://hr.nowcoder.com" class="icon-briefcase" target="_blank">企业版</a>
+</li>
+</ul>
+</div>
+</div>
+<div class="nk-main clearfix">
+<div class="crumbs-path">
+<a href="/">首页</a>
+<span>&gt;</span>
+<a href="/discuss?type=2">笔经面经</a>
+<span>&gt;</span>
+<span class="crumbs-end">C++面试题目总结</span>
+</div>
+<!--主体内容-->
+<div class="nk-content">
+<div class="module-box discuss-topic js-copy-mark" data-mark-info="作者：线上幽灵007">
+<div class="discuss-topic-head">
+<h1 class="discuss-title">C++面试题目总结
+</h1>
+<div class="discuss-author clearfix">
+<a href="/profile/4039680
+" class="answer-head js-nc-card
+" data-card-uid="4039680"><img src="https://images.nowcoder.com/images/20180601/4039680_1527837474843_1C6178BB7ABEDE41DEBBFC8983A9117B@0e_100w_100h_0c_1i_1o_90Q_1x" alt="头像"></a>
+<div class="post-detail">
+<span>
+<a class="js-nc-card
+ level-color-8
+ post-name"
+href="/profile/4039680
+"
+title="线上幽灵007" data-card-uid="4039680">线上幽灵007
+</a>
+</span>
+<div class="post-legend">
+<span class="post-time">
+编辑于  2018-10-09 12:14:44
+</span>
+<div class="feed-legend">
+<span style="cursor:pointer;" class="nc-req-auth js-post-replay">回复<span
+class="feed-legend-num">4</span></span>
+<span class="feed-legend-pipe">|</span>
+<span style="cursor:pointer;" class="js-post-like nc-req-auth">赞 5</span>
+<span class="feed-legend-pipe">|</span>
+<span>浏览<span class="feed-legend-num">681</span></span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="post-topic-main">
+<div class="post-topic-des nc-post-content">
+<p>
+	1：进程与线程的区别？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/82967718" target="_blank">https://blog.csdn.net/chen134225/article/details/82967718</a> 
+</p>
+<p>
+	2：进程间的通信方式？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/82967718" target="_blank">https://blog.csdn.net/chen134225/article/details/82967718</a> 
+</p>
+<p>
+	3：线程间的通信方式？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/82967718" target="_blank">https://blog.csdn.net/chen134225/article/details/82967718</a> 
+</p>
+<p>
+	4：栈和堆的区别？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/81191501" target="_blank">https://blog.csdn.net/chen134225/article/details/81191501</a> 
+</p>
+<p>
+	5：C++和C的区别？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/82968064" target="_blank">https://blog.csdn.net/chen134225/article/details/82968064</a> 
+</p>
+<p>
+	6：红黑树和B树的区别？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/81116306" target="_blank">https://blog.csdn.net/chen134225/article/details/81116306</a> 
+</p>
+<p>
+	7：产生死锁的必要条件？已经如何预防死锁？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/82968198" target="_blank">https://blog.csdn.net/chen134225/article/details/82968198</a> 
+</p>
+<p>
+	8：TCP和UDP的区别？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/82968275" target="_blank">https://blog.csdn.net/chen134225/article/details/82968275</a> 
+</p>
+<p>
+	9：TCP状态中 time_wait 的作用？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/82968346" target="_blank">https://blog.csdn.net/chen134225/article/details/82968346</a> 
+</p>
+<p>
+	10：HTTP 2.0与HTTP 1.0的区别 ？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/79675103" target="_blank">https://blog.csdn.net/chen134225/article/details/79675103</a> 
+</p>
+<p>
+	11：HTTP与HTTPS的区别？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/79675247" target="_blank">https://blog.csdn.net/chen134225/article/details/79675247</a> 
+</p>
+<p>
+	12：TCP的三次握手和四次挥手的过程？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/82968511" target="_blank">https://blog.csdn.net/chen134225/article/details/82968511</a> 
+</p>
+<p>
+	13：事务具有四个特性？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/82968581" target="_blank">https://blog.csdn.net/chen134225/article/details/82968581</a> 
+</p>
+<p>
+	14：树的先序、中序和后序的非递归实现？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/82969139" target="_blank">https://blog.csdn.net/chen134225/article/details/82969139</a> 
+</p>
+<p>
+	15：树的层次遍历？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/82969139" target="_blank">https://blog.csdn.net/chen134225/article/details/82969139</a> 
+</p>
+<p>
+	16：static关键字的作用？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/82969468" target="_blank">https://blog.csdn.net/chen134225/article/details/82969468</a> 
+</p>
+<p>
+	17：const关键字的作用？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/82969468" target="_blank">https://blog.csdn.net/chen134225/article/details/82969468</a> 
+</p>
+<p>
+	18：指针和引用的区别？
+</p>
+<ol>
+	<li>
+		指针：指针是一个变量，只不过这个变量存储的是一个地址，指向内存的一个存储单元；<span style="color:#666666;">引用的底层是const指针，引用同样占据一块内存</span>。
+	</li>
+	<li>
+		引用不可以为空，当被创建的时候，必须初始化，而指针可以是空值，可以在任何时候被初始化。
+	</li>
+</ol>
+<p>
+	<a href="https://blog.csdn.net/chen134225/article/details/79649392" target="_blank">https://blog.csdn.net/chen134225/article/details/79649392</a> 
+</p>
+<p>
+	19：哈希表处理冲突的方法？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/82969611" target="_blank">https://blog.csdn.net/chen134225/article/details/82969611</a> 
+</p>
+<p>
+	20：面向对象的三大特性？
+</p>
+<p>
+	继承、封装、多态
+</p>
+<p>
+	21：多态的实现？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/82977013" target="_blank">https://blog.csdn.net/chen134225/article/details/82977013</a> 
+</p>
+<p>
+	22：深拷贝和浅拷贝的区别？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/82977035" target="_blank">https://blog.csdn.net/chen134225/article/details/82977035</a> 
+</p>
+<p>
+	23：vector的实现原理
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/82977066" target="_blank">https://blog.csdn.net/chen134225/article/details/82977066</a> 
+</p>
+<p>
+	24：C++ 源代码到可执行代码的详细过程 ？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/80976228" target="_blank">https://blog.csdn.net/chen134225/article/details/80976228</a> 
+</p>
+<p>
+	25：memcpy和strcpy的区别 ？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/82977117" target="_blank">https://blog.csdn.net/chen134225/article/details/82977117</a> 
+</p>
+<p>
+	26：vector删除数据时有什么需要注意的吗 ？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/82977166" target="_blank">https://blog.csdn.net/chen134225/article/details/82977166</a> 
+</p>
+<p>
+	27：虚函数和纯虚函数的区别？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/82977219" target="_blank">https://blog.csdn.net/chen134225/article/details/82977219</a> 
+</p>
+<p>
+	28：C++中overload,override,overwrite的区别？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/81188476" target="_blank">https://blog.csdn.net/chen134225/article/details/81188476</a> 
+</p>
+<p>
+	29：C++中4中强制类型转换 ？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/81305049" target="_blank">https://blog.csdn.net/chen134225/article/details/81305049</a> 
+</p>
+<p>
+	30：有了malloc/free，为什么还要new/delete？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/82977700" target="_blank">https://blog.csdn.net/chen134225/article/details/82977700</a> 
+</p>
+<p>
+	31：map可以用结构体作为健值吗，已经注意事项？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/81674052" target="_blank">https://blog.csdn.net/chen134225/article/details/81674052</a> 
+</p>
+<p>
+	32：Volatile的作用？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/81709640" target="_blank">https://blog.csdn.net/chen134225/article/details/81709640</a> 
+</p>
+<p>
+	33：了解哪些c++11特性？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/80976666" target="_blank">https://blog.csdn.net/chen134225/article/details/80976666</a> 
+</p>
+<p>
+	34：右值引用和move语义？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/80976666" target="_blank">https://blog.csdn.net/chen134225/article/details/80976666</a> 
+</p>
+<p>
+	35：STL里resize和reserve的区别？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/81113843" target="_blank">https://blog.csdn.net/chen134225/article/details/81113843</a> 
+</p>
+<p>
+	36：vector和deque的区别？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/81744367" target="_blank">https://blog.csdn.net/chen134225/article/details/81744367</a> 
+</p>
+<p>
+	37：不同排序算法的比较？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/82978151" target="_blank">https://blog.csdn.net/chen134225/article/details/82978151</a> 
+</p>
+<p>
+	38：大端和小端的区别，以及如何判断一台机器是大端还是小端？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/81132025" target="_blank">https://blog.csdn.net/chen134225/article/details/81132025</a> 
+</p>
+<p>
+	39：malloc分配内存的原理？
+</p>
+<p>
+	答案：<a href="https://blog.csdn.net/chen134225/article/details/82978296" target="_blank">https://blog.csdn.net/chen134225/article/details/82978296</a> 
+</p>
+<p>
+	40：为什么构造函数不能声明为虚函数，析构函数可以，构造函数中为什么不能调用虚函数？
+</p>
+<p>
+	<a href="https://blog.csdn.net/chen134225/article/details/81564972" target="_blank">https://blog.csdn.net/chen134225/article/details/81564972</a> 
+</p>
+<p>
+	<a href="https://blog.csdn.net/chen134225/article/details/81077818" target="_blank">https://blog.csdn.net/chen134225/article/details/81077818</a> 
+</p>
+</div>
+<div class="clearfix">
+<ul class="oprt-tool clearfix">
+<li>
+<a class="oprt-item oprt-collect js-click-follow nc-req-auth" href="javascript:void(0);">收藏(111)</a>
+</li>
+<li class="oprt-item-share">
+<a class="oprt-item oprt-share js-share-oprt-item" href="javascript:void(0);">分享</a>
+<div class="tooltip top js-share-tooltip">
+<div class="tooltip-arrow"></div>
+<div class="tooltip-inner">
+<span class="q-share-to">
+<a href="javascript:void(0);" class="js-share-link share-wb" data-share="weibo"></a>
+<a href="javascript:void(0);" class="js-share-link share-tx" data-share="qzone"></a>
+<a href="javascript:void(0);" class="js-share-wx share-wx"></a>
+</span>
+</div>
+</div>
+</li>
+<li>
+<a href="javascript:void(0);" class="js-post-like nc-req-auth oprt-item oprt-like">赞(5)</a>
+</li>
+<li>
+<a class="js-post-replay oprt-item oprt-reply nc-req-auth" href="javascript:void(0);">回帖</a>
+</li>
+<li><a class="js-post-note tag-label note-tag nc-req-auth" href="javascript:void(0);">采集到我的笔记</a></li>
+</ul>
+</div>
+</div>
+<div class="post-menu">
+<a class="pre-subject"
+href="/discuss/123043?type=2&order=0&page=1"><span
+class="subject-label">上一贴</span><span
+class="pre-subject-title">弱鸡的游戏秋招之路</span></a>
+<a class="next-subject"
+href="/discuss/118539?type=2&order=0&page=1"><span
+class="next-subject-title">vivo开发( c++)一面面经</span><span
+class="subject-label">下一贴</span></a>
+</div>
+</div>
+<div class="module-box js-wonderful-list" style="display:none;">
+<div class="module-head wonderful-review-mod clearfix">
+<h1>精彩回帖</h1>
+<span class="wonderful-tag"><i class="icon-thumbs-up"></i>精彩</span>
+</div>
+<div class="module-body clearfix"></div>
+</div>
+<div class="module-box js-comment-list">
+<div class="module-head clearfix">
+<h1>4条回帖</h1>
+<span style="display:none;" class="js-comment-order-type"></span>
+<a class="btn btn-primary float-right nc-req-auth js-post-replay" href="javascript:void(0);">
+<i class="ico-submit"></i>回帖
+</a>
+</div>
+<div class="module-body clearfix">
+<div style="font-size:14px;padding:20px;text-align:center;">加载中...</div>
+</div>
+</div>
+<div class="module-box">
+<div class="module-body">
+<div class="editor-box">
+<div class="js-editor"></div>
+<div class="txtarea-foot clearfix">
+<a href="javascript:void(0);"
+class="btn btn-large float-right btn-primary btn-modify-sure nc-req-auth"
+id="jsPubPoint">回帖</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!--主体内容结束-->
+<div class="nk-bar">
+<div class="module-box">
+<div class="module-head clearfix">
+<h1>本文相关内容</h1>
+</div>
+<div class="module-body">
+<div class="tags-box">
+<a class="tag-label" href="/community/640" target="_blank">C++工程师</a>
+</div>
+</div>
+</div>
+<div class="module-box side-topic-box" id="jsSideTopicList">
+<div class="module-head clearfix">
+<div class="module-head-oprt">
+<span class="mho-page topic-slide-progress"></span>
+<a href="javascript:void(0);" class="mho-pre js-topic-mho-pre" title="上一页"></a>
+<a href="javascript:void(0);" class="mho-next js-topic-mho-next" title="下一页"></a>
+</div>
+<h1>热门推荐</h1>
+</div>
+<div class="module-body">
+<div class="topic-slide-box">
+<ul class="side-topic-list">
+<li>
+<a href="/jump?type=ad&source=3&url=https%3A%2F%2Fwww.nowcoder.com%2Fcourses%2Fsemester%2Falgorithm-elementary">
+<img src="https://uploadfiles.nowcoder.net/images/20180123/826546_1516708416423_EA0C763DA536EBE7941F6B2A5D854E25" alt="">
+</a>
+</li>
+<li>
+<a href="/jump?type=ad&source=3&url=https%3A%2F%2Fwww.nowcoder.com%2Fcourses%2Foverseas-study">
+<img src="https://uploadfiles.nowcoder.net/images/20180123/826546_1516708371272_4320A455AB5C946EAFD7E1B0E819688D" alt="">
+</a>
+</li>
+<li>
+<a href="/jump?type=ad&source=3&url=https%3A%2F%2Fwww.nowcoder.com%2Fshow-offer%2Findex">
+<img src="https://uploadfiles.nowcoder.net/images/20171117/3311212_1510900554629_7D2A2B50F7E3C99128B238F40F682AEC" alt="">
+</a>
+</li>
+<li>
+<a href="/jump?type=ad&source=3&url=https%3A%2F%2Fwww.nowcoder.com%2Fcourses%2Fsemester%2Fsenior">
+<img src="https://uploadfiles.nowcoder.net/files/20170104/826546_1483534632567_238x922.png" alt="">
+</a>
+</li>
+<li>
+<a href="/jump?type=ad&source=3&url=https%3A%2F%2Fwww.nowcoder.com%2Fcourses%2Fsemester%2Felementary">
+<img src="https://uploadfiles.nowcoder.net/files/20170104/826546_1483534580222_238x92.png" alt="">
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="module-box">
+<div class="module-head clearfix">
+<h1>近期热帖</h1>
+</div>
+<div class="module-body">
+<ul class="list-module">
+<li>
+<div class="list-title">
+<a target="_blank" class="list-name" href="/discuss/125186?type=2">感谢网易捞我出来，太激动了</a>
+</div>
+<div class="list-legend">
+<span class="comm-num">
+回复<a target="_blank" href="/discuss/125186?type=2">(79)</a>
+</span>
+发表于
+2018-10-09 21:53:58
+</div>
+</li>
+<li>
+<div class="list-title">
+<a target="_blank" class="list-name" href="/discuss/125248?type=2">秋招结束，春招再战！（附面经）</a>
+</div>
+<div class="list-legend">
+<span class="comm-num">
+回复<a target="_blank" href="/discuss/125248?type=2">(23)</a>
+</span>
+发表于
+2018-10-09 23:24:02
+</div>
+</li>
+<li>
+<div class="list-title">
+<a target="_blank" class="list-name" href="/discuss/125303?type=2">秋招结束，9 offer，面经分享一波，加油骚年们！</a>
+</div>
+<div class="list-legend">
+<span class="comm-num">
+回复<a target="_blank" href="/discuss/125303?type=2">(16)</a>
+</span>
+发表于
+今天 01:22:04
+</div>
+</li>
+<li>
+<div class="list-title">
+<a target="_blank" class="list-name" href="/discuss/125144?type=2">我的秋招面经&mdash;&mdash;问题篇</a>
+</div>
+<div class="list-legend">
+<span class="comm-num">
+回复<a target="_blank" href="/discuss/125144?type=2">(11)</a>
+</span>
+发表于
+2018-10-09 21:05:33
+</div>
+</li>
+<li>
+<div class="list-title">
+<a target="_blank" class="list-name" href="/discuss/125413?type=2">小米一面(最新)</a>
+</div>
+<div class="list-legend">
+<span class="comm-num">
+回复<a target="_blank" href="/discuss/125413?type=2">(9)</a>
+</span>
+发表于
+今天 10:42:56
+</div>
+</li>
+<li>
+<div class="list-title">
+<a target="_blank" class="list-name" href="/discuss/125167?type=2">秋招结束，一点个人感想+头条面经回馈</a>
+</div>
+<div class="list-legend">
+<span class="comm-num">
+回复<a target="_blank" href="/discuss/125167?type=2">(9)</a>
+</span>
+发表于
+2018-10-09 21:30:38
+</div>
+</li>
+<li>
+<div class="list-title">
+<a target="_blank" class="list-name" href="/discuss/125087?type=2">南京场，招银网络科技面经</a>
+</div>
+<div class="list-legend">
+<span class="comm-num">
+回复<a target="_blank" href="/discuss/125087?type=2">(8)</a>
+</span>
+发表于
+2018-10-09 19:33:55
+</div>
+</li>
+<li>
+<div class="list-title">
+<a target="_blank" class="list-name" href="/discuss/125722?type=2">【非计算机专业】秋招结束，希望大家都可以拿到称心的offer</a>
+</div>
+<div class="list-legend">
+<span class="comm-num">
+回复<a target="_blank" href="/discuss/125722?type=2">(4)</a>
+</span>
+发表于
+今天 17:00:30
+</div>
+</li>
+<li>
+<div class="list-title">
+<a target="_blank" class="list-name" href="/discuss/125171?type=2">美团-后台-编程题</a>
+</div>
+<div class="list-legend">
+<span class="comm-num">
+回复<a target="_blank" href="/discuss/125171?type=2">(3)</a>
+</span>
+发表于
+2018-10-09 21:37:50
+</div>
+</li>
+<li>
+<div class="list-title">
+<a target="_blank" class="list-name" href="/discuss/125206?type=2">百度提前批测开面经</a>
+</div>
+<div class="list-legend">
+<span class="comm-num">
+回复<a target="_blank" href="/discuss/125206?type=2">(3)</a>
+</span>
+发表于
+2018-10-09 22:22:49
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<!--主体内容结束-->
+<div class="fixed-menu">
+<ul>
+<li>
+<a href="javascript:void(0);" class="gotop js-nav-go-top" title="回到顶部"></a>
+</li>
+<li>
+<a class="fixed-wb" target="_blank" href="http://www.weibo.com/nowcoder"></a>
+</li>
+<li>
+<a href="tencent://groupwpa/?subcmd=all&param=7B2267726F757055696E223A3135373539343730352C2274696D655374616D70223A313431333130373737387D0A" class="qq" title="QQ"></a>
+</li>
+<li>
+<a href="javascript:void(0);" class="wx"></a>
+<div class="wx-qrcode">
+<img src="//static.nowcoder.com/images/wx-rcode.jpg" alt="二维码" />
+<p>扫描二维码，关注牛客网</p>
+</div>
+</li>
+<li>
+<a href="/discuss/30" class="feedback" title="意见反馈"></a>
+<a href="/discuss/30" class="feedback-letter">意见反馈</a>
+</li>
+<li>
+<a href="javascript:void(0);" class="qrcode"></a>
+<div class="wx-qrcode">
+<img src="//uploadfiles.nowcoder.com/app/android/app.png" alt="二维码" />
+<p>下载牛客APP，随时随地刷题</p>
+</div>
+</li>
+</ul>
+<div class="phone-qrcode" style="display:none;">
+<a href="javascript:void(0);" class="qrcode-close">x</a>
+<img src="//uploadfiles.nowcoder.com/app/android/app.png" alt="二维码" style="width:70px;height:70px;" />
+<p>扫一扫下载牛客APP</p>
+</div>
+</div>
+<div class="ft-wrap">
+<div class="fixed-foot clearfix js-fixed-foot" style="display:none;">
+<div class="fixed-foot-main">
+<div class="fixed-foot-tip">刷真题、补算法、看面经、得内推</div>
+<div class="fixed-foot-login">
+<span>使用第三方账号直接登录使用吧：</span>
+<a href="javascript:void(0);" data-href="https://api.weibo.com/oauth2/authorize?client_id=3023520088&redirect_uri=http%3A%2F%2Fwww.nowcoder.com%2Foauth2%2Fsinaconfig&response_type=code&state=web&scope=follow_app_official_microblog" class="ft-login-item ft-login-wb nc-js-action-oauth" title="登录微博"></a>
+<a href="javascript:void(0);" data-href="https://graph.qq.com/oauth2.0/authorize?client_id=101003590&redirect_uri=http%3A%2F%2Fwww.nowcoder.com%2Foauth2%2Fqqconfig&response_type=code&state=web" class="ft-login-item ft-login-qz nc-js-action-oauth" title="登录Qzone"></a>
+<a href="javascript:void(0);" data-href="/oauth2/login/wechat_mp_index" class="ft-login-item ft-login-wx nc-js-action-oauth" title="登录微信"></a>
+<a href="javascript:void(0);" data-href="https://github.com/login/oauth/authorize?client_id=1c539827b9400016d0c9&scope=user:email&redirect_uri=http%3A%2F%2Fwww.nowcoder.com%2Foauth2%2Fgitconfig&response_type=code&state=web" class="ft-login-item ft-login-git nc-js-action-oauth" title="登录git"></a>
+<a href="javascript:void(0);" class="more-login nc-req-auth">更多</a>
+</div>
+</div>
+</div>
+<div class="ft-cont clearfix">
+<div class="ft-app">
+<div class="ft-qrcode-box">
+<img src="https://uploadfiles.nowcoder.com/app/app_download.png">
+</div>
+<p>扫一扫，把题目装进口袋</p>
+</div>
+<dl class="ft-web-info">
+<dt class="ft-web-name">牛客网，程序员必备求职神器</dt>
+<dd>
+<a href="javascript:void(0);" class="ft-qq-ico">
+<div class="tooltip top">
+<div class="tooltip-arrow"></div>
+<div class="tooltip-inner">
+<img width="110" src="//uploadfiles.nowcoder.net/images/20180815/59_1534321710941_41A541F87AE349E1D829B1B0B95C955D">
+<p>扫描二维码，进入QQ群</p>
+</div>
+</div>
+</a>
+<a href="javascript:void(0);" class="ft-wx-ico">
+<div class="tooltip top">
+<div class="tooltip-arrow"></div>
+<div class="tooltip-inner">
+<img width="110" src="//uploadfiles.nowcoder.net/images/20180815/59_1534321725995_22162F7114AC793718CC28F7F3F8B789">
+<p>扫描二维码，关注牛客网公众号</p>
+</div>
+</div>
+</a>
+<a href="https://weibo.com/nowcoder" class="ft-wb-ico" target="_blank"></a>
+<a href="https://www.zhihu.com/org/niu-ke-wang-53/activities" class="ft-zh-ico" target="_blank"></a>
+<a href="https://www.jianshu.com/u/6b440373157d " class="ft-jian-ico" target="_blank"></a>
+</dd>
+</dl>
+<div class="ft-main">
+<ul class="ft-links">
+<li><a href="/html/aboutus">关于我们</a></li>
+<li><a href="/nowcoder/recruitment">加入我们</a></li>
+<li><a href="/discuss/30">意见反馈</a></li>
+<li><a href="https://hr.nowcoder.com">企业服务</a></li>
+<li><a href="/html/cooperation">联系我们</a></li>
+<li><a href="/html/disclaimer">免责声明</a></li>
+<li><a href="/html/links">友情链接</a></li>
+</ul>
+<ul class="webrights">
+<li>公司地址：北京市朝阳区大屯路东金泉时代3-808北京牛客科技有限公司</li>
+<li>联系方式：010-60728802(电话) <span class="contact-email">admin@nowcoder.com</span></li>
+<li>牛客科技©2018 All rights reserved</li>
+<li>京ICP备14055008号-4</li>
+<li>
+<span style="color:#a9b8ca;">
+<img src="//static.nowcoder.com/company/images/res/ghs.png" style="width:18px;height:18px;">
+<a style="font-size:12px;" class="ft-info-item" target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502036488">京公网安备 11010502036488号</a>
+</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="ad-window-sm js-global-tips" style="display:none;">
+<a href="javascript:void(0);" class="ad-close">X</a>
+<div class="ad-live-active"></div>
+<a class="link-green js-global-tips-href" target="_blank" href="">点击查看>></a>
+</div>
+
+</div>
+<script>
+window.isLogin = false;
+window.globalInfo = {
+canLoadInIframe: 'false'
+};
+window.useNeteaseCaptcha = true;
+</script>
+<script type="text/javascript">
+window.ncDeployImageRoot = "//static.nowcoder.com/";
+window.ncJsVersion = "1.02.55";
+window.ncJsPluginVersion = "1.0.14";
+</script>
+<script src="//static.nowcoder.com/nc/js/1.02.55/sea.js" type="text/javascript"></script>
+<script src="//static.nowcoder.com/nc/js/1.02.55/nc.cpn.js" type="text/javascript"></script>
+<script src="//static.nowcoder.com/nowcoder/1.2.1101/javascripts/base.js" type="text/javascript"></script>
+<script type="text/javascript">
+if (!window.seajs) {
+var oBody = document.body;
+var aChild = oBody.childNodes;
+var oDv = document.createElement('div');
+oDv.innerHTML = [
+'<div style="text-align:center;">',
+'<div style="font-size:18px;margin:20px 0;font-weight: bold;">',
+'静态文件加载出错，请检查当前网络情况是否正常，或者按照下面步骤修改电脑的DNS',
+'<br />推荐使用以下DNS: 223.5.5.5(首选) 和 223.6.6.6(备用)，建议使用手机热点',
+'</div>',
+'<img style="border:1px solid #ccc;" src="//ww2.sinaimg.cn/mw690/44b25cb0jw1f5vt92tsz1j20o03d97dt.jpg" />',
+'</div>'].join('');
+aChild.length === 0 && oBody.appendChild(oDv);
+aChild.length > 0 && oBody.insertBefore(oDv, aChild[0]);
+}
+seajs.use('nowcoder/1.2.1101/javascripts/site/common/index');
+seajs.use('nowcoder/1.2.1101/javascripts/site/common/nav');
+</script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+var hm = document.createElement("script");
+hm.src = "//hm.baidu.com/hm.js?a808a1326b6c06c437de769d1b85b870";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<script type="text/javascript">
+(function (window, undefined) {
+window.post = {
+id: 124724,
+postType: 2,
+entityType: 8,
+followTotal: 111,
+isAdmin: false,
+isLiked:  false ,
+isFollowed:  false ,
+authorId: 4039680,
+isGilded: false,
+hasReward: false,
+isAccepted: false
+};
+window.comment = {
+acceptedCommentId: 0,
+count: 4,
+draft: {"content":""},
+pageSize: 20,
+curPage: 1,
+totalPage: 1
+};
+window.pageInfo = {
+};
+seajs.use('nowcoder/1.2.1101/javascripts/site/discuss/public/index');
+})(window);
+</script>
+</body>
+</html>

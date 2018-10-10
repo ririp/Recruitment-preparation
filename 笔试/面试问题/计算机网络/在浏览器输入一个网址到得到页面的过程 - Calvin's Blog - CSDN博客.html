@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <link rel="canonical" href="https://blog.csdn.net/a1065712890/article/details/79682780"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="referrer" content="always">
+    <meta name="description" content="1、解析 
+        输入域名后会对域名进行解析，查找所对应的ip地址，访问域名，实际上是访问的域名所对应的ip，查找有一个顺序，当上一步没找到，才进行下一步 
+        （1）查找浏览器dns缓存 
+        （2）查找计算机dns缓存 
+        （3）查找路由器dns缓存 
+        （4）查找isp服务商dns缓存（联通，电信等等） 
+        （5）从..." />
+    <meta name="keywords" content="浏览器" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848">
+    <script src="https://csdnimg.cn/release/phoenix/vendor/tingyun/tingyun-rum-blog.js"></script>
+
+    <link href="https://csdnimg.cn/public/favicon.ico" rel="SHORTCUT ICON">
+    <title>在浏览器输入一个网址到得到页面的过程 - Calvin's Blog - CSDN博客</title>
+
+            <link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/template/css/detail-7f037a8adb.min.css">
+        <link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/themes/skin3-template/skin3-template-9b39979775.min.css">
+
+    <script type="text/javascript">
+        var username = "a1065712890";
+        var blog_address = "https://blog.csdn.net/a1065712890";
+        var static_host = "https://csdnimg.cn/release/phoenix/";
+        var currentUserName = "";
+        var isShowAds = true;
+        var isOwner = false;
+        var loginUrl = "https://passport.csdn.net/account/login?from=https://blog.csdn.net/a1065712890/article/details/79682780"
+        var blogUrl = "https://blog.csdn.net/";
+        //页面皮肤样式
+        var curSkin = "skin3-template";
+        // 第四范式所需数据
+        var articleTitles = "在浏览器输入一个网址到得到页面的过程 - Calvin's Blog";
+        var articleID = "79682780";
+
+        var nickName = "Calvin-Db";
+    </script>
+    <script type="text/javascript">
+        // Traffic Stats of the entire Web site By baidu
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?6bcd52f51e9b3dce32bec4a3997715ac";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+        // Traffic Stats of the entire Web site By baidu end
+    </script>
+    <script src="https://csdnimg.cn/public/common/libs/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script src="https://csdnimg.cn/rabbit/exposure-click/main-1.0.6.js"></script>
+    <!-- 新版上报 -->
+    <script src="//g.csdnimg.cn/track/1.1.1/track.js" type="text/javascript"></script>
+    <!-- 新版上报end -->
+            <link rel="stylesheet" href="https://csdnimg.cn/public/sandalstrap/1.4/css/sandalstrap.min.css">
+    <style>
+        .MathJax, .MathJax_Message, .MathJax_Preview{
+            display: none
+        }
+    </style>
+</head>
+<!-- nodata 第三栏接口无数据时样式不变 -->
+<body class="nodata"> 
+    <link rel="stylesheet" href="https://csdnimg.cn/public/common/toolbar/content_toolbar_css/content_toolbar.css">
+    <script id="toolbar-tpl-scriptId" src="https://csdnimg.cn/public/common/toolbar/js/content_toolbar.js" type="text/javascript" domain="https://blog.csdn.net/"></script>
+<link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/template/css/blog_code-c3a0c33d5c.css">
+<link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/vendor/pagination/paging.css">
+<script type="text/javascript" src="//static.mediav.com/js/mvf_news_feed.js"></script>
+<script type="text/javascript" src="//g.csdnimg.cn/copyright/1.0.2/copyright.js"></script>
+<div style="display:none;">
+	<img src="" onerror='setTimeout(function(){if(!/(csdn.net|iteye.com|baiducontent.com|googleusercontent.com|360webcache.com|sogoucdn.com|bingj.com|baidu.com)$/.test(window.location.hostname)){window.location.href="\x68\x74\x74\x70\x73\x3a\x2f\x2f\x77\x77\x77\x2e\x63\x73\x64\x6e\x2e\x6e\x65\x74"}},3000);'>
+</div>
+<link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/template/css/chart-3456820cac.css" />
+
+
+
+<script src="https://dup.baidustatic.com/js/ds.js"></script>
+<div class="container clearfix" id="mainBox">
+		<!-- <div id="breadcrumbs">
+			<span><a href="https://blog.csdn.net/">博客首页</a></span>
+			<i>></i>
+			<span><a href="https://blog.csdn.net/a1065712890">Calvin's Blog</a></span>
+			<i>></i>
+			<span>在浏览器输入一个网址到得到页面的过程...</span>
+		</div> -->
+		<div class="recommend-right">
+  <ul class="recommend-fixed-box">
+    
+  </ul>
+</div>
+    <main>
+        <div class="blog-content-box">
+	<div class="article-header-box">
+		<div class="article-header">
+			<div class="article-title-box">
+				<span class="article-type type-1 float-left">原</span>				<h1 class="title-article">在浏览器输入一个网址到得到页面的过程</h1>
+			</div>
+			<div class="article-info-box">
+				<div class="article-bar-top">
+																				<span class="time">2018年03月24日 23:07:39</span>
+					<a class="follow-nickName" href="https://me.csdn.net/a1065712890" target="_blank">Calvin-Db</a>
+						<span class="read-count">阅读数：542</span>
+						
+														<span class="tags-box artic-tag-box">
+								<span class="label">标签：</span>
+																<a data-track-click='{"mod":"popu_626","con":"浏览器"}' data-track-view='{"mod":"popu_626","con":"浏览器"}' class="tag-link" href="http://so.csdn.net/so/search/s.do?q=浏览器&t=blog" target="_blank">浏览器																</a>
+							</span>
+																															</div>
+				<div class="operating">
+														</div>
+			</div>
+		</div>
+	</div>
+	<article>
+		<div id="article_content" class="article_content clearfix csdn-tracking-statistics" data-pid="blog"  data-mod=popu_307  data-dsm = "post" >
+								<div class="article-copyright">
+					版权声明：本文为博主原创文章，未经博主允许不得转载。					https://blog.csdn.net/a1065712890/article/details/79682780				</div>
+								            <div class="markdown_views prism-atom-one-dark">
+							<!-- flowchart 箭头图标 勿删 -->
+							<svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path></svg>
+							<p>1、解析 <br>
+        输入域名后会对域名进行解析，查找所对应的ip地址，访问域名，实际上是访问的域名所对应的ip，查找有一个顺序，当上一步没找到，才进行下一步 <br>
+        （1）查找浏览器dns缓存 <br>
+        （2）查找计算机dns缓存 <br>
+        （3）查找路由器dns缓存 <br>
+        （4）查找isp服务商dns缓存（联通，电信等等） <br>
+        （5）从根域名服务器开始递归搜索，到顶级域名服务器，到你输入域名所在服务器</p>
+
+<p>2、浏览器与服务器建立tcp连接（三次握手）</p>
+
+<blockquote>
+  <p>在TCP/IP协议中,TCP协议提供可靠的连接服务,采用三次握手建立一个连接. <br>
+  第一次握手：建立连接时,客户端发送syn包(syn=j)到服务器,并进入SYN_SEND状态,等待服务器确认；  <br>
+  SYN：同步序列编号(Synchronize Sequence Numbers) <br>
+  第二次握手：服务器收到syn包,必须确认客户的SYN（ack=j+1）,同时自己也发送一个SYN包（syn=k）,即SYN+ACK包,此时服务器进入SYN_RECV状态； <br>
+  第三次握手：客户端收到服务器的SYN＋ACK包,向服务器发送确认包ACK(ack=k+1),此包发送完毕,客户端和服务器进入ESTABLISHED状态,完成三次握手.</p>
+</blockquote>
+
+<p>3、浏览器向服务器端发送请求</p>
+
+<p>4、服务器收到请求，进行响应的处理，将生成的html返回给客户端</p>
+
+<p>5、客户端收到数据，浏览器对页面进行解析渲染，展示给用户。</p>            </div>
+						<link href="https://csdnimg.cn/release/phoenix/mdeditor/markdown_views-448c2d19d9.css" rel="stylesheet">
+                </div>
+									<div class="hide-article-box text-center">
+						<a class="btn" id="btn-readmore" data-track-view='{"mod":"popu_376","con":",https://blog.csdn.net/a1065712890/article/details/79682780,"}' data-track-click='{"mod":"popu_376","con":",https://blog.csdn.net/a1065712890/article/details/79682780,"}'>阅读更多</a>
+					</div>
+					<script>
+						(function(){
+							function setArticleH(btnReadmore,posi){
+								var winH = $(window).height();
+								var articleBox = $("div.article_content");
+								var artH = articleBox.height();
+								if(artH > winH*posi){
+									articleBox.css({
+										'height':winH*posi+'px',
+										'overflow':'hidden'
+									})
+									btnReadmore.click(function(){
+										articleBox.removeAttr("style");
+										$(this).parent().remove();
+									})
+								}else{
+									btnReadmore.parent().remove();
+								}
+							}
+							var btnReadmore = $("#btn-readmore");
+							if(btnReadmore.length>0){
+								if(currentUserName){
+									setArticleH(btnReadmore,3);
+								}else{
+									setArticleH(btnReadmore,1.2);
+								}
+							}
+						})()
+					</script>
+					</article>
+	
+<div class="answer-box">
+  <a id="chatqa"></a>
+  <div class="img-qrcode-box">
+    <img src="http://images.gitbook.cn/eee66950-4f91-11e8-bc51-adba61ea892c" alt="">
+    <p>扫码向博主提问</p>
+  </div>
+  <button class="btn answer-btn-close">
+      <svg class="icon" aria-hidden="true">
+          <use xlink:href="#csdnc-times"></use>
+      </svg>
+  </button>
+  <div class="content-box  d-flex flex-column justify-content-center">
+    <div class="info-box d-flex">
+      <img src="https://avatar.csdn.net/C/C/A/3_a1065712890.jpg" alt="" class="avatar-pic">
+      <p class="name d-flex align-items-center usernick">Calvin-Db</p>
+          </div>
+    <div class="remark text-truncate">
+      非学，无以致疑；非问，无以广识    </div>
+          <ul class="expertise-list d-flex align-content-start flex-wrap">
+            <li class="title">擅长领域：</li>
+                              <li>java      </li>
+                              <li>c</li>
+                              <li>spring</li>
+                              <li>mysql     </li>
+                              <li>js        </li>
+                    </ul>
+      </div>
+      <a href="https://mp.csdn.net/ask" class="btn btn-sm btn-link-blue btn-op-answer" target="_blank">去开通我的Chat快问</a>
+  </div>
+
+</div>
+<script>
+		$(".MathJax").remove();
+		if($('div.markdown_views pre.prettyprint code.hljs').length > 0 ){
+				$('div.markdown_views')[0].className = 'markdown_views';
+		}
+</script>
+        <div class="p4course_target" ></div><script>window.p4sdk_enable_courseBox=true</script>        <a id="commentBox"></a>
+<div class="comment-box">
+	  	<div class="unlogin-box text-center">
+		想对作者说点什么？
+		<!-- $curl 当前地址 -->
+		<button id="btnCommentUnlogin" class="btn btn-sm btn-red">我来说一句</button>
+	</div>
+			<div class="comment-list-container">
+		<a id="comments"></a>
+		<div class="comment-list-box">
+		</div>
+		<div id="commentPage" class="pagination-box d-none"></div>
+		<div class="opt-box text-center">
+			<button class="btn btn-sm btn-link-blue" id="btnMoreComment"></button>
+		</div>
+	</div>
+</div>
+        <div class="recommend-box">
+            		<div class="recommend-item-box recommend-box-ident type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/Suyebiubiu/article/details/79098162,BlogCommendFromBaidu_0"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/Suyebiubiu/article/details/79098162,BlogCommendFromBaidu_0"}'>
+		<a href="https://blog.csdn.net/Suyebiubiu/article/details/79098162" target="_blank" title="在浏览器输入一个网址到得到页面的过程（详细）">
+			<div class="content">
+				<h4 class="text-truncate oneline">
+						在<em>浏览器</em><em>输入</em><em>一个</em><em>网址</em>到<em>得到</em>页<em>面的</em><em>过程</em>（详细）				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="avatar">
+							<img src="https://avatar.csdn.net/B/3/0/3_suyebiubiu.jpg" alt="Suyebiubiu" class="avatar-pic">
+							<span class="namebox">
+								<span class="name">Suyebiubiu</span>
+								<span class="triangle"></span>
+							</span>
+					</p>
+					<p class="date-and-readNum">
+						<span class="date hover-show">01-18</span>
+						<span class="read-num hover-hide">
+							<svg class="icon csdnc-yuedushu" aria-hidden="true">
+								<use xlink:href="#csdnc-yuedushu"></use>
+							</svg>
+							5161</span>
+						</p>
+					</div>
+					<p class="content oneline">
+							作为一个软件开发者，你一定会对网络应用如何工作有一个完整的层次化的认知，同样这里也包括这些应用所用到的技术：像浏览器，HTTP，HTML，网络服务器，需求处理等等。本文将更深入的研究当你输入一个网址的...					</p>
+			</div>
+					</a>
+	</div>
+						<div class="recommend-item-box recommend-box-ident type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/gaoyz1/article/details/77506465,BlogCommendFromBaidu_1"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/gaoyz1/article/details/77506465,BlogCommendFromBaidu_1"}'>
+		<a href="https://blog.csdn.net/gaoyz1/article/details/77506465" target="_blank" title="输入网址到得到网页响应全过程">
+			<div class="content">
+				<h4 class="text-truncate oneline">
+						<em>输入</em><em>网址</em>到<em>得到</em>网页响应全<em>过程</em>				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="avatar">
+							<img src="https://avatar.csdn.net/7/2/D/3_gaoyz1.jpg" alt="gaoyz1" class="avatar-pic">
+							<span class="namebox">
+								<span class="name">gaoyz1</span>
+								<span class="triangle"></span>
+							</span>
+					</p>
+					<p class="date-and-readNum">
+						<span class="date hover-show">08-23</span>
+						<span class="read-num hover-hide">
+							<svg class="icon csdnc-yuedushu" aria-hidden="true">
+								<use xlink:href="#csdnc-yuedushu"></use>
+							</svg>
+							711</span>
+						</p>
+					</div>
+					<p class="content oneline">
+							网页响应全过程					</p>
+			</div>
+					</a>
+	</div>
+									<div class="recommend-item-box recommend-ad-box clearfix">
+					<script type="text/javascript" src="//rabc1.iteye.com/production/source/pc3553.js?pkcgstj=jm"></script>
+				</div>
+			
+					<div class="recommend-item-box recommend-box-ident type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/N1neDing/article/details/80861323,BlogCommendFromBaidu_2"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/N1neDing/article/details/80861323,BlogCommendFromBaidu_2"}'>
+		<a href="https://blog.csdn.net/N1neDing/article/details/80861323" target="_blank" title="计算机网络第九弹——从输入网址到获得网页的过程">
+			<div class="content">
+				<h4 class="text-truncate oneline">
+						计算机网络第九弹——从<em>输入</em><em>网址</em>到获得网页的<em>过程</em>				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="avatar">
+							<img src="https://avatar.csdn.net/C/0/2/3_n1neding.jpg" alt="N1neDing" class="avatar-pic">
+							<span class="namebox">
+								<span class="name">N1neDing</span>
+								<span class="triangle"></span>
+							</span>
+					</p>
+					<p class="date-and-readNum">
+						<span class="date hover-show">06-29</span>
+						<span class="read-num hover-hide">
+							<svg class="icon csdnc-yuedushu" aria-hidden="true">
+								<use xlink:href="#csdnc-yuedushu"></use>
+							</svg>
+							97</span>
+						</p>
+					</div>
+					<p class="content oneline">
+							在浏览器中输入www.baidu.com后执行的全部过程：客户端浏览器通过DNS解析到www.baidu.com的IP地址111.13.100.91(可通过ping www.baidu.com获得),...					</p>
+			</div>
+					</a>
+	</div>
+						<div class="recommend-item-box recommend-box-ident type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/u012862311/article/details/78753232,BlogCommendFromBaidu_3"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/u012862311/article/details/78753232,BlogCommendFromBaidu_3"}'>
+		<a href="https://blog.csdn.net/u012862311/article/details/78753232" target="_blank" title="访问一个网页的全过程">
+			<div class="content">
+				<h4 class="text-truncate oneline">
+						访问<em>一个</em>网页的全<em>过程</em>				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="avatar">
+							<img src="https://avatar.csdn.net/7/9/B/3_u012862311.jpg" alt="u012862311" class="avatar-pic">
+							<span class="namebox">
+								<span class="name">u012862311</span>
+								<span class="triangle"></span>
+							</span>
+					</p>
+					<p class="date-and-readNum">
+						<span class="date hover-show">12-08</span>
+						<span class="read-num hover-hide">
+							<svg class="icon csdnc-yuedushu" aria-hidden="true">
+								<use xlink:href="#csdnc-yuedushu"></use>
+							</svg>
+							1万</span>
+						</p>
+					</div>
+					<p class="content oneline">
+							引言
+
+打开浏览器，在地址栏输入URL，回车，出现网页内容。整个过程发生了什么？其中的原理是什么？以下进行整理和总结。
+整个过程可以概括为几下几个部分：
+
+
+域名解析成IP地址；
+与目的...					</p>
+			</div>
+					</a>
+	</div>
+						<div class="recommend-item-box recommend-box-ident type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/dong281500748/article/details/80597567,BlogCommendFromBaidu_4"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/dong281500748/article/details/80597567,BlogCommendFromBaidu_4"}'>
+		<a href="https://blog.csdn.net/dong281500748/article/details/80597567" target="_blank" title="输入一个网址发生的过程">
+			<div class="content">
+				<h4 class="text-truncate oneline">
+						<em>输入</em><em>一个</em><em>网址</em>发生的<em>过程</em>				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="avatar">
+							<img src="https://avatar.csdn.net/B/4/7/3_dong281500748.jpg" alt="dong281500748" class="avatar-pic">
+							<span class="namebox">
+								<span class="name">dong281500748</span>
+								<span class="triangle"></span>
+							</span>
+					</p>
+					<p class="date-and-readNum">
+						<span class="date hover-show">06-06</span>
+						<span class="read-num hover-hide">
+							<svg class="icon csdnc-yuedushu" aria-hidden="true">
+								<use xlink:href="#csdnc-yuedushu"></use>
+							</svg>
+							44</span>
+						</p>
+					</div>
+					<p class="content oneline">
+												</p>
+			</div>
+					</a>
+	</div>
+						<div class="recommend-item-box recommend-box-ident type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/qq_25622107/article/details/55046413,BlogCommendFromBaidu_5"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/qq_25622107/article/details/55046413,BlogCommendFromBaidu_5"}'>
+		<a href="https://blog.csdn.net/qq_25622107/article/details/55046413" target="_blank" title="输入网址访问一个网站的全过程分析">
+			<div class="content">
+				<h4 class="text-truncate oneline">
+						<em>输入</em><em>网址</em>访问<em>一个</em>网站的全<em>过程</em>分析				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="avatar">
+							<img src="https://avatar.csdn.net/A/C/A/3_qq_25622107.jpg" alt="qq_25622107" class="avatar-pic">
+							<span class="namebox">
+								<span class="name">qq_25622107</span>
+								<span class="triangle"></span>
+							</span>
+					</p>
+					<p class="date-and-readNum">
+						<span class="date hover-show">02-13</span>
+						<span class="read-num hover-hide">
+							<svg class="icon csdnc-yuedushu" aria-hidden="true">
+								<use xlink:href="#csdnc-yuedushu"></use>
+							</svg>
+							2040</span>
+						</p>
+					</div>
+					<p class="content oneline">
+							1.查询缓存，一般浏览器会把访问过的网站信息保存一段时间
+2.缓存里查找dns，如果没有则发送到路由去寻找，再没有则向isp寻找（改动了这个DNS服务器，你的浏览器跳转到他们设定的页面上，这也就是人...					</p>
+			</div>
+					</a>
+	</div>
+								<div class="recommend-item-box recommend-ad-box" id="a_d_feed_0"></div>
+			<script>
+				var width = $("div.recommend-box").outerWidth() - 48;
+				NEWS_FEED({
+					w: width,
+					h: 60,
+					showid: 'Afihld',
+					placeholderId: 'a_d_feed_0',
+					inject: 'define',
+					define: {
+						imagePosition: 'left',
+						imageBorderRadius: 0,
+						imageWidth: 90,
+						imageHeight: 60,
+						imageFill: 'clip',
+						displayImage: true,
+						displayTitle: true,
+						titleFontSize: 20,
+						titleFontColor: '#333',
+						titleFontFamily: 'Microsoft Yahei',
+						titleFontWeight: 'bold',
+						titlePaddingTop: 0,
+						titlePaddingRight: 0,
+						titlePaddingBottom: 10,
+						titlePaddingLeft: 8,
+						displayDesc: true,
+						descFontSize: 14,
+						descPaddingLeft: 14,
+						descFontColor: '#6b6b6b',
+						descFontFamily: 'Microsoft Yahei',
+						paddingTop: 0,
+						paddingRight: 0,
+						paddingBottom: 0,
+						paddingLeft: 0,
+						backgroundColor: '#fff',
+						hoverColor: '#ca0c16'
+					}
+				})
+			</script>
+						<div class="recommend-item-box recommend-box-ident type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/qq_24147051/article/details/81115806,BlogCommendFromBaidu_6"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/qq_24147051/article/details/81115806,BlogCommendFromBaidu_6"}'>
+		<a href="https://blog.csdn.net/qq_24147051/article/details/81115806" target="_blank" title="输入一个url到浏览器页面展示都经历了哪些过程">
+			<div class="content">
+				<h4 class="text-truncate oneline">
+						<em>输入</em><em>一个</em>url到<em>浏览器</em>页面展示都经历了哪些<em>过程</em>				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="avatar">
+							<img src="https://avatar.csdn.net/9/E/B/3_qq_24147051.jpg" alt="qq_24147051" class="avatar-pic">
+							<span class="namebox">
+								<span class="name">qq_24147051</span>
+								<span class="triangle"></span>
+							</span>
+					</p>
+					<p class="date-and-readNum">
+						<span class="date hover-show">07-19</span>
+						<span class="read-num hover-hide">
+							<svg class="icon csdnc-yuedushu" aria-hidden="true">
+								<use xlink:href="#csdnc-yuedushu"></use>
+							</svg>
+							362</span>
+						</p>
+					</div>
+					<p class="content oneline">
+							在日常的浏览器访问过程中，我们肯定会访问n多页面，但是我们输入一个网址后是如何变成一个页面展示在我们目前，从一个url到页面的展示这个过程中，我们的浏览器都经历了一些什么？
+
+
+
+步骤
+
+→   1-...					</p>
+			</div>
+					</a>
+	</div>
+						<div class="recommend-item-box recommend-box-ident type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/weixin_40575384/article/details/79276103,BlogCommendFromBaidu_7"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/weixin_40575384/article/details/79276103,BlogCommendFromBaidu_7"}'>
+		<a href="https://blog.csdn.net/weixin_40575384/article/details/79276103" target="_blank" title="输入域名点击回车，中间经历了什么过程">
+			<div class="content">
+				<h4 class="text-truncate oneline">
+						<em>输入</em>域名点击回车，中间经历了什么<em>过程</em>				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="avatar">
+							<img src="https://avatar.csdn.net/7/B/9/3_weixin_40575384.jpg" alt="weixin_40575384" class="avatar-pic">
+							<span class="namebox">
+								<span class="name">weixin_40575384</span>
+								<span class="triangle"></span>
+							</span>
+					</p>
+					<p class="date-and-readNum">
+						<span class="date hover-show">02-07</span>
+						<span class="read-num hover-hide">
+							<svg class="icon csdnc-yuedushu" aria-hidden="true">
+								<use xlink:href="#csdnc-yuedushu"></use>
+							</svg>
+							88</span>
+						</p>
+					</div>
+					<p class="content oneline">
+							第一步：客户机提出域名解析请求,并将该请求发送给本地的域名服务器。
+第二步：当本地的域名服务器收到请求后,就先查询本地的缓存,如果有该纪录项,则本地的域名服务器就直接把查询的结果返回。
+第三步：如...					</p>
+			</div>
+					</a>
+	</div>
+						<div class="recommend-item-box recommend-box-ident type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/qq_29923439/article/details/72457851,BlogCommendFromBaidu_8"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/qq_29923439/article/details/72457851,BlogCommendFromBaidu_8"}'>
+		<a href="https://blog.csdn.net/qq_29923439/article/details/72457851" target="_blank" title="从输入网址到显示网页，这个过程究竟发生了什么？">
+			<div class="content">
+				<h4 class="text-truncate oneline">
+						从<em>输入</em><em>网址</em>到显示网页，这个<em>过程</em>究竟发生了什么？				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="avatar">
+							<img src="https://avatar.csdn.net/A/B/D/3_qq_29923439.jpg" alt="qq_29923439" class="avatar-pic">
+							<span class="namebox">
+								<span class="name">qq_29923439</span>
+								<span class="triangle"></span>
+							</span>
+					</p>
+					<p class="date-and-readNum">
+						<span class="date hover-show">05-18</span>
+						<span class="read-num hover-hide">
+							<svg class="icon csdnc-yuedushu" aria-hidden="true">
+								<use xlink:href="#csdnc-yuedushu"></use>
+							</svg>
+							1838</span>
+						</p>
+					</div>
+					<p class="content oneline">
+							作为一个软件开发者，你一定会对网络应用如何工作有一个完整的层次化的认知，同样这里也包括这些应用所用到的技术：像浏览器，HTTP，HTML，网络服务器，需求处理等等。
+
+ 本文将更深入的研究当你输入...					</p>
+			</div>
+					</a>
+	</div>
+						<div class="recommend-item-box recommend-box-ident type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/u011300968/article/details/76409394,BlogCommendFromBaidu_9"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/u011300968/article/details/76409394,BlogCommendFromBaidu_9"}'>
+		<a href="https://blog.csdn.net/u011300968/article/details/76409394" target="_blank" title="从输入网址到返回页面经过了这些过程">
+			<div class="content">
+				<h4 class="text-truncate oneline">
+						从<em>输入</em><em>网址</em>到返回页面经过了这些<em>过程</em>				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="avatar">
+							<img src="https://avatar.csdn.net/6/8/2/3_u011300968.jpg" alt="u011300968" class="avatar-pic">
+							<span class="namebox">
+								<span class="name">u011300968</span>
+								<span class="triangle"></span>
+							</span>
+					</p>
+					<p class="date-and-readNum">
+						<span class="date hover-show">07-31</span>
+						<span class="read-num hover-hide">
+							<svg class="icon csdnc-yuedushu" aria-hidden="true">
+								<use xlink:href="#csdnc-yuedushu"></use>
+							</svg>
+							1094</span>
+						</p>
+					</div>
+					<p class="content oneline">
+							打开浏览器，在地址栏中输入baidu.com这个网址，会返回一个地址为https://www.baidu.com/的百度首页。那么，在这之间都发生了什么呢？ 
+期间主要经历了四个过程： 
+一、 域名解...					</p>
+			</div>
+					</a>
+	</div>
+						<div class="recommend-item-box type_hot_word">
+									<div class="content clearfix oneline">
+				<h5 class="float-left">相关热词</h5>
+				<div class="float-left">
+									<span>
+						<a href="https://blog.csdn.net/cute_zw_0220/article/details/51932913" target="_blank">
+						浏览器this</a>
+					</span>
+									<span>
+						<a href="https://blog.csdn.net/around_primary/article/details/78086700" target="_blank">
+						浏览器</a>
+					</span>
+									<span>
+						<a href="https://blog.csdn.net/xm1037782843/article/details/80642521" target="_blank">
+						5大浏览器浏览器</a>
+					</span>
+									<span>
+						<a href="https://blog.csdn.net/lvjinhan/article/details/73385648" target="_blank">
+						links浏览器</a>
+					</span>
+									<span>
+						<a href="https://blog.csdn.net/wyx100/article/details/50450728" target="_blank">
+						moz浏览器</a>
+					</span>
+								</div>
+			</div>
+					</div>
+		<div class="recommend-item-box blog-expert-recommend-box">
+			<h4 class="text-truncate">博主推荐
+			</h4>
+			<div class="blog-expert-recommend">
+				<div class="blog-expert-load-new" data-index="3">
+					<svg version="1.1" viewBox="0 0 200 200" style="enable-background:new 0 0 200 200;" xml:space="preserve">
+					<path d="M142.5,57.5c-1.3-1.2-2.1-3.3-2.1-5.4c0-4.2,3.3-7.5,7.5-7.5h19.6c4.2,0,7.5,3.3,7.5,7.5s-3.3,7.5-7.5,7.5h-4.2
+					 C170.8,71.2,175,85,175,100c0,41.7-33.8,75-75,75c-4.2,0-7.5-3.3-7.5-7.5c0-4.2,3.3-7.5,7.5-7.5c33.3,0,60-27.1,60-60
+					 C160,83.7,153.8,68.7,142.5,57.5L142.5,57.5z M57.5,142.5c1.2,1.2,2.1,3.3,2.1,5.4c0,4.2-3.3,7.5-7.5,7.5H32.5
+					 c-4.2,0-7.5-3.3-7.5-7.5c0-4.2,3.3-7.5,7.5-7.5h4.2C29.2,128.8,25,115,25,100c0-41.7,33.7-75,75-75c4.2,0,7.5,3.3,7.5,7.5
+					 S104.2,40,100,40c-33.3,0-60,27.1-60,60C40,116.2,46.2,131.2,57.5,142.5z"/>
+					</svg>
+					<span>换一批</span>
+				</div>
+				<div class="blog-expert">
+				</div>
+			</div>
+		</div>
+
+
+            <div class="recommend-loading-box">
+                <img src='https://csdnimg.cn/release/phoenix/images/feedLoading.gif'>
+            </div>
+            <div class="recommend-end-box">
+                <p class="text-center">没有更多推荐了，<a href="https://blog.csdn.net/" class="c-blue c-blue-hover c-blue-focus">返回首页</a></p>
+            </div>
+        </div>
+    </main>
+
+    <aside>
+		    <div id="asideProfile" class="aside-box">
+    <!-- <h3 class="aside-title">个人资料</h3> -->
+    <div class="profile-intro d-flex">
+        <div class="avatar-box d-flex justify-content-center flex-column">
+            <a href="https://blog.csdn.net/a1065712890">
+                <img src="https://avatar.csdn.net/C/C/A/3_a1065712890.jpg" class="avatar_pic">
+            </a>
+        </div>
+        <div class="user-info d-flex justify-content-center flex-column">
+            <p class="name csdn-tracking-statistics tracking-click" data-mod="popu_379">
+                <a href="https://blog.csdn.net/a1065712890" target="_blank" class="" id="uid">Calvin-Db</a>
+            </p>
+                    </div>
+                <div class="opt-box d-flex justify-content-center flex-column">
+            <span  class="csdn-tracking-statistics tracking-click" data-mod="popu_379">
+                <a class="btn btn-sm btn-red-hollow" id="btnAttent">关注</a>
+            </span>
+                        <span  class="csdn-tracking-statistics tracking-click" data-mod="">
+                <a class="btn btn-sm btn-yellow-hollow" id="btnAsk" href="#chatqa" target="_self">向TA提问</a>
+            </span>
+                    </div>
+            </div>
+    <div class="data-info d-flex item-tiling">
+                <dl class="text-center" title="57">
+                        <dt><a href="https://blog.csdn.net/a1065712890?t=1">原创</a></dt>
+            <dd><a href="https://blog.csdn.net/a1065712890?t=1"><span class="count">57</span></a></dd>
+                    </dl>
+        <dl class="text-center" id="fanBox" title="9">
+            <dt>粉丝</dt>
+            <dd><span class="count" id="fan">9</span></dd>
+        </dl>
+        <dl class="text-center" title="11">
+            <dt>喜欢</dt>
+            <dd><span class="count">11</span></dd>
+        </dl>
+        <dl class="text-center" title="7">
+            <dt>评论</dt>
+            <dd><span class="count">7</span></dd>
+        </dl>
+    </div>
+    <div class="grade-box clearfix">
+        <dl>
+            <dt>等级：</dt>
+            <dd>
+                <a href="https://blog.csdn.net/home/help.html#level" title="3级,点击查看等级说明" target="_blank">
+                    <svg class="icon icon-level" aria-hidden="true">
+                        <use xlink:href="#csdnc-bloglevel-3"></use>
+                    </svg>
+                </a>
+            </dd>
+        </dl>
+        <dl>
+            <dt>访问：</dt>
+            <dd title="16250">
+                1万+            </dd>
+        </dl>
+        <dl>
+            <dt>积分：</dt>
+            <dd title="753">
+                753            </dd>
+        </dl>
+        <dl title="77923">
+            <dt>排名：</dt>
+            <dd>7万+</dd>
+        </dl>
+    </div>
+    </div>
+		    <div class="csdn-tracking-statistics mb8 box-shadow" data-pid="blog" data-mod="popu_4" style="height:250px;">
+    <div class="aside-content text-center" id="cpro_u2734133">
+      <!-- 广告位：PC-博客内页-百度联盟-300x250 --><script type="text/javascript" src="//rabc1.iteye.com/source/api/ymebi.js?bwoc=oltly"></script>    </div>
+</div>
+		    <div id="asideNewArticle" class="aside-box">
+    <h3 class="aside-title">最新文章</h3>
+    <div class="aside-content">
+        <ul class="inf_list clearfix csdn-tracking-statistics tracking-click" data-mod="popu_382">
+                        <li class="clearfix">
+                <a href="https://blog.csdn.net/a1065712890/article/details/82145680" target="_blank">JDK动态代理和CGLIB代理</a>
+            </li>
+                        <li class="clearfix">
+                <a href="https://blog.csdn.net/a1065712890/article/details/81481071" target="_blank">Java并发编程(二)</a>
+            </li>
+                        <li class="clearfix">
+                <a href="https://blog.csdn.net/a1065712890/article/details/81430154" target="_blank">Java并发编程(一)</a>
+            </li>
+                        <li class="clearfix">
+                <a href="https://blog.csdn.net/a1065712890/article/details/81384072" target="_blank">Java 类加载机制，双亲委派模型和实现自己的类加载器</a>
+            </li>
+                        <li class="clearfix">
+                <a href="https://blog.csdn.net/a1065712890/article/details/81366667" target="_blank">MySql锁机制</a>
+            </li>
+                    </ul>
+    </div>
+</div>
+		    		    		    <div id="asideArchive" class="aside-box flexible-box">
+    <h3 class="aside-title">归档</h3>
+    <div class="aside-content">
+        <ul class="archive-list">
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/a1065712890/article/month/2018/08">
+                    2018年8月                    <span class="count float-right">7篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/a1065712890/article/month/2018/07">
+                    2018年7月                    <span class="count float-right">4篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/a1065712890/article/month/2018/06">
+                    2018年6月                    <span class="count float-right">12篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/a1065712890/article/month/2018/05">
+                    2018年5月                    <span class="count float-right">4篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/a1065712890/article/month/2018/04">
+                    2018年4月                    <span class="count float-right">5篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/a1065712890/article/month/2018/03">
+                    2018年3月                    <span class="count float-right">20篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/a1065712890/article/month/2018/02">
+                    2018年2月                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/a1065712890/article/month/2018/01">
+                    2018年1月                    <span class="count float-right">2篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/a1065712890/article/month/2017/12">
+                    2017年12月                    <span class="count float-right">6篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/a1065712890/article/month/2017/11">
+                    2017年11月                    <span class="count float-right">8篇</span>
+                </a>
+            </li>
+                    </ul>
+    </div>
+        <p class="text-center">
+        <a class="btn btn-link-blue flexible-btn" data-fbox="aside-archive">展开</a>
+    </p>
+    </div>
+		    <div id="asideHotArticle" class="aside-box">
+	<h3 class="aside-title">热门文章</h3>
+	<div class="aside-content">
+		<ul class="hotArticle-list csdn-tracking-statistics tracking-click" data-mod="popu_521">
+							<li>
+					<a href="https://blog.csdn.net/a1065712890/article/details/78877334">Linux中文件的压缩和解压缩</a>
+					<p class="read">阅读量：<span>4490</span></p>
+				</li>
+							<li>
+					<a href="https://blog.csdn.net/a1065712890/article/details/78777401">eclipse中项目发布到tomcat中之后的目录结构</a>
+					<p class="read">阅读量：<span>1277</span></p>
+				</li>
+							<li>
+					<a href="https://blog.csdn.net/a1065712890/article/details/80767068">深信服科技2019年校园招聘研发试题</a>
+					<p class="read">阅读量：<span>921</span></p>
+				</li>
+							<li>
+					<a href="https://blog.csdn.net/a1065712890/article/details/78599995">Socket中的read方法阻塞问题</a>
+					<p class="read">阅读量：<span>869</span></p>
+				</li>
+							<li>
+					<a href="https://blog.csdn.net/a1065712890/article/details/79696568">mybatis在查询时使用count(*)，total为1，结果为0</a>
+					<p class="read">阅读量：<span>782</span></p>
+				</li>
+					</ul>
+	</div>
+</div>
+		    <div id="asideNewComments" class="aside-box">
+    <h3 class="aside-title">最新评论</h3>
+    <div class="aside-content">
+        <ul class="newcomment-list">
+                        <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/a1065712890/article/details/79230199#comments">java对象转json的死循环解决</a>
+                <p class="comment">
+                    <a href="https://my.csdn.net/tianjindong0804" class="user-name" target="_blank">tianjindong0804</a>：[reply]a1065712890[/reply]
+黑马大法真的好，哈哈                </p>
+            </li>
+                        <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/a1065712890/article/details/79230199#comments">java对象转json的死循环解决</a>
+                <p class="comment">
+                    <a href="https://my.csdn.net/a1065712890" class="user-name" target="_blank">a1065712890</a>：[reply]tianjindong0804[/reply]
+黑马大法好                </p>
+            </li>
+                        <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/a1065712890/article/details/79230199#comments">java对象转json的死循环解决</a>
+                <p class="comment">
+                    <a href="https://my.csdn.net/tianjindong0804" class="user-name" target="_blank">tianjindong0804</a>：又发现了一个学黑马的同志                </p>
+            </li>
+                        <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/a1065712890/article/details/79735006#comments">基本数据类型的包装类型作为参数传递...</a>
+                <p class="comment">
+                    <a href="https://my.csdn.net/a1065712890" class="user-name" target="_blank">a1065712890</a>：[reply]xiaozhutou_love[/reply]
+抱歉，可能写的有点乱，不好意思。其实...                </p>
+            </li>
+                        <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/a1065712890/article/details/79735006#comments">基本数据类型的包装类型作为参数传递...</a>
+                <p class="comment">
+                    <a href="https://my.csdn.net/xiaozhutou_love" class="user-name" target="_blank">xiaozhutou_love</a>：Person类的f()方法有误 ，你是先创建一个新的Person对象，然后将src指向了这个新的P...                </p>
+            </li>
+                    </ul>
+    </div>
+</div>
+		<div id="asideFooter">
+			
+		<div class="aside-box">
+						<script type="text/javascript" src="//rabc1.iteye.com/source/res/yn6yz.js?ojylrgb=yk"></script>
+					</div>
+				<div class="aside-box">
+			<div class="persion_article">
+			</div>
+		</div>
+	</div>
+</aside>
+<script src="https://csdnimg.cn/pubfooter/js/publib_footer-1.0.3.js" data-isfootertrack="false" type="text/javascript"></script>
+<script>
+	$("a.flexible-btn").click(function(){
+		$(this).parents('div.aside-box').removeClass('flexible-box');
+		$(this).remove();
+	})
+</script>
+</div>
+<div class="mask-dark"></div>
+<div class="pulllog-box" style="display: block;">
+	<div class="pulllog clearfix">
+		<span class="text float-left">
+            <div id="dmp_ad_69"><div id="kp_box_75" data-track-view='{"mod":"kp_popu_75","con":",,"}'><div style="float:left;margin-right:5px;border:1px solid #f13d3d;padding:2px 5px 0px 5px;">
+<a href="https://www.csdn.net/2018dev/?utm_source=blogtextlink" target="_blank" style="color:#f13d3d;font-weight:bold;text-decoration:none;">开发者调查</a>
+</div>
+
+<div style="float:left;margin-right:5px;border:1px solid #000;padding:2px 5px 0px 5px;background:#000;">
+<a href="http://ai2018.csdn.net/?utm_source=bkxxl" target="_blank" style="color:#fff;font-weight:bold;text-decoration:none;">AI开发者大会日程曝光</a>
+</div>
+
+<div style="float:left;margin-right:5px;border:1px solid #f13d3d;padding:2px 5px 0px 5px;">
+<a href="https://gitchat.csdn.net/?utm_source=wzl" target="_blank" style="color:#f13d3d;font-weight:bold;text-decoration:none;">告别知识焦虑，即刻启程</a>
+</div>
+
+<div style="float:left;">
+<script type="text/javascript" src="//rabc1.iteye.com/common/js/ndr3h.js?b=wosyvccl"></script>
+</div></div><script>$(function(){csdn.track.viewCheck($("#kp_box_75"));});</script></div>            		</span>
+		<div class="pulllog-btn float-right clearfix">
+            <div class="float-left csdn-tracking-statistics tracking-click" data-mod="popu_557">
+                <a class="pulllog-login">登录</a>
+            </div>
+            <div class="pulllog-sigin float-left csdn-tracking-statistics tracking-click" data-mod="popu_558">
+                <a href="https://passport.csdn.net/account/mobileregister" target="_blank">注册</a>
+            </div>
+            <button class="btn-close">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#csdnc-times"></use>
+                </svg>
+            </button>
+		</div>
+	</div>
+</div>
+<div id="loginWrap" style="display:none"></div>
+<div class="tool-box">
+	<ul class="meau-list">
+		<li class="btn-like-box ">
+			<button class=" low-height hover-box btn-like " title="点赞">
+				<svg class="icon active hover-hide" aria-hidden="true">
+					<use xlink:href="#csdnc-thumbsup-ok"></use>
+				</svg>
+				<svg class="icon no-active hover-hide" aria-hidden="true">
+					<use xlink:href="#csdnc-thumbsup"></use>
+				</svg>
+				<span class="hover-show text-box text">
+					<span class="no-active">点赞</span>
+					<span class="active">取消点赞</span>
+				</span>
+				<p>0</p>
+			</button>
+		</li>
+		<li class="">
+						<a class="btn-comments low-height hover-box" title="写评论" href="#commentBox">
+				<svg class="icon hover-hide" aria-hidden="true">
+					<use xlink:href="#csdnc-comments"></use>
+				</svg>
+				<span class="hover-show text">评论</span>
+				<p class="">
+										</p>
+			</a>
+		</li>
+		<li class="toc-container-box" id="liTocBox">
+			<button class="btn-toc low-height hover-box" title="目录">
+				<svg class="icon hover-hide" aria-hidden="true">
+					<use xlink:href="#csdnc-contents"></use>
+				</svg>
+				<span class="hover-show text">目录</span>
+			</button>
+			<div class="toc-container">
+				<div class="pos-box">
+					<div class="icon-arrow"></div>
+					<div class="scroll-box">
+						<div class="toc-box"></div>
+					</div>
+				</div>
+				<div class="opt-box">
+					<button class="btn-opt prev nomore" title="向上">
+						<svg class="icon" aria-hidden="true">
+							<use xlink:href="#csdnc-chevronup"></use>
+						</svg>
+					</button>
+					<button class="btn-opt next">
+						<svg class="icon" aria-hidden="true">
+							<use xlink:href="#csdnc-chevrondown"></use>
+						</svg>
+					</button>
+				</div>
+			</div>
+		</li>
+		<li>
+			<button class="btn-bookmark low-height hover-box" title="收藏">
+				<svg class="icon active hover-hide" aria-hidden="true">
+					<use xlink:href="#csdnc-bookmark-ok"></use>
+				</svg>
+				<svg class="icon no-active hover-hide" aria-hidden="true">
+					<use xlink:href="#csdnc-bookmark"></use>
+				</svg>
+					<span class="hover-show text">收藏</span>
+				<!-- <span class="hover-show text-box text">
+					<span class="no-active">收藏</span>
+					<span class="active">取消收藏</span>
+				</span> -->
+			</button>
+		</li>
+				<li>
+			<a class="btn-comments chat-ask-button low-height hover-box" title="快问" href="#chatqa">
+				<svg class="icon hover-hide" aria-hidden="true">
+					<use xlink:href="#csdnc-chat-qa"></use>
+				</svg>
+				<span class="hover-show text">快问</span>
+				
+			</a>
+		</li>
+				<li class="bdsharebuttonbox">
+			<button class="btn-comments low-height hover-box" >
+				<a href="#" class="bds_weixin clear-share-style" data-cmd="weixin" title="手机看"></a>
+				<svg class="icon hover-hide" aria-hidden="true">
+					<use xlink:href="#csdnc-wechat"></use>
+				</svg>
+				<span class="hover-show text text3">
+					手机看
+				</span>
+			</button>
+		</li>
+							<li class="widescreen-hide">
+				<a class="btn-comments low-height hover-box" href="https://blog.csdn.net/a1065712890/article/details/79677886" title="pta 是否同一棵二叉搜索树">
+					<svg class="icon hover-hide" aria-hidden="true">
+						<use xlink:href="#csdnc-shangyiye"></use>
+					</svg>
+					<span class="hover-show text text3">上一篇</span>
+				</a>
+			</li>
+								<li class="widescreen-hide">
+			<a class="btn-comments hover-box low-height" href="https://blog.csdn.net/a1065712890/article/details/79691245" title="JAVA 实现全排列和组合">
+				<svg class="icon hover-hide" aria-hidden="true">
+					<use xlink:href="#csdnc-xiayiye"></use>
+				</svg>
+				<span class="hover-show text text3">下一篇</span>
+			</a>
+		</li>
+						<li class="bdsharebuttonbox _360_interactive"style="margin-top: 8px;">
+			<script type="text/javascript" src="//cjhd.mediav.com/js/interactive_plugin.js"></script> 
+			<style>
+				#_360_interactive > *{
+					 margin-left: -8px;
+				}
+			</style>
+			<div id="_360_interactive" > 
+				<script> INTERACTIVE_PLUGIN.render({ showid : 'N0ufqn', w: 60, h: 60, type: 'click', placeholderId: '_360_interactive' }); </script> 
+			</div>
+			<img src="//img-ads.csdn.net/2016/201608021757063065.png" style="margin: 0 auto;display: block;" alt="">
+		</li>
+	  
+		<!-- 宽屏更多按钮 -->
+		<li class="widescreen-more">
+			<a class="btn-comments chat-ask-button low-height hover-box" title="快问" href="#chatqa">
+				<svg class="icon hover-hide" aria-hidden="true">
+					<use xlink:href="#csdnc-more"></use>
+				</svg>
+				<span class="hover-show text">更多</span>
+				
+			</a>
+			<ul class="widescreen-more-box">
+													<li class="widescreen-more">
+						<a class="btn-comments low-height hover-box" href="https://blog.csdn.net/a1065712890/article/details/79677886" title="pta 是否同一棵二叉搜索树">
+							<svg class="icon hover-hide" aria-hidden="true">
+								<use xlink:href="#csdnc-shangyiye"></use>
+							</svg>
+							<span class="hover-show text text3">上一篇</span>
+						</a>
+					</li>
+																<li class="widescreen-more">
+					<a class="btn-comments hover-box low-height" href="https://blog.csdn.net/a1065712890/article/details/79691245" title="JAVA 实现全排列和组合">
+						<svg class="icon hover-hide" aria-hidden="true">
+							<use xlink:href="#csdnc-xiayiye"></use>
+						</svg>
+						<span class="hover-show text text3">下一篇</span>
+					</a>
+				</li>
+							</ul>
+		</li>
+	</ul>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'https://csdnimg.cn/static/api/js/share.js?v=89860594'];</script>
+<script>
+    var recommendCount = 10;
+    recommendCount = recommendCount > 1 ? (recommendCount + (recommendCount>6 ? 2 : 1)) : recommendCount;
+    var articleTit = "在浏览器输入一个网址到得到页面的过程";
+    var ChannelId = 16;
+    var articleId = "79682780";
+    var commentscount = 0;
+    var islock = false;
+    var curentUrl = "https://blog.csdn.net/a1065712890/article/details/79682780";
+    var myUrl = "https://my.csdn.net/";
+    //1禁止评论，2正常
+    var commentAuth = 2;
+    //百度搜索
+    var baiduKey = "%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BE%93%E5%85%A5%E4%B8%80%E4%B8%AA%E7%BD%91%E5%9D%80%2C%E5%BE%97%E5%88%B0%E9%A1%B5%E9%9D%A2%E7%9A%84%E5%85%B7%E4%BD%93%E8%BF%87%E7%A8%8B";
+    var needInsertBaidu = false;
+    // 代码段样式
+    var codeStyle = 'atom-one-dark';
+		var highlight = ["\u6d4f\u89c8\u5668","\u8f93\u5165","\u4e00\u4e2a","\u7f51\u5740","\u5f97\u5230","\u9762\u7684","\u8fc7\u7a0b"];//高亮数组
+		// 相关推荐博主数据
+    var RecommendBlogExpertList = [{"user_name":"ty987654","nick_name":"\u6b63\u5728\u8fdb\u9636\u7684","avatar":"https:\/\/avatar.csdn.net\/6\/4\/4\/3_ty987654.jpg","is_expert":false,"article_count":19},{"user_name":"jorson2000a","nick_name":"jorson2000a","avatar":"https:\/\/avatar.csdn.net\/6\/D\/1\/3_jorson2000a.jpg","is_expert":false,"article_count":35},{"user_name":"qq_35167373","nick_name":"\u65e0\u5173\u98ce\u6708u","avatar":"https:\/\/avatar.csdn.net\/5\/3\/7\/3_qq_35167373.jpg","is_expert":false,"article_count":25},{"user_name":"weixin_40260594","nick_name":"sMoom","avatar":"https:\/\/avatar.csdn.net\/9\/9\/3\/3_weixin_40260594.jpg","is_expert":false,"article_count":22},{"user_name":"zhengwish","nick_name":"DDDDemo","avatar":"https:\/\/avatar.csdn.net\/D\/D\/D\/3_zhengwish.jpg","is_expert":false,"article_count":115},{"user_name":"weixin_36027342","nick_name":"yeliner_","avatar":"https:\/\/avatar.csdn.net\/B\/F\/6\/3_weixin_36027342.jpg","is_expert":false,"article_count":44},{"user_name":"heshan1992","nick_name":"My-Lady","avatar":"https:\/\/avatar.csdn.net\/5\/3\/C\/3_heshan1992.jpg","is_expert":false,"article_count":79},{"user_name":"m0_37947204","nick_name":"\u5954\u8dd1\u4e2d\u7684\u5c0f\u5154\u5b50","avatar":"https:\/\/avatar.csdn.net\/F\/9\/C\/3_m0_37947204.jpg","is_expert":false,"article_count":139},{"user_name":"mevicky","nick_name":"\u5e03\u745e\u6cfd\u7684\u7ae5\u8bdd","avatar":"https:\/\/avatar.csdn.net\/3\/A\/3\/3_mevicky.jpg","is_expert":false,"article_count":148},{"user_name":"lixingying567","nick_name":"\u6b65\u6b65\u4e3a\u8d62567","avatar":"https:\/\/avatar.csdn.net\/0\/5\/B\/3_lixingying567.jpg","is_expert":false,"article_count":200}];
+		
+		var articleType = 1;
+		var CopyrightContent = '本文为博主原创文章，未经博主允许不得转载。';
+</script>
+<script src="https://csdnimg.cn/public/sandalstrap/1.4/js/sandalstrap.min.js"></script>
+<script src="https://csdnimg.cn/release/phoenix/vendor/pagination/paging.js"></script>
+<script src='https://csdnimg.cn/public/common/gotop/js/goTop-v1.0.min.js?v201803151422'></script>
+<script>
+    GoTop({
+        right: 8,
+        hasReport: true,
+        reportFun: function() {
+            showReport(false,"在浏览器输入一个网址到得到页面的过程");
+        }
+    })
+</script>
+<script src="https://g.csdnimg.cn/login-box/1.0.1/login-box.js"></script>
+<script src="https://csdnimg.cn/release/phoenix/template/js/common-ff25a7a98a.min.js"></script>
+<script src="https://csdnimg.cn/release/phoenix/template/js/detail-a341548e20.min.js"></script>
+<script src="https://csdnimg.cn/release/phoenix/themes/skin3-template/skin3-template-9376486353.min.js"></script>
+<script src="https://csdnimg.cn/search/baidu_search-1.1.2.js?v=201802071056&autorun=true&install=true&keyword=%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BE%93%E5%85%A5%E4%B8%80%E4%B8%AA%E7%BD%91%E5%9D%80%2C%E5%BE%97%E5%88%B0%E9%A1%B5%E9%9D%A2%E7%9A%84%E5%85%B7%E4%BD%93%E8%BF%87%E7%A8%8B"  type="text/javascript"></script>
+</body>
+<!-- 第四范式SDK -->
+
+<!-- 高亮未与 markdown兼容  -->
+<script type="text/javascript" src="https://static-blog.csdn.net/mdeditor/public/res/bower-libs/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+            "HTML-CSS": {
+                    linebreaks: { automatic: true, width: "94%container" },
+                    imageFont: null
+            },
+            tex2jax: {
+                preview: "none"
+            },
+            mml2jax: {
+                preview: 'none'
+            }
+    });
+</script>
+</html>

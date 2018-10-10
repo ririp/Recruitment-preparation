@@ -1,0 +1,204 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="referrer" content="origin" />
+<title>一道面试题：说说进程和线程的区别 - 米罗西 - 博客园</title>
+<meta property="og:description" content="一道面试题：说说进程和线程的区别 在理解进程和线程概念之前首选要对并发有一定的感性认识，如果服务器同一时间内只能服务于一个客户端，其他客户端都再那里傻等的话，可见其性能的低下估计会被客户骂出翔来，因此" />
+<link type="text/css" rel="stylesheet" href="/bundles/blog-common.css?v=PX31qVjOE47mNaZI9JUSFK-ajuzMnpXA9PeteRNR1Qw1"/>
+<link id="MainCss" type="text/css" rel="stylesheet" href="/skins/Custom/bundle-Custom.css?v=Z683z9azGWin6jOfOyAHK6FgPVxm_nmCnl3EFztc2eE1"/>
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/Custom/bundle-Custom-mobile.css?v=D4ZG96to-4HBTPc_nukUGx4UJPJRCpcXUrj8NiiyXiU1"/>
+<link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/zhehan54/rss"/>
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/zhehan54/rsd.xml"/>
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/zhehan54/wlwmanifest.xml"/>
+<script src="//common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+<script type="text/javascript">var currentBlogApp = 'zhehan54', cb_enable_mathjax=false;var isLogined=false;</script>
+<script src="/bundles/blog-common.js?v=M03aVfZ8QFd-WbinG9a-QXWifrkNB2YI5lN9M8cSzzg1" type="text/javascript"></script>
+</head>
+<body>
+<a name="top"></a>
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="https://www.cnblogs.com/zhehan54/"><img id="blogLogo" src="/Skins/custom/images/logo.gif" alt="返回主页" /></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/zhehan54/">米罗西</a></h1>
+<h2></h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">博客园</a></li>
+<li><a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/zhehan54/">首页</a></li>
+<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li><a id="blog_nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/%E7%B1%B3%E7%BD%97%E8%A5%BF">联系</a></li>
+<li><a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/zhehan54/rss">订阅</a>
+<!--<a id="blog_nav_rss_image" class="aHeaderXML" href="https://www.cnblogs.com/zhehan54/rss"><img src="//www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<span id="stats_post_count">随笔 - 399&nbsp; </span>
+<span id="stats_article_count">文章 - 0&nbsp; </span>
+<span id="stats-comment_count">评论 - 150</span>
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class = "post">
+		<h1 class = "postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/zhehan54/p/6130030.html">一道面试题：说说进程和线程的区别</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><h2 id="activity-name" class="rich_media_title"><a href="http://mp.weixin.qq.com/s/f_OezOorxInJqzx8WT7x2g" target="_blank">一道面试题：说说进程和线程的区别</a></h2>
+<p>&nbsp;</p>
+<p>在理解进程和线程概念之前首选要对并发有一定的感性认识，如果服务器同一时间内只能服务于一个客户端，其他客户端都再那里傻等的话，可见其性能的低下估计会被客户骂出翔来，因此并发编程应运而生，并发是网络编程中必须考虑的问题。实现并发的方式有多种：比如多进程、多线程、IO多路复用。</p>
+<h3>多进程</h3>
+<p>进程是资源（CPU、内存等）分配的基本单位，它是程序执行时的一个实例。程序运行时系统就会创建一个进程，并为它分配资源，然后把该进程放入进程就绪队列，进程调度器选中它的时候就会为它分配CPU时间，程序开始真正运行。</p>
+<p>Linux系统函数<code>fork()</code>可以在父进程中创建一个子进程，这样的话，在一个进程接到来自客户端新的请求时就可以复制出一个子进程让其来处理，父进程只需负责监控请求的到来，然后创建子进程让其去处理，这样就能做到并发处理。</p>
+<pre><code># -*- coding:utf-8 -*-
+import os
+
+print('当前进程:%s 启动中 ....' % os.getpid())
+pid = os.fork()
+if pid == 0:
+ &nbsp; &nbsp;print('子进程:%s,父进程是:%s' % (os.getpid(), os.getppid()))
+else:
+ &nbsp; &nbsp;print('进程:%s 创建了子进程:%s' % (os.getpid(),pid ))</code></pre>
+<p>输出结果：</p>
+<pre><code>当前进程:27223 启动中 ....
+进程:27223 创建了子进程:27224
+子进程:27224,父进程是:27223</code></pre>
+<p>fork函数会返回两次结果，因为操作系统会把当前进程的数据复制一遍，然后程序就分两个进程继续运行后面的代码，fork分别在父进程和子进程中返回，在子进程返回的值pid永远是0，在父进程返回的是子进程的进程id。</p>
+<h3>多线程</h3>
+<p>线程是程序执行时的最小单位，它是进程的一个执行流，是CPU调度和分派的基本单位，一个进程可以由很多个线程组成，线程间共享进程的所有资源，每个线程有自己的堆栈和局部变量。线程由CPU独立调度执行，在多CPU环境下就允许多个线程同时运行。同样多线程也可以实现并发操作，每个请求分配一个线程来处理。</p>
+<h3>线程和进程各自有什么区别和优劣呢？</h3>
+<ul class="list-paddingleft-2">
+<li>
+<p>进程是资源分配的最小单位，线程是程序执行的最小单位。</p>
+</li>
+<li>
+<p>进程有自己的独立地址空间，每启动一个进程，系统就会为它分配地址空间，建立数据表来维护代码段、堆栈段和数据段，这种操作非常昂贵。而线程是共享进程中的数据的，使用相同的地址空间，因此CPU切换一个线程的花费远比进程要小很多，同时创建一个线程的开销也比进程要小很多。</p>
+</li>
+<li>
+<p>线程之间的通信更方便，同一进程下的线程共享全局变量、静态变量等数据，而进程之间的通信需要以通信的方式（IPC)进行。不过如何处理好同步与互斥是编写多线程程序的难点。</p>
+</li>
+<li>
+<p>但是多进程程序更健壮，多线程程序只要有一个线程死掉，整个进程也死掉了，而一个进程死掉并不会对另外一个进程造成影响，因为进程有自己独立的地址空间。</p>
+</li>
+</ul>
+<p>老外的原话是这么说的 —-《Unix网络编程》：</p>
+<blockquote>
+<ul class="list-paddingleft-2">
+<li>
+<p>fork is expensive. Memory is copied from the parent to the child, all descriptors are duplicated in the child, and so on. Current implementations use a technique called copy-on-write, which avoids a copy of the parent’s data space to the child until the child needs its own copy. But, regardless of this optimization, fork is expensive.</p>
+</li>
+<li>
+<p>IPC is required to pass information between the parent and child after the fork. Passing information from the parent to the child before the fork is easy, since the child starts with a copy of the parent’s data space and with a copy of all the parent’s descriptors. But, returning information from the child to the parent takes more work.</p>
+</li>
+<li>
+<p>Threads help with both problems. Threads are sometimes called lightweight processes since a thread is “lighter weight” than a process. That is, thread creation can be 10–100 times faster than process creation.</p>
+</li>
+<li>
+<p>All threads within a process share the same global memory. This makes the sharing of information easy between the threads, but along with this simplicity comes the problem</p>
+</li>
+</ul>
+</blockquote></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory"></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info">
+</div>
+<div class="clear"></div>
+<div id="post_next_prev"></div>
+</div>
+
+
+		</div>
+		<div class = "postDesc">posted @ <span id="post-date">2016-12-03 23:47</span> <a href='https://www.cnblogs.com/zhehan54/'>米罗西</a> 阅读(<span id="post_view_count">...</span>) 评论(<span id="post_comment_count">...</span>)  <a href ="https://i.cnblogs.com/EditPosts.aspx?postid=6130030" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(6130030);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=227133,cb_entryId=6130030,cb_blogApp=currentBlogApp,cb_blogUserGuid='c32cd3f2-746c-df11-ba8f-001cf0cd104b',cb_entryCreatedDate='2016/12/3 23:47:00';loadViewCount(cb_entryId);var cb_postType=1;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id='comment_form' class='commentform'>
+<a name='commentform'></a>
+<div id='divCommentShow'></div>
+<div id='comment_nav'><span id='span_refresh_tips'></span><a href='javascript:void(0);' onclick='return RefreshCommentList();' id='lnk_RefreshComments' runat='server' clientidmode='Static'>刷新评论</a><a href='#' onclick='return RefreshPage();'>刷新页面</a><a href='#top'>返回顶部</a></div>
+<div id='comment_form_container'></div>
+<div class='ad_text_commentbox' id='ad_text_under_commentbox'></div>
+<div id='ad_t2'></div>
+<div id='opt_under_post'></div>
+<div id='cnblogs_c1' class='c_ad_block'></div>
+<div id='under_post_news'></div>
+<div id='cnblogs_c2' class='c_ad_block'></div>
+<div id='under_post_kb'></div>
+<div id='HistoryToday' class='c_ad_block'></div>
+<script type='text/javascript'>
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-calendar" style="display:none"></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright &copy;2018 米罗西
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+</body>
+</html>

@@ -1,0 +1,2308 @@
+<!DOCTYPE html>
+<!--STATUS OK-->
+<html>
+
+
+
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<meta name="referrer" content="always" />
+<meta name="description" content="正则表达式，又称规则表达式。（英语：Regular Expression，在代码中常简写为regex、regexp或RE），计算机科学的一个概念。正则表达式通常被用来检索、替换那些符合某个模式(规则)的文本。许多程序设计语言都支持利用正则表达式进行字符串操作。例如，在Perl中就内建了一个功能强大的正则表达式引擎。正则表达式这个概念最初是由Unix中的工具软件（例如sed和grep）普及开的。正则表达式通常缩写成“regex”，单数有regexp、regex，复数有regexps、regexes、regexen。...">
+<title>正则表达式_百度百科</title>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="icon" sizes="any" mask href="//www.baidu.com/img/baidu.svg">
+
+<meta name="keywords" content="正则表达式 使用正则表达式 正则式 正则表达式概念 正则表达式简介 正则表达式起源 正则表达式目的 正则表达式特点 正则表达式引擎 正则表达式符号 正则表达式速记理解技巧 正则表达式替换技巧 正则表达式零宽断言 正则表达式负向零宽">
+<meta name="image" content="https://bkssl.bdimg.com/cms/static/baike.png">
+<script type="text/javascript">
+  // 配置 PD 监控。
+  window.alogObjectConfig = {
+    product: '103',
+    page: '103_1',
+    speed: {
+      sample: '0.008'
+    },
+    monkey: {
+      sample: '1',
+      hid: '1533'
+    },
+    exception: { 
+      sample: '0.004'
+    },
+    feature: {
+      sample: '0.004'
+    },
+    csp: {
+      sample: '0.008',
+      'default-src': [
+        {match: '*.baidu.com,*.bdimg.com,localhost', target: 'Accept'},
+        {match: '*', target: 'Accept,Warn'}
+      ]
+    }
+  };
+
+  void function(a,b,c,d,e,f,g){a.alogObjectName=e,a[e]=a[e]||function(){(a[e].q=a[e].q||[]).push(arguments)},a[e].l=a[e].l||+new Date,d="https:"===a.location.protocol?"https://fex.bdstatic.com"+d:"http://fex.bdstatic.com"+d;var h=!0;if(a.alogObjectConfig&&a.alogObjectConfig.sample){var i=Math.random();a.alogObjectConfig.rand=i,i>a.alogObjectConfig.sample&&(h=!1)}h&&(f=b.createElement(c),f.async=!0,f.src=d+"?v="+~(new Date/864e5)+~(new Date/864e5),g=b.getElementsByTagName(c)[0],g.parentNode.insertBefore(f,g))}(window,document,"script","/hunter/alog/alog.min.js","alog"),void function(){function a(){}window.PDC={mark:function(a,b){alog("speed.set",a,b||+new Date),alog.fire&&alog.fire("mark")},init:function(a){alog("speed.set","options",a)},view_start:a,tti:a,page_ready:a}}();
+  void function(n){var o=!1;n.onerror=function(n,e,t,c){var i=!0;return!e&&/^script error/i.test(n)&&(o?i=!1:o=!0),i&&alog("exception.send","exception",{msg:n,js:e,ln:t,col:c}),!1},alog("exception.on","catch",function(n){alog("exception.send","exception",{msg:n.msg,js:n.path,ln:n.ln,method:n.method,flag:"catch"})})}(window);
+</script>
+<meta name="csrf-token" content="">
+<meta itemprop="dateUpdate" content="2018-09-25 22:11:36" />
+
+<!--[if lte IE 9]>
+<script>
+    (function() {
+      var e = "abbr,article,aside,audio,canvas,datalist,details,dialog,eventsource,figure,footer,header,hgroup,mark,menu,meter,nav,output,progress,section,time,video".split(","),
+        i = e.length;
+      while (i--) {
+        document.createElement(e[i]);
+      }
+    })();
+  </script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="https://bkssl.bdimg.com/static/wiki-lemma/pkg/wiki-lemma_63c8341.css"/><link rel="stylesheet" type="text/css" href="https://bkssl.bdimg.com/static/wiki-common/pkg/wiki-common-base_e013871.css"/><link rel="stylesheet" type="text/css" href="https://bkssl.bdimg.com/static/wiki-common/widget/component/userbar-n/userbar-n_78dab81.css"/><link rel="stylesheet" type="text/css" href="https://bkssl.bdimg.com/static/wiki-common/widget/lib/larkplayer/larkplayer_981c735.css"/><link rel="stylesheet" type="text/css" href="https://bkssl.bdimg.com/static/wiki-common/widget/lib/webuploader/webuploader_08d9db4.css"/><link rel="stylesheet" type="text/css" href="https://bkssl.bdimg.com/static/wiki-lemma/pkg/wiki-lemma-module_65e90de.css"/><link rel="stylesheet" type="text/css" href="https://bkssl.bdimg.com/static/wiki-lemma/widget/tools/announcement/announcement_cba33f4.css"/><link rel="stylesheet" type="text/css" href="https://bkssl.bdimg.com/static/wiki-lemma/widget/tools/label/label_ca156c6.css"/><link rel="stylesheet" type="text/css" href="https://bkssl.bdimg.com/static/wiki-lemma/widget/tools/newSideShare/sideShare_9c411cd.css"/><link rel="stylesheet" type="text/css" href="https://bkssl.bdimg.com/static/wiki-lemma/widget/tools/video/pageMask/pageMask_ff9a193.css"/><link rel="stylesheet" type="text/css" href="https://bkssl.bdimg.com/static/wiki-lemma/lemmaCode/style/shCore_7fba49a.css"/><link rel="stylesheet" type="text/css" href="https://bkssl.bdimg.com/static/wiki-lemma/lemmaCode/style/shCoreDefault_3f91dc3.css"/><link rel="stylesheet" type="text/css" href="https://bkssl.bdimg.com/static/wiki-lemma/widget/lemma_content/mainContent/mainContent_98e3702.css"/><link rel="stylesheet" type="text/css" href="https://bkssl.bdimg.com/static/wiki-lemma/widget/lemma_content/mainContent/lemmaRelation/lemmaRelation_ac86a59.css"/><link rel="stylesheet" type="text/css" href="https://bkssl.bdimg.com/static/wiki-lemma/widget/lemma_content/configModule/zhixin/zhixin_3b0d7a5.css"/><link rel="stylesheet" type="text/css" href="https://bkssl.bdimg.com/static/wiki-lemma/widget/tools/searchHeader/toolButtons-n/toolButtons-n_6e90fdd.css"/><link rel="stylesheet" type="text/css" href="https://bkssl.bdimg.com/static/wiki-lemma/widget/tools/searchHeader/toolButtons-n/userInfo-n_7e90184.css"/><link rel="stylesheet" type="text/css" href="https://bkssl.bdimg.com/static/wiki-lemma/widget/tools/searchHeader/searchHeader-n_f9a6e5b.css"/>    
+</head>
+
+<script type="text/javascript">
+    alog('speed.set', 'ht', +new Date);
+</script>
+<script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?55b574651fcae74b0a9f1cf9c8d7c93a";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<body class="wiki-lemma normal">
+
+
+<div class="header-wrapper pc-header-new">
+<div class="topbar cmn-clearfix">
+<ul class="wgt-userbar wgt-userbar-n" id="j-wgt-userbar">
+<li>
+<a href="http://www.baidu.com/">百度首页</a>
+</li>
+</ul>
+<div class="separator"></div>
+<div class="wiki-common-headTabBar">
+<a href="https://www.baidu.com/" nslog="normal" nslog-type="10600112" data-href="https://www.baidu.com/s?ie=utf-8&fr=bks0000&wd=">网页</a>
+<a href="http://news.baidu.com/" nslog="normal" nslog-type="10600112" data-href="http://news.baidu.com/ns?tn=news&cl=2&rn=20&ct=1&fr=bks0000&ie=utf-8&word=">新闻</a>
+<a href="https://tieba.baidu.com/" nslog="normal" nslog-type="10600112" data-href="https://tieba.baidu.com/f?ie=utf-8&fr=bks0000&kw=">贴吧</a>
+<a href="https://zhidao.baidu.com/" nslog="normal" nslog-type="10600112" data-href="https://zhidao.baidu.com/search?pn=0&&rn=10&lm=0&fr=bks0000&word=">知道</a>
+<a href="http://music.baidu.com/" nslog="normal" nslog-type="10600112" data-href="http://music.baidu.com/search?f=ms&ct=134217728&ie=utf-8&rn=&lm=-1&pn=30&fr=bks0000&key=">音乐</a>
+<a href="http://image.baidu.com/" nslog="normal" nslog-type="10600112" data-href="http://image.baidu.com/search/index?tn=baiduimage&ct=201326592&lm=-1&cl=2&nc=1&ie=utf-8&word=">图片</a>
+<a href="http://v.baidu.com/" nslog="normal" nslog-type="10600112" data-href="http://v.baidu.com/v?ct=301989888&rn=20&pn=0&db=0&s=22&ie=utf-8&fr=bks0000&word=">视频</a>
+<a href="http://map.baidu.com/" nslog="normal" nslog-type="10600112" data-href="http://map.baidu.com/m?ie=utf-8&fr=bks0000&word=">地图</a>
+<a href="https://wenku.baidu.com/" nslog="normal" nslog-type="10600112" data-href="https://wenku.baidu.com/search?lm=0&od=0&ie=utf-8&fr=bks0000&word=">文库</a>
+<b class="baike">百科</b>
+</div>
+</div>
+<div class="header">
+<div class="layout">
+<div class="wgt-searchbar wgt-searchbar-new wgt-searchbar-main cmn-clearfix wgt-searchbar-large">
+<div class="logo-container">
+<a class="logo cmn-inline-block" title="到百科首页" href="/">
+<span class="cmn-baike-logo">
+<em class="cmn-icon cmn-icons cmn-icons_logo-bai"></em>
+<em class="cmn-icon cmn-icons cmn-icons_logo-du"></em>
+<em class="cmn-icon cmn-icons cmn-icons_logo-baike"></em>
+</span>
+</a>
+</div>
+<div class="search">
+<div class="form">
+<form id="searchForm" action="/search/word" method="GET" target="_self">
+<input id="query" nslog="normal" nslog-type="10080011" name="word" type="text" autocomplete="off" autocorrect="off" value="正则表达式" /><button id="search" nslog="normal" nslog-type="10080008" type="button">进入词条</button><button id="searchLemma" nslog="normal" nslog-type="10080009" type="button">全站搜索</button><a class="help" href="/help" nslog="normal" nslog-type="10080010" target="_blank">帮助</a>
+</form>
+<form id="searchLemmaForm" action="/search" method="GET" target="_self">
+<input id="searchLemmaQuery" name="word" type="hidden" />
+<input name="pn" type="hidden" value="0" />
+<input name="rn" type="hidden" value="0" />
+<input name="enc" type="hidden" value="utf8" />
+</form>
+<ul id="suggestion" class="suggestion">
+<div class="sug"></div>
+<li class="extra">
+<span id="clear" style="margin-right:8px;">清除历史记录</span><span id="close" nslog="normal" nslog-type="10080012">关闭</span>
+</li>
+</ul>
+</div></div>
+</div>
+<div class="declare-wrap" id="J-declare-wrap">
+<div class="declare" id="J-declare">声明：百科词条人人可编辑，词条创建和修改均免费，绝不存在官方及代理商付费代编，请勿上当受骗。<a class="declare-details" target="_blank" href="/common/declaration">详情>></a>
+<div class="close-btn" id="J-declare-close">
+<em class="cmn-icon cmn-icons cmn-icons_close"></em>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="navbar-wrapper">
+<div class="wgt-navbar">
+<div class="navbar-bg">
+<div class="navbar-bg-top">
+<div class="navbar-content layout">
+<div class="navbar-content-box">
+<dl class="index ">
+<dt><a href="/">首页</a></dt>
+<dd>
+<div><a href="/calendar/" target="_blank">历史上的今天</a></div>
+<div><a href="/vbaike/" target="_blank">百科冷知识</a></div>
+<div><a href="vbaike#gallary" target="_blank">图解百科</a></div>
+</dd>
+</dl>
+<dl class="cat ">
+<dt><a>分类</a></dt>
+<dd>
+<div><a href="/art" target="_blank" class="art">艺术</a></div>
+<div><a href="/science" target="_blank" class="technology">科学</a></div>
+<div><a href="/ziran" target="_blank">自然</a></div>
+<div><a href="/wenhua" target="_blank">文化</a></div>
+<div><a href="/dili" target="_blank">地理</a></div>
+<div><a href="/shenghuo" target="_blank">生活</a></div>
+<div><a href="/shehui" target="_blank">社会</a></div>
+<div><a href="/renwu" target="_blank">人物</a></div>
+<div><a href="/jingji" target="_blank">经济</a></div>
+<div><a href="/tiyu" target="_blank">体育</a></div>
+<div><a href="/lishi" target="_blank">历史</a></div>
+</dd>
+</dl>
+<dl class="special ">
+<dt><a>特色百科</a></dt>
+<dd><div><a href="/museum/" target="_blank">数字博物馆</a></div>
+<div><a href="/feiyi?fr=dhlfeiyi" target="_blank">非遗百科</a></div>
+<div><a href="/wikicategory/view?categoryName=多肉植物" target="_blank">多肉百科</a></div>
+<div><a href="/wikicategory/view?categoryName=恐龙大全" target="_blank">恐龙百科</a></div>
+<div><a href="/city/" target="_blank">城市百科</a></div>
+<div><a href="/operation/worldwar2" target="_blank">二战百科</a></div>
+</dd>
+</dl>
+<dl class="user" >
+<dt><a>用户</a></dt>
+<dd>
+<div><a href="/kedou/" target="_blank">蝌蚪团</a></div>
+<div><a href="/event/ranmeng/" target="_blank">燃梦计划</a></div>
+<div><a href="/task/" target="_blank">百科任务</a></div>
+<div><a href="/mall/" target="_blank">百科商城</a></div>
+</dd>
+</dl>
+<dl class="cooperation" >
+<dt><a>权威合作</a></dt>
+<dd>
+<div><a href="/operation/cooperation#joint" target="_blank">合作模式</a></div>
+<div><a href="/operation/cooperation#issue" target="_blank">常见问题</a></div>
+<div><a href="/operation/cooperation#connection" target="_blank">联系方式</a></div>
+</dd>
+</dl>
+<dl class="mobile" >
+<dt><a>手机百科</a></dt>
+<dd>
+<div><a href="/m#wap" target="_blank">网页版</a></div>
+</dd>
+</dl>
+<div class="usercenter">
+<div><a href="/usercenter" target="_blank"><em class="cmn-icon cmn-icons cmn-icons_navbar-usercenter"></em>个人中心</a></div>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="body-wrapper">
+<div class="before-content">
+</div>
+<div class="content-wrapper">
+<div class="content">
+<div class="personal-content">
+</div>
+<div class="main-content">
+<div class="top-tool">
+<a class="add-sub-icon top-tool-icon" href="javascript:;" title="添加义项" nslog-type="50000101">
+<em class="cmn-icon wiki-lemma-icons wiki-lemma-icons_add-subLemma-solid"></em>
+</a>
+<a href="/divideload/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F" title="拆分词条" target="_blank" class="split-icon top-tool-icon" style="display:none;" nslog-type="50000104">
+<em class="cmn-icon wiki-lemma-icons wiki-lemma-icons_lemma-split"></em>
+</a>
+<div class="top-collect top-tool-icon" nslog="area" nslog-type="50000102">
+<em class="cmn-icon wiki-lemma-icons wiki-lemma-icons_star-solid"></em>
+<span class="collect-text">收藏</span>
+<div class="collect-tip">查看<a href="/uc/favolemma" target="_blank">我的收藏</a></div>
+</div>
+<a href="javascript:void(0);" id="j-top-vote" class="top-vote top-tool-icon" nslog-type="10060801">
+<em class="cmn-icon wiki-lemma-icons wiki-lemma-icons_zan-solid"></em>
+<span class="vote-count">0</span>
+<span class="vote-tip">有用+1</span>
+<span class="voted-tip">已投票</span>
+</a><div class="bksharebuttonbox top-share">
+<a class="top-share-icon top-tool-icon" nslog-type="9067">
+<em class="cmn-icon wiki-lemma-icons wiki-lemma-icons_share"></em>
+<span class="share-count" id="j-topShareCount">0</span>
+</a>
+<div class="new-top-share" id="top-share">
+<ul class="top-share-list">
+<li class="top-share-item">
+<a class="share-link bds_qzone"  href="javascript:void(0);" nslog-type="10060501">
+<em class="cmn-icon cmn-icons cmn-icons_logo-qzone"></em>
+</a>
+</li>
+<li class="top-share-item">
+<a class="share-link bds_tsina" href="javascript:void(0);" nslog-type="10060701">
+<em class="cmn-icon cmn-icons cmn-icons_logo-sina-weibo"></em>
+</a>
+</li>
+<li class="top-share-item">
+<a class="bds_wechat"  href="javascript:void(0);" nslog-type="10060401">
+<em class="cmn-icon cmn-icons cmn-icons_logo-wechat"></em>
+</a>
+</li>
+<li class="top-share-item">
+<a class="share-link bds_tqq"  href="javascript:void(0);" nslog-type="10060601">
+<em class="cmn-icon cmn-icons cmn-icons_logo-qq"></em>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div style="width:0;height:0;clear:both"></div><dl class="lemmaWgt-lemmaTitle lemmaWgt-lemmaTitle-">
+<dd class="lemmaWgt-lemmaTitle-title">
+<h1 >正则表达式</h1>
+<a href="javascript:;" class="edit-lemma cmn-btn-hover-blue cmn-btn-28 j-edit-link"><em class="cmn-icon wiki-lemma-icons wiki-lemma-icons_edit-lemma"></em>编辑</a>
+<a class="lock-lemma" nslog-type="10003105" target="_blank" href="/view/10812319.htm" title="锁定"><em class="cmn-icon wiki-lemma-icons wiki-lemma-icons_lock-lemma"></em>锁定</a>
+</dd>
+</dl><div class="promotion-declaration">
+</div><div class="lemma-summary" label-module="lemmaSummary">
+<div class="para" label-module="para"><b>正则表达式</b>，又称规则表达式<b>。</b>（英语：Regular Expression，在代码中常简写为regex、regexp或RE），计算机科学的一个概念。正则表达式通常被用来检索、替换那些符合某个模式(规则)的文本。</div><div class="para" label-module="para">许多程序设计语言都支持利用正则表达式进行字符串操作。例如，在<a target=_blank href="/item/Perl">Perl</a>中就内建了一个功能强大的正则表达式引擎。正则表达式这个概念最初是由<a target=_blank href="/item/Unix">Unix</a>中的工具软件（例如sed和<a target=_blank href="/item/grep/5997841" data-lemmaid="5997841">grep</a>）普及开的。正则表达式通常缩写成“regex”，<a target=_blank href="/item/%E5%8D%95%E6%95%B0/1658633" data-lemmaid="1658633">单数</a>有regexp、regex，<a target=_blank href="/item/%E5%A4%8D%E6%95%B0/254365" data-lemmaid="254365">复数</a>有regexps、regexes、regexen。</div>
+</div>
+<div class="configModuleBanner">
+</div><div class="basic-info cmn-clearfix">
+<dl class="basicInfo-block basicInfo-left">
+<dt class="basicInfo-item name">中文名</dt>
+<dd class="basicInfo-item value">
+正则表达式
+</dd>
+<dt class="basicInfo-item name">外文名</dt>
+<dd class="basicInfo-item value">
+Regular Expression
+</dd>
+</dl><dl class="basicInfo-block basicInfo-right">
+<dt class="basicInfo-item name">别&nbsp;&nbsp;&nbsp;&nbsp;称</dt>
+<dd class="basicInfo-item value">
+正规表示法、常规表示法
+</dd>
+<dt class="basicInfo-item name">代码简写</dt>
+<dd class="basicInfo-item value">
+regex、regexp或RE
+</dd>
+</dl></div>
+<div class="lemmaWgt-lemmaCatalog">
+<div class="lemma-catalog">
+<h2 class="block-title">目录</h2>
+<div class="catalog-list column-3">
+<ol>
+<li class="level1">
+<span class="index">1</span>
+<span class="text"><a href="#1">概念</a></span>
+</li>
+<li class="level1">
+<span class="index">2</span>
+<span class="text"><a href="#2">简介</a></span>
+</li>
+<li class="level1">
+<span class="index">3</span>
+<span class="text"><a href="#3">起源</a></span>
+</li>
+<li class="level1">
+<span class="index">4</span>
+<span class="text"><a href="#4">目的</a></span>
+</li>
+<li class="level1">
+<span class="index">5</span>
+<span class="text"><a href="#5">特点</a></span>
+</li>
+</ol><ol><li class="level1">
+<span class="index">6</span>
+<span class="text"><a href="#6">引擎</a></span>
+</li>
+<li class="level1">
+<span class="index">7</span>
+<span class="text"><a href="#7">符号</a></span>
+</li>
+<li class="level1">
+<span class="index">8</span>
+<span class="text"><a href="#8">速记理解技巧</a></span>
+</li>
+<li class="level1">
+<span class="index">9</span>
+<span class="text"><a href="#9">替换技巧</a></span>
+</li>
+<li class="level2">
+<span class="index">▪</span>
+<span class="text"><a href="#9_1">实例目录</a></span>
+</li>
+</ol><ol><li class="level2">
+<span class="index">▪</span>
+<span class="text"><a href="#9_2">应用实例</a></span>
+</li>
+<li class="level2">
+<span class="index">▪</span>
+<span class="text"><a href="#9_3">验证URL</a></span>
+</li>
+<li class="level1">
+<span class="index">10</span>
+<span class="text"><a href="#10">零宽断言</a></span>
+</li>
+<li class="level1">
+<span class="index">11</span>
+<span class="text"><a href="#11">负向零宽</a></span>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="anchor-list">
+<a name="1" class="lemma-anchor para-title" ></a>
+<a name="sub94238_1" class="lemma-anchor " ></a>
+<a name="概念" class="lemma-anchor " ></a>
+</div><div class="para-title level-2" label-module="para-title">
+<h2 class="title-text"><span class="title-prefix">正则表达式</span>概念</h2>
+<a class="edit-icon j-edit-link" data-edit-dl="1" href="javascript:;"><em class="cmn-icon wiki-lemma-icons wiki-lemma-icons_edit-lemma"></em>编辑</a>
+</div>
+<div class="para" label-module="para">正则表达式是对<a target=_blank href="/item/%E5%AD%97%E7%AC%A6">字符</a>串操作的一种逻辑公式，就是用事先定义好的一些特定字符、及这些特定字符的组合，组成一个“规则字符串”，这个“规则字符串”用来表达对字符串的一种过滤逻辑。</div><div class="anchor-list">
+<a name="2" class="lemma-anchor para-title" ></a>
+<a name="sub94238_2" class="lemma-anchor " ></a>
+<a name="简介" class="lemma-anchor " ></a>
+</div><div class="para-title level-2" label-module="para-title">
+<h2 class="title-text"><span class="title-prefix">正则表达式</span>简介</h2>
+<a class="edit-icon j-edit-link" data-edit-dl="2" href="javascript:;"><em class="cmn-icon wiki-lemma-icons wiki-lemma-icons_edit-lemma"></em>编辑</a>
+</div>
+<div class="para" label-module="para">正则表达式是对字符串（包括普通字符（例如，a 到 z 之间的字母）和特殊字符（称为“元字符”））操作的一种逻辑公式，就是用事先定义好的一些特定字符、及这些特定字符的组合，组成一个“规则字符串”，这个“规则字符串”用来表达对字符串的一种过滤逻辑。正则表达式是一种文本模式，模式描述在搜索文本时要匹配的一个或多个字符串。<sup class="sup--normal" data-sup="1">
+[1]</sup><a class="sup-anchor" name="ref_[1]_94238">&nbsp;</a>
+</div><div class="anchor-list">
+<a name="3" class="lemma-anchor para-title" ></a>
+<a name="sub94238_3" class="lemma-anchor " ></a>
+<a name="起源" class="lemma-anchor " ></a>
+</div><div class="para-title level-2" label-module="para-title">
+<h2 class="title-text"><span class="title-prefix">正则表达式</span>起源</h2>
+<a class="edit-icon j-edit-link" data-edit-dl="3" href="javascript:;"><em class="cmn-icon wiki-lemma-icons wiki-lemma-icons_edit-lemma"></em>编辑</a>
+</div>
+<div class="para" label-module="para">正则表达式的“鼻祖”或许可一直追溯到科学家对人类神经系统工作原理的早期研究。美国<a target=_blank href="/item/%E6%96%B0%E6%B3%BD%E8%A5%BF%E5%B7%9E">新泽西州</a>的Warren McCulloch和出生在美国底特律的Walter Pitts这两位神经生理方面的科学家，研究出了一种用数学方式来描述神经网络的新方法，他们创造性地将神经系统中的神经元描述成了小而简单的自动控制元，从而作出了一项伟大的工作革新。</div>
+<div class="para" label-module="para">在1951 年,一位名叫Stephen Kleene的数学科学家，他在Warren McCulloch和Walter Pitts早期工作的基础之上，发表了一篇题目是《神经网事件的表示法》的论文，利用称之为正则集合的数学符号来描述此模型，引入了正则表达式的概念。正则表达式被作为用来描述其称之为“正则集的代数”的一种表达式，因而采用了“正则表达式”这个术语。</div>
+<div class="para" label-module="para">之后一段时间，人们发现可以将这一工作成果应用于其他方面。Ken Thompson就把这一成果应用于计算<a target=_blank href="/item/%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95">搜索算法</a>的一些早期研究，Ken Thompson是 Unix的主要发明人，也就是大名鼎鼎的Unix之父。Unix之父将此<a target=_blank href="/item/%E7%AC%A6%E5%8F%B7%E7%B3%BB%E7%BB%9F">符号系统</a>引入编辑器QED，然后是Unix上的编辑器ed，并最终引入grep。Jeffrey Friedl 在其著作《Mastering Regular Expressions (2nd edition)》（中文版译作：精通正则表达式，已出到第三版）中对此作了进一步阐述讲解，如果你希望更多了解正则表达式理论和历史，推荐你看看这本书。</div>
+<div class="para" label-module="para">自此以后，正则表达式被广泛地应用到各种UNIX或类似于UNIX的工具中，如大家熟知的<a target=_blank href="/item/Perl">Perl</a>。Perl的正则表达式源自于Henry Spencer编写的regex，之后已演化成了pcre（Perl兼容正则表达式Perl Compatible Regular Expressions），pcre是一个由Philip Hazel开发的、为很多现代工具所使用的库。正则表达式的第一个实用应用程序即为Unix中的 qed 编辑器。</div>
+<div class="para" label-module="para">然后，正则表达式在各种计算机语言或各种应用领域得到了广大的应用和发展，演变成为计算机技术森林中的一只形神美丽且声音动听的百灵鸟。</div>
+<div class="para" label-module="para">以上是关于正则表达式的起源和发展的历史描述，如今正则表达式在基于文本的编辑器和搜索工具中依然占据着一个非常重要的地位。</div>
+<div class="para" label-module="para">在最近的六十年中，正则表达式逐渐从模糊而深奥的数学概念，发展成为在计算机各类工具和软件包应用中的主要功能。不仅仅众多UNIX工具支持正则表达式，近二十年来，在WINDOWS的阵营下，正则表达式的思想和应用在大部分 Windows 开发者工具包中得到支持和嵌入应用！从正则式在Microsoft Visual Basic 6 或 Microsoft VBScript到.NET Framework中的探索和发展，WINDOWS系列产品对正则表达式的支持发展到无与伦比的高度，几乎所有 Microsoft 开发者和所有.NET语言都可以使用正则表达式。如果你是一位接触计算机语言的工作者，那么你会在主流操作系统（*nix[Linux, Unix等]、Windows、HP、BeOS等）、主流的开发语言（delphi、<a target=_blank href="/item/Scala">Scala</a>、<a target=_blank href="/item/PHP">PHP</a>、<a target=_blank href="/item/C%23">C#</a>、Java、<a target=_blank href="/item/C%2B%2B">C++</a>、Objective-c、Swift、VB、<a target=_blank href="/item/Javascript">Javascript</a>、<a target=_blank href="/item/Ruby">Ruby</a>以及<a target=_blank href="/item/Python">Python</a>等）、数以亿万计的各种应用软件中，都可以看到正则表达式优美的舞姿。</div><div class="anchor-list">
+<a name="4" class="lemma-anchor para-title" ></a>
+<a name="sub94238_4" class="lemma-anchor " ></a>
+<a name="目的" class="lemma-anchor " ></a>
+</div><div class="para-title level-2" label-module="para-title">
+<h2 class="title-text"><span class="title-prefix">正则表达式</span>目的</h2>
+<a class="edit-icon j-edit-link" data-edit-dl="4" href="javascript:;"><em class="cmn-icon wiki-lemma-icons wiki-lemma-icons_edit-lemma"></em>编辑</a>
+</div>
+<div class="para" label-module="para">给定一个正则表达式和另一个字符串，我们可以达到如下的目的：</div>
+<div class="para" label-module="para">1. 给定的字符串是否符合正则表达式的过滤逻辑（称作“匹配”）：</div>
+<div class="para" label-module="para">2. 可以通过正则表达式，从字符串中获取我们想要的特定部分。</div><div class="anchor-list">
+<a name="5" class="lemma-anchor para-title" ></a>
+<a name="sub94238_5" class="lemma-anchor " ></a>
+<a name="特点" class="lemma-anchor " ></a>
+</div><div class="para-title level-2" label-module="para-title">
+<h2 class="title-text"><span class="title-prefix">正则表达式</span>特点</h2>
+<a class="edit-icon j-edit-link" data-edit-dl="5" href="javascript:;"><em class="cmn-icon wiki-lemma-icons wiki-lemma-icons_edit-lemma"></em>编辑</a>
+</div>
+<div class="para" label-module="para">正则表达式的特点是：</div>
+<div class="para" label-module="para">1. 灵活性、逻辑性和功能性非常强；</div>
+<div class="para" label-module="para">2. 可以迅速地用极简单的方式达到字符串的复杂控制。</div>
+<div class="para" label-module="para">3. 对于刚接触的人来说，比较晦涩难懂。</div>
+<div class="para" label-module="para">由于正则表达式主要<a target=_blank href="/item/%E5%BA%94%E7%94%A8%E5%AF%B9%E8%B1%A1">应用对象</a>是文本，因此它在各种<a target=_blank href="/item/%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8">文本编辑器</a>场合都有应用，小到著名编辑器EditPlus，大到Microsoft Word、Visual Studio等大型编辑器，都可以使用正则表达式来处理文本内容。</div><div class="anchor-list">
+<a name="6" class="lemma-anchor para-title" ></a>
+<a name="sub94238_6" class="lemma-anchor " ></a>
+<a name="引擎" class="lemma-anchor " ></a>
+</div><div class="para-title level-2" label-module="para-title">
+<h2 class="title-text"><span class="title-prefix">正则表达式</span>引擎</h2>
+<a class="edit-icon j-edit-link" data-edit-dl="6" href="javascript:;"><em class="cmn-icon wiki-lemma-icons wiki-lemma-icons_edit-lemma"></em>编辑</a>
+</div>
+<div class="para" label-module="para">正则引擎主要可以分为两大类：一种是DFA，一种是NFA。这两种引擎都有了很久的历史(至今二十多年)，当中也由这两种引擎产生了很多变体！于是POSIX的出台规避了不必要变体的继续产生。这样一来，主流的正则引擎又分为3类：一、DFA，二、传统型NFA，三、POSIX NFA。</div>
+<div class="para" label-module="para"><a target=_blank href="/item/DFA">DFA</a> 引擎在线性时状态下执行，因为它们不要求回溯（并因此它们永远不测试相同的字符两次）。DFA 引擎还可以确保匹配最长的可能的字符串。但是，因为 DFA 引擎只包含有限的状态，所以它不能匹配具有反向引用的模式；并且因为它不构造显示扩展，所以它不可以捕获子表达式。</div>
+<div class="para" label-module="para">传统的 NFA 引擎运行所谓的“贪婪的”匹配<a target=_blank href="/item/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95">回溯算法</a>，以指定顺序测试正则表达式的所有可能的扩展并接受第一个匹配项。因为传统的 NFA 构造正则表达式的特定扩展以获得成功的匹配，所以它可以捕获子表达式匹配和匹配的反向引用。但是，因为传统的 NFA 回溯，所以它可以访问完全相同的状态多次（如果通过不同的路径到达该状态）。因此，在最坏情况下，它的执行速度可能非常慢。因为传统的 NFA 接受它找到的第一个匹配，所以它还可能会导致其他（可能更长）匹配未被发现。</div>
+<div class="para" label-module="para">POSIX NFA 引擎与传统的 NFA 引擎类似，不同的一点在于：在它们可以确保已找到了可能的最长的匹配之前，它们将继续回溯。因此，POSIX NFA 引擎的速度慢于传统的 NFA 引擎；并且在使用 POSIX NFA 时，您恐怕不会愿意在更改回溯搜索的顺序的情况下来支持较短的匹配搜索，而非较长的匹配搜索。</div>
+<div class="para" label-module="para">使用DFA引擎的程序主要有：awk,egrep,flex,lex,MySQL,Procmail等；</div>
+<div class="para" label-module="para">使用传统型NFA引擎的程序主要有：GNU Emacs,Java,ergp,less,more,.NET语言,PCRE library,Perl,PHP,Python,Ruby,sed,vi；</div>
+<div class="para" label-module="para">使用POSIX NFA引擎的程序主要有：mawk,Mortice Kern Systems’ utilities,GNU Emacs(使用时可以明确指定)；</div>
+<div class="para" label-module="para">也有使用DFA/NFA混合的引擎：GNU awk,GNU grep/egrep,Tcl。</div>
+<div class="para" label-module="para">举例简单说明NFA与DFA工作的区别：</div>
+<div class="para" label-module="para">比如有字符串this is yansen’s blog，正则表达式为 /ya(msen|nsen|nsem)/ (不要在乎表达式怎么样，这里只是为了说明引擎间的工作区别)。 NFA工作方式如下，先在字符串中查找 y 然后匹配其后是否为 a ，如果是 a 则继续，查找其后是否为 m 如果不是则匹配其后是否为 n (此时淘汰msen选择支)。然后继续看其后是否依次为 s,e，接着测试是否为 n ，是 n 则匹配成功，不是则测试是否为 m 。为什么是 m ？因为 NFA 工作方式是以正则表达式为标准，反复测试字符串，这样同样一个字符串有可能被反复测试了很多次！</div>
+<div class="para" label-module="para">而DFA则不是如此，DFA会从 this 中 t 开始依次查找 y，定位到 y ，已知其后为 a ，则查看表达式是否有 a ，此处正好有 a 。然后字符串 a 后为 n ，DFA依次测试表达式，此时 msen 不符合要求淘汰。nsen 和 nsem 符合要求，然后DFA依次检查字符串，检测到sen 中的 n 时只有nsen 分支符合，则匹配成功！</div>
+<div class="para" label-module="para">由此可以看出来，两种引擎的工作方式完全不同，一个(NFA)以表达式为主导，一个(DFA)以文本为主导！一般而论，DFA引擎则搜索更快一些！但是NFA以表达式为主导，反而更容易操纵，因此一般程序员更偏爱NFA引擎！ 两种引擎各有所长，而真正的引用则取决与你的需要以及所使用的语言！</div><div class="anchor-list">
+<a name="7" class="lemma-anchor para-title" ></a>
+<a name="sub94238_7" class="lemma-anchor " ></a>
+<a name="符号" class="lemma-anchor " ></a>
+</div><div class="para-title level-2" label-module="para-title">
+<h2 class="title-text"><span class="title-prefix">正则表达式</span>符号</h2>
+<a class="edit-icon j-edit-link" data-edit-dl="7" href="javascript:;"><em class="cmn-icon wiki-lemma-icons wiki-lemma-icons_edit-lemma"></em>编辑</a>
+</div>
+<div class="para" label-module="para">（摘自《<a target=_blank href="/item/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%B9%8B%E9%81%93">正则表达式之道</a>》）</div>
+<div class="para" label-module="para">正则表达式<sup class="sup--normal" data-sup="2">
+[2]</sup><a class="sup-anchor" name="ref_[2]_94238">&nbsp;</a>
+由一些普通<a target=_blank href="/item/%E5%AD%97%E7%AC%A6">字符</a>和一些<a target=_blank href="/item/%E5%85%83%E5%AD%97%E7%AC%A6">元字符</a>（metacharacters）组成。普通字符包括大小写的字母和数字，而元字符则具有特殊的含义，我们下面会给予解释。</div>
+<div class="para" label-module="para">在最简单的情况下，一个正则表达式看上去就是一个普通的查找串。例如，正则表达式&quot;testing&quot;中没有包含任何元字符，它可以匹配&quot;testing&quot;和&quot;testing123&quot;等字符串，但是不能匹配&quot;Testing&quot;。</div>
+<div class="para" label-module="para">要想真正的用好正则表达式，正确的理解元字符是最重要的事情。下表列出了所有的元字符和对它们的一个简短的描述。</div>
+<table log-set-param="table_view" class="table-view log-set-param"><tr><td width="75" align="left" valign="center"><div class="para" label-module="para">元字符</div>
+</td><td width="658" align="left" valign="center"><div class="para" label-module="para">描述</div>
+</td></tr><tr><td width="75" align="left" valign="center"><div class="para" label-module="para">\</div>
+</td><td width="658" align="left" valign="center"><div class="para" label-module="para">将下一个字符标记符、或一个向后引用、或一个八进制转义符。例如，“\\n”匹配\n。“\n”匹配换行符。序列“\\”匹配“\”而“\(”则匹配“(”。即相当于多种编程语言中都有的“转义字符”的概念。</div>
+</td></tr><tr><td width="75" align="left" valign="center"><div class="para" label-module="para">^</div>
+</td><td width="658" align="left" valign="center"><div class="para" label-module="para">匹配输入字行首。如果设置了RegExp对象的Multiline属性，^也匹配“\n”或“\r”之后的位置。</div>
+</td></tr><tr><td width="75" align="left" valign="center"><div class="para" label-module="para">$</div>
+</td><td width="658" align="left" valign="center"><div class="para" label-module="para">匹配输入行尾。如果设置了RegExp对象的Multiline属性，$也匹配“\n”或“\r”之前的位置。</div>
+</td></tr><tr><td width="75" align="left" valign="center"><div class="para" label-module="para">*</div>
+</td><td width="658" align="left" valign="center"><div class="para" label-module="para">匹配前面的子表达式任意次。例如，zo*能匹配“z”，也能匹配“zo”以及“zoo”。*等价于{0,}。</div>
+</td></tr><tr><td width="75" align="left" valign="center"><div class="para" label-module="para">+</div>
+</td><td width="658" align="left" valign="center"><div class="para" label-module="para">匹配前面的子表达式一次或多次(大于等于1次）。例如，“zo+”能匹配“zo”以及“zoo”，但不能匹配“z”。+等价于{1,}。</div>
+</td></tr><tr><td width="75" align="left" valign="center"><div class="para" label-module="para">?</div>
+</td><td width="658" align="left" valign="center"><div class="para" label-module="para">匹配前面的子表达式零次或一次。例如，“do(es)?”可以匹配“do”或“does”。?等价于{0,1}。</div>
+</td></tr><tr><td width="75" align="left" valign="center"><div class="para" label-module="para">{<i>n</i>}</div>
+</td><td width="658" align="left" valign="center"><div class="para" label-module="para"><i>n</i>是一个非负整数。匹配确定的<i>n</i>次。例如，“o{2}”不能匹配“Bob”中的“o”，但是能匹配“food”中的两个o。</div>
+</td></tr><tr><td width="75" align="left" valign="center"><div class="para" label-module="para">{<i>n</i>,}</div>
+</td><td width="658" align="left" valign="center"><div class="para" label-module="para"><i>n</i>是一个非负整数。至少匹配<i>n</i>次。例如，“o{2,}”不能匹配“Bob”中的“o”，但能匹配“foooood”中的所有o。“o{1,}”等价于“o+”。“o{0,}”则等价于“o*”。</div>
+</td></tr><tr><td width="75" align="left" valign="center"><div class="para" label-module="para">{<i>n</i>,<i>m</i>}</div>
+</td><td width="658" align="left" valign="center"><div class="para" label-module="para"><i>m</i>和<i>n</i>均为非负整数，其中<i>n</i>&lt;=<i>m</i>。最少匹配<i>n</i>次且最多匹配<i>m</i>次。例如，“o{1,3}”将匹配“fooooood”中的前三个o为一组，后三个o为一组。“o{0,1}”等价于“o?”。请注意在逗号和两个数之间不能有空格。</div>
+</td></tr><tr><td width="75" align="left" valign="center"><div class="para" label-module="para">?</div>
+</td><td width="658" align="left" valign="center"><div class="para" label-module="para">当该字符紧跟在任何一个其他限制符（*,+,?，{<i>n</i>}，{<i>n</i>,}，{<i>n</i>,<i>m</i>}）后面时，匹配模式是非贪婪的。非贪婪模式尽可能少地匹配所搜索的字符串，而默认的贪婪模式则尽可能多地匹配所搜索的字符串。例如，对于字符串“oooo”，“o+”将尽可能多地匹配“o”，得到结果[“oooo”]，而“o+?”将尽可能少地匹配“o”，得到结果 [&#39;o&#39;, &#39;o&#39;, &#39;o&#39;, &#39;o&#39;]</div>
+</td></tr><tr><td width="75" align="left" valign="center"><div class="para" label-module="para">.点</div>
+</td><td width="658" align="left" valign="center"><div class="para" label-module="para">匹配除“\n”和&quot;\r&quot;之外的任何单个字符。要匹配包括“\n”和&quot;\r&quot;在内的任何字符，请使用像“[\s\S]”的模式。</div>
+</td></tr><tr><td width="75" align="left" valign="center"><div class="para" label-module="para">(pattern)</div>
+</td><td width="658" align="left" valign="center"><div class="para" label-module="para">匹配pattern并获取这一匹配。所获取的匹配可以从产生的Matches集合得到，在VBScript中使用SubMatches集合，在JScript中则使用$0…$9属性。要匹配圆括号字符，请使用“\(”或“\)”。</div>
+</td></tr><tr><td width="75" align="left" valign="center"><div class="para" label-module="para">(?:pattern)</div>
+</td><td width="658" align="left" valign="center"><div class="para" label-module="para">非获取匹配，匹配pattern但不获取匹配结果，不进行存储供以后使用。这在使用或字符“(|)”来组合一个模式的各个部分时很有用。例如“industr(?:y|ies)”就是一个比“industry|industries”更简略的表达式。</div>
+</td></tr><tr><td width="75" align="left" valign="center"><div class="para" label-module="para">(?=pattern)</div>
+</td><td width="658" align="left" valign="center"><div class="para" label-module="para">非获取匹配，正向肯定预查，在任何匹配pattern的字符串开始处匹配查找字符串，该匹配不需要获取供以后使用。例如，“Windows(?=95|98|NT|2000)”能匹配“Windows2000”中的“Windows”，但不能匹配“Windows3.1”中的“Windows”。预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始。</div>
+</td></tr><tr><td width="75" align="left" valign="center"><div class="para" label-module="para">(?!pattern)</div>
+</td><td width="658" align="left" valign="center"><div class="para" label-module="para">非获取匹配，正向否定预查，在任何不匹配pattern的字符串开始处匹配查找字符串，该匹配不需要获取供以后使用。例如“Windows(?!95|98|NT|2000)”能匹配“Windows3.1”中的“Windows”，但不能匹配“Windows2000”中的“Windows”。</div>
+</td></tr><tr><td width="75" align="left" valign="center"><div class="para" label-module="para">(?&lt;=pattern)</div>
+</td><td width="658" align="left" valign="center"><div class="para" label-module="para">非获取匹配，反向肯定预查，与正向肯定预查类似，只是方向相反。例如，“(?&lt;=95|98|NT|2000)Windows”能匹配“2000Windows”中的“Windows”，但不能匹配“3.1Windows”中的“Windows”。</div>
+<div class="para" label-module="para">“(?&lt;=95|98|NT|2000)Windows”目前在python3.6中re模块测试会报错，用“|”连接的字符串长度必须一样，这里“95|98|NT”的长度都是2，“2000”的长度是4，会报错。</div>
+</td></tr><tr><td width="75" align="left" valign="center"><div class="para" label-module="para">(?&lt;!patte_n)</div>
+</td><td width="658" align="left" valign="center"><div class="para" label-module="para">非获取匹配，反向否定预查，与正向否定预查类似，只是方向相反。例如“(?&lt;!95|98|NT|2000)Windows”能匹配“3.1Windows”中的“Windows”，但不能匹配“2000Windows”中的“Windows”。这个地方不正确，有问题</div>
+<div class="para" label-module="para">此处用或任意一项都不能超过2位，如“(?&lt;!95|98|NT|20)Windows正确，“(?&lt;!95|980|NT|20)Windows 报错，若是单独使用则无限制，如(?&lt;!2000)Windows 正确匹配。</div>
+<div class="para" label-module="para">同上，这里在python3.6中re模块中字符串长度要一致，并不是一定为2，比如“(?&lt;!1995|1998|NTNT|2000)Windows”也是可以的。</div>
+</td></tr><tr><td width="75" align="left" valign="center"><div class="para" label-module="para">x|y</div>
+</td><td width="658" align="left" valign="center"><div class="para" label-module="para">匹配x或y。例如，“z|food”能匹配“z”或“food”(此处请谨慎)。“[zf]ood”则匹配“zood”或“food”。</div>
+</td></tr><tr><td width="75" align="left" valign="center"><div class="para" label-module="para">[xyz]</div>
+</td><td width="658" align="left" valign="center"><div class="para" label-module="para">字符集合。匹配所包含的任意一个字符。例如，“[abc]”可以匹配“plain”中的“a”。</div>
+</td></tr><tr><td width="75" align="left" valign="center"><div class="para" label-module="para">[^xyz]</div>
+</td><td width="658" align="left" valign="center"><div class="para" label-module="para">负值字符集合。匹配未包含的任意字符。例如，“[^abc]”可以匹配“plain”中的“plin”任一字符。</div>
+</td></tr><tr><td width="75" align="left" valign="center"><div class="para" label-module="para">[a-z]</div>
+</td><td width="658" align="left" valign="center"><div class="para" label-module="para">字符范围。匹配指定范围内的任意字符。例如，“[a-z]”可以匹配“a”到“z”范围内的任意小写字母字符。</div>
+<div class="para" label-module="para">注意:只有连字符在字符组内部时,并且出现在两个字符之间时,才能表示字符的范围; 如果出字符组的开头,则只能表示连字符本身.</div>
+</td></tr><tr><td width="75" align="left" valign="center"><div class="para" label-module="para">[^a-z]</div>
+</td><td width="658" align="left" valign="center"><div class="para" label-module="para">负值字符范围。匹配任何不在指定范围内的任意字符。例如，“[^a-z]”可以匹配任何不在“a”到“z”范围内的任意字符。</div>
+</td></tr><tr><td width="75" align="left" valign="center"><div class="para" label-module="para">\b</div>
+</td><td width="658" align="left" valign="center"><div class="para" label-module="para">匹配一个单词的边界，也就是指单词和空格间的位置（即正则表达式的“匹配”有两种概念，一种是匹配字符，一种是匹配位置，这里的\b就是匹配位置的）。例如，“er\b”可以匹配“never”中的“er”，但不能匹配“verb”中的“er”；“\b1_”可以匹配“1_23”中的“1_”，但不能匹配“21_3”中的“1_”。</div>
+</td></tr><tr><td width="75" align="left" valign="center"><div class="para" label-module="para">\B</div>
+</td><td width="658" align="left" valign="center"><div class="para" label-module="para">匹配非单词边界。“er\B”能匹配“verb”中的“er”，但不能匹配“never”中的“er”。</div>
+</td></tr><tr><td width="75" align="left" valign="center"><div class="para" label-module="para">\cx</div>
+</td><td width="658" align="left" valign="center"><div class="para" label-module="para">匹配由x指明的控制字符。例如，\cM匹配一个Control-M或回车符。x的值必须为A-Z或a-z之一。否则，将c视为一个原义的“c”字符。</div>
+</td></tr><tr><td width="75" align="left" valign="center"><div class="para" label-module="para">\d</div>
+</td><td width="658" align="left" valign="center"><div class="para" label-module="para">匹配一个数字字符。等价于[0-9]。grep 要加上-P，perl正则支持</div>
+</td></tr><tr><td align="left" valign="center"><div class="para" label-module="para">\D</div>
+</td><td align="left" valign="center"><div class="para" label-module="para">匹配一个非数字字符。等价于[^0-9]。grep要加上-P，perl正则支持</div>
+</td></tr><tr><td align="left" valign="center"><div class="para" label-module="para">\f</div>
+</td><td align="left" valign="center"><div class="para" label-module="para">匹配一个换页符。等价于\x0c和\cL。</div>
+</td></tr><tr><td align="left" valign="center"><div class="para" label-module="para">\n</div>
+</td><td align="left" valign="center"><div class="para" label-module="para">匹配一个换行符。等价于\x0a和\cJ。</div>
+</td></tr><tr><td align="left" valign="center"><div class="para" label-module="para">\r</div>
+</td><td align="left" valign="center"><div class="para" label-module="para">匹配一个回车符。等价于\x0d和\cM。</div>
+</td></tr><tr><td align="left" valign="center"><div class="para" label-module="para">\s</div>
+</td><td align="left" valign="center"><div class="para" label-module="para">匹配任何不可见字符，包括空格、制表符、换页符等等。等价于[ \f\n\r\t\v]。</div>
+</td></tr><tr><td align="left" valign="center"><div class="para" label-module="para">\S</div>
+</td><td align="left" valign="center"><div class="para" label-module="para">匹配任何可见字符。等价于[^ \f\n\r\t\v]。</div>
+</td></tr><tr><td align="left" valign="center"><div class="para" label-module="para">\t</div>
+</td><td align="left" valign="center"><div class="para" label-module="para">匹配一个制表符。等价于\x09和\cI。</div>
+</td></tr><tr><td align="left" valign="center"><div class="para" label-module="para">\v</div>
+</td><td align="left" valign="center"><div class="para" label-module="para">匹配一个垂直制表符。等价于\x0b和\cK。</div>
+</td></tr><tr><td align="left" valign="center"><div class="para" label-module="para">\w</div>
+</td><td align="left" valign="center"><div class="para" label-module="para">匹配包括下划线的任何单词字符。类似但不等价于“[A-Za-z0-9_]”，这里的&quot;单词&quot;字符使用Unicode字符集。</div>
+</td></tr><tr><td align="left" valign="center"><div class="para" label-module="para">\W</div>
+</td><td align="left" valign="center"><div class="para" label-module="para">匹配任何非单词字符。等价于“[^A-Za-z0-9_]”。</div>
+</td></tr><tr><td align="left" valign="center"><div class="para" label-module="para">\x<i>n</i></div>
+</td><td align="left" valign="center"><div class="para" label-module="para">匹配<i>n</i>，其中<i>n</i>为十六进制转义值。十六进制转义值必须为确定的两个数字长。例如，“\x41”匹配“A”。“\x041”则等价于“\x04&amp;1”。正则表达式中可以使用ASCII编码。</div>
+</td></tr><tr><td align="left" valign="center"><div class="para" label-module="para">\<i>num</i></div>
+</td><td align="left" valign="center"><div class="para" label-module="para">匹配<i>num</i>，其中<i>num</i>是一个正整数。对所获取的匹配的引用。例如，“(.)\1”匹配两个连续的相同字符。</div>
+</td></tr><tr><td align="left" valign="center"><div class="para" label-module="para">\<i>n</i></div>
+</td><td align="left" valign="center"><div class="para" label-module="para">标识一个八进制转义值或一个向后引用。如果\<i>n</i>之前至少<i>n</i>个获取的子表达式，则<i>n</i>为向后引用。否则，如果<i>n</i>为八进制数字（0-7），则<i>n</i>为一个八进制转义值。</div>
+</td></tr><tr><td align="left" valign="center"><div class="para" label-module="para">\<i>nm</i></div>
+</td><td align="left" valign="center"><div class="para" label-module="para">标识一个八进制转义值或一个向后引用。如果\<i>nm</i>之前至少有<i>nm</i>个获得子表达式，则<i>nm</i>为向后引用。如果\<i>nm</i>之前至少有<i>n</i>个获取，则<i>n</i>为一个后跟文字<i>m</i>的向后引用。如果前面的条件都不满足，若<i>n</i>和<i>m</i>均为八进制数字（0-7），则\<i>nm</i>将匹配八进制转义值<i>nm</i>。</div>
+</td></tr><tr><td align="left" valign="center"><div class="para" label-module="para">\<i>nml</i></div>
+</td><td align="left" valign="center"><div class="para" label-module="para">如果<i>n</i>为八进制数字（0-7），且<i>m</i>和<i>l</i>均为八进制数字（0-7），则匹配八进制转义值<i>nml</i>。</div>
+</td></tr><tr><td align="left" valign="center"><div class="para" label-module="para">\u<i>n</i></div>
+</td><td align="left" valign="center"><div class="para" label-module="para">匹配<i>n</i>，其中<i>n</i>是一个用四个十六进制数字表示的Unicode字符。例如，\u00A9匹配版权符号（&amp;copy;）。</div>
+</td></tr><tr><td align="left" valign="center"><div class="para" label-module="para">\p{P}</div>
+</td><td align="left" valign="center"><div class="para" label-module="para">小写 p 是 property 的意思，表示 Unicode 属性，用于 Unicode 正表达式的前缀。中括号内的“P”表示Unicode 字符集七个字符属性之一：标点字符。</div>
+<div class="para" label-module="para">其他六个属性：</div>
+<div class="para" label-module="para">L：字母；</div>
+<div class="para" label-module="para">M：标记符号（一般不会单独出现）；</div>
+<div class="para" label-module="para">Z：分隔符（比如空格、换行等）；</div>
+<div class="para" label-module="para">S：符号（比如数学符号、货币符号等）；</div>
+<div class="para" label-module="para">N：数字（比如阿拉伯数字、罗马数字等）；</div>
+<div class="para" label-module="para">C：其他字符。</div>
+<div class="para" label-module="para"><i>*注：此语法部分语言不支持，例：javascript。</i></div>
+</td></tr><tr><td align="left" valign="center"><div class="para" label-module="para">\&lt;</div>
+<div class="para" label-module="para">\&gt;</div>
+</td><td align="left" valign="center">匹配词（word）的开始（\&lt;）和结束（\&gt;）。例如正则表达式\&lt;the\&gt;能够匹配字符串&quot;for the wise&quot;中的&quot;the&quot;，但是不能匹配字符串&quot;otherwise&quot;中的&quot;the&quot;。注意：这个元字符不是所有的软件都支持的。</td></tr><tr><td align="left" valign="center">( )</td><td align="left" valign="center">将( 和 ) 之间的表达式定义为“组”（group），并且将匹配这个表达式的字符保存到一个临时区域（一个正则表达式中最多可以保存9个），它们可以用 \1 到\9 的符号来引用。</td></tr><tr><td align="left" valign="center">|</td><td align="left" valign="center">将两个匹配条件进行逻辑“或”（Or）运算。例如正则表达式(him|her) 匹配&quot;it belongs to him&quot;和&quot;it belongs to her&quot;，但是不能匹配&quot;it belongs to them.&quot;。注意：这个元字符不是所有的软件都支持的。</td></tr></table><div class="para" label-module="para">最简单的<a target=_blank href="/item/%E5%85%83%E5%AD%97%E7%AC%A6">元字符</a>是点，它能够匹配任何单个字符（注意不包括换行符）。假定有个文件test.txt包含以下几行内容：</div>
+<div class="para" label-module="para">he is arat</div>
+<div class="para" label-module="para">he is in a rut</div>
+<div class="para" label-module="para">the food is Rotten</div>
+<div class="para" label-module="para">I like root beer</div>
+<div class="para" label-module="para">我们可以使用grep命令来测试我们的正则表达式，grep命令<a target=_blank href="/item/%E4%BD%BF%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F">使用正则表达式</a>去尝试匹配指定文件的每一行，并将至少有一处匹配表达式的所有行显示出来。命令</div>
+<div class="para" label-module="para"><i>grep r.t test.txt</i></div>
+<div class="para" label-module="para">在test.txt文件中的每一行中搜索正则表达式r.t，并打印输出匹配的行。正则表达式r.t匹配一个r接着任何一个字符再接着一个t。所以它将匹配文件中的rat和rut，而不能匹配Rotten中的Rot，因为正则表达式是大小写敏感的。要想同时匹配大写和小写字母，应该使用<a target=_blank href="/item/%E5%AD%97%E7%AC%A6">字符</a>区间<a target=_blank href="/item/%E5%85%83%E5%AD%97%E7%AC%A6">元字符</a>（方括号）。正则表达式[Rr]能够同时匹配R和r。所以，要想匹配一个大写或者小写的r接着任何一个字符再接着一个t就要使用这个表达式：[Rr].t。</div>
+<div class="para" label-module="para">要想匹配行首的字符要使用抑扬字符（^）——有时也被叫做插入符。例如，想找到text.txt中行首&quot;he&quot;打头的行，你可能会先用简单表达式he，但是这会匹配第三行的the，所以要<a target=_blank href="/item/%E4%BD%BF%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F">使用正则表达式</a>^he，它只匹配在行首出现的he。</div>
+<div class="para" label-module="para">有时候指定“除了×××都匹配”会比较容易达到目的，当抑扬字符（^）出方括号中时，它表示“排除”，例如要匹配he ，但是排除前面是t or s的情形（也就是the和she），可以使用：[^st]he。</div>
+<div class="para" label-module="para">可以使用方括号来指定多个字符区间。例如正则表达式[A-Za-z]匹配任何字母，包括大写和小写的；正则表达式[A-Za-z][A-Za-z]* 匹配一个字母后面接着0或者多个字母（大写或者小写）。当然我们也可以用<a target=_blank href="/item/%E5%85%83%E5%AD%97%E7%AC%A6">元字符</a>+做到同样的事情，也就是：[A-Za-z]+ ，和[A-Za-z][A-Za-z]*完全等价。但是要注意元字符+ 并不是所有支持正则表达式的程序都支持的。关于这一点可以参考后面的正则表达式语法支持情况。</div>
+<div class="para" label-module="para">要指定特定数量的匹配，要使用大括号（注意并不是所有扩展正则表达式的实现都支持大括号。此外，根据具体的实现，您可能需要先使用反斜杠对其进行转义。）。想匹配所有10和100的实例而排除1和 1000，可以使用：10\{1,2\} 或 10{1, 2}，这个正则表达式匹配数字1后面跟着1或者2个0的模式。在这个元字符的使用中一个有用的变化是忽略第二个数字，例如正则表达式0\{3,\} 或 0{3,} 将匹配至少3个连续的0。</div>
+<div class="para" label-module="para"><b>例1</b></div>
+<div class="para" label-module="para">将所有方法foo(a,b,c)的实例改为foo(b,a,c)。这里a、b和c可以是任何提供给方法foo()的参数。也就是说我们要实现这样的转换：</div>
+<div class="para" label-module="para">之前 之后</div>
+<div class="para" label-module="para">foo(10,7,2) foo(7,10,2)</div>
+<div class="para" label-module="para">foo(x+13,y-2,10) foo(y-2,x+13,10)</div>
+<div class="para" label-module="para">foo( bar(8), x+y+z, 5) foo( x+y+z, bar(8), 5)</div>
+<div class="para" label-module="para">下面这条替换命令能够实现这一方法：</div>
+<div class="para" label-module="para"><i>:%s/foo\(([^,]*),([^,]*),([^,]*)\)/foo\(\2,\1,\3\)/g</i></div>
+<div class="para" label-module="para">让我们把它打散来加以分析。写出这个表达式的基本思路是找出foo()和它的括号中的三个参数的位置。第一个参数是用这个表达式来识别的：：([^,]*)，我们可以从里向外来分析它：</div>
+<div class="para" label-module="para">[^,] 除了逗号之外的任何字符</div>
+<div class="para" label-module="para">[^,]* 0或者多个非逗号字符</div>
+<div class="para" label-module="para">([^,]*) 将这些非逗号字符标记为\1，这样可以在之后的替换模式表达式中引用它</div>
+<div class="para" label-module="para">([^,]*), 我们必须找到0或者多个非逗号<a target=_blank href="/item/%E5%AD%97%E7%AC%A6">字符</a>后面跟着一个逗号，并且非逗号字符那部分要标记出来以备后用。</div>
+<div class="para" label-module="para">正是指出一个<a target=_blank href="/item/%E4%BD%BF%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F">使用正则表达式</a>常见错误的最佳时机。为什么我们要使用[^,]*这样的一个表达式，而不是更加简单直接的写法，例如：.*，来匹配第一个参数呢？设想我们使用模式.*来匹配字符串&quot;10,7,2&quot;，它应该匹配&quot;10,&quot;还是&quot;10,7,&quot;？为了解决这个两义性（ambiguity），正则表达式规定一律按照最长的串来，在上面的例子中就是&quot;10,7,&quot;，显然这样就找出了两个参数而不是我们期望的一个。所以，我们要使用[^,]*来强制取出第一个逗号之前的部分。</div>
+<div class="para" label-module="para">这个表达式我们已经分析到了：foo\(([^,]*)，这一段可以简单的翻译为“当你找到foo(就把其后直到第一个逗号之前的部分标记为\1”。然后我们使用同样的办法标记第二个参数为\2。对第三个参数的标记方法也是一样，只是我们要搜索所有的字符直到右括号。我们并没有必要去搜索第三个参数，因为我们不需要调整它的位置，但是这样的模式能够保证我们只去替换那些有三个参数的foo()方法调用，在foo()是一个<a target=_blank href="/item/%E9%87%8D%E8%BD%BD">重载</a>（overloading）方法时这种明确的模式往往是比较保险的。然后，在替换部分，我们找到foo()的对应实例，然后利用标记好的部分进行替换，是把第一和第二个参数交换位置。</div>
+<div class="para" label-module="para"><b>正则表达式语法支持情况</b></div>
+<table log-set-param="table_view" class="table-view log-set-param"><tr><td><div class="para" label-module="para"><b>命令或环境</b></div>
+</td><td><div class="para" label-module="para"><b>.</b></div>
+</td><td><div class="para" label-module="para"><b>[ ]</b></div>
+</td><td><div class="para" label-module="para"><b>^</b></div>
+</td><td><div class="para" label-module="para"><b>$</b></div>
+</td><td><div class="para" label-module="para"><b>\( \)</b></div>
+</td><td><div class="para" label-module="para"><b>\{ \}</b></div>
+</td><td valign="top" align="left" width="12"><div class="para" label-module="para"><b>?</b></div>
+</td><td><div class="para" label-module="para"><b>+</b></div>
+</td><td><div class="para" label-module="para"><b>|</b></div>
+</td><td><div class="para" label-module="para"><b>( )</b></div>
+</td></tr><tr><td><div class="para" label-module="para"><b>vi</b></div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td></td><td valign="top" align="left" width="12"></td><td></td><td></td><td></td></tr><tr><td><div class="para" label-module="para"><b>Visual C++</b></div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td></td><td valign="top" align="left" width="12"></td><td></td><td></td><td></td></tr><tr><td><div class="para" label-module="para"><b>awk</b></div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td></td><td><div class="para" label-module="para">awk是支持该语法的，只是要在命令</div>
+<div class="para" label-module="para">行加入 --posix or --re-interval参数即可，可见</div>
+<div class="para" label-module="para">man awk中的interval expression</div>
+</td><td valign="top" align="left" width="12"><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td></tr><tr><td><div class="para" label-module="para"><b>sed</b></div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td valign="top" align="left" width="12"></td><td></td><td></td><td></td></tr><tr><td><div class="para" label-module="para"><b>delphi</b></div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td></td><td valign="top" align="left" width="12"><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td></tr><tr><td><div class="para" label-module="para"><b>python</b></div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td valign="top" align="left" width="12">√</td><td>√</td><td>√</td><td>√</td></tr><tr><td><div class="para" label-module="para"><b>java</b></div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td valign="top" align="left" width="12">√</td><td>√</td><td>√</td><td>√　<sup class="sup--normal" data-sup="3">
+[3]</sup><a class="sup-anchor" name="ref_[3]_94238">&nbsp;</a>
+</td></tr><tr><td><div class="para" label-module="para"><b>javascript</b></div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td></td><td valign="top" align="left" width="12"><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td></tr><tr><td><div class="para" label-module="para"><b>php</b></div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td></td><td valign="top" align="left" width="12"></td><td></td><td></td><td></td></tr><tr><td><div class="para" label-module="para"><b>perl</b></div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td></td><td valign="top" align="left" width="12"><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td><td><div class="para" label-module="para">√</div>
+</td></tr><tr><td align="left" valign="center"><div class="para" label-module="para"><b>C#</b></div>
+</td><td align="left" valign="center"><div class="para" label-module="para">√</div>
+</td><td align="left" valign="center"><div class="para" label-module="para">√</div>
+</td><td align="left" valign="center"><div class="para" label-module="para">√</div>
+</td><td align="left" valign="center"><div class="para" label-module="para">√</div>
+</td><td align="left" valign="center"></td><td align="left" valign="center"></td><td width="12" align="left" valign="center"><div class="para" label-module="para">√</div>
+</td><td align="left" valign="center"><div class="para" label-module="para">√</div>
+</td><td align="left" valign="center"><div class="para" label-module="para">√</div>
+</td><td align="left" valign="center"><div class="para" label-module="para">√</div>
+</td></tr></table><div class="anchor-list">
+<a name="8" class="lemma-anchor para-title" ></a>
+<a name="sub94238_8" class="lemma-anchor " ></a>
+<a name="速记理解技巧" class="lemma-anchor " ></a>
+</div><div class="para-title level-2" label-module="para-title">
+<h2 class="title-text"><span class="title-prefix">正则表达式</span>速记理解技巧</h2>
+<a class="edit-icon j-edit-link" data-edit-dl="8" href="javascript:;"><em class="cmn-icon wiki-lemma-icons wiki-lemma-icons_edit-lemma"></em>编辑</a>
+</div>
+<table log-set-param="table_view" class="table-view log-set-param"><tr><td><div class="para" label-module="para"><b>.</b></div>
+</td><td><div class="para" label-module="para"><b>[ ]</b></div>
+</td><td><div class="para" label-module="para"><b>^</b></div>
+</td><td><div class="para" label-module="para"><b>$</b></div>
+</td></tr></table><div class="para" label-module="para">四个字符是所有语言都支持的正则表达式，所以这四个是基础的正则表达式。正则难理解因为里面有一个等价的概念，这个概念大大增加了理解难度，让很多初学者看起来会懵，如果把等价都恢复成原始写法，自己书写正则就超级简单了，就像说话一样去写你的正则了：</div>
+<div class="para" label-module="para"><br/>　　<b>等价：</b></div>
+<div class="para" label-module="para">等价是等同于的意思，表示同样的功能，用不同符号来书写。</div>
+<div class="para" label-module="para">?,*,+,\d,\w 都是等价字符<br/>　　?等价于匹配长度{0,1}<br/>　　*等价于匹配长度{0,} <br/>　　+等价于匹配长度{1,}<br/>　　\d等价于[0-9]</div>
+<div class="para" label-module="para">\D等价于[^0-9]<br/>　　\w等价于[A-Za-z_0-9]</div>
+<div class="para" label-module="para">\W等价于[^A-Za-z_0-9]。</div>
+<div class="para" label-module="para"><b>常用运算符与表达式：<br/>　　</b>^ 开始<br/>　　（） 域段<br/>　　[] 包含,默认是一个字符长度<br/>　　[^] 不包含,默认是一个字符长度<br/>　　{<i>n</i>,<i>m</i>} 匹配长度 <br/>　　. 任何单个字符(\. 字符点)<br/>　　| 或<br/>　　\ 转义<br/>　　$ 结尾<br/>　　[A-Z] 26个大写字母<br/>　　[a-z] 26个小写字母<br/>　　[0-9] 0至9数字</div>
+<div class="para" label-module="para">[A-Za-z0-9] 26个大写字母、26个小写字母和0至9数字<br/>　　， 分割<br/>　　.<br/>　　<br/>　　<b>分割语法：</b><br/>　　[A,H,T,W] 包含A或H或T或W字母<br/>　　[a,h,t,w] 包含a或h或t或w字母<br/>　　[0,3,6,8] 包含0或3或6或8数字</div>
+<div class="para" label-module="para"><br/>　　<b>语法与释义：</b><b><br/>　　</b>基础语法 &quot;^([]{})([]{})([]{})$&quot;<br/>　　正则字符串 = &quot;开始（[包含内容]{长度}）（[包含内容]{长度}）（[包含内容]{长度}）结束&quot; <br/>　　<br/>　　?,*,+,\d,\w 这些都是简写的,完全可以用[]和{}代替，在(?:)(?=)(?!)(?&lt;=)(?&lt;!)(?i)(*?)(+?)这种特殊组合情况下除外。<br/>　　初学者可以忽略?,*,+,\d,\w一些简写标示符，学会了基础使用再按表自己去等价替换</div>
+<div class="para" label-module="para"><br/>　　<br/>　　<b>实例：</b><br/>　　字符串；tel:086-0666-88810009999<br/>　　原始正则：&quot;^tel:[0-9]{1,3}-[0][0-9]{2,3}-[0-9]{8,11}$&quot; <br/>　　速记理解：开始 &quot;tel:普通文本&quot;[0-9数字]{1至3位}&quot;-普通文本&quot;[0数字][0-9数字]{2至3位}&quot;-普通文本&quot;[0-9数字]{8至11位} 结束&quot;<br/>　　等价简写后正则写法：&quot;^tel:\d{1,3}-[0]\d{2,3}-\d{8,11}$&quot; ，简写语法不是所有语言都支持。</div><div class="anchor-list">
+<a name="9" class="lemma-anchor para-title" ></a>
+<a name="sub94238_9" class="lemma-anchor " ></a>
+<a name="替换技巧" class="lemma-anchor " ></a>
+</div><div class="para-title level-2" label-module="para-title">
+<h2 class="title-text"><span class="title-prefix">正则表达式</span>替换技巧</h2>
+<a class="edit-icon j-edit-link" data-edit-dl="9" href="javascript:;"><em class="cmn-icon wiki-lemma-icons wiki-lemma-icons_edit-lemma"></em>编辑</a>
+</div>
+<div class="anchor-list">
+<a name="9_1" class="lemma-anchor para-title" ></a>
+<a name="sub94238_9_1" class="lemma-anchor " ></a>
+<a name="实例目录" class="lemma-anchor " ></a>
+<a name="9-1" class="lemma-anchor " ></a>
+</div><div class="para-title level-3" label-module="para-title">
+<h3 class="title-text"><span class="title-prefix">正则表达式</span>实例目录</h3>
+</div>
+<div class="para" label-module="para">【1】 正则表达式应用——替换指定内容到行尾</div>
+<div class="para" label-module="para">【2】 正则表达式应用——数字替换</div>
+<div class="para" label-module="para">【3】 正则表达式应用——删除每一行行尾的指定<a target=_blank href="/item/%E5%AD%97%E7%AC%A6">字符</a></div>
+<div class="para" label-module="para">【4】 正则表达式应用——替换带有<a target=_blank href="/item/%E5%8D%8A%E8%A7%92">半角</a>括号的多行</div>
+<div class="para" label-module="para">【5】 正则表达式应用——删除空行</div>
+<div class="para" label-module="para">【6】 正则表达式应用——实例应用</div><div class="anchor-list">
+<a name="9_2" class="lemma-anchor para-title" ></a>
+<a name="sub94238_9_2" class="lemma-anchor " ></a>
+<a name="应用实例" class="lemma-anchor " ></a>
+<a name="9-2" class="lemma-anchor " ></a>
+</div><div class="para-title level-3" label-module="para-title">
+<h3 class="title-text"><span class="title-prefix">正则表达式</span>应用实例</h3>
+</div>
+<div class="para" label-module="para">【1】正则表达式应用——替换指定内容到行尾</div>
+<div class="para" label-module="para">原始文本如下面两行</div>
+<div class="para" label-module="para">abc aaaaa</div>
+<div class="para" label-module="para">123 abc 444</div>
+<div class="para" label-module="para">希望每次遇到“abc”，则替换“abc”以及其后到行尾的内容为“abc efg”</div>
+<div class="para" label-module="para">即上面的文本最终替换为：</div>
+<div class="para" label-module="para">abc efg</div>
+<div class="para" label-module="para">123 abc efg</div>
+<div class="para" label-module="para">解决：</div>
+<div class="para" label-module="para">① 在替换对话框，查找内容里输入“abc.*”，替换内容输入为“abc efg”</div>
+<div class="para" label-module="para">② 同时勾选“正则表达式”<a target=_blank href="/item/%E5%A4%8D%E9%80%89%E6%A1%86">复选框</a>，然后点击“全部替换”按钮</div>
+<div class="para" label-module="para">其中，符号的含义如下：</div>
+<div class="para" label-module="para">“.” =匹配任意<a target=_blank href="/item/%E5%AD%97%E7%AC%A6">字符</a></div>
+<div class="para" label-module="para">“*” =匹配0次或更多</div>
+<div class="para" label-module="para">注意：其实就是正则表达式替换，这里只是把一些曾经提出的问题加以整理，单纯从正则表达式本身来说，就可以引申出成千上万种特例。</div>
+<div class="para" label-module="para">【2】正则表达式应用——数字替换</div>
+<div class="para" label-module="para">希望把</div>
+<div class="para" label-module="para">asdadas123asdasdas456asdasdasd789asdasd</div>
+<div class="para" label-module="para">替换为:</div>
+<div class="para" label-module="para">asdadas[123]asdasdas[456]asdasdasd[789]asdasd</div>
+<div class="para" label-module="para">在替换对话框里面，勾选“正则表达式”<a target=_blank href="/item/%E5%A4%8D%E9%80%89%E6%A1%86">复选框</a>；</div>
+<div class="para" label-module="para">在查找内容里面输入“([0-9])([0-9])([0-9])”，不含引号</div>
+<div class="para" label-module="para">“替换为:”里面输入“[\1\2\3]”，不含引号</div>
+<div class="para" label-module="para">####备注####：查找（[0-9]+） 替换：[\1] 更简单通用些</div>
+<div class="para" label-module="para">范围为你所操作的范围，然后选择替换即可。</div>
+<div class="para" label-module="para">实际上这也是正则表达式的使用特例，“[0-9]”表示匹配0～9之间的任何特例，同样“[a-z]”就表示匹配a～z之间的任何特例</div>
+<div class="para" label-module="para">上面重复使用了“[0-9]”，表示连续出现的三个数字</div>
+<div class="para" label-module="para">括号用来选择原型，进行分组，替换时要用</div>
+<div class="para" label-module="para">“\1”代表第一个“[0-9]”对应的原型，“\2”代表第二个“[0-9]”对应的原型，依此类推</div>
+<div class="para" label-module="para">“[”|“]”为单纯的<a target=_blank href="/item/%E5%AD%97%E7%AC%A6">字符</a>，表示添加“[”或“]”，如果输入“其它\1\2\3其它”，则替换结果为：</div>
+<div class="para" label-module="para">asdadas其它123其它asdasdas其它456其它asdasdasd其它789其它asdasd</div>
+<div class="para" label-module="para">功能增强：</div>
+<div class="para" label-module="para">如果将查找内容“[0-9][0-9][0-9]”改为“[0-9]*[0-9]”，对应1 或 123 或 12345 或 ...</div>
+<div class="para" label-module="para">大家根据需要定制</div>
+<div class="para" label-module="para">相关内容还有很多，可以自己参考正则表达式的语法仔</div>
+<div class="para" label-module="para">【3】正则表达式应用——删除每一行行尾的指定<a target=_blank href="/item/%E5%AD%97%E7%AC%A6">字符</a></div>
+<div class="para" label-module="para">因为这几个字符在行中也是出现的,所以肯定不能用简单的替换实现</div>
+<div class="para" label-module="para">比如</div>
+<div class="para" label-module="para">12345 1265345</div>
+<div class="para" label-module="para">2345</div>
+<div class="para" label-module="para">需要删除每行末尾的“345”</div>
+<div class="para" label-module="para">这个也算正则表达式的用法，其实仔细看正则表达式应该比较简单，不过既然有这个问题提出，说明对正则表达式还得有个认识过程，解决方法如下</div>
+<div class="para" label-module="para">解决：</div>
+<div class="para" label-module="para">在替换对话框中，启用“正则表达式”<a target=_blank href="/item/%E5%A4%8D%E9%80%89%E6%A1%86">复选框</a></div>
+<div class="para" label-module="para">在查找内容里面输入“345$”</div>
+<div class="para" label-module="para">这里“$”表示从行尾匹配</div>
+<div class="para" label-module="para">如果从行首匹配，可以用“^”来实现，不过 EditPlus 有另一个功能可以很简单的删除行首的字符串</div>
+<div class="para" label-module="para">a. 选择要操作的行</div>
+<div class="para" label-module="para">b. 编辑－格式－删除行注释</div>
+<div class="para" label-module="para">c. 在弹出对话框里面输入要清除的行首<a target=_blank href="/item/%E5%AD%97%E7%AC%A6">字符</a>，确定</div>
+<div class="para" label-module="para">【4】正则表达式应用——替换带有半角括号的多行</div>
+<div class="para" label-module="para">几百个网页中都有下面一段代码：</div>
+<div class="para" label-module="para">&lt;script LANGUAGE=&quot;JavaScript1.1&quot;&gt;</div>
+<div class="para" label-module="para">&lt;!--</div>
+<div class="para" label-module="para">htmlAdWH(&#39;93163607&#39;, &#39;728&#39;, &#39;90&#39;);</div>
+<div class="para" label-module="para">//--&gt;</div>
+<div class="para" label-module="para">&lt;/SCRIPT&gt;</div>
+<div class="para" label-module="para">我想把它们都去掉，可是找了很多search &amp; replace的软件，都是只能对“一行”进行操作。</div>
+<div class="para" label-module="para">EditPlus 打开几百个网页文件还是比较顺畅的，所以完全可以胜任这个工作。</div>
+<div class="para" label-module="para">具体解决方法，在 Editplus 中<a target=_blank href="/item/%E4%BD%BF%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F">使用正则表达式</a>，由于“(”、“)”被用做预设表达式（或者可以称作子表达式）的标志，所以查找</div>
+<div class="para" label-module="para">“&lt;script LANGUAGE=&quot;JavaScript1.1&quot;&gt;\n&lt;!--\nhtmlAdWH(&#39;93163607&#39;, &#39;728&#39;, &#39;90&#39;.);\n//--&gt;\n&lt;/SCRIPT&gt;\n”</div>
+<div class="para" label-module="para">时会提示查找不到，所以也就无法进行替换了，这时可以把“(”、“)”使用任意<a target=_blank href="/item/%E5%AD%97%E7%AC%A6">字符</a>标记替代，即<a target=_blank href="/item/%E5%8D%8A%E8%A7%92">半角</a>句号：“.”。替换内容为</div>
+<div class="para" label-module="para">&lt;script LANGUAGE=&quot;JavaScript1.1&quot;&gt;\n&lt;!--\nhtmlAdWH.&#39;93163607&#39;, &#39;728&#39;, &#39;90&#39;.;\n//--&gt;\n&lt;/SCRIPT&gt;\n</div>
+<div class="para" label-module="para">在替换对话框启用“正则表达式”选项，这时就可以完成替换了</div>
+<div class="para" label-module="para">补充：</div>
+<div class="para" label-module="para">对( ) 这样的特殊符号，应该用\( \)来表示，这也是很标准的regexp语法，可以写为</div>
+<div class="para" label-module="para">&lt;script LANGUAGE=&quot;JavaScript1.1&quot;&gt;\n&lt;!--\nhtmlAdWH\(&#39;93163607&#39;, &#39;728&#39;, &#39;90&#39;\);\n//--&gt;\n&lt;/SCRIPT&gt;\n</div>
+<div class="para" label-module="para">【5】正则表达式应用——删除空行</div>
+<div class="para" label-module="para">启动EditPlus，打开待处理的文本类型文件。</div>
+<div class="para" label-module="para">①、选择“查找”菜单的“替换”命令，弹出<a target=_blank href="/item/%E6%96%87%E6%9C%AC%E6%9B%BF%E6%8D%A2">文本替换</a>对话框。选中“正则表达式”<a target=_blank href="/item/%E5%A4%8D%E9%80%89%E6%A1%86">复选框</a>，表明我们要在查找、替换中<a target=_blank href="/item/%E4%BD%BF%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F">使用正则表达式</a>。然后，选中“替换范围”中的“<a target=_blank href="/item/%E5%BD%93%E5%89%8D%E6%96%87%E4%BB%B6">当前文件</a>”，表明对当前文件操作。</div>
+<div class="para" label-module="para">②、单击“查找内容”<a target=_blank href="/item/%E7%BB%84%E5%90%88%E6%A1%86">组合框</a>右侧的按钮，出现下拉菜单。</div>
+<div class="para" label-module="para">③、下面的操作添加正则表达式，该表达式代表待查找的空行。（技巧提示：空行仅包括<a target=_blank href="/item/%E7%A9%BA%E6%A0%BC%E7%AC%A6">空格符</a>、<a target=_blank href="/item/%E5%88%B6%E8%A1%A8%E7%AC%A6">制表符</a>、回车符，且必须以这三个符号之一作为一行的开头，并且以回车符结尾，查找空行的关键是构造代表空行的正则表达式）。</div>
+<div class="para" label-module="para">直接在&quot;查找&quot;中输入正则表达式“^[ \t]*\n”，注意\t前有空格符。</div>
+<div class="para" label-module="para">（1）选择“从行首开始匹配”，“查找内容”组合框中出现字符“^”，表示待查找字符串必须出文本中一行的行首。</div>
+<div class="para" label-module="para">（2）选择“<a target=_blank href="/item/%E5%AD%97%E7%AC%A6">字符</a>在范围中”，那么在“^”后会增加一对括号“[]”，当前<a target=_blank href="/item/%E6%8F%92%E5%85%A5%E7%82%B9">插入点</a>在括号中。括号在正则表达式中表示，文本中的字符匹配括号中任意一个字符即符合查找条件。</div>
+<div class="para" label-module="para">（3）按一下空格键，添加<a target=_blank href="/item/%E7%A9%BA%E6%A0%BC%E7%AC%A6">空格符</a>。空格符是空行的一个组成成分。</div>
+<div class="para" label-module="para">（4）选择“<a target=_blank href="/item/%E5%88%B6%E8%A1%A8%E7%AC%A6">制表符</a>”，添加代表制表符的“\t”。</div>
+<div class="para" label-module="para">（5）移动<a target=_blank href="/item/%E5%85%89%E6%A0%87">光标</a>，将当前插入点移到“]”之后，然后选择“匹配 0 次或更多”，该操作会添加星号字符“*”。星号表示，其前面的括号“[]”内的空格符或制表符，在一行中出现0个或多个。</div>
+<div class="para" label-module="para">（6）选择“换行符”，插入“\n”，表示回车符。</div>
+<div class="para" label-module="para">④、“替换为”<a target=_blank href="/item/%E7%BB%84%E5%90%88%E6%A1%86">组合框</a>保持空，表示删除查找到的内容。单击“替换”按钮逐个行删除空行，或单击“全部替换”按钮删除全部空行（注意：EditPlus有时存在“全部替换”不能一次性完全删除空行的问题，可能是程序BUG，需要多按几次按钮）。</div>
+<div class="para" label-module="para">【6】 正则表达式应用——实例应用</div>
+<div class="para" label-module="para">1.验证用户名和密码：（&quot;^[a-zA-Z]\w{5,15}$&quot;）正确格式：&quot;[A-Z][a-z]_[0-9]&quot;组成,并且第一个字必须为字母6~16位；</div>
+<div class="para" label-module="para">2.验证电话号码：（&quot;^(\d{3,4}-)\d{7,8}$&quot;）正确格式：xxx/xxxx-xxxxxxx/xxxxxxxx；</div>
+<div class="para" label-module="para">3.验证手机号码：&quot;^1[3|4|5|7|8][0-9]{9}$&quot;；</div>
+<div class="para" label-module="para">4.验证身份证号（15位）：&quot;\d{14}[[0-9],0-9xX]&quot;，（18位）：&quot;\d{17}[[0-9],0-9xX]&quot;；</div>
+<div class="para" label-module="para">5.验证Email地址：(&quot;^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$&quot;)；</div>
+<div class="para" label-module="para">6.只能输入由数字和26个英文字母组成的字符串：(&quot;^[A-Za-z0-9]+$&quot;)；</div>
+<div class="para" label-module="para">7.整数或者小数：^[0-9]+([.][0-9]+){0,1}$</div>
+<div class="para" label-module="para">8.只能输入数字：&quot;^[0-9]*$&quot;。</div>
+<div class="para" label-module="para">9.只能输入<i>n</i>位的数字：&quot;^\d{<i>n</i>}$&quot;。</div>
+<div class="para" label-module="para">10.只能输入至少<i>n</i>位的数字：&quot;^\d{<i>n</i>,}$&quot;。</div>
+<div class="para" label-module="para">11.只能输入<i>m</i>~<i>n</i>位的数字：&quot;^\d{<i>m</i>,<i>n</i>}$&quot;。</div>
+<div class="para" label-module="para">12.只能输入零和非零开头的数字：&quot;^(0|[1-9][0-9]*)$&quot;。</div>
+<div class="para" label-module="para">13.只能输入有两位小数的正实数：&quot;^[0-9]+(\.[0-9]{2})?$&quot;。</div>
+<div class="para" label-module="para">14.只能输入有1~3位小数的正实数：&quot;^[0-9]+(\.[0-9]{1,3})?$&quot;。</div>
+<div class="para" label-module="para">15.只能输入非零的正整数：&quot;^\+?[1-9][0-9]*$&quot;。</div>
+<div class="para" label-module="para">16.只能输入非零的负整数：&quot;^\-[1-9][0-9]*$&quot;。</div>
+<div class="para" label-module="para">17.只能输入长度为3的字符：&quot;^.{3}$&quot;。</div>
+<div class="para" label-module="para">18.只能输入由26个英文字母组成的字符串：&quot;^[A-Za-z]+$&quot;。</div>
+<div class="para" label-module="para">19.只能输入由26个大写英文字母组成的字符串：&quot;^[A-Z]+$&quot;。</div>
+<div class="para" label-module="para">20.只能输入由26个小写英文字母组成的字符串：&quot;^[a-z]+$&quot;。</div>
+<div class="para" label-module="para">21.验证是否含有^%&amp;&#39;,;=?$\&quot;等字符：&quot;[%&amp;&#39;,;=?$\\^]+&quot;。</div>
+<div class="para" label-module="para">22.只能输入汉字：&quot;^[\u4e00-\u9fa5]{0,}$&quot;。</div>
+<div class="para" label-module="para">23.验证URL：&quot;^http://([\w-]+\.)+[\w-]+(/[\w-./?%&amp;=]*)?$&quot;。</div>
+<div class="para" label-module="para">24.验证一年的12个月：&quot;^(0?[1-9]|1[0-2])$&quot;正确格式为：&quot;01&quot;～&quot;09&quot;和&quot;10&quot;～&quot;12&quot;。</div>
+<div class="para" label-module="para">25.验证一个月的31天：&quot;^((0?[1-9])|((1|2)[0-9])|30|31)$&quot;正确格式为；&quot;01&quot;～&quot;09&quot;、&quot;10&quot;～&quot;29&quot;和“30”~“31”。</div>
+<div class="para" label-module="para">26.获取日期正则表达式：\\d{4}[年|\-|\.]\d{\1-\12}[月|\-|\.]\d{\1-\31}日?</div>
+<div class="para" label-module="para">评注：可用来匹配大多数年月日信息。</div>
+<div class="para" label-module="para">27.匹配双<a target=_blank href="/item/%E5%AD%97%E8%8A%82">字节</a><a target=_blank href="/item/%E5%AD%97%E7%AC%A6">字符</a>(包括汉字在内)：[^\x00-\xff]</div>
+<div class="para" label-module="para">评注：可以用来计算字符串的长度（一个双字节字符长度计2，ASCII字符计1）</div>
+<div class="para" label-module="para">28.匹配空白行的正则表达式：\n\s*\r</div>
+<div class="para" label-module="para">评注：可以用来删除空白行</div>
+<div class="para" label-module="para">29.匹配HTML标记的正则表达式：&lt;(\S*?)[^&gt;]*&gt;.*?&lt;/&gt;|&lt;.*? /&gt;</div>
+<div class="para" label-module="para">评注：网上流传的版本太糟糕，上面这个也仅仅能匹配部分，对于复杂的嵌套标记依旧无能为力</div>
+<div class="para" label-module="para">30.匹配首尾空白<a target=_blank href="/item/%E5%AD%97%E7%AC%A6">字符</a>的正则表达式：^\s*|\s*$</div>
+<div class="para" label-module="para">评注：可以用来删除行首行尾的空白字符(包括空格、<a target=_blank href="/item/%E5%88%B6%E8%A1%A8%E7%AC%A6">制表符</a>、换页符等等)，非常有用的表达式</div>
+<div class="para" label-module="para">31.匹配网址URL的正则表达式：[a-zA-z]+://[^\s]*</div>
+<div class="para" label-module="para">评注：网上流传的版本功能很有限，上面这个基本可以满足需求</div>
+<div class="para" label-module="para">32.匹配帐号是否合法(字母开头，允许5-16<a target=_blank href="/item/%E5%AD%97%E8%8A%82">字节</a>，允许字母数字下划线)：^[a-zA-Z][a-zA-Z0-9_]{4,15}$</div>
+<div class="para" label-module="para">评注：表单验证时很实用</div>
+<div class="para" label-module="para">33.匹配腾讯QQ号：[1-9][0-9]{4,}</div>
+<div class="para" label-module="para">评注：腾讯QQ号从10 000 开始</div>
+<div class="para" label-module="para">34.匹配中国邮政编码：[1-9]\\d{5}(?!\d)</div>
+<div class="para" label-module="para">评注：中国邮政编码为6位数字</div>
+<div class="para" label-module="para">35.匹配ip地址：([1-9]{1,3}\.){3}[1-9]。</div>
+<div class="para" label-module="para">评注：提取ip地址时有用</div>
+<div class="para" label-module="para">36.匹配MAC地址：([A-Fa-f0-9]{2}\:){5}[A-Fa-f0-9]</div>
+<div class="para" label-module="para">Function IsRegu(Regu,s)</div>
+<div class="para" label-module="para">&#39;正则表达式校验</div>
+<div class="para" label-module="para">If Regu=&quot;&quot; Then</div>
+<div class="para" label-module="para">Exit Function</div>
+<div class="para" label-module="para">End if</div>
+<div class="para" label-module="para">Dim Re,Sre</div>
+<div class="para" label-module="para">Set Re = New RegExp</div>
+<div class="para" label-module="para">Re.Pattern = Regu</div>
+<div class="para" label-module="para">Sre = Re.Test(s)</div>
+<div class="para" label-module="para">If Sre = True Then</div>
+<div class="para" label-module="para">IsRegu = True</div>
+<div class="para" label-module="para">Else</div>
+<div class="para" label-module="para">IsRegu = False</div>
+<div class="para" label-module="para">End If</div>
+<div class="para" label-module="para">End Function</div>
+<div class="para" label-module="para">tmp=&quot; &quot;</div>
+<div class="para" label-module="para">if (IsRegu(&quot;\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*&quot;,tmp )) =false then</div>
+<div class="para" label-module="para">msgbox &quot;E-mail地址不合法 ！&quot;</div>
+<div class="para" label-module="para">FieldCheck#N=false</div>
+<div class="para" label-module="para">不同的语言（如PHP和JAVA）、相同语言的不同类库（如来自Sun的Java Regular Expression类库跟Apache Jakarta的正则表达式类库）间，用法会有所差别，在使用的时候，要注意这些差别。</div><div class="anchor-list">
+<a name="9_3" class="lemma-anchor para-title" ></a>
+<a name="sub94238_9_3" class="lemma-anchor " ></a>
+<a name="验证URL" class="lemma-anchor " ></a>
+<a name="9-3" class="lemma-anchor " ></a>
+</div><div class="para-title level-3" label-module="para-title">
+<h3 class="title-text"><span class="title-prefix">正则表达式</span>验证URL</h3>
+</div>
+<pre class="brush: js">function&nbsp;IsValidUrl(str){
+varregu=&quot;^(https?://)&quot;
++&quot;?(([0-9a-z_!~*&#39;().&amp;=+$%-]+:)?[0-9a-z_!~*&#39;().&amp;=+$%-]+@)?&quot;
++&quot;(([0-9]{1,3}\.){3}[0-9]{1,3}&quot;
++&quot;|&quot;
++&quot;([0-9a-z_!~*&#39;()-]+\.)*&quot;
++&quot;([0-9a-z][0-9a-z-]{0,61})?[0-9a-z]\.&quot;
++&quot;[a-z]{2,6})&quot;
++&quot;(:[0-9]{1,4})?&quot;
++&quot;((/?)|&quot;
++&quot;(/[0-9a-z_!~*&#39;().;?:@&amp;=+$,%#-]+)+/?)$&quot;;
+varre=newRegExp(regu);
+if(!re.test(str)){
+return&nbsp;false;
+}
+return&nbsp;true;
+}
+
+</pre><div class="para" label-module="para">参考：</div><div class="anchor-list">
+<a name="10" class="lemma-anchor para-title" ></a>
+<a name="sub94238_10" class="lemma-anchor " ></a>
+<a name="零宽断言" class="lemma-anchor " ></a>
+</div><div class="para-title level-2" label-module="para-title">
+<h2 class="title-text"><span class="title-prefix">正则表达式</span>零宽断言</h2>
+<a class="edit-icon j-edit-link" data-edit-dl="10" href="javascript:;"><em class="cmn-icon wiki-lemma-icons wiki-lemma-icons_edit-lemma"></em>编辑</a>
+</div>
+<div class="para" label-module="para">用于查找在某些内容(但并不包括这些内容)之前或之后的东西，也就是说它们像\b,^,$那样用于指定一个位置，这个位置应该满足一定的条件(即断言)，因此它们也被称为零宽断言。最好还是拿例子来说明吧：</div>
+<div class="para" label-module="para">(?=exp)也叫零宽度正预测先行断言<sup class="sup--normal" data-sup="4">
+[4]</sup><a class="sup-anchor" name="ref_[4]_94238">&nbsp;</a>
+，它断言自身出现的位置的后面能匹配表达式exp。比如\b\w+(?=ing\b)，匹配以ing结尾的单词的前面部分(除了ing以外的部分)，如查找I&#39;m singing while you&#39;re dancing.时，它会匹配sing和danc。</div>
+<div class="para" label-module="para">(?&lt;=exp)也叫零宽度正回顾后发断言<sup class="sup--normal" data-sup="4">
+[4]</sup><a class="sup-anchor" name="ref_[4]_94238">&nbsp;</a>
+，它断言自身出现的位置的前面能匹配表达式exp。比如(?&lt;=\bre)\w+\b会匹配以re开头的单词的后半部分(除了re以外的部分)，例如在查找reading a book时，它匹配ading。</div>
+<div class="para" label-module="para">假如你想要给一个很长的数字中每三位间加一个逗号(当然是从右边加起了)，你可以这样查找需要在前面和里面添加逗号的部分：((?&lt;=\D)\D{3})+\b，用它对xxxxxxxxxx进行查找时结果是xxxxxxxxx</div>
+<div class="para" label-module="para">下面这个例子同时使用了这两种断言：(?&lt;=\s)\d+(?=\s)匹配以空白符间隔的数字(再次强调，不包括这些空白符)</div>
+<div class="para" label-module="para">断言用来声明一个应该为真的事实。正则表达式中只有当断言为真时才会继续进行匹配。</div><div class="anchor-list">
+<a name="11" class="lemma-anchor para-title" ></a>
+<a name="sub94238_11" class="lemma-anchor " ></a>
+<a name="负向零宽" class="lemma-anchor " ></a>
+</div><div class="para-title level-2" label-module="para-title">
+<h2 class="title-text"><span class="title-prefix">正则表达式</span>负向零宽</h2>
+<a class="edit-icon j-edit-link" data-edit-dl="11" href="javascript:;"><em class="cmn-icon wiki-lemma-icons wiki-lemma-icons_edit-lemma"></em>编辑</a>
+</div>
+<div class="para" label-module="para">如果我们只是想要<b>确保某个字符没有出现，但并不想去匹配它</b>时怎么办？例如，如果我们想查找这样的单词--它里面出现了字母q，但是q后面跟的不是字母u,我们可以尝试这样：</div>
+<div class="para" label-module="para">\b\w*q[^u]\w*\b匹配包含<b>后面不是字母u的字母q</b>的单词。但是如果多做测试(或者你思维足够敏锐，直接就观察出来了)，你会发现，如果q出现在单词的结尾的话，像<b>Iraq</b>,<b>Benq</b>，这个表达式就会出错。这是因为[^u]总要匹配一个字符，所以如果q是单词的最后一个字符的话，后面的[^u]将会匹配q后面的单词分隔符(可能是空格，或者是句号或其它的什么)，后面的\w*\b将会匹配下一个单词，于是\b\w*q[^u]\w*\b就能匹配整个Iraq fighting。负向零宽断言能解决这样的问题，因为它只匹配一个位置，并不<b>消费</b>任何字符。，我们可以这样来解决这个问题：\b\w*q(?!u)\w*\b。</div>
+<div class="para" label-module="para">零宽度负预测先行断言(?!exp)，断言此位置的后面不能匹配表达式exp。例如：\d{3}(?!\d)匹配三位数字，而且这三位数字的后面不能是数字；\b((?!abc)\w)+\b匹配不包含连续字符串abc的单词。</div>
+<div class="para" label-module="para">同理，我们可以用(?&lt;!exp),零宽度负回顾后发断言来断言此位置的前面不能匹配表达式exp：(?&lt;![a-z])\d{7}匹配前面不是小写字母的七位数字。</div>
+<div class="para" label-module="para">请详细分析表达式(?&lt;=&lt;(\w+)&gt;).*(?=&lt;\/\1&gt;)，这个表达式最能表现零宽断言的真正用途。</div>
+<div class="para" label-module="para">一个更复杂的例子：(?&lt;=&lt;(\w+)&gt;).*(?=&lt;\/\1&gt;)匹配不包含属性的简单HTML标签内里的内容。(?&lt;=&lt;(\w+)&gt;)指定了这样的前缀：被尖括号括起来的单词(比如可能是&lt;b&gt;)，然后是.*(任意的字符串),最后是一个后缀(?=&lt;\/\1&gt;)。注意后缀里的\/，它用到了前面提过的字符转义，将”/“转义；\1则是一个反向引用，引用的正是捕获的第一组，前面的(\w+)匹配的内容，这样如果前缀实际上是&lt;b&gt;的话，后缀就是&lt;/b&gt;了。整个表达式匹配的是&lt;b&gt;和&lt;/b&gt;之间的内容(再次提醒，不包括前缀和后缀本身)。</div>
+<dl class="lemma-reference collapse nslog-area log-set-param" data-nslog-type="2" log-set-param="ext_reference">
+<dt class="reference-title">参考资料</dt>
+<dd class="reference-list-wrap">
+<ul class="reference-list">
+<li class="reference-item reference-item--type1 " id="reference-[1]-94238-wrap">
+<span class="index">1.</span>
+<a class="gotop anchor"  name="refIndex_1_94238" id="refIndex_1_94238" title="向上跳转" href="#ref_[1]_94238">&nbsp;&nbsp;</a>
+<a rel="nofollow" href="/redirect/f3e1wNzf7H6JmJnkj57tUXXQEkmaU6tzLwPkxrEGx0aNpj__YwoeNd_1QKwrZeEJ7A410yiRpuHMxAgodfGx9xQ" target="_blank" class="text">正则表达式30分钟入门教程<span class="linkout">&nbsp;</span></a>
+<span class="site">．W3Cschool</span><span>&#91;引用日期2017-08-22&#93;</span></li><li class="reference-item reference-item--type1 " id="reference-[2]-94238-wrap">
+<span class="index">2.</span>
+<a class="gotop anchor"  name="refIndex_2_94238" id="refIndex_2_94238" title="向上跳转" href="#ref_[2]_94238">&nbsp;&nbsp;</a>
+<a rel="nofollow" href="/redirect/c3fcxSPNVUjRsZGDVfxvwXsp7WfT56CS6SdQYaLGwcjf1p1Qz7MTwDpuB47ur7vz07YSLrbr3FBZyOO2_IOjdncFDQNXj--rQqzMLA" target="_blank" class="text">正则表达式语法<span class="linkout">&nbsp;</span></a>
+<span class="site">．网站监控</span><span>&#91;引用日期2012-11-15&#93;</span></li><li class="reference-item reference-item--type1 " id="reference-[3]-94238-wrap">
+<span class="index">3.</span>
+<a class="gotop anchor"  name="refIndex_3_94238" id="refIndex_3_94238" title="向上跳转" href="#ref_[3]_94238">&nbsp;&nbsp;</a>
+<a rel="nofollow" href="/redirect/be1ektPCDnyPoYktYPLwWmIH6oDwNx6thX-MyyCe3LFjnF8raLQ5IbCTvMma6CnrDyz4KHHHMa_VXhhrp6AW0GMepq8aRHWyggzdqUk6C_5wVG6bFpFSPXYwCyDhLyfyDpuyyg73frDL82puedgcF3SjNHo" target="_blank" class="text">Java开发帮助文档<span class="linkout">&nbsp;</span></a>
+<span class="site">．Pattern类</span><span>&#91;引用日期2016-06-28&#93;</span></li><li class="reference-item reference-item--type1 " id="reference-[4]-94238-wrap">
+<span class="index">4.</span>
+<a class="gotop anchor"  name="refIndex_4_94238" id="refIndex_4_94238" title="向上跳转" href="#ref_[4]_94238">&nbsp;&nbsp;</a>
+<a rel="nofollow" href="/redirect/f8915fR1wpaOdPivRpY_JiFWIryleKI1vExfhGnv3iclPiAVLGGyfvLV9s70cP7GRH77eNbZ3KVmzhJxZHzajKsWOyM" target="_blank" class="text">零宽断言<span class="linkout">&nbsp;</span></a>
+<span class="site">．百度百科</span><span>．2012-09-01</span><span>&#91;引用日期2013-04-01&#93;</span></li></ul>
+</dd>
+</dl>
+<div id="open-tag">
+<div class="open-tag-title">词条标签：</div>
+<dd id="open-tag-item">
+<span class="taglist">
+科学
+</span>
+，<span class="taglist">
+学科
+</span>
+</dd>
+<div class="open-tag-collapse" id="open-tag-collapse"></div>
+</div>
+<div class="clear"></div>
+</div>
+<div class="side-content">
+<div class="summary-pic">
+<a href="/pic/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/1700215/0/42a98226cffc1e175d2391154890f603738de972?fr=lemma&amp;ct=single" target="_blank" nslog-type="10002401">
+<img src="https://gss3.bdstatic.com/7Po3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=7b0e06c9a1cc7cd9fa2d33df013a4602/42a98226cffc1e175d2391154890f603738de972.jpg" />
+<button class="picAlbumBtn"><em></em><span>图集</span></button>
+<div>正则表达式图册</div>
+</a>
+</div>
+<div class="lemmaWgt-promotion-vbaike">
+<div class="promotion_title">V百科<a href="/vbaike#gallary" target="_blank">往期回顾</a></div>
+<div class="promotion_viewport">
+<dl>
+</dl>
+<div class="promotion_viewport_pager"></div>
+</div>
+</div><div class="lemmaWgt-promotion-rightPreciseAd" data-lemmaId="1700215" data-lemmaTitle="正则表达式"></div><div class="lemmaWgt-sideRecommend">
+<a name="zhixinWrap" class="qnAnchor"></a>
+<div class="zhixin-box" id="zhixinWrap" data-source="" data-newLemmaId="1700215">
+</div>
+<form id="zhixinErrorForm" class="hidden" action="https://sp2.baidu.com/-uV1bjeh1BF3odCf/index.php/feedback/zx/baikeJC" target="zhixinSubErr" method="post">
+<input class="js-url" name="fb_html_url" type="hidden" />
+<input class="js-query" name="fb_query" type="hidden" />
+<input class="js-title" name="fb_card_title" type="hidden" />
+<input class="js-content" name="fb_content" type="hidden" />
+<input class="js-souceId" name="fb_source_id" type="hidden" />
+</form>
+<iframe id="zhixinSubErr" name="zhixinSubErr" style="display:none" frameborder="0"></iframe>
+</div>
+<div class="lemmaWgt-promotion-slide">
+<div class="promotion_viewport">
+<dl>
+</dl>
+<div class="promotion_viewport_pager"></div>
+</div>
+</div><div class="lemmaWgt-promotion-rightBigAd">
+</div><dl class="side-box lemma-statistics">
+<dt class="title">词条统计</dt>
+<dd class="description ">
+<ul>
+<li>浏览次数：<span id="j-lemmaStatistics-pv"></span>次</li>
+<li>编辑次数：259次<a href="/historylist/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/1700215" class="nslog:1021" target="_blank">历史版本</a></li>
+<li>
+<span class="latest-title">最近更新：</span>
+<span class="latest-content">
+<a class="show-userCard" data-uid="180166596" title="查看此用户资料" target="_blank" href="http://www.baidu.com/p/phibo3"
+                     nslog-type="1022">phibo3</a><span class="j-modified-time" style="display:none">（2018-09-25）</span>
+</span>
+</li>
+</ul>
+</dd>
+</dl>
+<div class="side-catalog" style="visibility:hidden">
+<div class="side-bar">
+<em class="circle start"></em>
+<em class="circle end"></em>
+</div>
+<div class="catalog-scroller">
+<dl class="catalog-list">
+<dt class="catalog-title level1">
+<em class="pointer"></em>
+<a href="#1" class="title-link">
+<span class="text">
+<span class="title-index">1</span>
+<span class="title-link" nslog-type="10002802">概念</span>
+</span>
+</a>
+</dt>
+<dt class="catalog-title level1">
+<em class="pointer"></em>
+<a href="#2" class="title-link">
+<span class="text">
+<span class="title-index">2</span>
+<span class="title-link" nslog-type="10002802">简介</span>
+</span>
+</a>
+</dt>
+<dt class="catalog-title level1">
+<em class="pointer"></em>
+<a href="#3" class="title-link">
+<span class="text">
+<span class="title-index">3</span>
+<span class="title-link" nslog-type="10002802">起源</span>
+</span>
+</a>
+</dt>
+<dt class="catalog-title level1">
+<em class="pointer"></em>
+<a href="#4" class="title-link">
+<span class="text">
+<span class="title-index">4</span>
+<span class="title-link" nslog-type="10002802">目的</span>
+</span>
+</a>
+</dt>
+<dt class="catalog-title level1">
+<em class="pointer"></em>
+<a href="#5" class="title-link">
+<span class="text">
+<span class="title-index">5</span>
+<span class="title-link" nslog-type="10002802">特点</span>
+</span>
+</a>
+</dt>
+<dt class="catalog-title level1">
+<em class="pointer"></em>
+<a href="#6" class="title-link">
+<span class="text">
+<span class="title-index">6</span>
+<span class="title-link" nslog-type="10002802">引擎</span>
+</span>
+</a>
+</dt>
+<dt class="catalog-title level1">
+<em class="pointer"></em>
+<a href="#7" class="title-link">
+<span class="text">
+<span class="title-index">7</span>
+<span class="title-link" nslog-type="10002802">符号</span>
+</span>
+</a>
+</dt>
+<dt class="catalog-title level1">
+<em class="pointer"></em>
+<a href="#8" class="title-link">
+<span class="text">
+<span class="title-index">8</span>
+<span class="title-link" nslog-type="10002802">速记理解技巧</span>
+</span>
+</a>
+</dt>
+<dt class="catalog-title level1">
+<em class="pointer"></em>
+<a href="#9" class="title-link">
+<span class="text">
+<span class="title-index">9</span>
+<span class="title-link" nslog-type="10002802">替换技巧</span>
+</span>
+</a>
+</dt>
+<dd class="catalog-title level2">
+<a href="#9_1" class="title-link">
+<span class="text">
+<span class="title-index">9.1</span>
+<span class="title-link" nslog-type="10002802">实例目录</span>
+</span>
+</a>
+</dd>
+<dd class="catalog-title level2">
+<a href="#9_2" class="title-link">
+<span class="text">
+<span class="title-index">9.2</span>
+<span class="title-link" nslog-type="10002802">应用实例</span>
+</span>
+</a>
+</dd>
+<dd class="catalog-title level2">
+<a href="#9_3" class="title-link">
+<span class="text">
+<span class="title-index">9.3</span>
+<span class="title-link" nslog-type="10002802">验证URL</span>
+</span>
+</a>
+</dd>
+<dt class="catalog-title level1">
+<em class="pointer"></em>
+<a href="#10" class="title-link">
+<span class="text">
+<span class="title-index">10</span>
+<span class="title-link" nslog-type="10002802">零宽断言</span>
+</span>
+</a>
+</dt>
+<dt class="catalog-title level1">
+<em class="pointer"></em>
+<a href="#11" class="title-link">
+<span class="text">
+<span class="title-index">11</span>
+<span class="title-link" nslog-type="10002802">负向零宽</span>
+</span>
+</a>
+</dt>
+<a class="arrow" href="javascript:void(0);"></a>
+</dl>
+</div>
+<div class="right-wrap">
+<a class="go-up disable" href="javascript:void(0);"></a>
+<a class="go-down" href="javascript:void(0);"></a>
+</div>
+<div class="bottom-wrap">
+<a class="toggle-button" href="javascript:void(0);" nslog-type="10002803"></a>
+<a class="gotop-button" href="javascript:void(0);" nslog-type="10002804"></a>
+</div>
+</div>
+<div id="side_box_fengchao" class="fengchao side-box" nslog="area" nslog-type="10000902">
+</div>
+<div id="side_box_unionAd" class="unionAd side-box">
+<div class="union-content"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="after-content">
+<div class="fc-guess-like new" id="fc_guess_like_new">
+<span class="logo-du">
+<em class="cmn-icon cmn-icons cmn-icons_logo-du"></em>
+</span>
+<h6>猜你关注</h6>
+<ul class="cmn-clearfix">
+</ul>
+</div>
+</div>
+</div>
+
+<div class="wgt-footer-main">
+<div class="content">
+<dl class="fresh">
+<dt><em class="cmn-icon cmn-icons cmn-icons_footer-fresh"></em>新手上路</dt>
+<dd>
+<div><a target="_blank" href="/usercenter/tasks#guide">成长任务</a></div>
+<div><a target="_blank" href="/help#main01">编辑入门</a></div>
+<div><a target="_blank" href="/help#main06">编辑规则</a></div>
+<div><a target="_blank" href="/item/%E7%99%BE%E5%BA%A6%E7%99%BE%E7%A7%91%EF%BC%9A%E6%9C%AC%E4%BA%BA%E8%AF%8D%E6%9D%A1%E7%BC%96%E8%BE%91%E6%9C%8D%E5%8A%A1/22442459?bk_fr=pcFooter">本人编辑</a><img src="https://bkssl.bdimg.com/static/wiki-common/widget/component/footer/img/new-icon_a64774d.png" class="new-icon" alt="new"></div>
+</dd>
+</dl>
+<dl class="question">
+<dt><em class="cmn-icon cmn-icons cmn-icons_footer-question"></em>我有疑问</dt>
+<dd>
+<div><a id="J-bk-feedback-query" data-lemma="正则表达式" href="javascript:void(0);" nslog-type="10070001">我要质疑</a></div>
+<div><a target="_blank" href="https://aikefu.baidu.com/?product=bk001" nslog-type="10000003">在线客服</a></div>
+<div><a target="_blank" href="http://tieba.baidu.com/f?ie=utf-8&fr=bks0000&kw=%E7%99%BE%E5%BA%A6%E7%99%BE%E7%A7%91">参加讨论</a></div>
+<div><a id="J-bk-feedback-main" href="javascript:void(0);">意见反馈</a></div>
+</dd>
+</dl>
+<dl class="suggestion">
+<dt><em class="cmn-icon cmn-icons cmn-icons_footer-suggestion"></em>投诉建议</dt>
+<dd>
+<div><a target="_blank" href="http://help.baidu.com/newadd?prod_id=10&category=1">举报不良信息</a></div>
+<div><a target="_blank" href="http://help.baidu.com/newadd?prod_id=10&category=2">未通过词条申诉</a></div>
+<div><a target="_blank" href="http://help.baidu.com/newadd?prod_id=10&category=6">投诉侵权信息</a></div>
+<div><a target="_blank" href="http://help.baidu.com/newadd?prod_id=10&category=5">封禁查询与解封</a></div>
+</dd>
+</dl>
+</div>
+<div class="copyright">©2018&nbsp;Baidu&nbsp;<a href="http://www.baidu.com/duty/" target="_blank">使用百度前必读</a>&nbsp;|&nbsp;<a href="http://help.baidu.com/question?prod_en=baike&class=89&id=1637" target="_blank">百科协议</a>&nbsp;|&nbsp;<a href="http://help.baidu.com/question?prod_id=10&class=690&id=1001779" target="_blank">隐私政策</a>&nbsp;|&nbsp;<a href="/operation/cooperation" target="_blank">百度百科合作平台</a>&nbsp;|&nbsp;<span>京ICP证030173号&nbsp;</span><img class="copyright-img" width="13" height="16" src="https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/copy_rignt_24.png"></div>
+<p class="recordcode"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11000002000001" target="_blank"><i class="icon-police"></i>京公网安备11000002000001号</a></p>
+</div>
+
+
+<div class="lemmaWgt-searchHeader">
+<div class="layout cmn-clearfix">
+<div class="wgt-searchbar wgt-searchbar-new wgt-searchbar-simple cmn-clearfix ">
+<div class="logo-container">
+<a class="logo cmn-inline-block" title="到百科首页" href="/">
+<span class="cmn-baike-logo">
+<em class="cmn-icon cmn-icons cmn-icons_logo-bai"></em>
+<em class="cmn-icon cmn-icons cmn-icons_logo-du"></em>
+<em class="cmn-icon cmn-icons cmn-icons_logo-baike"></em>
+</span>
+</a>
+</div>
+<div class="search">
+<div class="form">
+<form id="searchForm" action="/search/word" method="GET" target="_self">
+<input id="query" nslog="normal" nslog-type="10080015" name="word" type="text" autocomplete="off" autocorrect="off" value="正则表达式" /><button id="search" nslog="normal" nslog-type="10080013" type="button">进入词条</button>
+</form>
+<form id="searchLemmaForm" action="/search" method="GET" target="_self">
+<input id="searchLemmaQuery" name="word" type="hidden" />
+<input name="pn" type="hidden" value="0" />
+<input name="rn" type="hidden" value="0" />
+<input name="enc" type="hidden" value="utf8" />
+</form>
+<ul id="suggestion" class="suggestion">
+<div class="sug"></div>
+<li class="extra">
+<span id="clear" style="margin-right:8px;">清除历史记录</span><span id="close" nslog="normal" nslog-type="10080016">关闭</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="tool-buttons">
+<a class="toolButtons-edit button j-edit-link" href="javascript:;" nslog-type="10010001"><em class="cmn-icon wiki-lemma-icons wiki-lemma-icons_edit-hollow"></em>编辑</a>
+<a class="toolButtons-collect button" href="javascript:;" nslog-type="10010002"><em class="cmn-icon wiki-lemma-icons wiki-lemma-icons_star-hollow"></em><em class="cmn-icon wiki-lemma-icons wiki-lemma-icons_star-solid"></em>收藏</a>
+<a class="toolButtons-vote button top-vote" href="javascript:;" nslog-type="10010003"><em class="cmn-icon wiki-lemma-icons wiki-lemma-icons_zan-hollow"></em><em class="cmn-icon wiki-lemma-icons wiki-lemma-icons_zan-solid"></em><span class="j-tool-btn-vote-num">赞</span></a>
+</div>
+<div class="user-info">
+<a class="user-link unlogin" href="javascript:;" nslog-type="10010008" target="_blank">登录</a>
+</div>
+</div></div>
+<div class="new-bdsharebuttonbox new-side-share" id="side-share">
+<span class="title">分享</span>
+<div class="side-border">
+<div class="triangle"></div>
+<a class="share-link bds_qzone"  href="javascript:void(0);" nslog-type="10060101">
+<em class="cmn-icon cmn-icons cmn-icons_logo-qzone"></em>
+</a>
+<a class="share-link bds_tsina" href="javascript:void(0);" nslog-type="10060301">
+<em class="cmn-icon cmn-icons cmn-icons_logo-sina-weibo"></em>
+</a>
+<a class="bds_wechat"  href="javascript:void(0);" nslog-type="10060001">
+<em class="cmn-icon cmn-icons cmn-icons_logo-wechat"></em>
+</a>
+<a class="share-link bds_tqq"  href="javascript:void(0);" nslog-type="10060201">
+<em class="cmn-icon cmn-icons cmn-icons_logo-qq"></em>
+</a>
+</div>
+</div>
+<div class="qrcode-wrapper" id="layer" style="display: none">
+<div class="bd_weixin_popup_header">
+<em class="cmn-icon cmn-icons cmn-icons_close"></em>
+<span>分享到微信朋友圈</span>
+</div>
+<div id="wechat-qrcode-img"></div>
+<div class="bd_weixin_popup_footer">打开微信“扫一扫”即可将网页分享至朋友圈</div>
+</div>
+<div></div><div></div>
+
+</body><script type="text/javascript" src="https://bkssl.bdimg.com/static/wiki-common/js/mod_4302fe0.js"></script>
+<script type="text/javascript">require.resourceMap({"res":{"wiki-lemma:widget/lemma_content/mainContent/lemmaRelation/lemmaInsert.js":{"url":"https://bkssl.bdimg.com/static/wiki-lemma/widget/lemma_content/mainContent/lemmaRelation/lemmaInsert_aa8222e.js","pkg":"wiki-lemma:p5","deps":["wiki-common:widget/component/nslog/nslog.js"]},"wiki-lemma:widget/lemma_content/mainContent/lemmaRelation/tangram.js":{"url":"https://bkssl.bdimg.com/static/wiki-lemma/widget/lemma_content/mainContent/lemmaRelation/tangram_459492a.js","pkg":"wiki-lemma:p5"},"wiki-lemma:widget/lemma_content/mainContent/lemmaReference/lemmaReferenceTip/lemmaReferenceTip.js":{"url":"https://bkssl.bdimg.com/static/wiki-lemma/widget/lemma_content/mainContent/lemmaReference/lemmaReferenceTip/lemmaReferenceTip_53efc29.js","deps":["wiki-common:widget/lib/jquery/jquery.js","wiki-common:widget/lib/jsmart/jsmart.js","wiki-common:widget/component/nslog/nslog.js"]}},"pkg":{"wiki-lemma:p5":{"url":"https://bkssl.bdimg.com/static/wiki-lemma/pkg/wiki-lemma-module-lemmaRelation_9d255dc.js"}}});</script><script type="text/javascript" src="https://bkssl.bdimg.com/static/wiki-common/pkg/wiki-common-base_5962bad.js"></script>
+<script type="text/javascript" src="https://bkssl.bdimg.com/static/wiki-lemma/pkg/wiki-lemma_d8a4522.js"></script>
+<script type="text/javascript" src="https://bkssl.bdimg.com/static/wiki-lemma/lemmaCode/script/XRegExp_2ce0ee9.js"></script>
+<script type="text/javascript" src="https://bkssl.bdimg.com/static/wiki-lemma/lemmaCode/script/shCore_9783b01.js"></script>
+<script type="text/javascript" src="https://bkssl.bdimg.com/static/wiki-lemma/lemmaCode/script/shBrushJScript_e615556.js"></script>
+<script type="text/javascript" src="https://bkssl.bdimg.com/static/wiki-lemma/widget/lemma_content/configModule/zhixin/zhixin_58e6342.js"></script>
+<script type="text/javascript">!function(){  var $ = require('wiki-common:widget/lib/jquery/jquery'),
+    userbar = require('wiki-common:widget/component/userbar-n/userbar-n');
+    
+  userbar.buildUserbar($('#j-wgt-userbar'), null);
+}();
+!function(){  require('wiki-common:widget/component/headTabBar/headTabBar');
+}();
+!function(){    var $ = require('wiki-common:widget/lib/jquery/jquery'),
+      initSearchbar = require('wiki-common:widget/component/searchbar-n/searchbar');  
+    initSearchbar($('.wgt-searchbar-main'));
+  }();
+!function(){    var $ = require('wiki-common:widget/lib/jquery/jquery');
+    var cookie = require('wiki-common:widget/util/cookie');
+    if (!cookie.get('baikedeclare')) {
+        $('#J-declare-wrap').css('display', 'block');
+    }
+    $('#J-declare-close').on('click', function () {
+        // 用户关闭后，不再显示，这里暂设过期时间为1年
+        cookie.set('baikedeclare', 'showed', {
+            expires: 365 * 60 * 60 * 24 * 1000,
+            path: '/'
+        });
+        $('#J-declare-wrap').css('display', 'none');
+    });
+}();
+!function(){var $ = require('wiki-common:widget/lib/jquery/jquery');
+
+var timer = '';
+
+$('.wgt-navbar').on('mouseenter', 'dl', function() {
+  clearTimeout(timer);
+  timer = setTimeout(function() {
+    $('.wgt-navbar').addClass('wgt-navbar-hover');
+  }, 300);
+}).on('mouseleave', function() {
+  clearTimeout(timer);
+  $('.wgt-navbar').removeClass('wgt-navbar-hover');
+}).on('click', 'a', function() {
+  clearTimeout(timer);
+  $('.wgt-navbar').removeClass('wgt-navbar-hover');
+});
+}();
+!function(){                var $ = require('wiki-common:widget/lib/jquery/jquery');
+                var rightCheck = require('wiki-lemma:widget/tools/rightCheck/rightCheck');
+
+                // 展现策略
+                rightCheck.editView('1700215', function(res) {
+                    if (!res.errno) {
+                        if (res.data.edit) {
+                            $('.lemmaWgt-lemmaTitle .add-subLemma').css('display', 'inline-block');
+                            $('.top-tool .add-sub-icon').css('display', 'inline-block');
+                        }
+                    } else {
+                        if ('1') {
+                            $('.lemmaWgt-lemmaTitle .add-subLemma').css('display', 'inline-block');
+                            $('.top-tool .add-sub-icon').css('display', 'inline-block');
+                        }
+                    }
+                });
+                require('wiki-lemma:widget/basicElement/addSub/addSub.js')({                    lemmaId: '1700215',                    lemmaTitle: '正则表达式',                    lemmaDesc: '',                    versionId: '133273958',                    subLemmaId: '94238'                });
+            }();
+!function(){        var $ = require('wiki-common:widget/lib/jquery/jquery');
+        var rightCheck = require('wiki-lemma:widget/tools/rightCheck/rightCheck');
+
+        // 展现策略
+        rightCheck.editView('1700215', function(res) {
+            if (!res.errno) {
+                if (res.data.divide) {
+                    $('.top-tool .split-icon').css('display', 'block');
+                }
+            }
+        });
+    }();
+!function(){    var nslog = require('wiki-common:widget/component/nslog/nslog');
+	require.async(["wiki-lemma:widget/basicElement/collect/collect"],function(collect){
+		collect({
+            newLemmaId:"1700215",
+			lemmaId:"94238",
+			subLemmaId:"94238"
+		});
+	});
+}();
+!function(){    require.async(["wiki-lemma:widget/basicElement/topShare/topShare"],function(topShare){
+        topShare({
+            newLemmaId: '1700215'
+        });
+    });
+}();
+!function(){    var $ = require('wiki-common:widget/lib/jquery/jquery');
+    var rightCheck = require('wiki-lemma:widget/tools/rightCheck/rightCheck');
+    var nsLog = require('wiki-common:widget/component/nslog/nslog');
+    
+    // 展现策略
+    rightCheck.editView('1700215', function(res) {
+        if (!res.errno) {
+            if (res.data.edit) {
+                $('.lemmaWgt-lemmaTitle .edit-lemma').css('display', 'inline-block');
+                // 编辑和申请本人实名验证保证同一行展示
+                if ($('.lemmaWgt-lemmaTitle .personal').length > 0) {
+                  if ($('.lemmaWgt-lemmaTitle .edit-lemma').offset().left > $('.lemmaWgt-lemmaTitle .personal').offset().left) {
+                    $('.lemmaWgt-lemmaTitle .edit-lemma').before('<br/><br/>');
+                  }
+                }
+            } else {
+                nsLog('10003104');              
+                $('.lemmaWgt-lemmaTitle .lock-lemma').show();
+                // 锁定和申请本人实名验证保证同一行展示
+                if ($('.lemmaWgt-lemmaTitle .personal').length > 0) {
+                  if ($('.lemmaWgt-lemmaTitle .lock-lemma').offset().left > $('.lemmaWgt-lemmaTitle .personal').offset().left) {
+                    $('.lemmaWgt-lemmaTitle .lock-lemma').before('<br/><br/>');
+                  }
+                }
+            }
+        } else {
+            if ('1') {
+                $('.lemmaWgt-lemmaTitle .edit-lemma').css('display', 'inline-block');
+                // 编辑和申请本人实名验证保证同一行展示
+                if ($('.lemmaWgt-lemmaTitle .personal').length > 0) {
+                  if ($('.lemmaWgt-lemmaTitle .edit-lemma').offset().left > $('.lemmaWgt-lemmaTitle .personal').offset().left) {
+                    $('.lemmaWgt-lemmaTitle .edit-lemma').before('<br/><br/>');
+                  }
+                }
+            } else {
+                nsLog('10003104');  
+                $('.lemmaWgt-lemmaTitle .lock-lemma').show();
+                // 锁定和申请本人实名验证保证同一行展示
+                if ($('.lemmaWgt-lemmaTitle .personal').length > 0) {
+                  if ($('.lemmaWgt-lemmaTitle .lock-lemma').offset().left > $('.lemmaWgt-lemmaTitle .personal').offset().left) {
+                    $('.lemmaWgt-lemmaTitle .lock-lemma').before('<br/><br/>');
+                  }
+                }
+            }
+        }
+    });
+}();
+!function(){	require('wiki-lemma:widget/lemma_content/mainContent/basicInfo/basicInfo')();
+}();
+!function(){    var $ = require('wiki-common:widget/lib/jquery/jquery');
+    var nslog = require('wiki-common:widget/component/nslog/nslog');
+    nslog(10002701);
+    $('.lemmaWgt-lemmaCatalog a').on('click', function () {
+           nslog(10002702);
+    });
+}();
+!function(){    var $ = require('wiki-common:widget/lib/jquery/jquery');
+    var rightCheck = require('wiki-lemma:widget/tools/rightCheck/rightCheck');
+
+    // 展现策略
+    rightCheck.editView('1700215', function(res) {
+        if (!res.errno) {
+            if (res.data.edit) {
+                $('.para-title .edit-icon').css('display', 'block');
+            }
+        } else {
+            if ('1') {
+                $('.para-title .edit-icon').css('display', 'block');
+            }
+        }
+    });
+}();
+!function(){    var $ = require('wiki-common:widget/lib/jquery/jquery');
+    var rightCheck = require('wiki-lemma:widget/tools/rightCheck/rightCheck');
+
+    // 展现策略
+    rightCheck.editView('1700215', function(res) {
+        if (!res.errno) {
+            if (res.data.edit) {
+                $('.para-title .edit-icon').css('display', 'block');
+            }
+        } else {
+            if ('1') {
+                $('.para-title .edit-icon').css('display', 'block');
+            }
+        }
+    });
+}();
+!function(){    var $ = require('wiki-common:widget/lib/jquery/jquery');
+    var rightCheck = require('wiki-lemma:widget/tools/rightCheck/rightCheck');
+
+    // 展现策略
+    rightCheck.editView('1700215', function(res) {
+        if (!res.errno) {
+            if (res.data.edit) {
+                $('.para-title .edit-icon').css('display', 'block');
+            }
+        } else {
+            if ('1') {
+                $('.para-title .edit-icon').css('display', 'block');
+            }
+        }
+    });
+}();
+!function(){    var $ = require('wiki-common:widget/lib/jquery/jquery');
+    var rightCheck = require('wiki-lemma:widget/tools/rightCheck/rightCheck');
+
+    // 展现策略
+    rightCheck.editView('1700215', function(res) {
+        if (!res.errno) {
+            if (res.data.edit) {
+                $('.para-title .edit-icon').css('display', 'block');
+            }
+        } else {
+            if ('1') {
+                $('.para-title .edit-icon').css('display', 'block');
+            }
+        }
+    });
+}();
+!function(){    var $ = require('wiki-common:widget/lib/jquery/jquery');
+    var rightCheck = require('wiki-lemma:widget/tools/rightCheck/rightCheck');
+
+    // 展现策略
+    rightCheck.editView('1700215', function(res) {
+        if (!res.errno) {
+            if (res.data.edit) {
+                $('.para-title .edit-icon').css('display', 'block');
+            }
+        } else {
+            if ('1') {
+                $('.para-title .edit-icon').css('display', 'block');
+            }
+        }
+    });
+}();
+!function(){    var $ = require('wiki-common:widget/lib/jquery/jquery');
+    var rightCheck = require('wiki-lemma:widget/tools/rightCheck/rightCheck');
+
+    // 展现策略
+    rightCheck.editView('1700215', function(res) {
+        if (!res.errno) {
+            if (res.data.edit) {
+                $('.para-title .edit-icon').css('display', 'block');
+            }
+        } else {
+            if ('1') {
+                $('.para-title .edit-icon').css('display', 'block');
+            }
+        }
+    });
+}();
+!function(){    var $ = require('wiki-common:widget/lib/jquery/jquery');
+    var rightCheck = require('wiki-lemma:widget/tools/rightCheck/rightCheck');
+
+    // 展现策略
+    rightCheck.editView('1700215', function(res) {
+        if (!res.errno) {
+            if (res.data.edit) {
+                $('.para-title .edit-icon').css('display', 'block');
+            }
+        } else {
+            if ('1') {
+                $('.para-title .edit-icon').css('display', 'block');
+            }
+        }
+    });
+}();
+!function(){    var $ = require('wiki-common:widget/lib/jquery/jquery');
+    var rightCheck = require('wiki-lemma:widget/tools/rightCheck/rightCheck');
+
+    // 展现策略
+    rightCheck.editView('1700215', function(res) {
+        if (!res.errno) {
+            if (res.data.edit) {
+                $('.para-title .edit-icon').css('display', 'block');
+            }
+        } else {
+            if ('1') {
+                $('.para-title .edit-icon').css('display', 'block');
+            }
+        }
+    });
+}();
+!function(){    var $ = require('wiki-common:widget/lib/jquery/jquery');
+    var rightCheck = require('wiki-lemma:widget/tools/rightCheck/rightCheck');
+
+    // 展现策略
+    rightCheck.editView('1700215', function(res) {
+        if (!res.errno) {
+            if (res.data.edit) {
+                $('.para-title .edit-icon').css('display', 'block');
+            }
+        } else {
+            if ('1') {
+                $('.para-title .edit-icon').css('display', 'block');
+            }
+        }
+    });
+}();
+!function(){    var $ = require('wiki-common:widget/lib/jquery/jquery');
+    var rightCheck = require('wiki-lemma:widget/tools/rightCheck/rightCheck');
+
+    // 展现策略
+    rightCheck.editView('1700215', function(res) {
+        if (!res.errno) {
+            if (res.data.edit) {
+                $('.para-title .edit-icon').css('display', 'block');
+            }
+        } else {
+            if ('1') {
+                $('.para-title .edit-icon').css('display', 'block');
+            }
+        }
+    });
+}();
+!function(){    var $ = require('wiki-common:widget/lib/jquery/jquery');
+    var rightCheck = require('wiki-lemma:widget/tools/rightCheck/rightCheck');
+
+    // 展现策略
+    rightCheck.editView('1700215', function(res) {
+        if (!res.errno) {
+            if (res.data.edit) {
+                $('.para-title .edit-icon').css('display', 'block');
+            }
+        } else {
+            if ('1') {
+                $('.para-title .edit-icon').css('display', 'block');
+            }
+        }
+    });
+}();
+!function(){    var $ = require('wiki-common:widget/lib/jquery/jquery');
+    var rightCheck = require('wiki-lemma:widget/tools/rightCheck/rightCheck');
+
+    // 展现策略
+    rightCheck.editView('1700215', function(res) {
+        if (!res.errno) {
+            if (res.data.edit) {
+                $('.para-title .edit-icon').css('display', 'block');
+            }
+        } else {
+            if ('1') {
+                $('.para-title .edit-icon').css('display', 'block');
+            }
+        }
+    });
+}();
+!function(){    var $ = require('wiki-common:widget/lib/jquery/jquery');
+    var rightCheck = require('wiki-lemma:widget/tools/rightCheck/rightCheck');
+
+    // 展现策略
+    rightCheck.editView('1700215', function(res) {
+        if (!res.errno) {
+            if (res.data.edit) {
+                $('.para-title .edit-icon').css('display', 'block');
+            }
+        } else {
+            if ('1') {
+                $('.para-title .edit-icon').css('display', 'block');
+            }
+        }
+    });
+}();
+!function(){    var $ = require('wiki-common:widget/lib/jquery/jquery');
+    var rightCheck = require('wiki-lemma:widget/tools/rightCheck/rightCheck');
+
+    // 展现策略
+    rightCheck.editView('1700215', function(res) {
+        if (!res.errno) {
+            if (res.data.edit) {
+                $('.para-title .edit-icon').css('display', 'block');
+            }
+        } else {
+            if ('1') {
+                $('.para-title .edit-icon').css('display', 'block');
+            }
+        }
+    });
+}();
+!function(){        SyntaxHighlighter.all();
+    }();
+!function(){		require.async(["wiki-lemma:widget/lemma_content/mainContent/lemmaReference/lemmaReference","wiki-lemma:widget/lemma_content/mainContent/lemmaReference/lemmaReferenceTip/lemmaReferenceTip"],function(Reference,ReferenceTip){
+			new Reference({
+				subLemmaId:"94238"
+			});
+			new ReferenceTip({
+				subLemmaId:"1700215",
+				lemmaTitle:"正则表达式",
+				reference:[{"type":"1","title":"\u6b63\u5219\u8868\u8fbe\u5f0f30\u5206\u949f\u5165\u95e8\u6559\u7a0b","url":"\/redirect\/f3e1wNzf7H6JmJnkj57tUXXQEkmaU6tzLwPkxrEGx0aNpj__YwoeNd_1QKwrZeEJ7A410yiRpuHMxAgodfGx9xQ","site":"W3Cschool","publishDate":"","refDate":"2017-08-22","index":1},{"index":2,"type":"1","title":"\u6b63\u5219\u8868\u8fbe\u5f0f\u8bed\u6cd5","url":"\/redirect\/c3fcxSPNVUjRsZGDVfxvwXsp7WfT56CS6SdQYaLGwcjf1p1Qz7MTwDpuB47ur7vz07YSLrbr3FBZyOO2_IOjdncFDQNXj--rQqzMLA","site":"\u7f51\u7ad9\u76d1\u63a7","publishDate":"","refDate":"2012-11-15"},{"type":"1","title":"Java\u5f00\u53d1\u5e2e\u52a9\u6587\u6863","url":"\/redirect\/be1ektPCDnyPoYktYPLwWmIH6oDwNx6thX-MyyCe3LFjnF8raLQ5IbCTvMma6CnrDyz4KHHHMa_VXhhrp6AW0GMepq8aRHWyggzdqUk6C_5wVG6bFpFSPXYwCyDhLyfyDpuyyg73frDL82puedgcF3SjNHo","site":"Pattern\u7c7b","publishDate":"","refDate":"2016-06-28","index":3},{"index":4,"type":"1","title":"\u96f6\u5bbd\u65ad\u8a00","url":"\/redirect\/f8915fR1wpaOdPivRpY_JiFWIryleKI1vExfhGnv3iclPiAVLGGyfvLV9s70cP7GRH77eNbZ3KVmzhJxZHzajKsWOyM","site":"\u767e\u5ea6\u767e\u79d1","publishDate":"2012-09-01","refDate":"2013-04-01"}]
+			});
+		});
+	}();
+!function(){        require.async(["wiki-common:widget/lib/jquery/jquery"],function($){
+            function openTagToggle(node) {
+                if ($(node).hasClass("collapse")) {
+                    $(node).removeClass("collapse");
+                    $("#open-tag").css("height", '22px');
+                } else {
+                    $(node).addClass("collapse");
+                    $("#open-tag").css("height", $("#open-tag-item").css("height"));
+                }
+            }
+            if (parseInt($("#open-tag-item").css("height")) <= 30) {
+                $('#open-tag-collapse').hide();
+            }
+            $("#open-tag-collapse").on("click", function () {
+                openTagToggle($("#open-tag")[0]);
+            });
+        });
+    }();
+!function(){        require('wiki-lemma:widget/lemma_content/configModule/zhixin/zhixin')(
+            1700215,
+            '正则表达式'
+        );
+    }();
+!function(){    require.async(["wiki-lemma:widget/lemma_content/mainContent/lemmaStatistics/lemmaStatistics"],function(init){
+        init({
+            newLemmaIdEnc:"0973544b8fcc8926d77cdc56"
+        });
+    });
+}();
+!function(){	require.async(["wiki-lemma:widget/lemma_content/mainContent/sideCatalog/sideCatalog"],function(SideCatalog){
+		new SideCatalog();
+	});
+}();
+!function(){        require.async(["wiki-lemma:widget/promotion/fengchao/fengchao","wiki-lemma:widget/promotion/unionAd/unionAd"], function (init, unionAd) {
+            init({
+                newLemmaId: "1700215",
+                lemmaTitle: "正则表达式",
+                encodeLemmaTitle: "%D5%FD%D4%F2%B1%ED%B4%EF%CA%BD",
+                adManager: {"wapRelatedBusiness":1}
+            }, {
+                errFn: unionAd,
+                dom: $('#side_box_unionAd')
+            });
+        });
+    }();
+!function(){        require.async(['wiki-lemma:widget/promotion/guessLike/guessLike'], function (app) {
+            app.init({
+                lemmaTitle: '正则表达式',
+                adManager: {"wapRelatedBusiness":1}
+            });
+        });
+    }();
+!function(){    var $ = require('wiki-common:widget/lib/jquery/jquery');
+    var Dialog = require("wiki-common:widget/ui/dialog/dialog");
+    var userLogin = require('wiki-common:widget/component/userLogin/userLogin');
+    var unameFiller = require('wiki-common:widget/component/unameFiller/unameFiller');
+    var rightCheck = require('wiki-lemma:widget/tools/rightCheck/rightCheck');
+    var nsLog = require('wiki-common:widget/component/nslog/nslog');
+
+            var isEnterprise = false;
+        var enterpriseOwnerUserId = 0;
+    
+    var userId = 0;
+    var editUrl = '/edit/' + encodeURIComponent('正则表达式') + '/' + '1700215';
+    var pgcUrl = '/enterprise/editpgc?lemmaId=1700215';
+
+    userLogin.regist({
+        onLogin: function(user) {
+            userId = user ? user.uid : 0;
+        }
+    });
+
+    function gotoEdit(url, isMidNight) {
+        if (isMidNight) {
+            Dialog.alert({
+                title: '编辑提示',
+                subMsg: '晚23:00至次日8:00，因审核系统例行维护，您提交的版本可能需要较长时间才能通过，望您谅解。',
+                onConfirm: function() {
+                    window.location.href = url;
+                }
+            });
+        } else {
+            window.location.href = url;
+        }    
+    }
+
+    function showChoseEditDialog(pgcCallback, ugcCallback) {
+        new Dialog({
+            title: '编辑提示',
+            subMsg: '<p>您已开通企业百科服务，推荐您直接编辑“官方资料”，官方资料仅限企业百科绑定的百科账号修改，其他用户账号不可修改。</p><p>如果您想修改其他网友编辑的普通词条内容，请注意遵守百科百科编辑规则。<p>',
+            btns: [{
+            key: 'pgc',
+            text: '编辑官方资料'
+            }, {
+            style: 'white',
+            text: '修改普通词条',
+            key: 'ugc'
+            }],
+            onBtnClick: function(btnKey){
+                if (btnKey === 'pgc') {
+                    pgcCallback && pgcCallback();
+                } else if (btnKey === 'ugc') {
+                    ugcCallback && ugcCallback();
+                }
+            }
+        }).show();
+    }
+
+    function checkUserLegal(res) {
+        var legal = false;
+        switch (res.errno) {
+            case 100001:
+                nsLog('10003106');
+                userLogin.showLoginPop();
+                break;
+            case 100006:
+                unameFiller.show();
+                break;
+            default:
+                legal = true;
+        }
+        return true;
+    }
+
+    function checkUgc(res, url) {
+        if (res.errno) {
+            switch (res.errno) {
+                case 100005:
+                    alert('对不起，您目前被封禁');
+                    break;
+                case 110001:
+                    alert('对不起，该词条被锁定');
+                    break;
+                case 110007:
+                    alert('对不起，消歧页无法编辑');
+                    break;
+                case 110005:
+                    nsLog('10003101');
+                    Dialog.alert({
+                    title: '编辑提示',
+                    mainMsg: '对不起，您暂时没有权限编辑该词条。',
+                    subMsg: '<p>您好，该词条内容已较丰富，现仅对百科等级达到<b>四级</b>且通过率达到<b>85%</b>的科友开放编辑。</p><p>当您通过努力达到以上要求，就可以参与编辑该词条了。</p><p><img src="https://bkssl.bdimg.com/img/baike/usercenter/growuptask/star.gif" class="star" />参加<a target="_blank" href="/usercenter#guide">成长任务</a>，更快掌握百科编辑技巧，加速升级！</p>'
+                    });
+                    break;
+                case 110008:
+                    nsLog('10003102');
+                    Dialog.alert({
+                    title: '编辑提示',
+                    mainMsg: '对不起，您暂时没有权限编辑该词条。',
+                    subMsg: '<p>您好，该词条内容已较丰富，现仅对百科等级达到<b>六级</b>且通过率达到<b>85%</b>的科友开放编辑。</p><p>当您通过努力达到以上要求，就可以参与编辑该词条了。</p><p><img src="https://bkssl.bdimg.com/img/baike/usercenter/growuptask/star.gif" class="star" />参加<a target="_blank" href="/usercenter#guide">成长任务</a>，更快掌握百科编辑技巧，加速升级！</p>'
+                    });
+                    break;
+                case 470001:
+                    alert('系统错误，请刷新重试');
+                    break;
+                case 110003:
+                    nsLog('10003103');
+                    Dialog.alert({
+                        title: '编辑提示',
+                        subMsg: '很抱歉，该词条有其他用户编辑的版本正在提交，您暂时无法编辑。<br/>百科建议您晚些时候再编辑该词条，或者尝试编辑其他的词条。'
+                    });
+                    break;
+            }
+        } else {
+            if (!res.data.right.noAudit) {
+                Dialog.alert({
+                    title: '编辑提示',
+                    subMsg: '很抱歉，该词条有其他用户编辑的版本正在提交，您暂时无法编辑。<br/>百科建议您晚些时候再编辑该词条，或者尝试编辑其他的词条。'
+                });
+                return;
+            }
+            gotoEdit(url, res.data.notice.isMidNight);
+        }
+    }
+
+    $(document.body).on('click', '.j-edit-link', function() {
+        nsLog('10003100');
+        var dl = $(this).attr('data-edit-dl');
+        if (dl) {
+            var url = editUrl + '?dl=' + dl;
+        } else {
+            var url = editUrl;
+        }
+
+        rightCheck.preeditCheck('1700215', '正则表达式', '正则表达式', '133273958', '', function(res) {
+            if (!checkUserLegal(res)) {
+                return;
+            }
+            if (isEnterprise && enterpriseOwnerUserId === userId) {
+                showChoseEditDialog(function() {
+                    location.href = pgcUrl;
+                }, function() {
+                    checkUgc(res, url);
+                });
+            } else {
+                checkUgc(res, url);
+            }
+        });
+    });
+}();
+!function(){  require.async(["wiki-common:widget/lib/jquery/jquery","wiki-common:widget/component/footer/footer_feedback"], function($, feedback){
+    feedback({el: '#J-bk-feedback-main'});
+    feedback({el: '#J-bk-feedback-query', config: {
+        appid: 215645,
+        productLine: 20184,
+        needContactWay: false,
+        issuePlaceholder: '亲爱的百度百科用户，请在此填写您的质疑内容及原因哦～'
+      },
+      proData: {
+        "kw": $('#J-bk-feedback-query').data('lemma')
+      }
+    });
+  });
+}();
+!function(){    var $ = require('wiki-common:widget/lib/jquery/jquery'),
+      initSearchbar = require('wiki-common:widget/component/searchbar-n/searchbar');  
+    initSearchbar($('.wgt-searchbar-simple'));
+  }();
+!function(){    require.async(["wiki-lemma:widget/tools/searchHeader/toolButtons-n/toolButtons"],function(init){
+        init({
+            lemmaId:"94238",
+            subLemmaId:"94238",
+            newLemmaId:"1700215"
+        });
+    });
+}();
+!function(){    require('wiki-lemma:widget/tools/searchHeader/toolButtons-n/userInfo')();
+}();
+!function(){    var $ = require('wiki-common:widget/lib/jquery/jquery'),
+      animation = require('wiki-common:widget/util/animation'),
+      nslog = require('wiki-common:widget/component/nslog/nslog'),
+      initSearchbar = require('wiki-common:widget/component/searchbar/searchbar');
+
+    var isFadeIn = false,
+        isFadeOut = false;
+
+    var fadeInAni, fadeOutAni;
+
+    $(window).on('scroll', function(e) {
+        var scrollTop = $(this).scrollTop();
+
+        if (scrollTop > 200 && !isFadeIn && $('.lemmaWgt-searchHeader').css('display') == 'none') {
+            fadeOutAni && fadeOutAni.stop();
+            fadeInAni = animation({
+                duration: 200,
+                easing: 'linear',
+                onStart: function() {
+                    isFadeOut = false;
+                    isFadeIn = true;
+                    $('.lemmaWgt-searchHeader').css('display', 'block');
+                },
+                onStep: function(progress) {
+                    $('.lemmaWgt-searchHeader').css('opacity', progress)
+                },
+                onComplete: function(progress) {
+                    isFadeIn = false;
+                    nslog(10010007);
+                }
+            });
+        } else if (scrollTop <= 200 && !isFadeOut && $('.lemmaWgt-searchHeader').css('display') == 'block') {
+            fadeInAni && fadeInAni.stop();
+            fadeOutAni = animation({
+                duration: 300,
+                easing: 'linear',
+                onStart: function() {
+                    $('.lemmaWgt-searchHeader #suggestion').hide();
+                    isFadeIn = false;
+                    isFadeOut = true;
+                },
+                onStep: function(progress) {
+                    $('.lemmaWgt-searchHeader').css('opacity', 1 - progress);
+                },
+                onComplete: function(progress) {
+                    isFadeOut = false;
+                    $('.lemmaWgt-searchHeader').css('display', 'none');
+                }
+            });
+        }
+    });
+}();
+!function(){    require('wiki-lemma:widget/tools/newSideShare/qzopensl');
+    require.async(["wiki-lemma:widget/tools/newSideShare/taskSideShare"],function(taskShare){
+        taskShare.init({
+            title: '正则表达式',
+            desc: "\u6b63\u5219\u8868\u8fbe\u5f0f\uff0c\u53c8\u79f0\u89c4\u5219\u8868\u8fbe\u5f0f\u3002\uff08\u82f1\u8bed\uff1aRegular Expression\uff0c\u5728\u4ee3\u7801\u4e2d\u5e38\u7b80\u5199\u4e3aregex\u3001regexp\u6216RE\uff09\uff0c\u8ba1\u7b97\u673a\u79d1\u5b66\u7684\u4e00\u4e2a\u6982\u5ff5\u3002\u6b63\u5219\u8868\u8fbe\u5f0f\u901a\u5e38\u88ab\u7528\u6765\u68c0\u7d22\u3001\u66ff\u6362\u90a3\u4e9b\u7b26\u5408\u67d0\u4e2a\u6a21\u5f0f(\u89c4\u5219)\u7684\u6587\u672c\u3002\u8bb8\u591a\u7a0b\u5e8f\u8bbe\u8ba1\u8bed\u8a00\u90fd\u652f\u6301\u5229\u7528\u6b63\u5219\u8868\u8fbe\u5f0f\u8fdb\u884c\u5b57\u7b26\u4e32\u64cd\u4f5c\u3002\u4f8b\u5982\uff0c\u5728Perl\u4e2d\u5c31\u5185\u5efa\u4e86\u4e00\u4e2a\u529f\u80fd\u5f3a\u5927\u7684\u6b63\u5219\u8868\u8fbe\u5f0f\u5f15\u64ce\u3002\u6b63\u5219\u8868\u8fbe\u5f0f\u8fd9\u4e2a\u6982\u5ff5\u6700\u521d\u662f\u7531Unix\u4e2d\u7684\u5de5\u5177\u8f6f\u4ef6\uff08\u4f8b\u5982sed\u548cgrep\uff09\u666e\u53ca\u5f00\u7684\u3002\u6b63\u5219\u8868\u8fbe\u5f0f\u901a\u5e38\u7f29\u5199\u6210\u201cregex\u201d\uff0c\u5355\u6570\u6709regexp\u3001regex\uff0c\u590d\u6570\u6709regexps\u3001regexes\u3001regexen\u3002",
+            pic: 'https:\/\/gss3.bdstatic.com\/7Po3dSag_xI4khGkpoWK1HF6hhy\/baike\/w%3D268\/sign=615c7a72d2160924dc25a51dec06359b\/42a98226cffc1e175d2391154890f603738de972.jpg',
+            url: '',
+            qqPic: 'https:\/\/gss3.bdstatic.com\/7Po3dSag_xI4khGkpoWK1HF6hhy\/baike\/whfpf%3D453%2C453%2C50\/sign=3c593258530fd9f9a04206294310e01f\/42a98226cffc1e175d2391154890f603738de972.jpg',
+            newLemmaId: '1700215',
+            lemmaTitle: '正则表达式'
+        });
+    });
+}();
+!function(){    var $ = require('wiki-common:widget/lib/jquery/jquery');
+    var nslog = require("wiki-common:widget/component/nslog/nslog");
+    var testElem = require('wiki-common:widget/component/testElem/testElem');
+    var cmsModuleLoader = require('wiki-common:widget/component/cmsModuleLoader/cmsModuleLoader');
+
+    function requireAsync() {
+        require.async(['wiki-lemma:widget/tools/announcement/announcement']);
+    }
+
+    cmsModuleLoader('/api/wikiui/getlemmaconfig', [{
+        name: 'announcement',
+        script: 'wiki-lemma:widget/tools/announcement/announcement.js'
+    }]);
+
+    require.async(["wiki-lemma:widget/tools/lazyLoad/lazyLoad"], function(LazyLoad) {
+        new LazyLoad();
+    });
+
+    require.async(['wiki-common:widget/component/nslog/nslog','wiki-common:widget/lib/jquery/jquery'], function(nslog, $) {
+        nslog().setGlobal({
+            lemmaId: "94238",
+            newLemmaId: "1700215",
+            subLemmaId: "94238",
+            lemmaTitle: "正则表达式"
+        });
+
+        // 词条页 pv
+        nslog(9322);
+
+        // 新版头部pv（小流量）
+        if ($('.pc-header-new').length > 0) {
+            nslog(9069);
+        }
+
+        // 链接点击 pv
+        var lemmaPageRegExp = new RegExp(/\/subview\/\d+|\/view\/\d+|\/item\//i);
+        $('body').on('mousedown', 'a', function() {
+            var href = $(this).attr('href');
+            if (href && href.indexOf('/') >= 0 && href.indexOf('#') !== 0) {
+                // 链接点击 pv
+                nslog(10000001);
+                if (lemmaPageRegExp.test(href)) {
+                    // 词条页链接点击 pv
+                    nslog(10000002, window.location.href, {
+                        targetTitle: $(this).text()
+                    });
+                }
+            }
+        });
+
+        /****** 词条页站内流转需求统计 start ******/
+        (function () {
+            // 各种统计配置
+            var circulationLinkCfg = {
+                innerLink: [ // 内链
+                    '.para',
+                    '.lemmaWgt-baseInfo-simple-largeMovie',
+                    '.lemmaWgt-baseInfo-simple-largeStar',
+                    '.basic-info .basicInfo-block',
+                    '.lemma-summary',
+                    '.lemmaWgt-lemmaSummary',
+                    '.view-tip-panel',
+                    '.horizontal-module',
+                    '.lemmaWgt-roleIntroduction',
+                    '.dramaSeries .dramaSerialList',
+                    '.module-music',
+                    '.table-view',
+                    '[log-set-param="table_view"]',
+                    '.list-module',
+                    '.cell-module',
+                    '.baseBox .dl-baseinfo', // 配置后台字段
+                    '.pvBtn-box .leadPVBtnWrapper',
+                    '.drama-actor',
+                    '#staffList',
+                    '.starMovieAndTvplay',
+                    '.main_tab:not(.main_tab-defaultTab)' // 除去词条tab外的tab
+                ],
+                relationTable: '.rs-container-foot', // 关系表
+                peopleRelation: '.star-info-block.relations, .lemmaWgt-focusAndRelation', // 人物关系（明星+普通）
+                moduleActors: '.featureBaseInfo .actors, .lemmaWgt-majorActors', // 主要演员、嘉宾、主持人
+                moduleWorks: '.featureBaseInfo .works, .large-feature .works', // 代表作品
+                moduleQuarterly: '.featureBaseInfo .po_quarterly, .mian_quarterly', // 分季介绍
+                rankStar: '.rank-list.stars-rank', // 明星榜
+                rankDrama: '.drama-rank-list', // 电视剧榜
+                specialTopic: '.special-topic', // 专题模块
+                modDetailTable: '#modDetailTable', // 关系表出图
+                chuizhitu: '.chuizhitu', // 垂直化模块
+                polysemantList: '.polysemantList-wrapper' // 义项切换
+            };
+            /****** 连接统计 ******/
+            function clickNslogFn() {
+                for (var k in circulationLinkCfg) {
+                    if (k === 'innerLink') {
+                        // 词条内链到词条页
+                        var tempArr = circulationLinkCfg[k];
+                        for (var i = 0, l = tempArr.length; i < l; i++) {
+                            tempArr[i] += ' a';
+                        }
+                        var sSelector = tempArr.join(', ');
+
+                        $('body').on('mousedown', sSelector, {key: k},function(e) {
+                            var key = e.data.key;
+                            var href = $(this).attr('href');
+                            var tar = $(this).attr('target') || '';
+                            if (href && href.indexOf('/') >= 0 && href.indexOf('#') !== 0
+                            && tar === '_blank' && lemmaPageRegExp.test(href)) {
+                                // 词条页普通内链点击 pv
+                                nslog(10000004, null ,{division: key});
+                            }
+                        });
+                    } else {
+                        // 模块到词条页链接
+                        $(circulationLinkCfg[k]).on('mousedown', 'a', {key: k}, function (e) {
+                            var key = e.data.key;
+                            var href = $(this).attr('href');
+                            if (href && href.indexOf('#') !== 0 && lemmaPageRegExp.test(href)) {
+                                // 词条页配置模块链接点击 pv
+                                nslog(10000004, null, {division: key});
+                            }
+                        });
+                    }
+                }
+            }
+            // 发起统计请求
+            clickNslogFn();
+
+            /****** 各模块展现量pv ******/
+            function checkModuleIsShow() {
+                var result = [];
+                for (var k in circulationLinkCfg) {
+                    if (k !== 'innerLink' && k !== 'relationTable') {
+                        !!$(circulationLinkCfg[k]).html() && result.push(k);
+                    }
+                }
+                if (result.length > 0) {
+                    nslog(10000005, null, {showModules: result.join(',')});
+                }
+            }
+            checkModuleIsShow();
+
+        })();
+        /****** 词条页站内流转需求统计 end ******/
+
+    });
+
+    // 广告接入 wikiad 统一加载
+    // log 词条页广告被拦截情况（此处 log 请求行为）
+    nslog(70000101, window.location.href, {
+        api: 'lemma-ad',
+        action: 'request'
+    });
+    var tags = [{"tagId":0,"tagName":"\u79d1\u5b66"},{"tagId":0,"tagName":"\u5b66\u79d1"}];
+    var tagsArray = [];
+    for (var key in tags) {
+        tagsArray.push(tags[key].tagName);
+    }
+    $.ajax({
+        type: 'GET',
+        url: '/api/wikiad/getsquirrels',
+        data: {
+            lemmaId: 1700215,
+            tags: tagsArray.join()
+        },
+        cache: false,
+        dataType: 'JSON',
+        success: function (res) {
+            // log 词条页广告被拦截情况（此处 log 请求成功）
+            nslog(70000101, window.location.href, {
+                api: 'lemma-ad',
+                action: 'success'
+            });
+
+            if (!res.errno) {
+                if (res.data[5]) {
+                    require.async(['wiki-lemma:widget/promotion/rightPreciseAd/rightPreciseAd'], function(rightPreciseAd) {
+                        rightPreciseAd(res.data[5]);
+                        nslog(10002201, location.href, {
+                            adId: res.data[5][0].adId,
+                            adTitle: res.data[5][0].name,
+                            adPos: 5
+                        });
+                    });
+                } else if (res.data[1]) {
+                                        require.async(['wiki-lemma:widget/promotion/vbaike/vbaike'], function(vbaike) {
+                        vbaike(res.data[1]);
+                        for(var i in res.data[1]) {
+                            nslog(10002201, location.href, {
+                                adId: res.data[1][i].adId,
+                                adTitle: res.data[1][i].name,
+                                adPos: 1
+                            });
+                        }
+                    });
+                                    }
+                if (res.data[9]) {
+                                        require.async(['wiki-lemma:widget/promotion/rightBigAd/rightBigAd'], function(rightBigAd) {
+                        rightBigAd(res.data[9]);
+                            nslog(10002201, location.href, {
+                                adId: res.data[9][0].adId,
+                                adTitle: res.data[9][0].name,
+                                adPos: 9
+                            });
+                    });
+                                    } else if(res.data[2]) {
+                    require.async(['wiki-lemma:widget/promotion/slide/slide'], function(slide) {
+                        slide(res.data[2]);
+                        for(var i in res.data[2]) {
+                            nslog(10002201, location.href, {
+                                adId: res.data[2][i].adId,
+                                adTitle: res.data[2][i].name,
+                                adPos: 2
+                            });
+                        }
+                    });
+                }
+                if (res.data[3]) {
+                                        require.async(['wiki-lemma:widget/promotion/topAd/topAd'], function(topAd) {
+                        topAd(res.data[3]);
+                        nslog(10002201, location.href, {
+                            adId: res.data[3][0].adId,
+                            adTitle: res.data[3][0].name,
+                            adPos: 3
+                        });
+                    });
+                                    }
+                if (res.data[4]) {
+                                        require.async(['wiki-lemma:widget/promotion/rightAd/rightAd'], function(rightAd) {
+                        rightAd(res.data[4]);
+                        nslog(10002201, location.href, {
+                            adId: res.data[4][0].adId,
+                            adTitle: res.data[4][0].name,
+                            adPos: 4
+                        });
+                    });
+                                    }
+                if (res.data[15]) {
+                    require.async(['wiki-lemma:widget/promotion/banner/banner'], function(banner) {
+                        banner(res.data[15]);
+                        nslog(10002201, location.href, {
+                            adId: res.data[15][0].adId,
+                            adTitle: res.data[15][0].name,
+                            adPos: 15
+                        });
+                    });
+                }
+                if (res.data[16]) {
+                    require.async(['wiki-lemma:widget/promotion/declaration/declaration'], function(declaration) {
+                        declaration(res.data[16]);
+                        nslog(10002201, location.href, {
+                            adId: res.data[16][0].adId,
+                            adTitle: res.data[16][0].name,
+                            adPos: 16
+                        });
+                    })
+                }
+            } else {
+                return;
+            }
+
+            setTimeout(function () {
+                var elemArr = {};
+                res.data[1] && res.data[1].length > 0 && (elemArr['lemma-vbaike-ad'] = $('.lemmaWgt-promotion-vbaike .promotion_viewport a:eq(0) img').get(0));
+                res.data[2] && res.data[2].length > 0 && (elemArr['lemma-slide-ad'] = $('.lemmaWgt-promotion-slide .promotion_viewport a:eq(0) img').get(0));
+                res.data[3] && res.data[3].length > 0 && (elemArr['lemma-navbar-ad'] = {
+                    node: $('.header [nslog-type="10002202"]').get(0),
+                    validations: {
+                        'noBackgroundImage': function() {
+                            return $('.header [nslog-type="10002202"]').css('background-image').indexOf(res.data[3][0].picUrl) < 0
+                        }
+                    }
+                });
+                res.data[4] && res.data[4].length > 0 && (elemArr['lemma-side-ad'] = {
+                    node: $('.right-ad img').get(0),
+                    validations: {
+                        'noBackgroundImage': function() {
+                            return $('.right-ad img').attr('src').indexOf(res.data[4][0].picUrl) < 0
+                        }
+                    }
+                });
+                res.data[15] && res.data[15].length > 0 && (elemArr['lemma-configModule-banner'] = $('.configModuleBanner').get(0));
+                res.data[16] && res.data[16].length > 0 && (elemArr['lemma-configModule-declaration'] = $('.lemmaWgt-declaration').get(0));
+
+                testElem.log(elemArr, 70000102);
+            }, 1000);
+        },
+        error: function () {
+            // log 词条页广告被拦截情况（此处 log 请求失败）
+            nslog(70000101, window.location.href, {
+                api: 'lemma-ad',
+                action: 'error'
+            });
+        }
+    });
+
+    // 设置分享内容
+    window.BKShare.setCommon({
+        bdText: "\u3010\u6b63\u5219\u8868\u8fbe\u5f0f_\u767e\u5ea6\u767e\u79d1\u3011\u6b63\u5219\u8868\u8fbe\u5f0f\uff0c\u53c8\u79f0\u89c4\u5219\u8868\u8fbe\u5f0f\u3002\uff08\u82f1\u8bed\uff1aRegular Expression\uff0c\u5728\u4ee3\u7801\u4e2d\u5e38\u7b80\u5199\u4e3aregex\u3001regexp\u6216RE\uff09\uff0c\u8ba1\u7b97\u673a\u79d1\u5b66\u7684\u4e00\u4e2a\u6982\u5ff5\u3002\u6b63\u5219\u8868\u8fbe\u5f0f\u901a\u5e38\u88ab\u7528\u6765\u68c0\u7d22\u3001\u66ff\u6362\u90a3\u4e9b\u7b26\u5408\u67d0\u4e2a\u6a21\u5f0f(\u89c4\u5219)\u7684\u6587\u672c\u3002\u8bb8\u591a\u7a0b\u5e8f\u8bbe\u8ba1\u8bed\u8a00\u90fd\u652f\u6301\u5229\u7528\u6b63\u5219\u8868\u8fbe\u5f0f\u8fdb\u884c\u5b57\u7b26\u4e32\u64cd\u4f5c\u3002\u4f8b\u5982\uff0c\u5728Perl\u4e2d\u5c31\u5185\u5efa\u4e86\u4e00\u4e2a\u529f\u80fd\u5f3a\u5927\u7684\u6b63\u5219\u8868\u8fbe\u5f0f\u5f15\u64ce\u3002\u6b63\u5219\u8868\u8fbe\u5f0f\u8fd9\u4e2a\u6982\u5ff5\u6700\u521d\u662f\u7531Unix\u4e2d\u7684\u5de5\u5177\u8f6f\u4ef6\uff08\u4f8b\u5982sed\u548cgrep\uff09\u666e\u53ca\u5f00\u7684\u3002\u6b63\u5219\u8868\u8fbe\u5f0f\u901a\u5e38\u7f29\u5199\u6210\u201cregex\u201d\uff0c\u5355\u6570\u6709regexp\u3001regex\uff0c\u590d\u6570\u6709regexps\u3001regexes\u3001regexen\u3002.....\uff08\u5206\u4eab\u81ea@\u767e\u5ea6\u767e\u79d1\uff09",
+        bdDesc: '',
+        bdUrl: 'http:\/\/baike.baidu.com\/item\/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F\/1700215',
+        bdPic: '',
+        onBeforeClick: function (){
+            $('.bdshare_dialog_box').hide();
+        }
+    });
+
+    // 底部投诉带入当前页面 url
+    var map = [1, 2, 6, 5];
+    $('.wgt-footer-main .suggestion').find('a').each(function(i) {
+        $(this).attr('href', 'http://help.baidu.com/newadd?word=%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F' + '&&submit_link=' + encodeURIComponent(window.location.href) + '&prod_id=10&category=' + map[i]);
+    });
+
+    // 为超出预设内容的表格添加table-responsive控制
+    $('.main-content').find('table').each(function(index) {
+        var $that = $(this);
+        if ($that.width() > 790) {
+            $that.wrap('<div class="table-responsive"></div>');
+        }
+    });
+}();
+!function(){      require('wiki-common:widget/component/psLink/psLink');
+    }();</script>
+<script type="text/javascript">
+  var Hunter = window.Hunter || {};
+  Hunter.userConfig = Hunter.userConfig || [];
+  </script>
+<script type="text/javascript" src="https://gss0.baidu.com/70cFsjip0QIZ8tyhnq/hunter/baike.js?st=17799" defer></script><script type="text/javascript">
+  // DOM Ready时，统计用户可操作时间。
+  alog('speed.set', 'drt', +new Date);
+
+  void function(a,b,c,d,e,f){function g(b){a.attachEvent?a.attachEvent("onload",b,!1):a.addEventListener&&a.addEventListener("load",b)}function h(a,c,d){d=d||15;var e=new Date;e.setTime((new Date).getTime()+1e3*d),b.cookie=a+"="+escape(c)+";path=/;expires="+e.toGMTString()}function i(a){var c=b.cookie.match(new RegExp("(^| )"+a+"=([^;]*)(;|$)"));return null!=c?unescape(c[2]):null}function j(){var a=i("PMS_JT");if(a){h("PMS_JT","",-1);try{a=a.match(/{["']s["']:(\d+),["']r["']:["']([\s\S]+)["']}/),a=a&&a[1]&&a[2]?{s:parseInt(a[1]),r:a[2]}:{}}catch(c){a={}}a.r&&b.referrer.replace(/#.*/,"")!=a.r||alog("speed.set","wt",a.s)}}if(a.alogObjectConfig){var k=a.alogObjectConfig.sample,l=a.alogObjectConfig.rand;d="https:"===a.location.protocol?"https://fex.bdstatic.com"+d:"http://fex.bdstatic.com"+d,k&&l&&l>k||(g(function(){alog("speed.set","lt",+new Date),e=b.createElement(c),e.async=!0,e.src=d+"?v="+~(new Date/864e5)+~(new Date/864e5),f=b.getElementsByTagName(c)[0],f.parentNode.insertBefore(e,f)}),j())}}(window,document,"script","/hunter/alog/dp.min.js");
+</script>
+</html>

@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <link rel="canonical" href="https://blog.csdn.net/m0_38110132/article/details/74978322"/> 
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="referrer" content="always">
+    <meta name="description" content="1.Vector简介及特点
+
+1、Vector是内部是以动态数组的形式来存储数据的。
+2、Vector具有数组所具有的特性、通过索引支持随机访问、所以通过随机访问Vector中的元素效率非常高、但是执行插入、删除时效率比较地下、具体原因后面有分析。
+3、Vector实现了AbstractList抽象类、List接口、所以其更具有了AbstractList和List的功能、前面我们知道Abs" />
+    <meta name="keywords" content="" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848">
+    <script src="https://csdnimg.cn/release/phoenix/vendor/tingyun/tingyun-rum-blog.js"></script>
+
+    <link href="https://csdnimg.cn/public/favicon.ico" rel="SHORTCUT ICON">
+    <title>Vector,ArrayList,LinkedList的特点和区别 - CSDN博客</title>
+    
+            <link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/template/css/detail-850e001537.min.css">
+        <link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/themes/skin3-template/skin3-template-8195ccbe2d.min.css">
+
+    <script type="text/javascript">
+        var username = "m0_38110132";
+        var blog_address = "https://blog.csdn.net/m0_38110132";
+        var static_host = "https://csdnimg.cn/release/phoenix/";
+        var currentUserName = ""; 
+        var isShowAds = true;
+        var isOwner = false;
+        var loginUrl = "https://passport.csdn.net/account/login?from=https://blog.csdn.net/m0_38110132/article/details/74978322"
+        var blogUrl = "https://blog.csdn.net/";
+        //页面皮肤样式
+        var curSkin = "skin3-template";
+    </script>
+    <script type="text/javascript">
+        // Traffic Stats of the entire Web site By baidu
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?6bcd52f51e9b3dce32bec4a3997715ac";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+        // Traffic Stats of the entire Web site By baidu end
+    </script>
+    <script src="https://csdnimg.cn/public/common/libs/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script src="https://csdnimg.cn/rabbit/exposure-click/main-1.0.6.js"></script>
+    <!-- 新版上报 -->
+    <script src="//g.csdnimg.cn/track/1.0.1/track.js" type="text/javascript"></script>
+    <!-- 新版上报end -->
+            <link rel="stylesheet" href="https://csdnimg.cn/public/sandalstrap/1.3/css/sandalstrap.min.css"> 
+    <style>
+        .MathJax, .MathJax_Message, .MathJax_Preview{
+            display: none
+        }
+    </style>
+</head>
+<body>    
+    <link rel="stylesheet" href="https://csdnimg.cn/public/common/toolbar/content_toolbar_css/content_toolbar.css">
+    <script id="toolbar-tpl-scriptId" src="https://csdnimg.cn/public/common/toolbar/js/content_toolbar.js" type="text/javascript" domain="https://blog.csdn.net/"></script>
+<link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/template/css/blog_code-c3a0c33d5c.css">
+<link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/vendor/pagination/paging.css">
+<script type="text/javascript" src="//static.mediav.com/js/mvf_news_feed.js"></script>
+<div style="display:none;">
+	<img src="" onerror='setTimeout(function(){if(!/(csdn.net|iteye.com|baiducontent.com|googleusercontent.com|360webcache.com|sogoucdn.com|bingj.com|baidu.com)$/.test(window.location.hostname)){window.location.href="\x68\x74\x74\x70\x73\x3a\x2f\x2f\x77\x77\x77\x2e\x63\x73\x64\x6e\x2e\x6e\x65\x74"}},3000);'>
+</div>
+<link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/template/css/chart-3456820cac.css" />
+
+
+
+<script src="https://dup.baidustatic.com/js/ds.js"></script>
+<div class="container clearfix" id="mainBox">
+		<!-- <div id="breadcrumbs">
+			<span><a href="https://blog.csdn.net/">博客首页</a></span>
+			<i>></i>
+			<span><a href="https://blog.csdn.net/m0_38110132">浮生一梦</a></span>
+			<i>></i>
+			<span>Vector,ArrayList,LinkedList的特点和区别</span>
+		</div> -->
+    <main>
+        <div class="blog-content-box">
+	<div class="article-header-box">
+		<div class="article-header">
+			<div class="article-title-box">
+				<span class="article-type type-1 float-left">原</span>				<h1 class="title-article">Vector,ArrayList,LinkedList的特点和区别</h1>
+			</div>
+			<div class="article-info-box">
+				<div class="article-bar-top d-flex">
+																				<span class="time">2017年07月11日 15:37:00</span>
+					<div class="float-right">
+						<span class="read-count">阅读数：2350</span>
+																	</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	<article>
+		<div id="article_content" class="article_content clearfix csdn-tracking-statistics" data-pid="blog"  data-mod=popu_307  data-dsm = "post" >
+                    <link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/template/css/ck_htmledit_views-e2445db1a8.css" />
+						<div class="htmledit_views">
+                
+<h1 style="font-family:'Microsoft YaHei';border:0px;vertical-align:baseline;color:rgb(102,102,102);line-height:26px;background:transparent;">
+<span style="font-size:24px;">1.Vector简介及特点</span></h1>
+<p style="border:0px;vertical-align:baseline;line-height:26px;background:transparent;">
+<span style="font-family:'Microsoft YaHei';font-size:12px;">1、Vector是内部是以动态数组的形式来存储数据的。<br />
+2、Vector具有数组所具有的特性、通过索引支持随机访问、所以通过随机访问Vector中的元素效率非常高、但是执行插入、删除时效率比较地下、具体原因后面有分析。<br />
+3、Vector实现了AbstractList抽象类、List接口、所以其更具有了AbstractList和List的功能、前面我们知道AbstractList内部已经实现了获取Iterator和ListIterator的方法、所以Vector只需关心对数组操作的方法的实现、<br />
+4、Vector实现了RandomAccess接口、此接口只有声明、没有方法体、表示Vector支持随机访问。<br />
+5、Vector实现了Cloneable接口、此接口只有声明、没有方法体、表示Vector支持克隆。<br />
+6、Vector实现了Serializable接口、此接口只有声明、没有方法体、表示Vector支持序列化、即可以将Vector以流的形式通过ObjectOutputStream来写入到流中。<br />
+7、<strong>Vector是线程安全的</strong>。</span><br /></p>
+<h1 style="border:0px;vertical-align:baseline;line-height:26px;background:transparent;">
+<span style="font-family:'Microsoft YaHei';"><span style="font-size:24px;">2.ArrayList的特点</span></span></h1>
+<div><span style="font-family:'Microsoft YaHei';font-size:12px;">1、容量不固定，想放多少放多少（当然有最大阈值，但一般达不到）</span></div>
+<div><span style="font-family:'Microsoft YaHei';font-size:12px;">2、有序的（元素输出顺序与输入顺序一致）</span></div>
+<div><span style="font-family:'Microsoft YaHei';font-size:12px;">3、<span style="line-height:26px;"><strong>非线程安全</strong></span></span></div>
+<div><span style="font-family:'Microsoft YaHei';font-size:12px;">4、<span style="line-height:26px;">插入元素的时候可能扩容，删除元素时不会缩小容量，不使用索引的元素查找需要遍历数组，并使用equals比较。</span></span></div>
+<h2><span style="font-family:'Microsoft YaHei';"><span style="line-height:26px;"><span style="font-size:14px;">详解方法：</span></span></span></h2>
+<div>
+<h2><span style="font-family:'Microsoft YaHei';"><span style="line-height:26px;"><span style="font-size:14px;">增加：</span></span></span></h2>
+<span style="font-family:'Microsoft YaHei';"><span style="line-height:26px;">1、因为是数组实现，ArrayList的代价会大一些，而且会考虑是否需要扩容，首先在原有元素个数上加一为minCapacity,用这个值和Ooject数组大小进行比较（容量），如果这个值大，那么就需要扩容了，将数组的size*1.5+1，如果此时还是minCapacity的话，那么新容量就用minCapacity来表示，然后就是生成新的容量的数组，原来的元素赋值进去即可，如果想更改扩容策略，继承ArrayList，重写ensureCapacity方法即可。<br />
+2、add(E)把新添加的元素放到数组的末尾，只需要使用常数的时间。<br />
+3、add(int,E)在数组指定位置添加元素，首先确定数组这个位置是否存在和容量是否允许，然后将指定位置后面的所有元素全部向后面移动一个位置，最后才将元素插入进指定位置，使用O(n)的时间代价。<br /></span></span>
+<h2><span style="font-family:'Microsoft YaHei';"><span style="line-height:26px;"><span style="font-size:14px;">删除：</span></span></span></h2>
+<span style="font-family:'Microsoft YaHei';"><span style="line-height:26px;">删除分两种删除，删除对象和按位置删除。</span></span></div>
+<h3><span style="font-family:'Microsoft YaHei';"><span style="line-height:26px;">1. 删除对象（<span style="font-family:'Microsoft YaHei';line-height:26px;">空，和非空，但都需要遍历</span>）</span></span></h3>
+<div><span style="font-family:'Microsoft YaHei';"><span style="line-height:26px;"><span></span>1、如果删除的对象为空（null），首先遍历数组元素是否有为空，若有，将使用fastRemove方法删除，具体做法是，将此位置后面的元素全部向前移动一位，最后的那个留空，并可以gc回收了。<br /><span></span>2、如果不为空，使用equals方法进行比较，找到了相应的元素后，同样进行faseRemove方法进行删除。<br /></span></span>
+<h3><span style="font-family:'Microsoft YaHei';"><span style="line-height:26px;">2.按位置删除</span></span></h3>
+</div>
+<div><span style="font-family:'Microsoft YaHei';"><span style="line-height:26px;"><span></span>1.remove(int)删除指定位置的元素，这是数组的优势，大大提升了性能，仅仅只需要判断index是否越界，剩下的就是直接删除了，不需要遍历。但是该元素后的元素同样需要全部向前移动一位。<br /></span></span>
+<h2><span style="font-family:'Microsoft YaHei';"><span style="line-height:26px;"><span style="font-size:14px;">获取单个对象：</span></span></span></h2>
+<span style="font-family:'Microsoft YaHei';"><span style="line-height:26px;">get(int)，首先判断是否越界，然后就是直接返回元素了，这也是数组的优势。<br /></span></span>
+<h2><span style="font-family:'Microsoft YaHei';"><span style="line-height:26px;"><span style="font-size:14px;">遍历：</span></span></span></h2>
+<span style="font-family:'Microsoft YaHei';"><span style="line-height:26px;">常用的迭代器设计模式，iterator方法返回一个父类实现的迭代器。<br />
+1、迭代器的hasNext方法的作用是判断当前位置是否是数组最后一个位置，相等为false，否则为true。<br />
+2、迭代器next方法用于返回当前的元素，并把指针指向下一个元素，值得注意的是，每次使用next方法的时候，都会判断创建迭代器获取的这个容器的计数器modCount是否与此时的不相等，不相等说明集合的大小被修改过，如果是会抛出ConcurrentModificationException异常，如果相等调用get方法返回元素即可。<br />
+判断元素是否存在：<br />
+1、首先判断条件元素是否为空，是则遍历集合，有就返回true，否则false。<br />
+2、不为空，则使用equals方法，需要遍历集合。<br /></span></span></div>
+<div><span style="font-family:'Microsoft YaHei';"><span style="line-height:26px;"><strong>关于ArrayList源码详解，可参考<a href="http://blog.csdn.net/u011240877/article/details/52853989" rel="nofollow">ArrayList</a></strong></span></span></div>
+<div><br /></div>
+<h1><span style="font-family:'Microsoft YaHei';"><span style="line-height:26px;">3.LinkedList的特点</span></span></h1>
+<div><span style="font-family:'Microsoft YaHei';font-size:12px;"><span style="line-height:26px;">是一个双链表，在add和remove时比ArrayList性能好，但get和set时就特别慢了。<br />
+恶补下： <br />
+双向链表，链表的一种。每个数据结点中都有两个指针，分别指向直接前驱和直接后继。因此，我们可以方便的访问他的前驱结点和后继结点。<br /></span></span></div>
+<div>
+<h2><span style="font-family:'Microsoft YaHei';font-size:12px;"><span style="line-height:26px;">1、链表简介：</span></span></h2>
+<span style="font-family:'Microsoft YaHei';font-size:12px;"><span style="line-height:26px;">     链表是常用的一种数据结构、关于链表这里只给出简单介绍、只是基础的概念。<br />
+    1、概念：<br />
+           如果一个节点包含指向另一个节点的数据值，那么多个节点可以连接成一串，只通过一个变量访问整个节点序列，这样的节点序列称为链表（linked list）<br />
+    2、单向链表：<br />
+         如果每个节点仅包含其指向后继节点的引用，这样的链表称为单向链表。<br />
+   3、双向链表：<br />
+        每个链表节点，包含两个引用，一个指向前驱节点，一个指向后驱节点，也就是——双向链表。<br /></span></span>
+<h2><span style="font-family:'Microsoft YaHei';font-size:12px;"><span style="line-height:26px;">  2、LinkedList的特点：</span></span></h2>
+<span style="font-family:'Microsoft YaHei';font-size:12px;"><span style="line-height:26px;">       1、 LinkedList以链表的形式存储数据、对增删元素有很高的效率、查询效率较低、尤其是随机访问、效率不忍直视、<br />
+       2、 LinkedList继承AbstractSequentialdList（其继承与AbstractList、所以要求其子类要实现通过索引操作元素）、使得LinkedList支持使用索引的“增删改查”操作、<br />
+       3、LinkedList直接实现了List接口、使其可以内部存储元素有序并且为每个元素提供索引值、<br />
+       4、LinkedList直接实现了Deque接口、Deque接口继承了Queue、使其可以作为双向链表这种数据结构来使用、操作元素、<br />
+       5、LinkedList直接实现了Cloneable接口、使其可以复制其中的全部元素<br />
+       6、在使用ObjectOutputStream/ObjectInputStream流时、会先讲LinkedList的capacity读取/写入到流中、然后将元素一一读取/写入。</span></span></div>
+<div><span style="font-family:'Microsoft YaHei';font-size:12px;"><span style="line-height:26px;">关于LinkedList源码详解，可参考<a href="http://blog.csdn.net/u011240877/article/details/52876543" rel="nofollow">LinkedList</a></span></span></div>
+<div><span style="font-family:'Microsoft YaHei';font-size:12px;"><br /></span></div>
+            </div>
+                </div>
+				<div class="hide-article-box text-center">
+			<a class="btn btn-red-hollow" id="btn-readmore" data-track-view='{"mod":"popu_376","con":",https://blog.csdn.net/m0_38110132/article/details/74978322,"}' data-track-click='{"mod":"popu_376","con":",https://blog.csdn.net/m0_38110132/article/details/74978322,"}'>阅读更多</a>
+		</div>
+        	</article>
+	
+		<div class="article-bar-bottom">
+				<div class="article-copyright">
+			版权声明：分享技术，共同进步。欢迎转载，评论，吐槽~			https://blog.csdn.net/m0_38110132/article/details/74978322		</div>
+								<div class="tags-box">
+			<span class="label">个人分类：</span>
+						<a class="tag-link" href="https://blog.csdn.net/m0_38110132/article/category/7010627"  target="_blank">java核心技术						</a>
+		</div>
+								<div class="tags-box hot-word">
+			<span class="label">相关热词：</span>
+						<a class="tag-link" href="https://blog.csdn.net/duan19920101/article/details/50617190" target="_blank">
+			vector的			</a>
+						<a class="tag-link" href="https://blog.csdn.net/sangyongjia/article/details/51122965" target="_blank">
+			vector】			</a>
+						<a class="tag-link" href="https://blog.csdn.net/hancunai0017/article/details/7032383" target="_blank">
+			vector在			</a>
+						<a class="tag-link" href="https://blog.csdn.net/duan19920101/article/details/50617190" target="_blank">
+			vector＞			</a>
+						<a class="tag-link" href="https://blog.csdn.net/lx627776548/article/details/52648102" target="_blank">
+			vector和			</a>
+					</div>
+			</div>
+			<!-- !empty($pre_next_article[0]) -->
+						<div class="related-article related-article-prev text-truncate">
+			<a href="https://blog.csdn.net/m0_38110132/article/details/74781794">
+				<span>上一篇</span>java线程池原理分析及应用实例			</a>
+		</div>
+								<div class="related-article related-article-next text-truncate">
+			<a href="https://blog.csdn.net/m0_38110132/article/details/75013376">
+				<span>下一篇</span>java的类加载机制			</a>
+		</div>
+		</div>
+<script>
+    $(".MathJax").remove();
+</script>
+
+<!-- 博客详情页PC增加广告系统刷量代码 -->
+<div id="a52b5334d" style="width: 1px; height: 1px; display: none;">
+<script id="adJs52b5334"></script>
+<script>document.getElementById("adJs52b5334").src = "https://ads.csdn.net/js/opt/52b5334.js?t=" + Math.random();</script>
+</div>
+
+<script>
+	(function(){
+		var btnReadmore = $("#btn-readmore");
+		if(btnReadmore.length>0){
+			var winH = $(window).height();
+			var articleBox = $("div.article_content");
+			var artH = articleBox.height();
+			if(artH > winH*2){
+				articleBox.css({
+					'height':winH*2+'px',
+					'overflow':'hidden'
+				})
+				btnReadmore.click(function(){
+					articleBox.removeAttr("style");
+					$(this).parent().remove();
+				})
+			}else{
+				btnReadmore.parent().remove();
+			}
+		}
+	})()
+</script>
+        <div class="t0 clearfix">
+                                                <a href="https://blog.csdn.net/qq_40983603/article/details/78597680" target="_blank" data-track-view='{"mod":"popu_642","con": ",https://blog.csdn.net/qq_40983603/article/details/78597680,"}' data-track-click='{"mod":"popu_642","con": ",https://blog.csdn.net/qq_40983603/article/details/78597680,"}'>
+                                                    <div class="text-content">
+                                                        <h4>14. <em>ArrayList</em>、<em>LinkedList</em>、<em>Vector</em>的<em>区别</em>。</h4>
+                                                        <div class="description">在区分这3个实现类的区别之前，必须清楚的知道集合框架。
+集合框架从最高根接口开始分为两层：
+collection
+
+
+├List
+│├LinkedList
+│├ArrayList
+│└...</div>
+                                                    </div>
+                                                </a>
+                                            </div>        <a id="commentBox"></a>
+<div class="comment-box">
+	  	<div class="unlogin-box text-center">
+		想对作者说点什么？
+		<!-- $curl 当前地址 -->
+		<a href="https://passport.csdn.net/account/login?from=https://blog.csdn.net/m0_38110132/article/details/74978322#commentBox" class="btn btn-sm btn-red">我来说一句</a>
+	</div>
+			<div class="comment-list-container">
+		<a id="comments"></a>
+		<div class="comment-list-box">
+		</div>
+		<div id="commentPage" class="pagination-box d-none"></div>
+		<div class="opt-box text-center">
+			<button class="btn btn-sm btn-link-blue" id="btnMoreComment"></button>
+		</div>
+	</div>
+</div>        <div class="recommend-box">
+            		<div class="recommend-item-box type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/sinat_36246371/article/details/53709625,BlogCommendFromBaidu_1"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/sinat_36246371/article/details/53709625,BlogCommendFromBaidu_1"}'>
+		<div class="content">
+			<h4 class="text-truncate oneline">
+				<a href="https://blog.csdn.net/sinat_36246371/article/details/53709625" target="_blank" title="Java中的<em>LinkedList</em>的方法的应用">
+					Java中的<em>LinkedList</em>的方法的应用				</a>
+			</h4>
+			<div class="info-box d-flex align-content-center">
+				<p>
+					<a class="avatar" src="https://blog.csdn.net/sinat_36246371" target="_blank">
+						<img src="https://avatar.csdn.net/E/4/5/3_sinat_36246371.jpg" alt="sinat_36246371" class="avatar-pic">
+						<span class="namebox">
+							<span class="name">sinat_36246371</span>
+							<span class="triangle"></span>
+						</span>
+					</a>
+				</p>
+				<p class="date-and-readNum">
+					<span class="date hover-show">12-17</span>
+					<span class="read-num hover-hide">
+						<svg class="icon csdnc-yuedushu" aria-hidden="true">
+							<use xlink:href="#csdnc-yuedushu"></use>
+						</svg>
+						1.6万</span>
+					</p>
+				</div>
+				<p class="content oneline">
+					<a class="oneline" href="https://blog.csdn.net/sinat_36246371/article/details/53709625" target="_blank" >
+						LinkedList其实也就是我们在数据结构中的链表，这种数据结构有这样的特性：
+分配内存空间不是必须是连续的；
+插入、删除操作很快，只要修改前后指针就OK了，时间复杂度为O(1)；
+访问比较慢，必须...					</a>
+				</p>
+		</div>
+						<div class="img-box float-left">
+				<a href="https://blog.csdn.net/sinat_36246371/article/details/53709625">
+					<img src="https://csdnimg.cn/release/phoenix/article_rand_pic/lang/lang33.jpg" alt="">	
+				</a>
+			</div>
+			</div>
+					<div class="recommend-item-box type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/weixin_31351409/article/details/80480963,BlogCommendFromBaidu_2"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/weixin_31351409/article/details/80480963,BlogCommendFromBaidu_2"}'>
+		<div class="content">
+			<h4 class="text-truncate oneline">
+				<a href="https://blog.csdn.net/weixin_31351409/article/details/80480963" target="_blank" title="<em>Vector</em>、<em>ArrayList</em>和<em>LinkedList</em>有何<em>区别</em>？">
+					<em>Vector</em>、<em>ArrayList</em>和<em>LinkedList</em>有何<em>区别</em>？				</a>
+			</h4>
+			<div class="info-box d-flex align-content-center">
+				<p>
+					<a class="avatar" src="https://blog.csdn.net/weixin_31351409" target="_blank">
+						<img src="https://avatar.csdn.net/3/8/B/3_weixin_31351409.jpg" alt="weixin_31351409" class="avatar-pic">
+						<span class="namebox">
+							<span class="name">weixin_31351409</span>
+							<span class="triangle"></span>
+						</span>
+					</a>
+				</p>
+				<p class="date-and-readNum">
+					<span class="date hover-show">05-28</span>
+					<span class="read-num hover-hide">
+						<svg class="icon csdnc-yuedushu" aria-hidden="true">
+							<use xlink:href="#csdnc-yuedushu"></use>
+						</svg>
+						22</span>
+					</p>
+				</div>
+				<p class="content oneline">
+					<a class="oneline" href="https://blog.csdn.net/weixin_31351409/article/details/80480963" target="_blank" >
+						三者都是实现集合框架中的List，也就是所谓有序集合，因此具体功能比较近似，比如都提供按照位置进行定位、添加或删除的操作，都提供迭代器以遍历其内容等。但因具体的设计区别，在性能、线程安全等方面，表现有...					</a>
+				</p>
+		</div>
+						<div class="img-box float-left">
+				<a href="https://blog.csdn.net/weixin_31351409/article/details/80480963">
+					<img src="https://csdnimg.cn/release/phoenix/article_rand_pic/lang/lang40.jpg" alt="">	
+				</a>
+			</div>
+			</div>
+														<div class="recommend-item-box recommend-ad-box">
+						<script type="text/javascript" src="//cee1.iteye.com/pkcgstjjm.js"></script>
+					</div>
+							
+				<div class="recommend-item-box type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/kuangsonghan/article/details/79861170,BlogCommendFromBaidu_3"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/kuangsonghan/article/details/79861170,BlogCommendFromBaidu_3"}'>
+		<div class="content">
+			<h4 class="text-truncate oneline">
+				<a href="https://blog.csdn.net/kuangsonghan/article/details/79861170" target="_blank" title="<em>ArrayList</em>、<em>LinkedList</em>、<em>Vector</em>的<em>区别</em>和实现原理">
+					<em>ArrayList</em>、<em>LinkedList</em>、<em>Vector</em>的<em>区别</em>和实现原理				</a>
+			</h4>
+			<div class="info-box d-flex align-content-center">
+				<p>
+					<a class="avatar" src="https://blog.csdn.net/kuangsonghan" target="_blank">
+						<img src="https://avatar.csdn.net/2/4/E/3_kuangsonghan.jpg" alt="kuangsonghan" class="avatar-pic">
+						<span class="namebox">
+							<span class="name">kuangsonghan</span>
+							<span class="triangle"></span>
+						</span>
+					</a>
+				</p>
+				<p class="date-and-readNum">
+					<span class="date hover-show">04-09</span>
+					<span class="read-num hover-hide">
+						<svg class="icon csdnc-yuedushu" aria-hidden="true">
+							<use xlink:href="#csdnc-yuedushu"></use>
+						</svg>
+						366</span>
+					</p>
+				</div>
+				<p class="content oneline">
+					<a class="oneline" href="https://blog.csdn.net/kuangsonghan/article/details/79861170" target="_blank" >
+						ArrayList、LinkedList、Vector是集合中经常拿来比较和面试的一个问题，我这里简要概括一下他们的区别和实现原理。存储结构ArrayList和Vector是按照顺序将元素存储（从下表...					</a>
+				</p>
+		</div>
+						<div class="img-box float-left">
+				<a href="https://blog.csdn.net/kuangsonghan/article/details/79861170">
+					<img src="https://csdnimg.cn/release/phoenix/article_rand_pic/lang/lang1.jpg" alt="">	
+				</a>
+			</div>
+			</div>
+					<div class="recommend-item-box type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/Li_lingxiao/article/details/78299550,BlogCommendFromBaidu_4"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/Li_lingxiao/article/details/78299550,BlogCommendFromBaidu_4"}'>
+		<div class="content">
+			<h4 class="text-truncate oneline">
+				<a href="https://blog.csdn.net/Li_lingxiao/article/details/78299550" target="_blank" title="<em>区别</em>   <em>ArrayList</em>   <em>LinkedList</em>  <em>Vector</em>">
+					<em>区别</em>   <em>ArrayList</em>   <em>LinkedList</em>  <em>Vector</em>				</a>
+			</h4>
+			<div class="info-box d-flex align-content-center">
+				<p>
+					<a class="avatar" src="https://blog.csdn.net/Li_lingxiao" target="_blank">
+						<img src="https://avatar.csdn.net/3/5/B/3_li_lingxiao.jpg" alt="Li_lingxiao" class="avatar-pic">
+						<span class="namebox">
+							<span class="name">Li_lingxiao</span>
+							<span class="triangle"></span>
+						</span>
+					</a>
+				</p>
+				<p class="date-and-readNum">
+					<span class="date hover-show">10-20</span>
+					<span class="read-num hover-hide">
+						<svg class="icon csdnc-yuedushu" aria-hidden="true">
+							<use xlink:href="#csdnc-yuedushu"></use>
+						</svg>
+						1464</span>
+					</p>
+				</div>
+				<p class="content oneline">
+					<a class="oneline" href="https://blog.csdn.net/Li_lingxiao/article/details/78299550" target="_blank" >
+						ArrayList      LinkedList     Vector   区别
+1.这三个类都实现了List接口（List接口继承了Collection接口），但是也有以下区别
+
+
+ArrayLi...					</a>
+				</p>
+		</div>
+						<div class="img-box float-left">
+				<a href="https://blog.csdn.net/Li_lingxiao/article/details/78299550">
+					<img src="https://csdnimg.cn/release/phoenix/article_rand_pic/lang/lang22.jpg" alt="">	
+				</a>
+			</div>
+			</div>
+					<div class="recommend-item-box type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/sunhuaqiang1/article/details/52760308,BlogCommendFromGuangxin_5"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/sunhuaqiang1/article/details/52760308,BlogCommendFromGuangxin_5"}'>
+		<div class="content">
+			<h4 class="text-truncate oneline">
+				<a href="https://blog.csdn.net/sunhuaqiang1/article/details/52760308" target="_blank" title="Java进阶(四十六)简述<em>ArrayList</em>、<em>Vector</em>与<em>LinkedList</em>的异同点">
+					Java进阶(四十六)简述<em>ArrayList</em>、<em>Vector</em>与<em>LinkedList</em>的异同点				</a>
+			</h4>
+			<div class="info-box d-flex align-content-center">
+				<p>
+					<a class="avatar" src="https://blog.csdn.net/sunhuaqiang1" target="_blank">
+						<img src="https://avatar.csdn.net/C/A/C/3_sunhuaqiang1.jpg" alt="sunhuaqiang1" class="avatar-pic">
+						<span class="namebox">
+							<span class="name">sunhuaqiang1</span>
+							<span class="triangle"></span>
+						</span>
+					</a>
+				</p>
+				<p class="date-and-readNum">
+					<span class="date hover-show">10-08</span>
+					<span class="read-num hover-hide">
+						<svg class="icon csdnc-yuedushu" aria-hidden="true">
+							<use xlink:href="#csdnc-yuedushu"></use>
+						</svg>
+						4.5万</span>
+					</p>
+				</div>
+				<p class="content oneline">
+					<a class="oneline" href="https://blog.csdn.net/sunhuaqiang1/article/details/52760308" target="_blank" >
+						简述ArrayList、Vector与LinkedList的异同点  Collection类的继承图如下: 
+  从图中可以看出,LinkedList与ArrayList、ArrayDeque这三者都...					</a>
+				</p>
+		</div>
+						<div class="img-box float-left">
+				<a href="https://blog.csdn.net/sunhuaqiang1/article/details/52760308">
+					<img src="https://csdnimg.cn/release/phoenix/article_rand_pic/lang/lang31.jpg" alt="">	
+				</a>
+			</div>
+			</div>
+					<div class="recommend-item-box type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/a19881029/article/details/45533733,BlogCommendFromGuangxin_6"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/a19881029/article/details/45533733,BlogCommendFromGuangxin_6"}'>
+		<div class="content">
+			<h4 class="text-truncate oneline">
+				<a href="https://blog.csdn.net/a19881029/article/details/45533733" target="_blank" title="<em>ArrayList</em>，<em>LinkedList</em>，<em>Vector</em>，Stack之间的<em>区别</em>">
+					<em>ArrayList</em>，<em>LinkedList</em>，<em>Vector</em>，Stack之间的<em>区别</em>				</a>
+			</h4>
+			<div class="info-box d-flex align-content-center">
+				<p>
+					<a class="avatar" src="https://blog.csdn.net/a19881029" target="_blank">
+						<img src="https://avatar.csdn.net/3/4/7/3_a19881029.jpg" alt="a19881029" class="avatar-pic">
+						<span class="namebox">
+							<span class="name">a19881029</span>
+							<span class="triangle"></span>
+						</span>
+					</a>
+				</p>
+				<p class="date-and-readNum">
+					<span class="date hover-show">05-06</span>
+					<span class="read-num hover-hide">
+						<svg class="icon csdnc-yuedushu" aria-hidden="true">
+							<use xlink:href="#csdnc-yuedushu"></use>
+						</svg>
+						7852</span>
+					</p>
+				</div>
+				<p class="content oneline">
+					<a class="oneline" href="https://blog.csdn.net/a19881029/article/details/45533733" target="_blank" >
+						从多个方面讨论它们之间的区别：
+1，线程安全性 2，实现方式 3，容量扩展方面 4，效率方面...					</a>
+				</p>
+		</div>
+				</div>
+								<div class="recommend-item-box recommend-ad-box" id="a_d_feed_0"></div>
+			<script>
+				var width = $("div.recommend-box").outerWidth() - 48;
+				NEWS_FEED({
+					w: width,
+					h: 60,
+					showid: 'Afihld',
+					placeholderId: 'a_d_feed_0',
+					inject: 'define',
+					define: {
+						imagePosition: 'left',
+						imageBorderRadius: 0,
+						imageWidth: 90,
+						imageHeight: 60,
+						imageFill: 'clip',
+						displayImage: true,
+						displayTitle: true,
+						titleFontSize: 20,
+						titleFontColor: '#333',
+						titleFontFamily: 'Microsoft Yahei',
+						titleFontWeight: 'bold',
+						titlePaddingTop: 0,
+						titlePaddingRight: 0,
+						titlePaddingBottom: 10,
+						titlePaddingLeft: 8,
+						displayDesc: true,
+						descFontSize: 14,
+						descPaddingLeft: 14,
+						descFontColor: '#6b6b6b',
+						descFontFamily: 'Microsoft Yahei',
+						paddingTop: 0,
+						paddingRight: 0,
+						paddingBottom: 0,
+						paddingLeft: 0,
+						backgroundColor: '#fff',
+						hoverColor: '#ca0c16'
+					}
+				})
+			</script>
+					<div class="recommend-item-box type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/QH_JAVA/article/details/46391159,BlogCommendFromGuangxin_7"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/QH_JAVA/article/details/46391159,BlogCommendFromGuangxin_7"}'>
+		<div class="content">
+			<h4 class="text-truncate oneline">
+				<a href="https://blog.csdn.net/QH_JAVA/article/details/46391159" target="_blank" title="List接口实现类－<em>ArrayList</em>、<em>Vector</em>、<em>LinkedList</em>集合深入学习以及源码解析">
+					List接口实现类－<em>ArrayList</em>、<em>Vector</em>、<em>LinkedList</em>集合深入学习以及源码解析				</a>
+			</h4>
+			<div class="info-box d-flex align-content-center">
+				<p>
+					<a class="avatar" src="https://blog.csdn.net/QH_JAVA" target="_blank">
+						<img src="https://avatar.csdn.net/C/9/6/3_qh_java.jpg" alt="QH_JAVA" class="avatar-pic">
+						<span class="namebox">
+							<span class="name">QH_JAVA</span>
+							<span class="triangle"></span>
+						</span>
+					</a>
+				</p>
+				<p class="date-and-readNum">
+					<span class="date hover-show">06-07</span>
+					<span class="read-num hover-hide">
+						<svg class="icon csdnc-yuedushu" aria-hidden="true">
+							<use xlink:href="#csdnc-yuedushu"></use>
+						</svg>
+						2580</span>
+					</p>
+				</div>
+				<p class="content oneline">
+					<a class="oneline" href="https://blog.csdn.net/QH_JAVA/article/details/46391159" target="_blank" >
+						在平时使用中使用的比较多的就是ArrayList ，ArrayList实现了List接口，实现List接口的还有Vector、LinkedList 集合。 这三个集合有什么联系和区别以及他们的效率。...					</a>
+				</p>
+		</div>
+				</div>
+					<div class="recommend-item-box type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/followMyInclinations/article/details/51347292,BlogCommendFromGuangxin_8"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/followMyInclinations/article/details/51347292,BlogCommendFromGuangxin_8"}'>
+		<div class="content">
+			<h4 class="text-truncate oneline">
+				<a href="https://blog.csdn.net/followMyInclinations/article/details/51347292" target="_blank" title="Java中<em>ArrayList</em>和<em>LinkedList</em><em>区别</em> 时间复杂度 与空间复杂度">
+					Java中<em>ArrayList</em>和<em>LinkedList</em><em>区别</em> 时间复杂度 与空间复杂度				</a>
+			</h4>
+			<div class="info-box d-flex align-content-center">
+				<p>
+					<a class="avatar" src="https://blog.csdn.net/followMyInclinations" target="_blank">
+						<img src="https://avatar.csdn.net/4/7/7/3_followmyinclinations.jpg" alt="followMyInclinations" class="avatar-pic">
+						<span class="namebox">
+							<span class="name">followMyInclinations</span>
+							<span class="triangle"></span>
+						</span>
+					</a>
+				</p>
+				<p class="date-and-readNum">
+					<span class="date hover-show">05-08</span>
+					<span class="read-num hover-hide">
+						<svg class="icon csdnc-yuedushu" aria-hidden="true">
+							<use xlink:href="#csdnc-yuedushu"></use>
+						</svg>
+						3557</span>
+					</p>
+				</div>
+				<p class="content oneline">
+					<a class="oneline" href="https://blog.csdn.net/followMyInclinations/article/details/51347292" target="_blank" >
+						一般大家都知道ArrayList和LinkedList的大致区别： 
+     1.ArrayList是实现了基于动态数组的数据结构，LinkedList基于链表的数据结构。 
+     2.对于...					</a>
+				</p>
+		</div>
+						<div class="img-box float-left">
+				<a href="https://blog.csdn.net/followMyInclinations/article/details/51347292">
+					<img src="https://csdnimg.cn/release/phoenix/article_rand_pic/lang/lang8.jpg" alt="">	
+				</a>
+			</div>
+			</div>
+					<div class="recommend-item-box type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/zuoanren/article/details/8627956,BlogCommendFromQuerySearch_9"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/zuoanren/article/details/8627956,BlogCommendFromQuerySearch_9"}'>
+		<div class="content">
+			<h4 class="text-truncate oneline">
+				<a href="https://blog.csdn.net/zuoanren/article/details/8627956" target="_blank" title="常用对象API(<em>ArrayList</em>，<em>Vector</em>，<em>LinkedList</em>的存储性能和特性，HashMap和HashTable的<em>区别</em>)">
+					常用对象API(<em>ArrayList</em>，<em>Vector</em>，<em>LinkedList</em>的存储性能和特性，HashMap和HashTable的<em>区别</em>)				</a>
+			</h4>
+			<div class="info-box d-flex align-content-center">
+				<p>
+					<a class="avatar" src="https://blog.csdn.net/zuoanren" target="_blank">
+						<img src="https://avatar.csdn.net/2/E/5/3_zuoanren.jpg" alt="zuoanren" class="avatar-pic">
+						<span class="namebox">
+							<span class="name">zuoanren</span>
+							<span class="triangle"></span>
+						</span>
+					</a>
+				</p>
+				<p class="date-and-readNum">
+					<span class="date hover-show">03-01</span>
+					<span class="read-num hover-hide">
+						<svg class="icon csdnc-yuedushu" aria-hidden="true">
+							<use xlink:href="#csdnc-yuedushu"></use>
+						</svg>
+						2859</span>
+					</p>
+				</div>
+				<p class="content oneline">
+					<a class="oneline" href="https://blog.csdn.net/zuoanren/article/details/8627956" target="_blank" >
+						ArrayList，Vector，LinkedList的存储性能和特性：
+ArrayList和Vector都是使用数组的方式来存储数据，此数组元
+素数大于实际存储的数据以便增加和插入元素， 它们都...					</a>
+				</p>
+		</div>
+				</div>
+			
+            <div class="recommend-loading-box">
+                <img src='https://csdnimg.cn/release/phoenix/images/feedLoading.gif'>
+            </div>
+            <div class="recommend-end-box">
+                <p class="text-center">没有更多推荐了，<a href="https://blog.csdn.net/" class="c-blue c-blue-hover c-blue-focus">返回首页</a></p>
+            </div>
+        </div>
+    </main>
+    <aside>
+		    <div id="asideProfile" class="aside-box">
+    <h3 class="aside-title">个人资料</h3>
+    <div class="profile-intro d-flex">
+        <div class="avatar-box d-flex justify-content-center flex-column">
+            <a href="https://blog.csdn.net/m0_38110132">
+                <img src="https://avatar.csdn.net/0/1/3/3_m0_38110132.jpg" class="avatar_pic">
+            </a>
+        </div>
+        <div class="user-info d-flex justify-content-center flex-column">
+            <p class="name csdn-tracking-statistics tracking-click" data-mod="popu_379">
+                <a href="https://blog.csdn.net/m0_38110132" target="_blank" class="text-truncate" id="uid">浮生忆梦</a>
+            </p>
+                    </div>
+                <div class="opt-box d-flex justify-content-center flex-column">
+            <span  class="csdn-tracking-statistics tracking-click" data-mod="popu_379">
+                                <a class="btn btn-sm btn-red-hollow" href="https://passport.csdn.net/account/login?from=https://blog.csdn.net/m0_38110132/article/details/74978322" target="_self">关注</a>
+                            </span>
+                    </div>
+            </div>
+    <div class="data-info d-flex item-tiling">
+                <dl class="text-center" title="27">
+                        <dt><a href="https://blog.csdn.net/m0_38110132?t=1">原创</a></dt>
+            <dd><a href="https://blog.csdn.net/m0_38110132?t=1"><span class="count">27</span></a></dd>
+                    </dl>
+        <dl class="text-center" title="3">
+            <dt>粉丝</dt>
+            <dd><span class="count" id="fan">3</span></dd>
+        </dl>
+        <dl class="text-center" title="7">
+            <dt>喜欢</dt>
+            <dd><span class="count">7</span></dd>
+        </dl>
+        <dl class="text-center" title="4">
+            <dt>评论</dt>
+            <dd><span class="count">4</span></dd>
+        </dl>
+    </div>
+    <div class="grade-box clearfix">
+        <dl>
+            <dt>等级：</dt>
+            <dd>
+                <a href="https://blog.csdn.net/home/help.html#level" title="3级,点击查看等级说明" target="_blank">
+                    <svg class="icon icon-level" aria-hidden="true">
+                        <use xlink:href="#csdnc-bloglevel-3"></use>
+                    </svg>
+                </a>
+            </dd>
+        </dl>
+        <dl>
+            <dt>访问：</dt>
+            <dd title="37658">
+                3万+            </dd>
+        </dl>
+        <dl>
+            <dt>积分：</dt>
+            <dd title="713">
+                713            </dd>
+        </dl>
+        <dl title="85138">
+            <dt>排名：</dt>
+            <dd>8万+</dd>
+        </dl>
+    </div>
+    </div>		    <div class="csdn-tracking-statistics mb8 box-shadow" data-pid="blog" data-mod="popu_4" style="height:250px;">
+    <div class="aside-content text-center" id="cpro_u2734133">
+      <!-- 广告位：PC-博客内页-百度联盟-300x250 -->
+                      <script type="text/javascript" src="//cee1.iteye.com/lgyyovfyh.js"></script>    </div>
+</div>
+		    <div id="asideNewArticle" class="aside-box">
+    <h3 class="aside-title">最新文章</h3>
+    <div class="aside-content">
+        <ul class="inf_list clearfix csdn-tracking-statistics tracking-click" data-mod="popu_382">
+                        <li class="clearfix">
+                <a href="https://blog.csdn.net/m0_38110132/article/details/81481454" target="_blank">直观讲解--RPC调用和HTTP调用的区别</a>
+            </li>
+                        <li class="clearfix">
+                <a href="https://blog.csdn.net/m0_38110132/article/details/81383573" target="_blank">IntelliJ IDEA 2018.2（Ultimate Edition）激活方法</a>
+            </li>
+                        <li class="clearfix">
+                <a href="https://blog.csdn.net/m0_38110132/article/details/81353664" target="_blank">Collections.synchronizedList线程安全性陷阱</a>
+            </li>
+                        <li class="clearfix">
+                <a href="https://blog.csdn.net/m0_38110132/article/details/80681261" target="_blank">Centos7安装nload流量监控</a>
+            </li>
+                        <li class="clearfix">
+                <a href="https://blog.csdn.net/m0_38110132/article/details/80525038" target="_blank">使用Dockerfile制作包含nodejs运行环境的镜像</a>
+            </li>
+                    </ul>
+    </div>
+</div>
+		    		    <div id="asideCategory" class="aside-box flexible-box">
+    <h3 class="aside-title">个人分类</h3>
+    <div class="aside-content">
+        <ul>
+                        <li>
+                <a href="https://blog.csdn.net/m0_38110132/article/category/7010627">
+                    java核心技术                    <span class="count float-right">20篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/m0_38110132/article/category/7023900">
+                    java并发编程技术                    <span class="count float-right">2篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/m0_38110132/article/category/7010628">
+                    框架相关技术                    <span class="count float-right">4篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/m0_38110132/article/category/7010631">
+                    分布式相关技术                    <span class="count float-right">15篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/m0_38110132/article/category/7054213">
+                    spring相关                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/m0_38110132/article/category/7125480">
+                    Linux                    <span class="count float-right">18篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/m0_38110132/article/category/7010629">
+                    数据库相关技术                    <span class="count float-right">5篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/m0_38110132/article/category/7010630">
+                    web开发相关技术                    <span class="count float-right">4篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/m0_38110132/article/category/7028205">
+                    工具使用                    <span class="count float-right">9篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/m0_38110132/article/category/7466201">
+                    Linux安装和使用extundelete数据恢复工具                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/m0_38110132/article/category/7898954">
+                    多线程                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+                    </ul>
+    </div>
+        <p class="text-center">
+        <a class="btn btn-link-blue flexible-btn" data-fbox="aside-archive">展开</a>
+    </p>
+    </div>
+		    <div id="asideArchive" class="aside-box flexible-box">
+    <h3 class="aside-title">归档</h3>
+    <div class="aside-content">
+        <ul class="archive-list">
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/m0_38110132/article/month/2018/08">
+                    2018年8月                    <span class="count float-right">3篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/m0_38110132/article/month/2018/06">
+                    2018年6月                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/m0_38110132/article/month/2018/05">
+                    2018年5月                    <span class="count float-right">8篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/m0_38110132/article/month/2018/04">
+                    2018年4月                    <span class="count float-right">5篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/m0_38110132/article/month/2018/03">
+                    2018年3月                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/m0_38110132/article/month/2018/02">
+                    2018年2月                    <span class="count float-right">3篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/m0_38110132/article/month/2018/01">
+                    2018年1月                    <span class="count float-right">4篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/m0_38110132/article/month/2017/12">
+                    2017年12月                    <span class="count float-right">6篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/m0_38110132/article/month/2017/09">
+                    2017年9月                    <span class="count float-right">2篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/m0_38110132/article/month/2017/08">
+                    2017年8月                    <span class="count float-right">13篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/m0_38110132/article/month/2017/07">
+                    2017年7月                    <span class="count float-right">24篇</span>
+                </a>
+            </li>
+                    </ul>
+    </div>
+        <p class="text-center">
+        <a class="btn btn-link-blue flexible-btn" data-fbox="aside-archive">展开</a>
+    </p>
+    </div>
+		    <div id="asideHotArticle" class="aside-box">
+	<h3 class="aside-title">热门文章</h3>
+	<div class="aside-content">
+		<ul class="hotArticle-list csdn-tracking-statistics tracking-click" data-mod="popu_521">
+							<li>
+					<a href="https://blog.csdn.net/m0_38110132/article/details/76906422">redis的持久化方式RDB和AOF的区别</a>
+					<p class="read">阅读量：<span>8950</span></p>
+				</li>
+							<li>
+					<a href="https://blog.csdn.net/m0_38110132/article/details/75126316">nginx实现高并发的原理</a>
+					<p class="read">阅读量：<span>3814</span></p>
+				</li>
+							<li>
+					<a href="https://blog.csdn.net/m0_38110132/article/details/77043580">TXC分布式事务简介</a>
+					<p class="read">阅读量：<span>3396</span></p>
+				</li>
+							<li>
+					<a href="https://blog.csdn.net/m0_38110132/article/details/75168760">redis的缓存穿透和缓存雪崩</a>
+					<p class="read">阅读量：<span>2672</span></p>
+				</li>
+							<li>
+					<a href="https://blog.csdn.net/m0_38110132/article/details/74978322">Vector,ArrayList,LinkedList的特点和区别</a>
+					<p class="read">阅读量：<span>2325</span></p>
+				</li>
+					</ul>
+	</div>
+</div>
+		    <div id="asideNewComments" class="aside-box">
+    <h3 class="aside-title">最新评论</h3>
+    <div class="aside-content">
+        <ul class="newcomment-list">
+                        <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/m0_38110132/article/details/74542143#comments">jvm原理，内存模型及GC机制</a>
+                <p class="comment">
+                    <a href="https://my.csdn.net/dearday" class="user-name" target="_blank">dearday</a>：这个不是内存模式，这个是jvm内存结构                </p>
+            </li>
+                        <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/m0_38110132/article/details/79883827#comments">linux中cut命令的简单用法</a>
+                <p class="comment">
+                    <a href="https://my.csdn.net/jiayuniubi" class="user-name" target="_blank">jiayuniubi</a>：很好                </p>
+            </li>
+                        <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/m0_38110132/article/details/79883827#comments">linux中cut命令的简单用法</a>
+                <p class="comment">
+                    <a href="https://my.csdn.net/qq_41983741" class="user-name" target="_blank">qq_41983741</a>：分析很好                </p>
+            </li>
+                        <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/m0_38110132/article/details/75116350#comments">UML基本概念--类图关系 依赖、...</a>
+                <p class="comment">
+                    <a href="https://my.csdn.net/Aran_WDX" class="user-name" target="_blank">Aran_WDX</a>：真是简单。                </p>
+            </li>
+                    </ul>
+    </div>
+</div>
+		<div id="asideFooter">
+			
+		<div class="aside-box">
+						<script type="text/javascript" src="//cee1.iteye.com/avneunkwb.js"></script>
+					</div>
+				<div class="aside-box">
+			<div class="persion_article">
+			</div>
+		</div>
+	</div>
+</aside>
+<script src="https://csdnimg.cn/pubfooter/js/publib_footer-1.0.3.js" data-isfootertrack="false" type="text/javascript"></script>
+<script>
+	$("a.flexible-btn").click(function(){
+		$(this).parents('div.aside-box').removeClass('flexible-box');
+		$(this).remove();
+	})
+</script>
+</div>
+<div class="mask-dark"></div>
+<div class="pulllog-box" style="display: block;">
+	<div class="pulllog clearfix">
+		<span class="text float-left">
+			<!-- 广告位：PC-博客内页底通 文字链位置 -->
+			<script>
+			(function() {
+				var s = "_" + Math.random().toString(36).slice(2);
+				document.write('<div id="baidufooter_0001"></div>');
+				(window.slotbydup=window.slotbydup || []).push({
+					id: '5851901',
+					container: 'baidufooter_0001',
+					size: '520,40',
+					display: 'inlay-fix'
+				});
+			})();
+			</script>
+			<script src="https://dup.baidustatic.com/js/os.js"></script>
+			<style>
+				#baidufooter_0001{
+					display: none !important;
+				}
+			</style>
+		</span>
+		<div class="pulllog-btn float-right clearfix">
+            <button class="pulllog-login float-left csdn-tracking-statistics tracking-click" data-mod="popu_557">
+                登录
+            </button>
+            <div class="pulllog-sigin float-left csdn-tracking-statistics tracking-click" data-mod="popu_558">
+                <a href="https://passport.csdn.net/account/mobileregister" target="_blank">注册</a>
+            </div>
+            <button class="btn-close">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#csdnc-times"></use>
+                </svg>
+            </button>
+		</div>
+	</div>
+</div>
+<div id="loginWrap" style="display:none"></div>
+<div class="tool-box">
+	<ul class="meau-list">
+		<li>
+			<button class="btn-like " title="点赞">
+				<svg class="icon active" aria-hidden="true">
+					<use xlink:href="#csdnc-thumbsup-ok"></use>
+				</svg><svg class="icon no-active" aria-hidden="true">
+					<use xlink:href="#csdnc-thumbsup"></use>
+				</svg>
+				<p>1</p>
+			</button>
+		</li>
+		<li>
+			<a class="btn-comments" title="写评论" href="#commentBox">
+				<svg class="icon" aria-hidden="true">
+					<use xlink:href="#csdnc-comments"></use>
+				</svg><br>写评论			</a>
+		</li>
+		<li class="toc-container-box" id="liTocBox">
+			<button class="btn-toc" title="目录">
+				<svg class="icon" aria-hidden="true">
+					<use xlink:href="#csdnc-contents"></use>
+				</svg><br>目录
+			</button>
+			<div class="toc-container">
+				<div class="pos-box">
+					<div class="icon-arrow"></div>
+					<div class="scroll-box">
+						<div class="toc-box"></div>
+					</div>
+				</div>
+				<div class="opt-box">
+					<button class="btn-opt prev nomore" title="向上">
+						<svg class="icon" aria-hidden="true">
+							<use xlink:href="#csdnc-chevronup"></use>
+						</svg>
+					</button>
+					<button class="btn-opt next">
+						<svg class="icon" aria-hidden="true">
+							<use xlink:href="#csdnc-chevrondown"></use>
+						</svg>
+					</button>
+				</div>
+			</div>
+		</li>
+		<li>
+			<button class="btn-bookmark" title="收藏">
+				<svg class="icon active" aria-hidden="true">
+					<use xlink:href="#csdnc-bookmark-ok"></use>
+				</svg><svg class="icon no-active" aria-hidden="true">
+					<use xlink:href="#csdnc-bookmark"></use>
+				</svg><br>收藏
+			</button>
+		</li>
+				<li class="bdsharebuttonbox">
+			<a class="btn-comments bds_weixin" data-cmd="weixin" title="微信分享">
+				<svg class="icon" aria-hidden="true">
+					<use xlink:href="#csdnc-wechat"></use>
+				</svg><br>微信
+			</a>
+		</li>
+		<li class="bdsharebuttonbox">
+			<a class="btn-comments bds_tsina" data-cmd="tsina" title="微博分享">
+				<svg class="icon" aria-hidden="true">
+					<use xlink:href="#csdnc-weibo"></use>
+				</svg><br>微博
+			</a>
+		</li>
+		<li class="bdsharebuttonbox">
+			<a class="btn-comments bds_qzone" data-cmd="qzone" title="QQ分享">
+				<svg class="icon" aria-hidden="true">
+					<use xlink:href="#csdnc-qq"></use>
+				</svg><br>QQ
+			</a>
+		</li>
+				<li class="bdsharebuttonbox"style="margin-top: 8px;">
+			<script type="text/javascript" src="//cjhd.mediav.com/js/interactive_plugin.js"></script> 
+			<style>
+				#_360_interactive > *{
+					 margin-left: -8px;
+				}
+			</style>
+			<div id="_360_interactive" > 
+				<script> INTERACTIVE_PLUGIN.render({ showid : 'N0ufqn', w: 60, h: 60, type: 'hover', placeholderId: '_360_interactive' }); </script> 
+			</div>
+			<img src="//img-ads.csdn.net/2016/201608021757063065.png" style="margin: 0 auto;display: block;" alt="">
+		</li>
+	  	</ul>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'https://csdnimg.cn/static/api/js/share.js?v=89860594'];</script>
+<script>
+    var recommendCount = 9;
+    recommendCount = recommendCount > 1 ? (recommendCount + (recommendCount>6 ? 2 : 1)) : recommendCount;
+    var articleTit = "Vector,ArrayList,LinkedList的特点和区别";
+    var ChannelId = 16;
+    var articleId = "74978322";
+    var commentscount = 0;
+    var islock = false;
+    var curentUrl = "https://blog.csdn.net/m0_38110132/article/details/74978322";
+    var myUrl = "https://my.csdn.net/";
+    //1禁止评论，2正常
+    var commentAuth = 2;
+    //百度搜索
+    var baiduKey = "vector+arraylist+linkedlist+%E6%80%A7%E8%83%BD";
+    var needInsertBaidu = true;
+    // 代码段样式
+    var codeStyle = '';
+    var highlight = ["vector","arraylist","linkedlist","\u7279\u70b9","\u533a\u522b"];//高亮数组
+</script>
+<script src="https://csdnimg.cn/public/sandalstrap/1.3/js/sandalstrap.min.js"></script>
+<script src="https://csdnimg.cn/release/phoenix/vendor/pagination/paging.js"></script>
+<script src='https://csdnimg.cn/public/common/gotop/js/goTop-v1.0.min.js?v201803151422'></script>
+<script>
+    GoTop({
+        right: 8,
+        hasReport: true,
+        reportFun: function() {
+            showReport(false,"Vector,ArrayList,LinkedList的特点和区别");
+        }
+    })
+</script>
+<script src="https://csdnimg.cn/release/phoenix/template/js/common-a4f198c74c.min.js"></script>
+<script src="https://csdnimg.cn/release/phoenix/template/js/detail-724d166897.min.js"></script>
+<script src="https://csdnimg.cn/release/phoenix/themes/skin3-template/skin3-template-73eea35575.min.js"></script>
+<script src="https://csdnimg.cn/search/baidu_search-1.1.2.js?v=201802071056&autorun=true&install=true&keyword=vector+arraylist+linkedlist+%E6%80%A7%E8%83%BD"  type="text/javascript"></script>
+</body>
+<div class="box-box-aways">
+    <a class="btn-remove">
+        关闭
+    </a>
+    <div id="adAways">
+        <script>
+            (function() {
+            (window.slotbydup=window.slotbydup || []).push({
+            id: '5868728',
+            container: 'adAways',
+            size: '250,500',
+            display: 'inlay-fix'
+            });
+            })();
+            </script>
+        <script src="https://dup.baidustatic.com/js/os.js"></script>
+    </div>
+</div>
+<div class="box-box-default">
+    <a class="btn-remove">
+        关闭
+    </a>
+    <script type="text/javascript" src="//cee1.iteye.com/mhzzjepzz.js"></script>
+</div>
+<div class="box-box-large">
+    <a class="btn-remove">
+        关闭
+    </a>
+    <script type="text/javascript" src="//cee1.iteye.com/idvveasfs.js"></script>
+</div>
+<!-- 第四范式SDK -->
+
+<!-- 高亮未与 markdown兼容  -->
+	<link rel="stylesheet" href="https://csdnimg.cn/release/blog_editor_html/release1.3.1/ckeditor/plugins/chart/chart.css" />
+	<script type="text/javascript" src="https://csdnimg.cn/release/blog_editor_html/release1.3.1/ckeditor/plugins/chart/lib/chart.min.js"></script>
+	<script type="text/javascript" src="https://csdnimg.cn/release/blog_editor_html/release1.3.1/ckeditor/plugins/chart/widget2chart.js"></script>
+	<link rel="stylesheet" href="https://csdnimg.cn/release/blog_editor_html/release1.3.1/ckeditor/plugins/codesnippet/lib/highlight/styles/atom-one-dark.css">
+	<script type="text/javascript" src="https://csdnimg.cn/release/phoenix/production/pc_wap_common-93244aa03c.js" /></script>
+
+	<script type="text/javascript">
+	$(function(){
+		var allEscRegex = /&(lt|gt|amp|quot|nbsp|shy|#\d{1,5});/g,
+		    namedEntities = {
+					lt: '<',
+					gt: '>',
+					amp: '&',
+					quot: '"',
+					nbsp: '\u00a0',
+					shy: '\u00ad'
+				}
+		var allEscDecode = function( match, code ) {
+				return namedEntities[ code ];
+		};
+		htmlDecodeAttr = function( text ) {
+				return text.replace( allEscRegex, allEscDecode );
+		}
+	  hljs.initHighlightingOnLoad();
+	  hljs.initCopyButtonOnLoad();
+	  hljs.initLineNumbersOnLoad();
+		if($('pre .language-plain').length>0){
+			$('pre .language-plain').each(function(i,e){
+				var highlightRe = hljs.highlightAuto(htmlDecodeAttr(e.innerHTML))
+				e.innerHTML = highlightRe.value;
+				e.className = 'language-'+highlightRe.language;
+			});
+		}
+	})
+	</script>
+<script type="text/javascript" src="https://static-blog.csdn.net/mdeditor/public/res/bower-libs/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+            "HTML-CSS": {
+                    linebreaks: { automatic: true, width: "94%container" },
+                    imageFont: null
+            },
+            tex2jax: {
+                preview: "none"
+            },
+            mml2jax: {
+                preview: 'none'
+            }
+    });
+</script>
+</html>

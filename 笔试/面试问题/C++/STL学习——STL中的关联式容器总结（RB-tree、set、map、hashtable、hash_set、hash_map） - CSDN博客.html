@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <link rel="canonical" href="https://blog.csdn.net/a987073381/article/details/52133283"/> 
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="referrer" content="always">
+    <meta name="description" content="所谓关联式容器，观念上类似于关联式数据库：每个元素都有一个键值（key）和一个实值（value）。当元素被插入到关联式容器中时，容器内部结构便依照其键值大小，以某种特定规则将这个元素放置到适当位置。关联式容器没有所谓的头尾（只有最大或最小元素），所以不会有所谓push_back()、push_front()等操作行为。" />
+    <meta name="keywords" content="" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848">
+    <script src="https://csdnimg.cn/release/phoenix/vendor/tingyun/tingyun-rum-blog.js"></script>
+
+    <link href="https://csdnimg.cn/public/favicon.ico" rel="SHORTCUT ICON">
+    <title>STL学习——STL中的关联式容器总结（RB-tree、set、map、hashtable、hash_set、hash_map） - CSDN博客</title>
+    
+            <link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/template/css/detail-850e001537.min.css">
+        <link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/themes/skin3-template/skin3-template-8195ccbe2d.min.css">
+
+    <script type="text/javascript">
+        var username = "a987073381";
+        var blog_address = "https://blog.csdn.net/a987073381";
+        var static_host = "https://csdnimg.cn/release/phoenix/";
+        var currentUserName = ""; 
+        var isShowAds = true;
+        var isOwner = false;
+        var loginUrl = "https://passport.csdn.net/account/login?from=https://blog.csdn.net/a987073381/article/details/52133283"
+        var blogUrl = "https://blog.csdn.net/";
+        //页面皮肤样式
+        var curSkin = "skin3-template";
+    </script>
+    <script type="text/javascript">
+        // Traffic Stats of the entire Web site By baidu
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?6bcd52f51e9b3dce32bec4a3997715ac";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+        // Traffic Stats of the entire Web site By baidu end
+    </script>
+    <script src="https://csdnimg.cn/public/common/libs/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script src="https://csdnimg.cn/rabbit/exposure-click/main-1.0.6.js"></script>
+    <!-- 新版上报 -->
+    <script src="//g.csdnimg.cn/track/1.0.1/track.js" type="text/javascript"></script>
+    <!-- 新版上报end -->
+            <link rel="stylesheet" href="https://csdnimg.cn/public/sandalstrap/1.3/css/sandalstrap.min.css"> 
+    <style>
+        .MathJax, .MathJax_Message, .MathJax_Preview{
+            display: none
+        }
+    </style>
+</head>
+<body>    
+    <link rel="stylesheet" href="https://csdnimg.cn/public/common/toolbar/content_toolbar_css/content_toolbar.css">
+    <script id="toolbar-tpl-scriptId" src="https://csdnimg.cn/public/common/toolbar/js/content_toolbar.js" type="text/javascript" domain="https://blog.csdn.net/"></script>
+<link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/template/css/blog_code-c3a0c33d5c.css">
+<link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/vendor/pagination/paging.css">
+<script type="text/javascript" src="//static.mediav.com/js/mvf_news_feed.js"></script>
+<div style="display:none;">
+	<img src="" onerror='setTimeout(function(){if(!/(csdn.net|iteye.com|baiducontent.com|googleusercontent.com|360webcache.com|sogoucdn.com|bingj.com|baidu.com)$/.test(window.location.hostname)){window.location.href="\x68\x74\x74\x70\x73\x3a\x2f\x2f\x77\x77\x77\x2e\x63\x73\x64\x6e\x2e\x6e\x65\x74"}},3000);'>
+</div>
+<link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/template/css/chart-3456820cac.css" />
+
+
+
+<script src="https://dup.baidustatic.com/js/ds.js"></script>
+<div class="container clearfix" id="mainBox">
+		<!-- <div id="breadcrumbs">
+			<span><a href="https://blog.csdn.net/">博客首页</a></span>
+			<i>></i>
+			<span><a href="https://blog.csdn.net/a987073381">千里之行，始于足下...</a></span>
+			<i>></i>
+			<span>STL学习——STL中的关联式容器总结（RB-tree、set、map、hashtable、hash...</span>
+		</div> -->
+    <main>
+        <div class="blog-content-box">
+	<div class="article-header-box">
+		<div class="article-header">
+			<div class="article-title-box">
+				<span class="article-type type-1 float-left">原</span>				<h1 class="title-article">STL学习——STL中的关联式容器总结（RB-tree、set、map、hashtable、hash_set、hash_map）</h1>
+			</div>
+			<div class="article-info-box">
+				<div class="article-bar-top d-flex">
+																				<span class="time">2016年08月05日 22:56:16</span>
+					<div class="float-right">
+						<span class="read-count">阅读数：1024</span>
+																	</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	<article>
+		<div id="article_content" class="article_content clearfix csdn-tracking-statistics" data-pid="blog"  data-mod=popu_307  data-dsm = "post" >
+                    <link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/template/css/ck_htmledit_views-e2445db1a8.css" />
+						<div class="htmledit_views">
+                
+<span style="font-family:'微软雅黑';font-size:14px;line-height:21px;"></span><span style="font-family:'微软雅黑';font-size:14px;line-height:21px;">所谓关联式容器，观念上类似于关联式数据库：每个元素都有一个键值（key）和一个实值（value）。当元素被插入到关联式容器中时，容器内部结构便依照其键值大小，以某种特定规则将这个元素放置到适当位置。关联式容器没有所谓的头尾（只有最大或最小元素），所以不会有所谓push_back()、push_front()等操作行为。</span>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">关联式容器set、map、multiset、multimap的内部结构是一个AVLTree，为了获得良好的搜索效率，还分为AVL-Tree、RB-Tree、AA-Tree。其中最广泛运用STL的就是RB-Tree。</div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">不再标准规格之列的关联式容器：hash_set、hash_map、hash_multiset、hash_multimap的内部结果是hash_table。</div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><br style="background-color:inherit;" /></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;background-color:inherit;"><span style="background-color:inherit;">一、RB-Tree（红黑树）</span></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">(1)RB-Tree的定义</div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">红黑树，是一种二叉查找树，在每一个节点上增加一个存储位表示节点的颜色（红或黑），然后通过一些限制（它的性质）保证没有一条路径会比其他路径长出两倍，因此是接近平衡的。</div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><br /></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">(2)RB-Tree的数据结构<br style="background-color:inherit;" /></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">
+<div style="background-color:inherit;"><pre><code class="language-cpp">typedef bool __rb_tree_color_type;
+const __rb_tree_color_type __rb_tree_red = false;
+const __rb_tree_color_type __rb_tree_black = true;
+template &lt;class Value&gt;
+struct __rb_tree_node
+{
+private: 
+    typedef __rb_tree_color_type color_type;
+    typedef __rb_tree_node_base* base_ptr;
+    typedef __rb_tree_node&lt;Value&gt;* link_type;
+
+    color_type color;//节点颜色，红或黑
+    base_ptr parent;//父节点
+    base_ptr left;//左孩子
+    base_ptr right;//右孩子
+    Value value_field;//节点值
+public:
+    ......
+}</code></pre><br /></div>
+</div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">(3)RB-Tree的性质</div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">1、每个节点不是红色就是黑色。</div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">2、根节点为黑色。</div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">3、每个叶节点都是黑色。</div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">4、如果节点为红，其子节点必须为黑。</div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">5、任一节点至NULL（树尾端）的任何路径，所含之黑节点数必须相同。</div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><br style="background-color:inherit;" /></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">(4)RB-Tree的调整</div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">
+<div style="background-color:inherit;"><span style="font-family:'微软雅黑';font-size:14px;line-height:21px;">类似于AVLTree进行插入和删除操作会破坏树的平衡需要重新调整，</span>对红黑树进行插入和删除等操作时，对树做了修改可能会破坏红黑树的性质。为了继续保持红黑树的性质，可以通过对结点进行重新着色，以及对树进行相关的旋转操作，即通过修改树中某些结点的颜色及指针结构，来达到对红黑树进行插入或删除结点等操作后继续保持它的性质或平衡的目的。</div>
+</div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><br style="background-color:inherit;" /></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="color:#953734;background-color:inherit;">RB-Tree相对BSTree和AVLTree的优点：<br style="background-color:inherit;" /></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">
+<div style="background-color:inherit;"><span style="color:#953734;background-color:inherit;">红黑树是牺牲了严格的高度平衡的优越条件为代价，它只要求部分地达到平衡要求，降低了对旋转的要求，从而提高了性能。红黑树能够以O(logn)的时间复杂度进行搜索、插入、删除操作。此外，由于它的设计，任何不平衡都会在<span style="font-size:18px;background-color:inherit;"><span style="background-color:inherit;">三次旋转</span></span>之内解决。当然，还有一些更好的，但实现起来更复杂的数据结构能够做到一步旋转之内达到平衡，但红黑树能够给我们一个比较“便宜”的解决方案。</span></div>
+<div style="background-color:inherit;"><span style="color:#953734;background-color:inherit;">相比于<span style="font-size:18px;background-color:inherit;"><span style="background-color:inherit;">BST</span></span>，因为红黑树可以能确保树的最长路径不大于两倍的最短路径的长度，所以可以看出它的查找效果是有最低保证的。在<span style="font-size:18px;background-color:inherit;"><span style="background-color:inherit;">最坏的情况</span></span>下也可以保证<span style="font-size:18px;background-color:inherit;"><span style="background-color:inherit;">O(logN)</span></span>的，这是要好于二叉查找树的。因为<span style="font-size:18px;background-color:inherit;"><span style="background-color:inherit;">二叉查找树最坏情况</span></span>可以让查找达到<span style="font-size:18px;background-color:inherit;"><span style="background-color:inherit;">O(N)</span></span>。</span></div>
+<div style="background-color:inherit;"><span style="color:#953734;background-color:inherit;">红黑树的<span style="font-size:18px;background-color:inherit;"><span style="background-color:inherit;">算法时间复杂度和AVL相同</span></span>，但<span style="font-size:18px;background-color:inherit;"><span style="background-color:inherit;">统计性能</span></span>比AVL树<span style="font-size:18px;background-color:inherit;"><span style="background-color:inherit;">更高</span></span>，所以在插入和删除中所做的后期维护操作肯定会比红黑树要耗时好多，但是他们的查找效率都是O(logN)，所以红黑树应用还是高于AVL树的. 实际上插入 AVL 树和红黑树的速度取决于你所插入的数据.如果你的数据分布较好,则比较宜于采用 AVL树(例如随机产生系列数),但是如果你想处理比较杂乱的情况,则红黑树比较快。</span></div>
+</div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><br style="background-color:inherit;" /></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;">二、set</span><br style="background-color:inherit;" /></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;">(1)</span><span style="font-size:14px;">定义</span></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;">set的特性是所有的元素都会根据元素的键值自动被排序，set的元素不像map那样可以同时拥有实值（value）和键值（key），set元素的键值就是实值，实值就是键值。s<span style="background-color:inherit;">e</span><span style="font-size:18px;background-color:inherit;"><span style="font-size:14px;background-color:inherit;">t</span><span style="background-color:inherit;">不允许两个元素</span><span style="font-size:14px;background-color:inherit;">有</span><span style="background-color:inherit;">相同</span></span>的键值。</span></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;"></span></span>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="line-height:27px;background-color:inherit;"><br /></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="line-height:27px;background-color:inherit;">(2)set的数据结构</span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">
+<div style="background-color:inherit;"><pre><code class="language-cpp">class set
+{
+public:
+    //实值就是键值，键值就是实值
+    typedef Key key_type;
+    typedef Key value_type;
+    //可以看到key_compare和value_compare采用同一个比较函数
+    typedef Compare key_compare;
+    typedef Compare value_compare;
+private:
+    ......
+    rep_type t;//底层采用红黑树
+public:
+    ......
+}</code></pre><br /></div>
+</div>
+</div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;"></span></span>
+<div>(3)元素操作</div>
+<div>迭代器相关：</div>
+<div><pre><code class="language-cpp">iterator begin() const;//返回第一个元素的指针iterator end() const;//返回最后一个元素的指针
+bool empty() const;//set集合是否为空</code></pre></div>
+<div>插入和移除元素：</div>
+<div><pre><code class="language-cpp">pair&lt;iterator,bool&gt; insert(const value_type&amp; elem);//插入新元素，返回插入后该元素指针
+iterator insert(iterator position, const value_type&amp; elem);//插入新元素，返回插入后该元素指针，pos用来指明从哪里开始搜索
+void insert(const value_type* first, const value_type* last);//插入在begin和end之间的元素，无返回
+size_type count(const key_type&amp; elem);//查找set集合中elem的数量，不是0就是1，multiset可能有多个
+size_type size() const;//返回set中元素的数量
+void erase(iterator position);//移走指定位置的元素，返回下一个元素的指针
+void erase(iterator first, iterator last);//移走所有[first, last]之间的元素，返回下一个元素的指针
+iterator find(const key_type&amp; elem);//在set集合查找某个elem并返回其指针
+void clear();//移除所有元素</code></pre><br /></div>
+</div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;"></span></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;">(4)set的迭代器<br style="background-color:inherit;" /></span></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;">set的迭代器被定义为底层RB-Tree的constant-iterator，杜绝写入操作，也就是说set的迭代器是一种常量迭代器。试想一下，set的底层是采用的红黑树（也是一种二叉查找树），修改某个值，会关系到set元素的排列规则，如果任意改变set元素值，会严重破坏set组织。</span></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;">set拥有和list相同的某些性质：对它进行元素的增加操作（insert）或删除操作（erase）时，操作之前的所有迭代器，在操作完成之后都依然有效，被删除的那个元素迭代器例外。</span></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;"><br style="background-color:inherit;" /></span></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;"><span style="font-size:18px;"><span style="font-size:14px;font-weight:normal;">(5)特殊的set——multiset</span></span></span></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;">multiset的特性以及用法和set完全相同，唯一的差别在于它允许键值重复，因为他采用的插入操作是采用底层机制RB-Tree的insert_equal()而不是insert_unique()。</span></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;"></span></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;"><br style="background-color:inherit;" /></span></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;"></span></span>
+<div><span style="font-size:18px;">三、map</span><br style="background-color:inherit;" /></div>
+<div><span style="font-size:18px;background-color:inherit;"><span style="font-size:14px;"></span><span style="font-family:'微软雅黑';line-height:27px;font-size:14px;">(1)map的</span><span style="font-family:'微软雅黑';line-height:27px;font-size:14px;">定义</span><span style="font-size:14px;"></span></span></div>
+map的特性是，所有元素都会根据元素的键值自动被排序。map的所有元素都是二元组的集合（pair），同时拥有实值（value）和键值（key）。其中key值是在排序或搜索时使用，它的值可以在容器中重新获取，实值则是该元素关联的数值。map不允许两个元素拥有相同的键值。</div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;"><br style="background-color:inherit;" /></span></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;"></span></span>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;">(2)map的数据结构<br style="background-color:inherit;" /></span></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">
+<div style="background-color:inherit;"><pre><code class="language-cpp">class map
+{
+public:
+    typedef Key key_type;//键值型别
+    typedef T data_type;//实值型别
+    typedef T mapped_type;//?
+    typedef pair&lt;const Key, T&gt; value_type;//map的所有元素都是pair，同时有键值和实值
+    typedef Compare key_compare;//只对键值进行比较
+private:
+    ......
+    rep_type t;//底层采用红黑树
+public:
+    ......
+}</code></pre><br /></div>
+</div>
+</div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;"></span></span>
+<div>(3)元素操作</div>
+<div>迭代器相关：</div>
+<span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;"><span style="line-height:1.5;background-color:inherit;"></span></span></span><pre><code class="language-cpp">iterator begin();//返回第一个元素的指针（指向pair类型元素）
+iterator end();//返回最后一个元素的指针（指向pair类型元素）
+bool empty() const;//set集合是否为空</code></pre>
+<div>插入和移除元素：</div>
+<pre><code class="language-cpp">pair&lt;iterator,bool&gt; insert(const value_type&amp; elem);//插入新元素，返回插入后该元素指针
+size_type count(const key_type&amp; key);//查找map集合中键值为key的数量，不是0就是1，multimap可能有多个
+size_type size() const;//返回set中元素的数量
+void erase(iterator position);//移走指定位置的元素，返回下一个元素的指针
+void erase(iterator first, iterator last);//移走所有[first, last]之间的元素，返回下一个元素的指针
+size_type erase(const key_type&amp; key);//通过关键字删除元素
+iterator find(const key_type&amp; key);//在map集合查找键值为key的元素 并返回其指针
+void clear();//移除所有元素</code></pre><br /></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;"></span></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;">(4)map的迭代器<br style="background-color:inherit;" /></span></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;">通过map的迭代器不能都改map的键值，原因和set类似，因为修改map的键值在红黑树中是排列好的，如果修改键值会影响到红黑树的排列规则，但是通过map的迭代器可以修改map的实值，因为map元素的实值不影响map元素（键值）的排列规则。map的迭代器既不是constant-iterator，也不是一种mutable
+ iterators。</span></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;"></span></span>
+<div>
+<div style="background-color:inherit;"><span style="color:#953734;background-color:inherit;">STL中迭代器失效处理——erase的使用<br style="background-color:inherit;" /></span></div>
+<div style="background-color:inherit;"><span style="color:#953734;background-color:inherit;">关联性容器::(map和set比较常用)</span></div>
+</div>
+<div>
+<div style="background-color:inherit;"><span style="color:#953734;background-color:inherit;">erase迭代器只是被删元素的迭代器失效，但是返回值为void，<span style="background-color:inherit;">所以要采用erase(iter++)的方式删除迭代器， </span></span></div>
+<div style="background-color:inherit;"><span style="color:#953734;background-color:inherit;">正确方法为::</span></div>
+<div style="background-color:inherit;"><span style="color:#953734;background-color:inherit;">for( iter = c.begin(); iter != c.end(); )  </span></div>
+<div style="background-color:inherit;"><span style="color:#953734;background-color:inherit;">                c.erase(iter++);</span></div>
+</div>
+<br style="background-color:inherit;" /></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;"></span></span>
+<div><span style="font-size:18px;background-color:inherit;"><span style="font-size:14px;"><span style="font-size:18px;"><span style="font-size:14px;font-weight:normal;">(5)特殊的map——multimap</span></span></span></span></div>
+<div><span style="font-size:18px;background-color:inherit;"><span style="font-size:14px;">multimap的特性以及用法和map完全相同，唯一的差别在于它允许键值重复，因为他采用的插入操作是采用底层机制RB-Tree的insert_equal()而不是insert_unique()。</span></span></div>
+<div>后来插入的键值相同的节点默认比先前的节点要大，所以用迭代器遍历时，键值相同的节点是按先后顺序排列的。</div>
+</div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;"><br style="background-color:inherit;" /></span></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;"></span></span>
+<div><span style="font-size:18px;">四、hashtable</span><br style="background-color:inherit;" /></div>
+<div><span style="font-size:18px;background-color:inherit;"><span style="font-size:14px;"></span></span></div>
+<span style="font-family:'微软雅黑';font-size:18px;line-height:27px;"><span style="font-size:14px;"><span style="font-size:18px;background-color:inherit;"><span style="font-size:14px;">(1)hashtable的</span><span style="font-size:14px;">定义</span></span></span></span>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">哈希表又叫散列表，是实现字典操作的一种有效数据结构。哈希表的查询效率极高，在没有冲突（后面会介绍）的情况下不需经过任何比较，一次存取便能得到所查记录，理想情况下，查找一个元素的平均时间为常数时间。哈希表就是描述key—value对的映射问题的数据结构，使用一个下标范围比较大的数组（哈希表）来存储元素。在记录的存储位置和它的关键字之间建立一个确定的对应关系f（哈希函数），使每个关键字与哈希表中唯一一个存储位置相对应。<span style="line-height:1.5;background-color:inherit;">也可以简单的理解为，按照关键字为每一个元素“分类”，然后将这个元素存储在相应“类”所对应的地方，称为桶。</span></div>
+<div style="background-color:inherit;"></div>
+</div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;"><br style="background-color:inherit;" /></span></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;">(2)hashtable的数据结构<br style="background-color:inherit;" /></span></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">
+<div style="background-color:inherit;"><pre><code class="language-cpp">&lt;pre name="code" class="cpp"&gt;template &lt;class Value&gt;
+struct __hashtable_node
+{
+  __hashtable_node* next;//使用hash计算得到hash值的元素用链表连起来（放在同一个桶中）
+  Value val;
+};
+
+struct __hashtable_iterator
+{
+    __hashtable_node&lt;Value&gt;* cur;
+    hashtable* ht;
+}
+
+class hashtable
+{
+public:
+    typedef Key key_type;//节点的键值型别
+    typedef Value value_type;//节点的实值型别
+    typedef HashFcn hasher;//hash function的函数型别
+    typedef EqualKey key_equal;//从节点中取出键值的方法
+private:
+    hasher hash;
+    key_equal equals;
+    ExtractKey get_key;
+
+    typedef __hashtable_node&lt;Value&gt; node;
+    typedef simple_alloc&lt;node, Alloc&gt; node_allocator;
+
+    vector&lt;node*,Alloc&gt; buckets;//用vector来存放多个桶
+    size_type num_elements;//桶中元素的个数
+public:
+    ......
+}</code></pre>
+<pre></pre>
+<br /></div>
+</div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">(3)hashtable的插入和取值过程<br style="background-color:inherit;" /></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="color:rgb(51,51,51);font-family:'microsoft yahei';">插入过程：</span><br style="background-color:inherit;" /></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">
+<div style="background-color:inherit;">1&gt;得到key</div>
+<div style="background-color:inherit;">2&gt;通过hash函数得到hash值</div>
+<div style="background-color:inherit;">3&gt;得到桶号(一般都为hash值对桶数求模)</div>
+<div style="background-color:inherit;">4&gt;存放key和value在桶内。</div>
+</div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="color:rgb(51,51,51);font-family:'microsoft yahei';"><span style="font-family:'Source Code Pro', monospace;"><span style="font-family:'microsoft yahei';background-color:rgb(255,255,255);">取值过程：</span><br style="background-color:inherit;" /></span></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="color:rgb(51,51,51);font-family:'microsoft yahei';"><span style="font-family:'Source Code Pro', monospace;"><span style="font-family:'microsoft yahei';background-color:rgb(255,255,255);">1<span style="color:rgb(0,0,0);font-family:'微软雅黑';">&gt;</span>得到key</span></span></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="color:rgb(51,51,51);font-family:'microsoft yahei';"><span style="font-family:'Source Code Pro', monospace;"><span style="font-family:'microsoft yahei';background-color:rgb(255,255,255);">2<span style="color:rgb(0,0,0);font-family:'微软雅黑';">&gt;</span>通过hash函数得到hash值</span></span></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="color:rgb(51,51,51);font-family:'microsoft yahei';"><span style="font-family:'Source Code Pro', monospace;"><span style="font-family:'microsoft yahei';background-color:rgb(255,255,255);">3<span style="color:rgb(0,0,0);font-family:'微软雅黑';">&gt;</span>得到桶号(一般都为hash值对桶数求模)</span></span></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="color:rgb(51,51,51);font-family:'microsoft yahei';"><span style="font-family:'Source Code Pro', monospace;"><span style="font-family:'microsoft yahei';background-color:rgb(255,255,255);">4<span style="color:rgb(0,0,0);font-family:'微软雅黑';">&gt;</span>比较桶的内部元素是否与key相等，若都不相等，则没有找到。</span></span></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="color:rgb(51,51,51);font-family:'microsoft yahei';"><span style="font-family:'Source Code Pro', monospace;"><span style="font-family:'microsoft yahei';background-color:rgb(255,255,255);">5<span style="color:rgb(0,0,0);font-family:'微软雅黑';">&gt;</span>取出相等的记录的value。</span></span></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="color:rgb(51,51,51);font-family:'microsoft yahei';"><span style="font-family:'Source Code Pro', monospace;"><span style="font-family:'microsoft yahei';background-color:rgb(255,255,255);"><br style="background-color:inherit;" /></span></span></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">(4)hashtable寻址方法<br style="background-color:inherit;" /></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">
+<div style="background-color:inherit;">直接寻址表：</div>
+<div style="background-color:inherit;">当关键字的全域U比较小时，直接寻址是一种简单而有效的技术，它的哈希函数很简单：f(key) = key，即关键字大小直接与元素所在的位置序号相等。另外，如果关键字不是自然数，我们需要通过某种手段将其转换为自然数，比如可以将字符关键字转化为其在字母表中的序号作为关键字。直接寻址法不会出现两个关键字对应到同一个地址的情况，既不会出现f（key1） = f(key2)的情况，因此不用处理冲突，这便是其优点所在。</div>
+<div style="background-color:inherit;">散列表：</div>
+<div style="background-color:inherit;">直接寻址的缺点非常明显，如果全域U很大，则在一台标准的计算机可用内存容量中，要存储大小为U的一张表也许不太实际，而且，实际需要存储的关键字集合K可能相对U来说很小，这时散列表需要的存储空间要比直接表少很多。散列表通过散列函数f计算出关键字key在槽的位置。散列函数f将关键字域U映射到散列表T[0...m-1]的槽位上。但是这里会存在一个问题：若干个关键字可能映射到了表的同一个位置处，我们称这种情形为冲突。当然理想的方法是尽量避免冲突，我们可以尽可能第将关键字通过f随即地映射到散列表的每个位置上。</div>
+</div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><br style="background-color:inherit;" /></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">(5)冲突处理<br style="background-color:inherit;" /></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">
+<div style="background-color:inherit;">链接法：<span style="line-height:1.5;background-color:inherit;">链接法的思路很简单：如果多个关键字映射到了哈希表的同一个位置处，则将这些关键字记录在同一个线性链表中，挂在该位置处。</span></div>
+<div style="background-color:inherit;">开放定址法：<span style="line-height:1.5;background-color:inherit;">如果出现冲突，有多种方法，线性探测再散列、二次探测再散列、随机探测再散列。总之就是发生冲突时，将关键字应该放入的位置向前或向后移动若干位置。</span></div>
+</div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><br style="background-color:inherit;" /></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;"><span style="font-size:18px;">五、hash_set</span><br style="background-color:inherit;" /></span></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;"><strong><span style="font-size:14px;font-weight:normal;"></span></strong></span>
+<div style="background-color:inherit;">hash_set、hash_multiset的用法和set、multiset是一样的，<span style="font-size:18px;"><strong><span style="font-size:14px;font-weight:normal;"></span></strong></span>
+<div style="display:inline !important;">
+<div style="display:inline !important;background-color:inherit;"><span style="font-size:18px;"><strong><span style="font-size:14px;font-weight:normal;"></span></strong></span>
+<div style="display:inline !important;">
+<div style="display:inline !important;background-color:inherit;">提供了 insert，size，count等操作，只是底层是使用hashtable实现的。</div>
+</div>
+</div>
+</div>
+</div>
+<br style="background-color:inherit;" /></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;"><span style="font-size:18px;">六、hashmap<br style="background-color:inherit;" /></span></span></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;"><span style="font-size:18px;"><span style="font-size:14px;"></span></span></span></span>
+<div><span style="font-size:18px;">hash_map、hash_multimap的用法和map、multimap是一样的，提供了 insert，size，count等操作，并且里面的元素也是以pair类型来存贮的。虽然对外部提供的函数和数据类型是一致的，但是其底层实现是完全不同的，map底层的数据结构是rb_tree而，hash_map是用<span style="font-size:14px;"></span></span>
+<div style="display:inline !important;"><span style="font-size:18px;"><span style="font-size:14px;"></span></span>
+<div style="display:inline !important;">
+<div style="display:inline !important;background-color:inherit;"><span style="font-size:18px;"><span style="font-size:14px;"></span></span>
+<div style="display:inline !important;">
+<div style="display:inline !important;background-color:inherit;"><span style="font-size:18px;"><span style="font-size:14px;"></span></span>
+<div style="display:inline !important;">
+<div style="display:inline !important;background-color:inherit;">hashtable<span style="font-size:18px;"><span style="font-size:14px;"></span></span>
+<div style="display:inline !important;">
+<div style="display:inline !important;background-color:inherit;">来实现的。</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;"><span style="font-size:18px;"><strong><br style="background-color:inherit;" /></strong></span></span></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">
+<div style="background-color:inherit;"><span style="color:#953734;background-color:inherit;"></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">
+<div style="background-color:inherit;"><span style="color:#953734;background-color:inherit;">RB-Tree与hashtable的特点：</span></div>
+<div style="background-color:inherit;"><span style="color:#953734;background-color:inherit;">权衡三个因素:<span style="font-size:18px;background-color:inherit;"> <span style="background-color:inherit;">查找速度，数据量， 内存使用，可扩展性</span></span>。</span></div>
+<div style="background-color:inherit;"><span style="color:#953734;background-color:inherit;">总体来说，hashtable查找速度会比RB-Tree快，而且查找速度基本和数据量大小无关，属于常数级别;而RB-Tree的查找速度是O(logn)级别。并不一定常数就比log(n) 小，hashtable还有<span style="font-size:18px;background-color:inherit;"><span style="background-color:inherit;">hash函数的耗时</span></span>，在<span style="font-size:18px;background-color:inherit;"><span style="background-color:inherit;">元素达到一定数量级</span></span>时，考虑<span style="font-size:18px;background-color:inherit;"><span style="background-color:inherit;">hashtable</span></span>，但如果<span style="font-size:18px;background-color:inherit;"><span style="background-color:inherit;">内存使用</span></span>特别<span style="font-size:18px;background-color:inherit;"><span style="background-color:inherit;">严格</span></span>，希望程序尽可能少消耗内存，用<span style="font-size:18px;background-color:inherit;"><span style="background-color:inherit;">RB-Tree</span></span>。<span style="background-color:inherit;"> hashtable对空间的要求要比RB-Tree高很多，所以是以空间换时间的方法。</span></span></div>
+<div style="background-color:inherit;"><span style="color:#953734;background-color:inherit;">RB-Tree并不适应所有应用树的领域。如果数据基本上是静态的，那么让它们待在能够插入并且不影响平衡的地方会具有更好的性能。如果数据完全是静态的，用hashtable可能会更好一些。</span></div>
+<div><br /></div>
+</div>
+</div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"><span style="font-size:18px;line-height:27px;background-color:inherit;"><span style="font-size:14px;">参考：</span></span></div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">
+<div style="background-color:inherit;"><a href="http://blog.csdn.net/silangquan/article/details/18655795" rel="nofollow" style="background-color:inherit;">http://blog.csdn.net/silangquan/article/details/18655795</a></div>
+</div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">
+<div style="background-color:inherit;"><a href="http://blog.chinaunix.net/uid-20773165-id-1847756.html" rel="nofollow" style="background-color:inherit;">http://blog.chinaunix.net/uid-20773165-id-1847756.html</a></div>
+</div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">
+<div style="background-color:inherit;"><a href="http://blog.csdn.net/xocoder/article/details/8533849" rel="nofollow" style="background-color:inherit;">http://blog.csdn.net/xocoder/article/details/8533849</a></div>
+</div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">
+<div style="background-color:inherit;"><a href="http://blog.csdn.net/cws1214/article/details/9842679" rel="nofollow" style="background-color:inherit;">http://blog.csdn.net/cws1214/article/details/9842679</a></div>
+</div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">
+<div style="background-color:inherit;"><a href="http://www.xuebuyuan.com/2073109.html" rel="nofollow" style="background-color:inherit;">http://www.xuebuyuan.com/2073109.html</a></div>
+</div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;">《STL源码剖析》</div>
+<div style="font-family:'微软雅黑';font-size:14px;line-height:21px;"></div>
+            </div>
+                </div>
+				<div class="hide-article-box text-center">
+			<a class="btn btn-red-hollow" id="btn-readmore" data-track-view='{"mod":"popu_376","con":",https://blog.csdn.net/a987073381/article/details/52133283,"}' data-track-click='{"mod":"popu_376","con":",https://blog.csdn.net/a987073381/article/details/52133283,"}'>阅读更多</a>
+		</div>
+        	</article>
+	
+		<div class="article-bar-bottom">
+				<div class="article-copyright">
+			版权声明：本文为博主原创文章，未经博主允许不得转载。			https://blog.csdn.net/a987073381/article/details/52133283		</div>
+								<div class="tags-box">
+			<span class="label">个人分类：</span>
+						<a class="tag-link" href="https://blog.csdn.net/a987073381/article/category/6349134"  target="_blank">STL						</a>
+		</div>
+								<div class="tags-box hot-word">
+			<span class="label">相关热词：</span>
+						<a class="tag-link" href="https://blog.csdn.net/qq_14998713/article/details/52135049" target="_blank">
+			api和stl			</a>
+						<a class="tag-link" href="https://blog.csdn.net/weiwenhp/article/details/8691463" target="_blank">
+			stl交集			</a>
+						<a class="tag-link" href="https://blog.csdn.net/lfsblack/article/details/8213884" target="_blank">
+			stl矩阵计算			</a>
+						<a class="tag-link" href="https://blog.csdn.net/zhongkeli/article/details/6883288" target="_blank">
+			stl二分			</a>
+						<a class="tag-link" href="https://blog.csdn.net/tanqiuwei/article/details/7323374" target="_blank">
+			stl介绍			</a>
+					</div>
+			</div>
+			<!-- !empty($pre_next_article[0]) -->
+						<div class="related-article related-article-prev text-truncate">
+			<a href="https://blog.csdn.net/a987073381/article/details/52124064">
+				<span>上一篇</span>STL学习——STL中的序列式容器及适配器总结（vector、list、deque、stack、queue）			</a>
+		</div>
+								<div class="related-article related-article-next text-truncate">
+			<a href="https://blog.csdn.net/a987073381/article/details/52139203">
+				<span>下一篇</span>每日一练——大数加减乘除运算实现（网易笔试题）			</a>
+		</div>
+		</div>
+<script>
+    $(".MathJax").remove();
+</script>
+
+<!-- 博客详情页PC增加广告系统刷量代码 -->
+<div id="a52b5334d" style="width: 1px; height: 1px; display: none;">
+<script id="adJs52b5334"></script>
+<script>document.getElementById("adJs52b5334").src = "https://ads.csdn.net/js/opt/52b5334.js?t=" + Math.random();</script>
+</div>
+
+<script>
+	(function(){
+		var btnReadmore = $("#btn-readmore");
+		if(btnReadmore.length>0){
+			var winH = $(window).height();
+			var articleBox = $("div.article_content");
+			var artH = articleBox.height();
+			if(artH > winH*2){
+				articleBox.css({
+					'height':winH*2+'px',
+					'overflow':'hidden'
+				})
+				btnReadmore.click(function(){
+					articleBox.removeAttr("style");
+					$(this).parent().remove();
+				})
+			}else{
+				btnReadmore.parent().remove();
+			}
+		}
+	})()
+</script>
+        <div class="p4course_target" ></div><script>window.p4sdk_enable_courseBox=true</script>        <a id="commentBox"></a>
+<div class="comment-box">
+	  	<div class="unlogin-box text-center">
+		想对作者说点什么？
+		<!-- $curl 当前地址 -->
+		<a href="https://passport.csdn.net/account/login?from=https://blog.csdn.net/a987073381/article/details/52133283#commentBox" class="btn btn-sm btn-red">我来说一句</a>
+	</div>
+			<div class="comment-list-container">
+		<a id="comments"></a>
+		<div class="comment-list-box">
+		</div>
+		<div id="commentPage" class="pagination-box d-none"></div>
+		<div class="opt-box text-center">
+			<button class="btn btn-sm btn-link-blue" id="btnMoreComment"></button>
+		</div>
+	</div>
+</div>        <div class="recommend-box">
+            		<div class="recommend-item-box type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/yeswenqian/article/details/26621657,BlogCommendClickRateRank_0"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/yeswenqian/article/details/26621657,BlogCommendClickRateRank_0"}'>
+		<div class="content">
+			<h4 class="text-truncate oneline">
+				<a href="https://blog.csdn.net/yeswenqian/article/details/26621657" target="_blank" title="【深度探索 <em>STL</em>】【数据结构】详解红黑树（一）结构及插入">
+					【深度探索 <em>STL</em>】【数据结构】详解红黑树（一）结构及插入				</a>
+			</h4>
+			<div class="info-box d-flex align-content-center">
+				<p>
+					<a class="avatar" src="https://blog.csdn.net/yeswenqian" target="_blank">
+						<img src="https://avatar.csdn.net/6/6/F/3_yeswenqian.jpg" alt="yeswenqian" class="avatar-pic">
+						<span class="namebox">
+							<span class="name">yeswenqian</span>
+							<span class="triangle"></span>
+						</span>
+					</a>
+				</p>
+				<p class="date-and-readNum">
+					<span class="date hover-show">05-31</span>
+					<span class="read-num hover-hide">
+						<svg class="icon csdnc-yuedushu" aria-hidden="true">
+							<use xlink:href="#csdnc-yuedushu"></use>
+						</svg>
+						1235</span>
+					</p>
+				</div>
+				<p class="content oneline">
+					<a class="oneline" href="https://blog.csdn.net/yeswenqian/article/details/26621657" target="_blank" >
+						红黑树概述
+历史上 AVL 树流行的另一变种是红黑树（）					</a>
+				</p>
+		</div>
+				</div>
+					<div class="recommend-item-box type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/qq_27225851/article/details/51889707,BlogCommendClickRateRank_1"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/qq_27225851/article/details/51889707,BlogCommendClickRateRank_1"}'>
+		<div class="content">
+			<h4 class="text-truncate oneline">
+				<a href="https://blog.csdn.net/qq_27225851/article/details/51889707" target="_blank" title="<em>STL</em><em>关联式容器</em>之红黑树">
+					<em>STL</em><em>关联式容器</em>之红黑树				</a>
+			</h4>
+			<div class="info-box d-flex align-content-center">
+				<p>
+					<a class="avatar" src="https://blog.csdn.net/qq_27225851" target="_blank">
+						<img src="https://avatar.csdn.net/D/0/A/3_qq_27225851.jpg" alt="qq_27225851" class="avatar-pic">
+						<span class="namebox">
+							<span class="name">qq_27225851</span>
+							<span class="triangle"></span>
+						</span>
+					</a>
+				</p>
+				<p class="date-and-readNum">
+					<span class="date hover-show">07-12</span>
+					<span class="read-num hover-hide">
+						<svg class="icon csdnc-yuedushu" aria-hidden="true">
+							<use xlink:href="#csdnc-yuedushu"></use>
+						</svg>
+						525</span>
+					</p>
+				</div>
+				<p class="content oneline">
+					<a class="oneline" href="https://blog.csdn.net/qq_27225851/article/details/51889707" target="_blank" >
+						这一节我们来学习红黑树，如果你能够自己实现一个红黑树，那么对它的理解将会更加深刻。
+1、树的总览
+根节点到任何节点之间有一条唯一路径。
+路径长度：指路径所经过的边数。
+节点的深度：根节点至该节点的路径...					</a>
+				</p>
+		</div>
+				</div>
+									<!-- 第四范式广告开关 -->
+				<div class="p4courset3_target _4paradigm_box recommend-item-box clearfix" ></div>
+				<script>window.p4sdk_enable_recommendBox=true</script>
+			
+				<div class="recommend-item-box type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/wang664626482/article/details/50890682,BlogCommendClickRateRank_2"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/wang664626482/article/details/50890682,BlogCommendClickRateRank_2"}'>
+		<div class="content">
+			<h4 class="text-truncate oneline">
+				<a href="https://blog.csdn.net/wang664626482/article/details/50890682" target="_blank" title="<em>关联式容器</em>">
+					<em>关联式容器</em>				</a>
+			</h4>
+			<div class="info-box d-flex align-content-center">
+				<p>
+					<a class="avatar" src="https://blog.csdn.net/wang664626482" target="_blank">
+						<img src="https://avatar.csdn.net/2/D/B/3_wang664626482.jpg" alt="wang664626482" class="avatar-pic">
+						<span class="namebox">
+							<span class="name">wang664626482</span>
+							<span class="triangle"></span>
+						</span>
+					</a>
+				</p>
+				<p class="date-and-readNum">
+					<span class="date hover-show">03-14</span>
+					<span class="read-num hover-hide">
+						<svg class="icon csdnc-yuedushu" aria-hidden="true">
+							<use xlink:href="#csdnc-yuedushu"></use>
+						</svg>
+						222</span>
+					</p>
+				</div>
+				<p class="content oneline">
+					<a class="oneline" href="https://blog.csdn.net/wang664626482/article/details/50890682" target="_blank" >
+						容器分为序列式容器和关联式容器，而关联式容器主体有set,map,hashtable为主，而mutiset,multimap,hash_set, hash_map,hash_multiset,hash...					</a>
+				</p>
+		</div>
+				</div>
+					<div class="recommend-item-box type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/haluoluo211/article/details/80877064,BlogCommendClickRateRank_3"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/haluoluo211/article/details/80877064,BlogCommendClickRateRank_3"}'>
+		<div class="content">
+			<h4 class="text-truncate oneline">
+				<a href="https://blog.csdn.net/haluoluo211/article/details/80877064" target="_blank" title="<em>STL</em>关联容器-红黑树">
+					<em>STL</em>关联容器-红黑树				</a>
+			</h4>
+			<div class="info-box d-flex align-content-center">
+				<p>
+					<a class="avatar" src="https://blog.csdn.net/haluoluo211" target="_blank">
+						<img src="https://avatar.csdn.net/9/D/7/3_haluoluo211.jpg" alt="haluoluo211" class="avatar-pic">
+						<span class="namebox">
+							<span class="name">haluoluo211</span>
+							<span class="triangle"></span>
+						</span>
+					</a>
+				</p>
+				<p class="date-and-readNum">
+					<span class="date hover-show">07-01</span>
+					<span class="read-num hover-hide">
+						<svg class="icon csdnc-yuedushu" aria-hidden="true">
+							<use xlink:href="#csdnc-yuedushu"></use>
+						</svg>
+						37</span>
+					</p>
+				</div>
+				<p class="content oneline">
+					<a class="oneline" href="https://blog.csdn.net/haluoluo211/article/details/80877064" target="_blank" >
+						关联式容器分为set(集合）和map(映射)两大类，以及这两大类衍生体multiset(多键集合)和multimap（多键映射）。这些容器的底层机制均以RB-tree（红黑树）完成。RB-tree是一...					</a>
+				</p>
+		</div>
+				</div>
+					<div class="recommend-item-box type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/jy02326166/article/details/25196283,BlogCommendClickRateRank_4"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/jy02326166/article/details/25196283,BlogCommendClickRateRank_4"}'>
+		<div class="content">
+			<h4 class="text-truncate oneline">
+				<a href="https://blog.csdn.net/jy02326166/article/details/25196283" target="_blank" title="【<em>STL</em>】关联容器 — 红黑树">
+					【<em>STL</em>】关联容器 — 红黑树				</a>
+			</h4>
+			<div class="info-box d-flex align-content-center">
+				<p>
+					<a class="avatar" src="https://blog.csdn.net/jy02326166" target="_blank">
+						<img src="https://avatar.csdn.net/2/9/0/3_jy02326166.jpg" alt="jy02326166" class="avatar-pic">
+						<span class="namebox">
+							<span class="name">jy02326166</span>
+							<span class="triangle"></span>
+						</span>
+					</a>
+				</p>
+				<p class="date-and-readNum">
+					<span class="date hover-show">05-07</span>
+					<span class="read-num hover-hide">
+						<svg class="icon csdnc-yuedushu" aria-hidden="true">
+							<use xlink:href="#csdnc-yuedushu"></use>
+						</svg>
+						1445</span>
+					</p>
+				</div>
+				<p class="content oneline">
+					<a class="oneline" href="https://blog.csdn.net/jy02326166/article/details/25196283" target="_blank" >
+						set、map、multiset、multimap四种关联式容器的内部都是由红黑树实现的。在STL中红黑树是一个不给外界使用的独立容器。既然是容器，那么就会分配内存空间（节点），内部也会存在迭代器。关...					</a>
+				</p>
+		</div>
+				</div>
+					<div class="recommend-item-box type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/cust_hf/article/details/17654363,BlogCommendClickRateRank_5"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/cust_hf/article/details/17654363,BlogCommendClickRateRank_5"}'>
+		<div class="content">
+			<h4 class="text-truncate oneline">
+				<a href="https://blog.csdn.net/cust_hf/article/details/17654363" target="_blank" title="基于<em>STL</em><em>关联式容器</em>的红黑树效果测试程序">
+					基于<em>STL</em><em>关联式容器</em>的红黑树效果测试程序				</a>
+			</h4>
+			<div class="info-box d-flex align-content-center">
+				<p>
+					<a class="avatar" src="https://blog.csdn.net/cust_hf" target="_blank">
+						<img src="https://avatar.csdn.net/9/C/F/3_cust_hf.jpg" alt="cust_hf" class="avatar-pic">
+						<span class="namebox">
+							<span class="name">cust_hf</span>
+							<span class="triangle"></span>
+						</span>
+					</a>
+				</p>
+				<p class="date-and-readNum">
+					<span class="date hover-show">12-29</span>
+					<span class="read-num hover-hide">
+						<svg class="icon csdnc-yuedushu" aria-hidden="true">
+							<use xlink:href="#csdnc-yuedushu"></use>
+						</svg>
+						639</span>
+					</p>
+				</div>
+				<p class="content oneline">
+					<a class="oneline" href="https://blog.csdn.net/cust_hf/article/details/17654363" target="_blank" >
+						//============================================================================
+// Name        : Test...					</a>
+				</p>
+		</div>
+						<div class="img-box float-left">
+				<a href="https://blog.csdn.net/cust_hf/article/details/17654363">
+					<img src="https://csdnimg.cn/release/phoenix/article_rand_pic/blockchain/blockchain8.jpg" alt="">	
+				</a>
+			</div>
+			</div>
+								<div class="recommend-item-box recommend-ad-box" id="a_d_feed_0"></div>
+			<script>
+				var width = $("div.recommend-box").outerWidth() - 48;
+				NEWS_FEED({
+					w: width,
+					h: 60,
+					showid: 'Afihld',
+					placeholderId: 'a_d_feed_0',
+					inject: 'define',
+					define: {
+						imagePosition: 'left',
+						imageBorderRadius: 0,
+						imageWidth: 90,
+						imageHeight: 60,
+						imageFill: 'clip',
+						displayImage: true,
+						displayTitle: true,
+						titleFontSize: 20,
+						titleFontColor: '#333',
+						titleFontFamily: 'Microsoft Yahei',
+						titleFontWeight: 'bold',
+						titlePaddingTop: 0,
+						titlePaddingRight: 0,
+						titlePaddingBottom: 10,
+						titlePaddingLeft: 8,
+						displayDesc: true,
+						descFontSize: 14,
+						descPaddingLeft: 14,
+						descFontColor: '#6b6b6b',
+						descFontFamily: 'Microsoft Yahei',
+						paddingTop: 0,
+						paddingRight: 0,
+						paddingBottom: 0,
+						paddingLeft: 0,
+						backgroundColor: '#fff',
+						hoverColor: '#ca0c16'
+					}
+				})
+			</script>
+					<div class="recommend-item-box type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/longhuihu/article/details/6209642,BlogCommendClickRateRank_6"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/longhuihu/article/details/6209642,BlogCommendClickRateRank_6"}'>
+		<div class="content">
+			<h4 class="text-truncate oneline">
+				<a href="https://blog.csdn.net/longhuihu/article/details/6209642" target="_blank" title="<em>STL</em>源码剖析之五：<em>关联式容器</em>">
+					<em>STL</em>源码剖析之五：<em>关联式容器</em>				</a>
+			</h4>
+			<div class="info-box d-flex align-content-center">
+				<p>
+					<a class="avatar" src="https://blog.csdn.net/longhuihu" target="_blank">
+						<img src="https://avatar.csdn.net/6/F/1/3_longhuihu.jpg" alt="longhuihu" class="avatar-pic">
+						<span class="namebox">
+							<span class="name">longhuihu</span>
+							<span class="triangle"></span>
+						</span>
+					</a>
+				</p>
+				<p class="date-and-readNum">
+					<span class="date hover-show">02-26</span>
+					<span class="read-num hover-hide">
+						<svg class="icon csdnc-yuedushu" aria-hidden="true">
+							<use xlink:href="#csdnc-yuedushu"></use>
+						</svg>
+						2046</span>
+					</p>
+				</div>
+				<p class="content oneline">
+					<a class="oneline" href="https://blog.csdn.net/longhuihu/article/details/6209642" target="_blank" >
+						关联式容器    所谓关联式容器，观念上类似于关联式数据库：每笔数据都有一个键值（key）和一个实际值（value）。当元素被插入容器时，内部机制根据键值，按着一定的规则将元素置于特定的位置。关联式容...					</a>
+				</p>
+		</div>
+				</div>
+					<div class="recommend-item-box type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/The_star_is_at/article/details/70088722,BlogCommendClickRateRank_7"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/The_star_is_at/article/details/70088722,BlogCommendClickRateRank_7"}'>
+		<div class="content">
+			<h4 class="text-truncate oneline">
+				<a href="https://blog.csdn.net/The_star_is_at/article/details/70088722" target="_blank" title="哈希表入门讲解">
+					哈希表入门讲解				</a>
+			</h4>
+			<div class="info-box d-flex align-content-center">
+				<p>
+					<a class="avatar" src="https://blog.csdn.net/The_star_is_at" target="_blank">
+						<img src="https://avatar.csdn.net/E/A/E/3_the_star_is_at.jpg" alt="The_star_is_at" class="avatar-pic">
+						<span class="namebox">
+							<span class="name">The_star_is_at</span>
+							<span class="triangle"></span>
+						</span>
+					</a>
+				</p>
+				<p class="date-and-readNum">
+					<span class="date hover-show">04-11</span>
+					<span class="read-num hover-hide">
+						<svg class="icon csdnc-yuedushu" aria-hidden="true">
+							<use xlink:href="#csdnc-yuedushu"></use>
+						</svg>
+						1617</span>
+					</p>
+				</div>
+				<p class="content oneline">
+					<a class="oneline" href="https://blog.csdn.net/The_star_is_at/article/details/70088722" target="_blank" >
+						散列表（Hash table，也叫哈希表），是根据键（Key）而直接访问在内存存储位置的数据结构。也就是说，它通过计算一个关于键值的函数，将所需查询的数据映射到表中一个位置来访问记录，这加快了查找速度...					</a>
+				</p>
+		</div>
+						<div class="img-box float-left">
+				<a href="https://blog.csdn.net/The_star_is_at/article/details/70088722">
+					<img src="https://csdnimg.cn/release/phoenix/article_rand_pic/lang/lang35.jpg" alt="">	
+				</a>
+			</div>
+			</div>
+					<div class="recommend-item-box type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/misayaaaaa/article/details/71780483,BlogCommendClickRateRank_8"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/misayaaaaa/article/details/71780483,BlogCommendClickRateRank_8"}'>
+		<div class="content">
+			<h4 class="text-truncate oneline">
+				<a href="https://blog.csdn.net/misayaaaaa/article/details/71780483" target="_blank" title="数据结构——线性表——散列存储结构——哈希表知识点<em>总结</em>">
+					数据结构——线性表——散列存储结构——哈希表知识点<em>总结</em>				</a>
+			</h4>
+			<div class="info-box d-flex align-content-center">
+				<p>
+					<a class="avatar" src="https://blog.csdn.net/misayaaaaa" target="_blank">
+						<img src="https://avatar.csdn.net/6/7/C/3_misayaaaaa.jpg" alt="misayaaaaa" class="avatar-pic">
+						<span class="namebox">
+							<span class="name">misayaaaaa</span>
+							<span class="triangle"></span>
+						</span>
+					</a>
+				</p>
+				<p class="date-and-readNum">
+					<span class="date hover-show">05-14</span>
+					<span class="read-num hover-hide">
+						<svg class="icon csdnc-yuedushu" aria-hidden="true">
+							<use xlink:href="#csdnc-yuedushu"></use>
+						</svg>
+						3061</span>
+					</p>
+				</div>
+				<p class="content oneline">
+					<a class="oneline" href="https://blog.csdn.net/misayaaaaa/article/details/71780483" target="_blank" >
+						散列(hashing)是一种重要的存储方法，也是一种常见的查找方法。
+
+
+基本思想：以结点的关键字k为自变量，通过一个确定的函数关系f，计算出对应的函数值，吧这个函数值解释为结点的存储地址，将结点存入...					</a>
+				</p>
+		</div>
+				</div>
+					<div class="recommend-item-box type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/yzhang6_10/article/details/50866043,BlogCommendClickRateRank_9"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/yzhang6_10/article/details/50866043,BlogCommendClickRateRank_9"}'>
+		<div class="content">
+			<h4 class="text-truncate oneline">
+				<a href="https://blog.csdn.net/yzhang6_10/article/details/50866043" target="_blank" title="<em>STL</em>-<em>关联式容器</em>">
+					<em>STL</em>-<em>关联式容器</em>				</a>
+			</h4>
+			<div class="info-box d-flex align-content-center">
+				<p>
+					<a class="avatar" src="https://blog.csdn.net/yzhang6_10" target="_blank">
+						<img src="https://avatar.csdn.net/2/F/B/3_yzhang6_10.jpg" alt="yzhang6_10" class="avatar-pic">
+						<span class="namebox">
+							<span class="name">yzhang6_10</span>
+							<span class="triangle"></span>
+						</span>
+					</a>
+				</p>
+				<p class="date-and-readNum">
+					<span class="date hover-show">03-12</span>
+					<span class="read-num hover-hide">
+						<svg class="icon csdnc-yuedushu" aria-hidden="true">
+							<use xlink:href="#csdnc-yuedushu"></use>
+						</svg>
+						553</span>
+					</p>
+				</div>
+				<p class="content oneline">
+					<a class="oneline" href="https://blog.csdn.net/yzhang6_10/article/details/50866043" target="_blank" >
+						STL——关联式容器容器分类：序列式和关联式两种。序列式：array（数组）、vector（向量）、heap（堆）、priority-queue（优先级队列）、deque（双端队列）、slist、li...					</a>
+				</p>
+		</div>
+				</div>
+			
+            <div class="recommend-loading-box">
+                <img src='https://csdnimg.cn/release/phoenix/images/feedLoading.gif'>
+            </div>
+            <div class="recommend-end-box">
+                <p class="text-center">没有更多推荐了，<a href="https://blog.csdn.net/" class="c-blue c-blue-hover c-blue-focus">返回首页</a></p>
+            </div>
+        </div>
+    </main>
+    <aside>
+		    <div id="asideProfile" class="aside-box">
+    <h3 class="aside-title">个人资料</h3>
+    <div class="profile-intro d-flex">
+        <div class="avatar-box d-flex justify-content-center flex-column">
+            <a href="https://blog.csdn.net/a987073381">
+                <img src="https://avatar.csdn.net/B/5/8/3_a987073381.jpg" class="avatar_pic">
+            </a>
+        </div>
+        <div class="user-info d-flex justify-content-center flex-column">
+            <p class="name csdn-tracking-statistics tracking-click" data-mod="popu_379">
+                <a href="https://blog.csdn.net/a987073381" target="_blank" class="text-truncate" id="uid">yexz</a>
+            </p>
+                    </div>
+                <div class="opt-box d-flex justify-content-center flex-column">
+            <span  class="csdn-tracking-statistics tracking-click" data-mod="popu_379">
+                                <a class="btn btn-sm btn-red-hollow" href="https://passport.csdn.net/account/login?from=https://blog.csdn.net/a987073381/article/details/52133283" target="_self">关注</a>
+                            </span>
+                    </div>
+            </div>
+    <div class="data-info d-flex item-tiling">
+                <dl class="text-center" title="26">
+                        <dt><a href="https://blog.csdn.net/a987073381?t=1">原创</a></dt>
+            <dd><a href="https://blog.csdn.net/a987073381?t=1"><span class="count">26</span></a></dd>
+                    </dl>
+        <dl class="text-center" title="37">
+            <dt>粉丝</dt>
+            <dd><span class="count" id="fan">37</span></dd>
+        </dl>
+        <dl class="text-center" title="22">
+            <dt>喜欢</dt>
+            <dd><span class="count">22</span></dd>
+        </dl>
+        <dl class="text-center" title="19">
+            <dt>评论</dt>
+            <dd><span class="count">19</span></dd>
+        </dl>
+    </div>
+    <div class="grade-box clearfix">
+        <dl>
+            <dt>等级：</dt>
+            <dd>
+                <a href="https://blog.csdn.net/home/help.html#level" title="3级,点击查看等级说明" target="_blank">
+                    <svg class="icon icon-level" aria-hidden="true">
+                        <use xlink:href="#csdnc-bloglevel-3"></use>
+                    </svg>
+                </a>
+            </dd>
+        </dl>
+        <dl>
+            <dt>访问：</dt>
+            <dd title="80744">
+                8万+            </dd>
+        </dl>
+        <dl>
+            <dt>积分：</dt>
+            <dd title="966">
+                966            </dd>
+        </dl>
+        <dl title="58491">
+            <dt>排名：</dt>
+            <dd>5万+</dd>
+        </dl>
+    </div>
+    </div>		    <div class="csdn-tracking-statistics mb8 box-shadow" data-pid="blog" data-mod="popu_4" style="height:250px;">
+    <div class="aside-content text-center" id="cpro_u2734133">
+      <!-- 广告位：PC-博客内页-百度联盟-300x250 -->
+                      <script type="text/javascript" src="//cee1.iteye.com/lgyyovfyh.js"></script>    </div>
+</div>
+		    <div id="asideNewArticle" class="aside-box">
+    <h3 class="aside-title">最新文章</h3>
+    <div class="aside-content">
+        <ul class="inf_list clearfix csdn-tracking-statistics tracking-click" data-mod="popu_382">
+                        <li class="clearfix">
+                <a href="https://blog.csdn.net/a987073381/article/details/52389939" target="_blank">nginx学习——建立hash表的前提条件</a>
+            </li>
+                        <li class="clearfix">
+                <a href="https://blog.csdn.net/a987073381/article/details/52357990" target="_blank">nginx学习——从基本hash表到支持通配符的hash表（下）</a>
+            </li>
+                        <li class="clearfix">
+                <a href="https://blog.csdn.net/a987073381/article/details/52348835" target="_blank">nginx学习——从基本hash表到支持通配符的hash表（上）</a>
+            </li>
+                        <li class="clearfix">
+                <a href="https://blog.csdn.net/a987073381/article/details/52337635" target="_blank">nginx学习——nginx中的内存池技术（与STL内存池对比分析）</a>
+            </li>
+                        <li class="clearfix">
+                <a href="https://blog.csdn.net/a987073381/article/details/52319282" target="_blank">每日一练——两个单链表相交的一系列问题</a>
+            </li>
+                    </ul>
+    </div>
+</div>
+		    		    <div id="asideCategory" class="aside-box flexible-box">
+    <h3 class="aside-title">个人分类</h3>
+    <div class="aside-content">
+        <ul>
+                        <li>
+                <a href="https://blog.csdn.net/a987073381/article/category/6165060">
+                    算法                    <span class="count float-right">9篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/a987073381/article/category/6304337">
+                    linux                    <span class="count float-right">12篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/a987073381/article/category/6320126">
+                    网络                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/a987073381/article/category/6349134">
+                    STL                    <span class="count float-right">3篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/a987073381/article/category/6353846">
+                    设计模式                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/a987073381/article/category/6388412">
+                    nginx                    <span class="count float-right">3篇</span>
+                </a>
+            </li>
+                    </ul>
+    </div>
+        <p class="text-center">
+        <a class="btn btn-link-blue flexible-btn" data-fbox="aside-archive">展开</a>
+    </p>
+    </div>
+		    <div id="asideArchive" class="aside-box">
+    <h3 class="aside-title">归档</h3>
+    <div class="aside-content">
+        <ul class="archive-list">
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/a987073381/article/month/2016/08">
+                    2016年8月                    <span class="count float-right">17篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/a987073381/article/month/2016/07">
+                    2016年7月                    <span class="count float-right">9篇</span>
+                </a>
+            </li>
+                    </ul>
+    </div>
+    </div>
+		    <div id="asideHotArticle" class="aside-box">
+	<h3 class="aside-title">热门文章</h3>
+	<div class="aside-content">
+		<ul class="hotArticle-list csdn-tracking-statistics tracking-click" data-mod="popu_521">
+							<li>
+					<a href="https://blog.csdn.net/a987073381/article/details/52206215">计算机网络——TCP协议中的三次握手四次挥手以及11种状态转换</a>
+					<p class="read">阅读量：<span>16319</span></p>
+				</li>
+							<li>
+					<a href="https://blog.csdn.net/a987073381/article/details/52006729">linux基础——linux进程间通信（IPC）机制总结</a>
+					<p class="read">阅读量：<span>13329</span></p>
+				</li>
+							<li>
+					<a href="https://blog.csdn.net/a987073381/article/details/52029070">linux基础——linux线程间通信及同步机制总结</a>
+					<p class="read">阅读量：<span>11058</span></p>
+				</li>
+							<li>
+					<a href="https://blog.csdn.net/a987073381/article/details/52016960">每日一练——从长度为n的数组里选出m个数使和为固定值sum</a>
+					<p class="read">阅读量：<span>6727</span></p>
+				</li>
+							<li>
+					<a href="https://blog.csdn.net/a987073381/article/details/52245795">STL学习——STL中的内存池管理技术</a>
+					<p class="read">阅读量：<span>4656</span></p>
+				</li>
+					</ul>
+	</div>
+</div>
+		    <div id="asideNewComments" class="aside-box">
+    <h3 class="aside-title">最新评论</h3>
+    <div class="aside-content">
+        <ul class="newcomment-list">
+                        <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/a987073381/article/details/52006729#comments">linux基础——linux进程间...</a>
+                <p class="comment">
+                    <a href="https://my.csdn.net/liuzehn" class="user-name" target="_blank">liuzehn</a>：[reply]Vaicml[/reply]
+没错，理解的问题                </p>
+            </li>
+                        <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/a987073381/article/details/52006729#comments">linux基础——linux进程间...</a>
+                <p class="comment">
+                    <a href="https://my.csdn.net/Vaicml" class="user-name" target="_blank">Vaicml</a>：[reply]u012701243[/reply]
+进程的同步和互斥就是一种进程间的通信方式，属于...                </p>
+            </li>
+                        <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/a987073381/article/details/52206215#comments">计算机网络——TCP协议中的三次握...</a>
+                <p class="comment">
+                    <a href="https://my.csdn.net/u011328417" class="user-name" target="_blank">u011328417</a>：我觉得 MSL是最长报文生存时间，换句话说，包中一端到达另一端一般是花不了1MSL的，所以当假设客...                </p>
+            </li>
+                        <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/a987073381/article/details/52006729#comments">linux基础——linux进程间...</a>
+                <p class="comment">
+                    <a href="https://my.csdn.net/whh1415095745" class="user-name" target="_blank">whh1415095745</a>：[reply]u012701243[/reply]
+正解                </p>
+            </li>
+                        <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/a987073381/article/details/52029070#comments">linux基础——linux线程间...</a>
+                <p class="comment">
+                    <a href="https://my.csdn.net/tan_ke" class="user-name" target="_blank">tan_ke</a>：好！                </p>
+            </li>
+                    </ul>
+    </div>
+</div>
+		<div id="asideFooter">
+			
+		<div class="aside-box">
+						<script type="text/javascript" src="//cee1.iteye.com/avneunkwb.js"></script>
+					</div>
+				<div class="aside-box">
+			<div class="persion_article">
+			</div>
+		</div>
+	</div>
+</aside>
+<script src="https://csdnimg.cn/pubfooter/js/publib_footer-1.0.3.js" data-isfootertrack="false" type="text/javascript"></script>
+<script>
+	$("a.flexible-btn").click(function(){
+		$(this).parents('div.aside-box').removeClass('flexible-box');
+		$(this).remove();
+	})
+</script>
+</div>
+<div class="mask-dark"></div>
+<div class="pulllog-box" style="display: block;">
+	<div class="pulllog clearfix">
+		<span class="text float-left">
+			<!-- 广告位：PC-博客内页底通 文字链位置 -->
+			<script>
+			(function() {
+				var s = "_" + Math.random().toString(36).slice(2);
+				document.write('<div id="baidufooter_0001"></div>');
+				(window.slotbydup=window.slotbydup || []).push({
+					id: '5851901',
+					container: 'baidufooter_0001',
+					size: '520,40',
+					display: 'inlay-fix'
+				});
+			})();
+			</script>
+			<script src="https://dup.baidustatic.com/js/os.js"></script>
+			<style>
+				#baidufooter_0001{
+					display: none !important;
+				}
+			</style>
+		</span>
+		<div class="pulllog-btn float-right clearfix">
+            <button class="pulllog-login float-left csdn-tracking-statistics tracking-click" data-mod="popu_557">
+                登录
+            </button>
+            <div class="pulllog-sigin float-left csdn-tracking-statistics tracking-click" data-mod="popu_558">
+                <a href="https://passport.csdn.net/account/mobileregister" target="_blank">注册</a>
+            </div>
+            <button class="btn-close">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#csdnc-times"></use>
+                </svg>
+            </button>
+		</div>
+	</div>
+</div>
+<div id="loginWrap" style="display:none"></div>
+<div class="tool-box">
+	<ul class="meau-list">
+		<li>
+			<button class="btn-like " title="点赞">
+				<svg class="icon active" aria-hidden="true">
+					<use xlink:href="#csdnc-thumbsup-ok"></use>
+				</svg><svg class="icon no-active" aria-hidden="true">
+					<use xlink:href="#csdnc-thumbsup"></use>
+				</svg>
+				<p>0</p>
+			</button>
+		</li>
+		<li>
+			<a class="btn-comments" title="写评论" href="#commentBox">
+				<svg class="icon" aria-hidden="true">
+					<use xlink:href="#csdnc-comments"></use>
+				</svg><br>写评论			</a>
+		</li>
+		<li class="toc-container-box" id="liTocBox">
+			<button class="btn-toc" title="目录">
+				<svg class="icon" aria-hidden="true">
+					<use xlink:href="#csdnc-contents"></use>
+				</svg><br>目录
+			</button>
+			<div class="toc-container">
+				<div class="pos-box">
+					<div class="icon-arrow"></div>
+					<div class="scroll-box">
+						<div class="toc-box"></div>
+					</div>
+				</div>
+				<div class="opt-box">
+					<button class="btn-opt prev nomore" title="向上">
+						<svg class="icon" aria-hidden="true">
+							<use xlink:href="#csdnc-chevronup"></use>
+						</svg>
+					</button>
+					<button class="btn-opt next">
+						<svg class="icon" aria-hidden="true">
+							<use xlink:href="#csdnc-chevrondown"></use>
+						</svg>
+					</button>
+				</div>
+			</div>
+		</li>
+		<li>
+			<button class="btn-bookmark" title="收藏">
+				<svg class="icon active" aria-hidden="true">
+					<use xlink:href="#csdnc-bookmark-ok"></use>
+				</svg><svg class="icon no-active" aria-hidden="true">
+					<use xlink:href="#csdnc-bookmark"></use>
+				</svg><br>收藏
+			</button>
+		</li>
+				<li class="bdsharebuttonbox">
+			<a class="btn-comments bds_weixin" data-cmd="weixin" title="微信分享">
+				<svg class="icon" aria-hidden="true">
+					<use xlink:href="#csdnc-wechat"></use>
+				</svg><br>微信
+			</a>
+		</li>
+		<li class="bdsharebuttonbox">
+			<a class="btn-comments bds_tsina" data-cmd="tsina" title="微博分享">
+				<svg class="icon" aria-hidden="true">
+					<use xlink:href="#csdnc-weibo"></use>
+				</svg><br>微博
+			</a>
+		</li>
+		<li class="bdsharebuttonbox">
+			<a class="btn-comments bds_qzone" data-cmd="qzone" title="QQ分享">
+				<svg class="icon" aria-hidden="true">
+					<use xlink:href="#csdnc-qq"></use>
+				</svg><br>QQ
+			</a>
+		</li>
+				<li class="bdsharebuttonbox"style="margin-top: 8px;">
+			<script type="text/javascript" src="//cjhd.mediav.com/js/interactive_plugin.js"></script> 
+			<style>
+				#_360_interactive > *{
+					 margin-left: -8px;
+				}
+			</style>
+			<div id="_360_interactive" > 
+				<script> INTERACTIVE_PLUGIN.render({ showid : 'N0ufqn', w: 60, h: 60, type: 'hover', placeholderId: '_360_interactive' }); </script> 
+			</div>
+			<img src="//img-ads.csdn.net/2016/201608021757063065.png" style="margin: 0 auto;display: block;" alt="">
+		</li>
+	  	</ul>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'https://csdnimg.cn/static/api/js/share.js?v=89860594'];</script>
+<script>
+    var recommendCount = 10;
+    recommendCount = recommendCount > 1 ? (recommendCount + (recommendCount>6 ? 2 : 1)) : recommendCount;
+    var articleTit = "STL学习——STL中的关联式容器总结（RB-tree、set、map、hashtable、hash_set、hash_map）";
+    var ChannelId = 7;
+    var articleId = "52133283";
+    var commentscount = 0;
+    var islock = false;
+    var curentUrl = "https://blog.csdn.net/a987073381/article/details/52133283";
+    var myUrl = "https://my.csdn.net/";
+    //1禁止评论，2正常
+    var commentAuth = 2;
+    //百度搜索
+    var baiduKey = "stl+%E5%85%B3%E8%81%94%E5%BC%8F%E5%AE%B9%E5%99%A8+%E7%BA%A2%E9%BB%91%E6%A0%91";
+    var needInsertBaidu = true;
+    // 代码段样式
+    var codeStyle = '';
+    var highlight = ["stl","\u5b66\u4e60","stl","\u5173\u8054\u5f0f\u5bb9\u5668","\u603b\u7ed3","rb-tree","set","map","hashtable","hash_set","hash_map"];//高亮数组
+</script>
+<script src="https://csdnimg.cn/public/sandalstrap/1.3/js/sandalstrap.min.js"></script>
+<script src="https://csdnimg.cn/release/phoenix/vendor/pagination/paging.js"></script>
+<script src='https://csdnimg.cn/public/common/gotop/js/goTop-v1.0.min.js?v201803151422'></script>
+<script>
+    GoTop({
+        right: 8,
+        hasReport: true,
+        reportFun: function() {
+            showReport(false,"STL学习——STL中的关联式容器总结（RB-tree、set、map、hashtable、hash_set、hash_map）");
+        }
+    })
+</script>
+<script src="https://csdnimg.cn/release/phoenix/template/js/common-a4f198c74c.min.js"></script>
+<script src="https://csdnimg.cn/release/phoenix/template/js/detail-724d166897.min.js"></script>
+<script src="https://csdnimg.cn/release/phoenix/themes/skin3-template/skin3-template-73eea35575.min.js"></script>
+<script src="https://csdnimg.cn/search/baidu_search-1.1.2.js?v=201802071056&autorun=true&install=true&keyword=stl+%E5%85%B3%E8%81%94%E5%BC%8F%E5%AE%B9%E5%99%A8+%E7%BA%A2%E9%BB%91%E6%A0%91"  type="text/javascript"></script>
+</body>
+<div class="box-box-aways">
+    <a class="btn-remove">
+        关闭
+    </a>
+    <div id="adAways">
+        <script>
+            (function() {
+            (window.slotbydup=window.slotbydup || []).push({
+            id: '5868728',
+            container: 'adAways',
+            size: '250,500',
+            display: 'inlay-fix'
+            });
+            })();
+            </script>
+        <script src="https://dup.baidustatic.com/js/os.js"></script>
+    </div>
+</div>
+<div class="box-box-default">
+    <a class="btn-remove">
+        关闭
+    </a>
+    <script type="text/javascript" src="//cee1.iteye.com/mhzzjepzz.js"></script>
+</div>
+<div class="box-box-large">
+    <a class="btn-remove">
+        关闭
+    </a>
+    <script type="text/javascript" src="//cee1.iteye.com/idvveasfs.js"></script>
+</div>
+<!-- 第四范式SDK -->
+
+<!-- 高亮未与 markdown兼容  -->
+	<link rel="stylesheet" href="https://csdnimg.cn/release/blog_editor_html/release1.3.1/ckeditor/plugins/chart/chart.css" />
+	<script type="text/javascript" src="https://csdnimg.cn/release/blog_editor_html/release1.3.1/ckeditor/plugins/chart/lib/chart.min.js"></script>
+	<script type="text/javascript" src="https://csdnimg.cn/release/blog_editor_html/release1.3.1/ckeditor/plugins/chart/widget2chart.js"></script>
+	<link rel="stylesheet" href="https://csdnimg.cn/release/blog_editor_html/release1.3.1/ckeditor/plugins/codesnippet/lib/highlight/styles/atom-one-dark.css">
+	<script type="text/javascript" src="https://csdnimg.cn/release/phoenix/production/pc_wap_common-93244aa03c.js" /></script>
+
+	<script type="text/javascript">
+	$(function(){
+		var allEscRegex = /&(lt|gt|amp|quot|nbsp|shy|#\d{1,5});/g,
+		    namedEntities = {
+					lt: '<',
+					gt: '>',
+					amp: '&',
+					quot: '"',
+					nbsp: '\u00a0',
+					shy: '\u00ad'
+				}
+		var allEscDecode = function( match, code ) {
+				return namedEntities[ code ];
+		};
+		htmlDecodeAttr = function( text ) {
+				return text.replace( allEscRegex, allEscDecode );
+		}
+	  hljs.initHighlightingOnLoad();
+	  hljs.initCopyButtonOnLoad();
+	  hljs.initLineNumbersOnLoad();
+		if($('pre .language-plain').length>0){
+			$('pre .language-plain').each(function(i,e){
+				var highlightRe = hljs.highlightAuto(htmlDecodeAttr(e.innerHTML))
+				e.innerHTML = highlightRe.value;
+				e.className = 'language-'+highlightRe.language;
+			});
+		}
+	})
+	</script>
+<script type="text/javascript" src="https://static-blog.csdn.net/mdeditor/public/res/bower-libs/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+            "HTML-CSS": {
+                    linebreaks: { automatic: true, width: "94%container" },
+                    imageFont: null
+            },
+            tex2jax: {
+                preview: "none"
+            },
+            mml2jax: {
+                preview: 'none'
+            }
+    });
+</script>
+</html>

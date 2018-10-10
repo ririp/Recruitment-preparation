@@ -1,0 +1,1899 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <link rel="canonical" href="https://blog.csdn.net/c15522627353/article/details/52972941"/> 
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="referrer" content="always">
+    <meta name="description" content="进程的概念
+进程是操作系统的概念，每当我们执行一个程序时，对于操作系统来讲就创建了一个进程,在这个过程中，伴随着资源的分配和释放。可以认为进程是一个程序的一次执行过程。
+进程通信的概念
+进程用户空间是相互独立的，一般而言是不能相互访问的。但很多情况下进程间需要互相通信，来完成系统的某项功能。进程通过与内核及其它进程之间的互相通信来协调它们的行为。
+进程通信的应用场景
+数据传输：一个进程需要将它的数据" />
+    <meta name="keywords" content="" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848">
+    <script src="https://csdnimg.cn/release/phoenix/vendor/tingyun/tingyun-rum-blog.js"></script>
+
+    <link href="https://csdnimg.cn/public/favicon.ico" rel="SHORTCUT ICON">
+    <title>Linux进程间的通信方式和原理 - CSDN博客</title>
+    
+            <link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/template/css/detail-028e3aeac3.min.css">
+        <link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/themes/skin3-template/skin3-template-8195ccbe2d.min.css">
+
+    <script type="text/javascript">
+        var username = "c15522627353";
+        var blog_address = "https://blog.csdn.net/c15522627353";
+        var static_host = "https://csdnimg.cn/release/phoenix/";
+        var currentUserName = ""; 
+        var isShowAds = true;
+        var isOwner = false;
+        var loginUrl = "https://passport.csdn.net/account/login?from=https://blog.csdn.net/c15522627353/article/details/52972941"
+        var blogUrl = "https://blog.csdn.net/";
+        //页面皮肤样式
+        var curSkin = "skin3-template";
+    </script>
+    <script type="text/javascript">
+        // Traffic Stats of the entire Web site By baidu
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?6bcd52f51e9b3dce32bec4a3997715ac";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+        // Traffic Stats of the entire Web site By baidu end
+    </script>
+    <script src="https://csdnimg.cn/public/common/libs/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script src="https://csdnimg.cn/rabbit/exposure-click/main-1.0.6.js"></script>
+    <!-- 新版上报 -->
+    <script src="//g.csdnimg.cn/track/1.0.1/track.js" type="text/javascript"></script>
+    <!-- 新版上报end -->
+            <link rel="stylesheet" href="https://csdnimg.cn/public/sandalstrap/1.3/css/sandalstrap.min.css"> 
+    <style>
+        .MathJax, .MathJax_Message, .MathJax_Preview{
+            display: none
+        }
+    </style>
+</head>
+<body>    
+    <link rel="stylesheet" href="https://csdnimg.cn/public/common/toolbar/content_toolbar_css/content_toolbar.css">
+    <script id="toolbar-tpl-scriptId" src="https://csdnimg.cn/public/common/toolbar/js/content_toolbar.js" type="text/javascript" domain="https://blog.csdn.net/"></script>
+<link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/template/css/blog_code-c3a0c33d5c.css">
+<link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/vendor/pagination/paging.css">
+<script type="text/javascript" src="//static.mediav.com/js/mvf_news_feed.js"></script>
+<div style="display:none;">
+	<img src="" onerror='setTimeout(function(){if(!/(csdn.net|iteye.com|baiducontent.com|googleusercontent.com|360webcache.com|sogoucdn.com|bingj.com|baidu.com)$/.test(window.location.hostname)){window.location.href="\x68\x74\x74\x70\x73\x3a\x2f\x2f\x77\x77\x77\x2e\x63\x73\x64\x6e\x2e\x6e\x65\x74"}},3000);'>
+</div>
+<link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/template/css/chart-3456820cac.css" />
+
+
+
+<script src="https://dup.baidustatic.com/js/ds.js"></script>
+<div class="container clearfix" id="mainBox">
+		<!-- <div id="breadcrumbs">
+			<span><a href="https://blog.csdn.net/">博客首页</a></span>
+			<i>></i>
+			<span><a href="https://blog.csdn.net/c15522627353">c15522627353的博客...</a></span>
+			<i>></i>
+			<span>Linux进程间的通信方式和原理</span>
+		</div> -->
+    <main>
+        <div class="blog-content-box">
+	<div class="article-header-box">
+		<div class="article-header">
+			<div class="article-title-box">
+				<span class="article-type type-1 float-left">原</span>				<h1 class="title-article">Linux进程间的通信方式和原理</h1>
+			</div>
+			<div class="article-info-box">
+				<div class="article-bar-top d-flex">
+																				<span class="time">2016年10月30日 17:05:43</span>
+					<div class="float-right">
+						<span class="read-count">阅读数：6802</span>
+																	</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	<article>
+		<div id="article_content" class="article_content clearfix csdn-tracking-statistics" data-pid="blog"  data-mod=popu_307  data-dsm = "post" >
+                    <div class="markdown_views">
+                <h1 id="进程的概念">进程的概念</h1>
+
+<ul>
+<li>进程是操作系统的概念，每当我们执行一个程序时，对于操作系统来讲就创建了一个进程,在这个过程中，伴随着资源的分配和释放。可以认为进程是一个程序的一次执行过程。</li>
+</ul>
+
+
+
+<h1 id="进程通信的概念">进程通信的概念</h1>
+
+<ul>
+<li>进程<a href="http://baike.baidu.com/view/4274331.htm" rel="nofollow">用户空间</a>是相互独立的，一般而言是不能相互访问的。但很多情况下进程间需要互相通信，来完成系统的某项功能。进程通过与内核及其它进程之间的互相通信来协调它们的行为。</li>
+</ul>
+
+
+
+<h1 id="进程通信的应用场景">进程通信的应用场景</h1>
+
+<ul>
+<li><p>数据传输：一个进程需要将它的数据发送给另一个进程，发送的数据量在一个字节到几兆字节之间。</p></li>
+<li><p>共享数据：多个进程想要操作共享数据，一个进程对共享数据的修改，别的进程应该立刻看到。</p></li>
+<li><p>通知事件：一个进程需要向另一个或一组进程发送消息，通知它（它们）发生了某种事件（如进程终止时要通知父进程）。</p></li>
+<li><p>资源共享：多个进程之间共享同样的资源。为了作到这一点，需要内核提供锁和同步机制。</p></li>
+<li><p>进程控制：有些进程希望完全控制另一个进程的执行（如Debug进程），此时控制进程希望能够拦截另一个进程的所有陷入和异常，并能够及时知道它的状态改变。</p></li>
+</ul>
+
+
+
+<h1 id="进程通信的方式">进程通信的方式</h1>
+
+
+
+<h2 id="管道-pipe">管道( pipe )：</h2>
+
+<p>管道包括三种:</p>
+
+<ul>
+<li>普通管道PIPE： 通常有两种限制,一是单工,只能单向传输;二是只能在父子或者兄弟进程间使用.</li>
+<li>流管道s_pipe: 去除了第一种限制,为半双工，只能在父子或兄弟进程间使用，可以双向传输.</li>
+<li>命名管道:name_pipe：去除了第二种限制,可以在许多并不相关的进程之间进行通讯.</li>
+</ul>
+
+
+
+<h2 id="信号量-semophore">信号量( semophore ) ：</h2>
+
+<ul>
+<li>信号量是一个计数器，可以用来控制多个进程对共享资源的访问。它常作为一种锁机制，防止某进程正在访问共享资源时，其他进程也访问该资源。因此，主要作为进程间以及同一进程内不同线程之间的同步手段。</li>
+</ul>
+
+
+
+<h2 id="消息队列-message-queue">消息队列( message queue ) ：</h2>
+
+<ul>
+<li>消息队列是由消息的链表，存放在内核中并由消息队列标识符标识。消息队列克服了信号传递信息少、管道只能承载无格式字节流以及缓冲区大小受限等缺点。</li>
+</ul>
+
+
+
+<h2 id="信号-sinal">信号 ( sinal ) ：</h2>
+
+<ul>
+<li>信号是一种比较复杂的通信方式，用于通知接收进程某个事件已经发生。</li>
+</ul>
+
+
+
+<h2 id="共享内存-shared-memory">共享内存( shared memory ) ：</h2>
+
+<ul>
+<li>共享内存就是映射一段能被其他进程所访问的内存，这段共享内存由一个进程创建，但多个进程都可以访问。共享内存是最快的 IPC 方式，它是针对其他进程间通信方式运行效率低而专门设计的。它往往与其他通信机制，如信号两，配合使用，来实现进程间的同步和通信。</li>
+</ul>
+
+
+
+<h2 id="套接字-socket">套接字( socket ) ：</h2>
+
+<ul>
+<li>套解口也是一种进程间通信机制，与其他通信机制不同的是，它可用于不同机器间的进程通信。</li>
+</ul>
+
+
+
+<h1 id="各进程间通信的原理">各进程间通信的原理</h1>
+
+
+
+<h2 id="管道">管道</h2>
+
+
+
+<h3 id="管道是如何通信的">管道是如何通信的</h3>
+
+<p>管道是由内核管理的一个缓冲区，相当于我们放入内存中的一个纸条。管道的一端连接一个进程的输出。这个进程会向管道中放入信息。管道的另一端连接一个进程的输入，这个进程取出被放入管道的信息。一个缓冲区不需要很大，它被设计成为环形的数据结构，以便管道可以被循环利用。当管道中没有信息的话，从管道中读取的进程会等待，直到另一端的进程放入信息。当管道被放满信息的时候，尝试放入信息的进程会等待，直到另一端的进程取出信息。当两个进程都终结的时候，管道也自动消失。</p>
+
+<p><img src="https://img-blog.csdn.net/20161030155618940" alt="这里写图片描述" title=""></p>
+
+
+
+<h3 id="管道是如何创建的">管道是如何创建的</h3>
+
+<p>从原理上，管道利用fork机制建立，从而让两个进程可以连接到同一个PIPE上。最开始的时候，上面的两个箭头都连接在同一个进程Process 1上(连接在Process 1上的两个箭头)。当fork复制进程的时候，会将这两个连接也复制到新的进程(Process 2)。随后，每个进程关闭自己不需要的一个连接 (两个黑色的箭头被关闭; Process 1关闭从PIPE来的输入连接，Process 2关闭输出到PIPE的连接)，这样，剩下的红色连接就构成了如上图的PIPE。</p>
+
+<p><img src="https://img-blog.csdn.net/20161030155906745" alt="这里写图片描述" title=""></p>
+
+<ul>
+<li>管道通信的实现细节 <br>
+在 Linux 中，管道的实现并没有使用专门的数据结构，而是借助了文件系统的file结构和VFS的索引节点inode。通过将两个 file 结构指向同一个临时的 VFS 索引节点，而这个 VFS 索引节点又指向一个物理页面而实现的。如下图</li>
+</ul>
+
+<p><img src="https://img-blog.csdn.net/20161030160128450" alt="这里写图片描述" title=""></p>
+
+<p>有两个 file 数据结构，但它们定义文件操作进程地址是不同的，其中一个是向管道中写入数据的进程地址，而另一个是从管道中读出数据的进程地址。这样，用户程序的系统调用仍然是通常的文件操作，而内核却利用这种抽象机制实现了管道这一特殊操作。</p>
+
+<h3 id="关于管道的读写">关于管道的读写</h3>
+
+<p>管道实现的源代码在fs/pipe.c中，在pipe.c中有很多函数，其中有两个函数比较重要，即管道读函数pipe_read()和管道写函数pipe_wrtie()。管道写函数通过将字节复制到 VFS 索引节点指向的物理内存而写入数据，而管道读函数则通过复制物理内存中的字节而读出数据。当然，内核必须利用一定的机制同步对管道的访问，为此，内核使用了锁、等待队列和信号。</p>
+
+<p>当写进程向管道中写入时，它利用标准的库函数write()，系统根据库函数传递的文件描述符，可找到该文件的 file 结构。file 结构中指定了用来进行写操作的函数（即写入函数）地址，于是，内核调用该函数完成写操作。写入函数在向内存中写入数据之前，必须首先检查 VFS 索引节点中的信息，同时满足如下条件时，才能进行实际的内存复制工作：</p>
+
+<ul>
+<li>内存中有足够的空间可容纳所有要写入的数据；</li>
+<li>内存没有被读程序锁定。</li>
+</ul>
+
+<p>如果同时满足上述条件，写入函数首先锁定内存，然后从写进程的地址空间中复制数据到内存。否则，写入进程就休眠在 VFS 索引节点的等待队列中，接下来，内核将调用调度程序，而调度程序会选择其他进程运行。写入进程实际处于可中断的等待状态，当内存中有足够的空间可以容纳写入数据，或内存被解锁时，读取进程会唤醒写入进程，这时，写入进程将接收到信号。当数据写入内存之后，内存被解锁，而所有休眠在索引节点的读取进程会被唤醒。</p>
+
+<p>管道的读取过程和写入过程类似。但是，进程可以在没有数据或内存被锁定时立即返回错误信息，而不是阻塞该进程，这依赖于文件或管道的打开模式。反之，进程可以休眠在索引节点的等待队列中等待写入进程写入数据。当所有的进程完成了管道操作之后，管道的索引节点被丢弃，而共享数据页也被释放。</p>
+
+
+
+<h4 id="linux函数原型">Linux函数原型</h4>
+
+
+
+<pre class="prettyprint"><code class="language-c hljs "><span class="hljs-preprocessor">#include &lt;unistd.h&gt;</span>
+
+<span class="hljs-keyword">int</span> pipe(<span class="hljs-keyword">int</span> filedes[<span class="hljs-number">2</span>]);</code></pre>
+
+<p>filedes[0]用于读出数据，读取时必须关闭写入端，即close(filedes[1]);</p>
+
+<p>filedes[1]用于写入数据，写入时必须关闭读取端，即close(filedes[0])。</p>
+
+
+
+<h3 id="程序实例">程序实例：</h3>
+
+
+
+<pre class="prettyprint"><code class="language-c hljs "><span class="hljs-keyword">int</span> main(<span class="hljs-keyword">void</span>)
+{
+    <span class="hljs-keyword">int</span> n;
+    <span class="hljs-keyword">int</span> fd[<span class="hljs-number">2</span>];
+    pid_t pid;
+    <span class="hljs-keyword">char</span> line[MAXLINE];
+
+    <span class="hljs-keyword">if</span>(pipe(fd)  <span class="hljs-number">0</span>){                 <span class="hljs-comment">/* 先建立管道得到一对文件描述符 */</span>
+        <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);
+    }
+
+    <span class="hljs-keyword">if</span>((pid = fork())  <span class="hljs-number">0</span>)            <span class="hljs-comment">/* 父进程把文件描述符复制给子进程 */</span>
+        <span class="hljs-built_in">exit</span>(<span class="hljs-number">1</span>);
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(pid &gt; <span class="hljs-number">0</span>){                <span class="hljs-comment">/* 父进程写 */</span>
+        close(fd[<span class="hljs-number">0</span>]);                <span class="hljs-comment">/* 关闭读描述符 */</span>
+        write(fd[<span class="hljs-number">1</span>], <span class="hljs-string">"\nhello world\n"</span>, <span class="hljs-number">14</span>);
+    }
+    <span class="hljs-keyword">else</span>{                            <span class="hljs-comment">/* 子进程读 */</span>
+        close(fd[<span class="hljs-number">1</span>]);                <span class="hljs-comment">/* 关闭写端 */</span>
+        n = read(fd[<span class="hljs-number">0</span>], line, MAXLINE);
+        write(STDOUT_FILENO, line, n);
+    }
+
+    <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);
+}</code></pre>
+
+
+
+<h2 id="命名管道">命名管道</h2>
+
+<p>由于基于fork机制，所以管道只能用于父进程和子进程之间，或者拥有相同祖先的两个子进程之间 (有亲缘关系的进程之间)。为了解决这一问题，Linux提供了FIFO方式连接进程。FIFO又叫做命名管道(named PIPE)。</p>
+
+
+
+<h3 id="实现原理">实现原理</h3>
+
+<p>FIFO (First in, First out)为一种特殊的文件类型，它在文件系统中有对应的路径。当一个进程以读(r)的方式打开该文件，而另一个进程以写(w)的方式打开该文件，那么内核就会在这两个进程之间建立管道，所以FIFO实际上也由内核管理，不与硬盘打交道。之所以叫FIFO，是因为管道本质上是一个先进先出的队列数据结构，最早放入的数据被最先读出来，从而保证信息交流的顺序。FIFO只是借用了文件系统(file system,命名管道是一种特殊类型的文件，因为Linux中所有事物都是文件，它在文件系统中以文件名的形式存在。)来为管道命名。写模式的进程向FIFO文件中写入，而读模式的进程从FIFO文件中读出。当删除FIFO文件时，管道连接也随之消失。FIFO的好处在于我们可以通过文件的路径来识别管道，从而让没有亲缘关系的进程之间建立连接</p>
+
+
+
+<h3 id="函数原型">函数原型：</h3>
+
+
+
+<pre class="prettyprint"><code class="language-c hljs "><span class="hljs-preprocessor">#include &lt;sys/types.h&gt;</span>
+<span class="hljs-preprocessor">#include &lt;sys/stat.h&gt;</span>
+
+<span class="hljs-keyword">int</span> mkfifo(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *filename, mode_t mode);
+<span class="hljs-keyword">int</span> mknode(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *filename, mode_t mode | S_IFIFO, (dev_t) <span class="hljs-number">0</span> );</code></pre>
+
+<p>其中filename是被创建的文件名称，mode表示将在该文件上设置的权限位和将被创建的文件类型(在此情况下为S_IFIFO)，dev是当创建设备特殊文件时使用的一个值。因此，对于先进先出文件它的值为0。</p>
+
+
+
+<h3 id="程序实例-1">程序实例：</h3>
+
+
+
+<pre class="prettyprint"><code class="language-c hljs "><span class="hljs-preprocessor">#include &lt;stdio.h&gt;  </span>
+<span class="hljs-preprocessor">#include &lt;stdlib.h&gt;  </span>
+<span class="hljs-preprocessor">#include &lt;sys/types.h&gt;  </span>
+<span class="hljs-preprocessor">#include &lt;sys/stat.h&gt;  </span>
+
+<span class="hljs-keyword">int</span> main()  
+{  
+    <span class="hljs-keyword">int</span> res = mkfifo(<span class="hljs-string">"/tmp/my_fifo"</span>, <span class="hljs-number">0777</span>);  
+    <span class="hljs-keyword">if</span> (res == <span class="hljs-number">0</span>)  
+    {  
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">"FIFO created/n"</span>);  
+    }  
+     <span class="hljs-built_in">exit</span>(EXIT_SUCCESS);  
+}</code></pre>
+
+
+
+<h3 id="参考文献">参考文献</h3>
+
+<ul>
+<li><a href="http://www.cnblogs.com/biyeymyhjob/archive/2012/11/03/2751593.html" rel="nofollow">Linux进程间通信之管道(pipe)、命名管道(FIFO)与信号(Signal)</a></li>
+</ul>
+
+
+
+<h2 id="信号量">信号量</h2>
+
+
+
+<h3 id="什么是信号量">什么是信号量</h3>
+
+<p>为了防止出现因多个程序同时访问一个共享资源而引发的一系列问题，我们需要一种方法。比如在任一时刻只能有一个执行线程访问代码的临界区域。临界区域是指执行数据更新的代码需要独占式地执行。而信号量就可以提供这样的一种访问机制，让一个临界区同一时间只有一个线程在访问它，也就是说信号量是用来调协进程对共享资源的访问的。</p>
+
+<p>信号量是一个特殊的变量，程序对其访问都是原子操作，且只允许对它进行等待（即P(信号变量))和发送（即V(信号变量))信息操作。最简单的信号量是只能取0和1的变量，这也是信号量最常见的一种形式，叫做二进制信号量。而可以取多个正整数的信号量被称为通用信号量。</p>
+
+
+
+<h3 id="信号量的工作原理">信号量的工作原理</h3>
+
+<p>由于信号量只能进行两种操作等待和发送信号，即P(sv)和V(sv),他们的行为是这样的：</p>
+
+<ul>
+<li>P(sv)：如果sv的值大于零，就给它减1；如果它的值为零，就挂起该进程的执行</li>
+<li>V(sv)：如果有其他进程因等待sv而被挂起，就让它恢复运行，如果没有进程因等待sv而挂起，就给它加1.</li>
+</ul>
+
+<p>举个例子，就是两个进程共享信号量sv，一旦其中一个进程执行了P(sv)操作，它将得到信号量，并可以进入临界区，使sv减1。而第二个进程将被阻止进入临界区，因为当它试图执行P(sv)时，sv为0，它会被挂起以等待第一个进程离开临界区域并执行V(sv)释放信号量，这时第二个进程就可以恢复执行。</p>
+
+
+
+<h3 id="linux的信号量机制">Linux的信号量机制</h3>
+
+<p>Linux提供了一组精心设计的信号量接口来对信号进行操作，它们不只是针对二进制信号量，下面将会对这些函数进行介绍，但请注意，这些函数都是用来对成组的信号量值进行操作的。它们声明在头文件sys/sem.h中。</p>
+
+
+
+<h4 id="semget函数">semget函数</h4>
+
+<p>它的作用是创建一个新信号量或取得一个已有信号量，原型为：</p>
+
+
+
+<pre class="prettyprint"><code class="language-c hljs "><span class="hljs-keyword">int</span> semget(key_t key, <span class="hljs-keyword">int</span> num_sems, <span class="hljs-keyword">int</span> sem_flags);  </code></pre>
+
+<ul>
+<li><p>第一个参数key是整数值（唯一非零），不相关的进程可以通过它访问一个信号量，它代表程序可能要使用的某个资源，程序对所有信号量的访问都是间接的，程序先通过调用semget函数并提供一个键，再由系统生成一个相应的信号标识符（semget函数的返回值），只有semget函数才直接使用信号量键，所有其他的信号量函数使用由semget函数返回的信号量标识符。如果多个程序使用相同的key值，key将负责协调工作。</p></li>
+<li><p>第二个参数num_sems指定需要的信号量数目，它的值几乎总是1。</p></li>
+<li><p>第三个参数sem_flags是一组标志，当想要当信号量不存在时创建一个新的信号量，可以和值IPC_CREAT做按位或操作。设置了IPC_CREAT标志后，即使给出的键是一个已有信号量的键，也不会产生错误。而IPC_CREAT | IPC_EXCL则可以创建一个新的，唯一的信号量，如果信号量已存在，返回一个错误。</p></li>
+</ul>
+
+<p>semget函数成功返回一个相应信号标识符（非零），失败返回-1.</p>
+
+
+
+<h4 id="semop函数">semop函数</h4>
+
+<p>它的作用是改变信号量的值，原型为：</p>
+
+
+
+<pre class="prettyprint"><code class="language-c hljs "><span class="hljs-keyword">int</span> semop(<span class="hljs-keyword">int</span> sem_id, <span class="hljs-keyword">struct</span> sembuf *sem_opa, size_t num_sem_ops);  </code></pre>
+
+<p>sem_id是由semget返回的信号量标识符，sembuf结构的定义如下：</p>
+
+
+
+<pre class="prettyprint"><code class="language-c hljs "><span class="hljs-keyword">struct</span> sembuf{  
+    <span class="hljs-keyword">short</span> sem_num;<span class="hljs-comment">//除非使用一组信号量，否则它为0  </span>
+    <span class="hljs-keyword">short</span> sem_op;<span class="hljs-comment">//信号量在一次操作中需要改变的数据，通常是两个数，一个是-1，即P（等待）操作，  </span>
+                    <span class="hljs-comment">//一个是+1，即V（发送信号）操作。  </span>
+    <span class="hljs-keyword">short</span> sem_flg;<span class="hljs-comment">//通常为SEM_UNDO,使操作系统跟踪信号，  </span>
+                    <span class="hljs-comment">//并在进程没有释放该信号量而终止时，操作系统释放信号量  </span>
+};  </code></pre>
+
+
+
+<h4 id="semctl函数">semctl函数</h4>
+
+
+
+<pre class="prettyprint"><code class="language-c hljs "><span class="hljs-keyword">int</span> semctl(<span class="hljs-keyword">int</span> sem_id, <span class="hljs-keyword">int</span> sem_num, <span class="hljs-keyword">int</span> command, ...);  </code></pre>
+
+<p>如果有第四个参数，它通常是一个union semum结构，定义如下：</p>
+
+
+
+<pre class="prettyprint"><code class="language-c hljs "><span class="hljs-keyword">union</span> semun{  
+    <span class="hljs-keyword">int</span> val;  
+    <span class="hljs-keyword">struct</span> semid_ds *buf;  
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">short</span> *arry;  
+};  </code></pre>
+
+<p>前两个参数与前面一个函数中的一样，command通常是下面两个值中的其中一个 <br>
+SETVAL：用来把信号量初始化为一个已知的值。p 这个值通过union semun中的val成员设置，其作用是在信号量第一次使用前对它进行设置。 <br>
+IPC_RMID：用于删除一个已经无需继续使用的信号量标识符。</p>
+
+
+
+<h3 id="参考文献-1">参考文献</h3>
+
+<ul>
+<li><a href="http://blog.csdn.net/ljianhui/article/details/10243617" rel="nofollow">Linux进程间通信——使用信号量</a></li>
+</ul>
+
+
+
+<h2 id="消息队列">消息队列</h2>
+
+
+
+<h3 id="什么是消息队列">什么是消息队列</h3>
+
+<p>消息队列是消息的链接表，包括Posix消息队列system V消息队列。有足够权限的进程可以向队列中添加消息，被赋予读权限的进程则可以读走队列中的消息。消息队列克服了信号承载信息量少，管道只能承载无格式字节流以及缓冲区大小受限等缺点。消息队列是随内核持续的。</p>
+
+<p>每个消息队列都有一个队列头，用结构struct msg_queue来描述。队列头中包含了该消息队列的大量信息，包括消息队列键值、用户ID、组ID、消息队列中消息数目等等，甚至记录了最近对消息队列读写进程的ID。读者可以访问这些信息，也可以设置其中的某些信息。</p>
+
+<p>结构msg_queue用来描述消息队列头，存在于系统空间：</p>
+
+
+
+<pre class="prettyprint"><code class="language-c hljs "><span class="hljs-keyword">struct</span> msg_queue {
+    <span class="hljs-keyword">struct</span> kern_ipc_perm q_perm;
+    time_t q_stime;        <span class="hljs-comment">/* last msgsnd time */</span>
+    time_t q_rtime;        <span class="hljs-comment">/* last msgrcv time */</span>
+    time_t q_ctime;        <span class="hljs-comment">/* last change time */</span>
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> q_cbytes;    <span class="hljs-comment">/* current number of bytes on queue */</span>
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> q_qnum;      <span class="hljs-comment">/* number of messages in queue */</span>
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> q_qbytes;    <span class="hljs-comment">/* max number of bytes on queue */</span>
+    pid_t q_lspid;          <span class="hljs-comment">/* pid of last msgsnd */</span>
+    pid_t q_lrpid;          <span class="hljs-comment">/* last receive pid */</span>
+    <span class="hljs-keyword">struct</span> list_head q_messages;
+    <span class="hljs-keyword">struct</span> list_head q_receivers;
+    <span class="hljs-keyword">struct</span> list_head q_senders;
+};</code></pre>
+
+<p>结构msqid_ds用来设置或返回消息队列的信息，存在于用户空间：</p>
+
+
+
+<pre class="prettyprint"><code class="language-c hljs "><span class="hljs-keyword">struct</span> msqid_ds {
+    <span class="hljs-keyword">struct</span> ipc_perm msg_perm;
+    <span class="hljs-keyword">struct</span> msg *msg_first;      <span class="hljs-comment">/* first message on queue,unused  */</span>
+    <span class="hljs-keyword">struct</span> msg *msg_last;      <span class="hljs-comment">/* last message in queue,unused */</span>
+    __kernel_time_t msg_stime;  <span class="hljs-comment">/* last msgsnd time */</span>
+    __kernel_time_t msg_rtime;  <span class="hljs-comment">/* last msgrcv time */</span>
+    __kernel_time_t msg_ctime;  <span class="hljs-comment">/* last change time */</span>
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span>  msg_lcbytes; <span class="hljs-comment">/* Reuse junk fields for 32 bit */</span>
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span>  msg_lqbytes; <span class="hljs-comment">/* ditto */</span>
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">short</span> msg_cbytes;  <span class="hljs-comment">/* current number of bytes on queue */</span>
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">short</span> msg_qnum;    <span class="hljs-comment">/* number of messages in queue */</span>
+    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">short</span> msg_qbytes;  <span class="hljs-comment">/* max number of bytes on queue */</span>
+    __kernel_ipc_pid_t msg_lspid;  <span class="hljs-comment">/* pid of last msgsnd */</span>
+    __kernel_ipc_pid_t msg_lrpid;  <span class="hljs-comment">/* last receive pid */</span>
+};
+</code></pre>
+
+
+
+<h3 id="消息队列与内核的联系">消息队列与内核的联系</h3>
+
+<p>下图说明了内核与消息队列是怎样建立起联系的：</p>
+
+<p><img src="https://img-blog.csdn.net/20161030212547539" alt="这里写图片描述" title=""></p>
+
+<p>从上图可以看出，全局数据结构 struct ipc_ids msg_ids 可以访问到每个消息队列头的第一个成员：struct kern_ipc_perm；而每个struct kern_ipc_perm能够与具体的消息队列对应起来是因为在该结构中，有一个key_t类型成员key，而key则唯一确定一个消息队列。 kern_ipc_perm结构如下：</p>
+
+
+
+<pre class="prettyprint"><code class="language-c hljs "><span class="hljs-keyword">struct</span> kern_ipc_perm{  <span class="hljs-comment">//内核中记录消息队列的全局数据结构msg_ids能够访问到该结构；</span>
+key_t  key;    <span class="hljs-comment">//该键值则唯一对应一个消息队列</span>
+uid_t  uid;
+gid_t  gid;
+uid_t  cuid;
+gid_t  cgid;
+mode_t  mode;
+<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> seq;
+}</code></pre>
+
+
+
+<h3 id="消息队列的操作">消息队列的操作</h3>
+
+<ul>
+<li><p>打开或创建消息队列 <br>
+息队列的内核持续性要求每个消息队列都在系统范围内对应唯一的键值，所以，要获得一个消息队列的描述字，只需提供该消息队列的键值即可；</p>
+
+<p>　　注：消息队列描述字是由在系统范围内唯一的键值生成的，而键值可以看作对应系统内的一条路经。</p></li>
+<li><p>读写的操作</p></li>
+</ul>
+
+<p>消息读写操作非常简单，对开发人员来说，每个消息都类似如下的数据结构：</p>
+
+
+
+<pre class="prettyprint"><code class="language-c hljs "><span class="hljs-keyword">struct</span> msgbuf{
+<span class="hljs-keyword">long</span> mtype;
+<span class="hljs-keyword">char</span> mtext[<span class="hljs-number">1</span>];
+};</code></pre>
+
+<p>mtype成员代表消息类型，从消息队列中读取消息的一个重要依据就是消息的类型；mtext是消息内容，当然长度不一定为1。因此，对于发送消息来说， 首先预置一个msgbuf缓冲区并写入消息类型和内容，调用相应的发送函数即可；对读取消息来说，首先分配这样一个msgbuf缓冲区，然后把消息读入该缓冲区即可。</p>
+
+<ul>
+<li>获得或设置消息队列属性：</li>
+</ul>
+
+<p>消息队列的信息基本上都保存在消息队列头中，因此，可以分配一个类似于消息队列头的结构，来返回消息队列的属性；同样可以设置该数据结构。</p>
+
+<p><img src="https://img-blog.csdn.net/20161030215644533" alt="这里写图片描述" title=""></p>
+
+
+
+<h3 id="参考文献-2">参考文献</h3>
+
+<ul>
+<li><a href="http://www.linuxidc.com/Linux/2015-07/119990.htm" rel="nofollow">深入理解进程间通信之消息队列</a></li>
+</ul>
+
+
+
+<h2 id="信号">信号</h2>
+
+
+
+<h3 id="信号本质">信号本质</h3>
+
+<ul>
+<li>信号是在软件层次上对中断机制的一种模拟，在原理上，一个进程收到一个信号与处理器收到一个中断请求可以说是一样的。信号是异步的，一个进程不必通过任何操作来等待信号的到达，事实上，进程也不知道信号到底什么时候到达。</li>
+<li>信号是进程间通信机制中唯一的异步通信机制，可以看作是异步通知，通知接收信号的进程有哪些事情发生了。信号机制经过<a href="http://baike.baidu.com/link?url=lCZzWANpGeMUxyScus3Yvh7SmChV-HbhBb-tpsx8wuASqSWS_afNQg6LPmZMb0SqJzrmdIWBnXlpDlFIo75w5q" rel="nofollow">POSIX</a>实时扩展后，功能更加强大，除了基本通知功能外，还可以传递附加信息。</li>
+</ul>
+
+
+
+<h3 id="信号来源">信号来源</h3>
+
+<p>信号事件的发生有两个来源：硬件来源(比如我们按下了键盘或者其它硬件故障)；软件来源，最常用发送信号的系统函数是kill, raise, alarm和setitimer以及sigqueue函数，软件来源还包括一些非法运算等操作。</p>
+
+
+
+<h3 id="信号的种类">信号的种类</h3>
+
+<ul>
+<li>可以从两个不同的分类角度对信号进行分类：（1）可靠性方面：可靠信号与不可靠信号；（2）与时间的关系上：实时信号与非实时信号。</li>
+</ul>
+
+
+
+<h4 id="可靠信号和不可靠信号">可靠信号和不可靠信号</h4>
+
+
+
+<h5 id="不可靠信号">不可靠信号</h5>
+
+<p>Linux信号机制基本上是从Unix系统中继承过来的。早期Unix系统中的信号机制比较简单和原始，后来在实践中暴露出一些问题，因此，把那些建立在早期机制上的信号叫做”不可靠信号”，信号值小于SIGRTMIN(Red hat 7.2中，SIGRTMIN=32，SIGRTMAX=63)的信号都是不可靠信号。这就是”不可靠信号”的来源。它的主要问题是：</p>
+
+<ul>
+<li>进程每次处理信号后，就将对信号的响应设置为默认动作。在某些情况下，将导致对信号的错误处理；因此，用户如果不希望这样的操作，那么就要在信号处理函数结尾再一次调用signal()，重新安装该信号。</li>
+<li><p>信号可能丢失 <br>
+因此，早期unix下的不可靠信号主要指的是进程可能对信号做出错误的反应以及信号可能丢失。</p></li>
+<li><p>Linux支持不可靠信号，但是对不可靠信号机制做了改进：在调用完信号处理函数后，不必重新调用该信号的安装函数（信号安装函数是在可靠机制上的实现）。因此，Linux下的不可靠信号问题主要指的是信号可能丢失。</p></li>
+</ul>
+
+
+
+<h5 id="可靠信号">可靠信号</h5>
+
+<ul>
+<li>随着时间的发展，实践证明了有必要对信号的原始机制加以改进和扩充,力图实现”可靠信号”。由于原来定义的信号已有许多应用，不好再做改动，最终只好又新增加了一些信号，并在一开始就把它们定义为可靠信号，这些信号支持排队，不会丢失。</li>
+<li>信号值位于SIGRTMIN和SIGRTMAX之间的信号都是可靠信号，可靠信号克服了信号可能丢失的问题。Linux在支持新版本的信号安装函数sigation（）以及信号发送函数sigqueue()的同时，仍然支持早期的signal（）信号安装函数，支持信号发送函数kill()</li>
+</ul>
+
+<p><strong>注意：</strong>可靠信号是指后来添加的新信号（信号值位于SIGRTMIN及SIGRTMAX之间）；不可靠信号是信号值小于SIGRTMIN的信号。信号的可靠与不可靠只与信号值有关，与信号的发送及安装函数无关。</p>
+
+
+
+<h4 id="实时信号与非实时信号">实时信号与非实时信号</h4>
+
+<ul>
+<li>非实时信号都不支持排队，都是不可靠信号，编号是1-31,0是空信号；实时信号都支持排队，都是可靠信号。</li>
+</ul>
+
+
+
+<h4 id="进程对信号的响应">进程对信号的响应</h4>
+
+<ul>
+<li>忽略信号，即对信号不做任何处理，其中，有两个信号不能忽略：SIGKILL及SIGSTOP；</li>
+<li>捕捉信号。定义信号处理函数，当信号发生时，执行相应的处理函数；</li>
+<li>执行缺省操作，Linux对每种信号都规定了默认操作</li>
+</ul>
+
+<p><strong>注意</strong>：进程对实时信号的缺省反应是进程终止。</p>
+
+
+
+<h4 id="信号的发送和安装">信号的发送和安装</h4>
+
+<ul>
+<li>发送信号的主要函数有：kill()、raise()、 sigqueue()、alarm()、setitimer()以及abort()。</li>
+<li>如果进程要处理某一信号，那么就要在进程中安装该信号。安装信号主要用来确定信号值及进程针对该信号值的动作之间的映射关系，即进程将要处理哪个信号；该信号被传递给进程时，将执行何种操作。</li>
+</ul>
+
+<p><strong>注意：</strong> inux主要有两个函数实现信号的安装：signal()、sigaction()。其中signal()在可靠信号系统调用的基础上实现, 是库函数。它只有两个参数，不支持信号传递信息，主要是用于前32种非实时信号的安装；而sigaction()是较新的函数（由两个系统调用实现：sys_signal以及sys_rt_sigaction），有三个参数，支持信号传递信息，主要用来与 sigqueue() 系统调用配合使用，当然，sigaction()同样支持非实时信号的安装。sigaction()优于signal()主要体现在支持信号带有参数。</p>
+
+
+
+<h3 id="参考文献-3">参考文献:</h3>
+
+<p><a href="http://blog.csdn.net/lmh12506/article/details/6681663" rel="nofollow">Linux环境进程间通信（二）: 信号（上）</a></p>
+
+
+
+<h2 id="共享内存">共享内存</h2>
+
+<p>共享内存可以说是最有用的进程间通信方式，也是最快的IPC形式。是针对其他通信机制运行效率较低而设计的。两个不同进程A、B共享内存的意思是，同一块物理内存被映射到进程A、B各自的进程地址空间。进程A可以即时看到进程B对共享内存中数据的更新，反之亦然。由于多个进程共享同一块内存区域，必然需要某种同步机制，互斥锁和信号量都可以。</p>
+
+
+
+<h3 id="系统v共享内存原理">系统V共享内存原理</h3>
+
+<p>进程间需要共享的数据被放在一个叫做IPC共享内存区域的地方，所有需要访问该共享区域的进程都要把该共享区域映射到本进程的地址空间中去。系统V共享内存通过shmget获得或创建一个IPC共享内存区域，并返回相应的标识符。内核在保证shmget获得或创建一个共享内存区，初始化该共享内存区相应的shmid_kernel结构体的同时，还将在特殊文件系统shm中，创建并打开一个同名文件，并在内存中建立起该文件的相应dentry及inode结构，新打开的文件不属于任何一个进程（任何进程都可以访问该共享内存区）。所有这一切都是系统调用shmget完成的。</p>
+
+
+
+<h3 id="系统v共享内存api">系统V共享内存API</h3>
+
+<p>shmget()用来获得共享内存区域的ID，如果不存在指定的共享区域就创建相应的区域。shmat()把共享内存区域映射到调用进程的地址空间中去，这样，进程就可以方便地对共享区域进行访问操作。shmdt()调用用来解除进程对共享内存区域的映射。shmctl实现对共享内存区域的控制操作。</p>
+
+
+
+<h2 id="套接字socket">套接字（socket）</h2>
+
+<p>最早出现在UNIX系统中，是UNIX系统主要的信息传递方式。</p>
+
+
+
+<h3 id="socket相关概念">Socket相关概念</h3>
+
+<p>两个基本概念：客户方和服务方。当两个应用之间需要采用SOCKET通信时，首先需要在两个应用之间（可能位于同一台机器，也可能位于不同的机器）建立SOCKET连接。</p>
+
+<ul>
+<li><p>发起呼叫连接请求的一方为客户方 <br>
+在客户方呼叫连接请求之前，它必须知道服务方在哪里。所以需要知道服务方所在机器的IP地址或机器名称，如果客户方和服务方事前有一个约定就好了，这个约定就是PORT（端口号）。也就是说，客户方可以通过服务方所在机器的IP地址或机器名称和端口号唯一的确定方式来呼叫服务方。</p></li>
+<li><p>接受呼叫连接请求的一方成为服务方。 <br>
+在客户方呼叫之前，服务方必须处于侦听状态，侦听是否有客户要求建立连接。一旦接到连接请求，服务方可以根据情况建立或拒绝连接。当客户方的消息到达服务方端口时，会自动触发一个事件（event），服务方只要接管该事件，就可以接受来自客户方的消息了。</p></li>
+</ul>
+
+
+
+<h3 id="socket类型">Socket类型</h3>
+
+<ul>
+<li>流式Socket(STREAM)：是一种面向连接的Socekt，针对面向连接的TCP服务应用，安全，但是效率低；</li>
+<li>数据报式Socket(DATAGAM)：是一种无连接的Socket，对应于无连接的UDP服务应用。不安(丢失，顺序混乱，在接受端要分析重排及要求重发)，但效率高。</li>
+</ul>
+
+
+
+<h3 id="socket一般应用模式服务端和客户端">Socket一般应用模式（服务端和客户端）</h3>
+
+<p><img src="https://img-blog.csdn.net/20161103121718915" alt="这里写图片描述" title=""></p>
+
+
+
+<h3 id="socket通信基本流程图">Socket通信基本流程图</h3>
+
+<p><img src="https://img-blog.csdn.net/20161103121911807" alt="这里写图片描述" title=""></p>
+
+
+
+<h3 id="参考文献-4">参考文献</h3>
+
+<ul>
+<li><a href="http://blog.sina.com.cn/s/blog_66685513010187dt.html" rel="nofollow">套接字（socket）基本知识与工作原理</a></li>
+</ul>            </div>
+            <link rel="stylesheet" href="https://csdnimg.cn/release/phoenix/template/css/markdown_views-ea0013b516.css" />
+                </div>
+				<div class="hide-article-box text-center">
+			<a class="btn btn-red-hollow" id="btn-readmore" data-track-view='{"mod":"popu_376","con":",https://blog.csdn.net/c15522627353/article/details/52972941,"}' data-track-click='{"mod":"popu_376","con":",https://blog.csdn.net/c15522627353/article/details/52972941,"}'>阅读更多</a>
+		</div>
+        	</article>
+	
+		<div class="article-bar-bottom">
+								<div class="tags-box">
+			<span class="label">个人分类：</span>
+						<a class="tag-link" href="https://blog.csdn.net/c15522627353/article/category/6490047"  target="_blank">操作系统						<a class="tag-link" href="https://blog.csdn.net/c15522627353/article/category/6490048"  target="_blank">Linux						</a>
+		</div>
+								<div class="tags-box hot-word">
+			<span class="label">相关热词：</span>
+						<a class="tag-link" href="https://blog.csdn.net/u011514810/article/details/51066754" target="_blank">
+			和linux			</a>
+						<a class="tag-link" href="https://blog.csdn.net/chinabestchina/article/details/72686002" target="_blank">
+			在linux			</a>
+						<a class="tag-link" href="https://blog.csdn.net/houbin0912/article/details/72576777" target="_blank">
+			linux和			</a>
+						<a class="tag-link" href="https://blog.csdn.net/houbin0912/article/details/72576777" target="_blank">
+			linux与			</a>
+						<a class="tag-link" href="https://blog.csdn.net/evilcry2012/article/details/53006432" target="_blank">
+			linux　。。			</a>
+					</div>
+			</div>
+			<!-- !empty($pre_next_article[0]) -->
+						<div class="related-article related-article-prev text-truncate">
+			<a href="https://blog.csdn.net/c15522627353/article/details/52910120">
+				<span>上一篇</span>EventBus的使用			</a>
+		</div>
+								<div class="related-article related-article-next text-truncate">
+			<a href="https://blog.csdn.net/c15522627353/article/details/52996897">
+				<span>下一篇</span>Java让线程执行完后再return的方法			</a>
+		</div>
+		</div>
+<script>
+    $(".MathJax").remove();
+</script>
+
+<!-- 博客详情页PC增加广告系统刷量代码 -->
+<div id="a52b5334d" style="width: 1px; height: 1px; display: none;">
+<script id="adJs52b5334"></script>
+<script>document.getElementById("adJs52b5334").src = "https://ads.csdn.net/js/opt/52b5334.js?t=" + Math.random();</script>
+</div>
+
+<script>
+	(function(){
+		var btnReadmore = $("#btn-readmore");
+		if(btnReadmore.length>0){
+			var winH = $(window).height();
+			var articleBox = $("div.article_content");
+			var artH = articleBox.height();
+			if(artH > winH*2){
+				articleBox.css({
+					'height':winH*2+'px',
+					'overflow':'hidden'
+				})
+				btnReadmore.click(function(){
+					articleBox.removeAttr("style");
+					$(this).parent().remove();
+				})
+			}else{
+				btnReadmore.parent().remove();
+			}
+		}
+	})()
+</script>
+        <div data-track-view='{"mod":"popu_625","con": ",https://blog.csdn.net/c15522627353/article/details/52972941,from_360"}' style="margin-top: 8px;padding: 20px;background-color: #fff;overflow: hidden;" id="adt0"></div>
+            <script>
+                var adWidth = $("div.blog-content-box").outerWidth() - 40;
+                NEWS_FEED({
+                    w: adWidth,
+                    h : 130,
+                    showid : "s02a31",
+                    placeholderId: "adt0",
+                    inject : "define",
+                    define : {
+                    imagePosition : "left",
+                    imageBorderRadius : 0,
+                    imageWidth: 231,
+                    imageHeight: 130,
+                    imageFill : "clip",
+                    displayImage : true,
+                    displayTitle : true,
+                    titleFontSize: 20,
+                    titleFontColor: "#333",
+                    titleFontFamily : "Microsoft Yahei",
+                    titleFontWeight: "bold",
+                    titlePaddingTop : 0,
+                    titlePaddingRight : 0,
+                    titlePaddingBottom : 10,
+                    titlePaddingLeft : 16,
+                    displayDesc : true,
+                    descFontSize: 14,
+                    descFontColor: "#6b6b6b",
+                    descFontFamily : "Microsoft Yahei",
+                    paddingTop : 0,
+                    paddingRight : 0,
+                    paddingBottom : 0,
+                    paddingLeft : 0,
+                    backgroundColor: "#fff",
+                    hoverColor: "#ca0c16"
+                    }
+                })
+            </script>        <a id="commentBox"></a>
+<div class="comment-box">
+	  	<div class="unlogin-box text-center">
+		想对作者说点什么？
+		<!-- $curl 当前地址 -->
+		<a href="https://passport.csdn.net/account/login?from=https://blog.csdn.net/c15522627353/article/details/52972941#commentBox" class="btn btn-sm btn-red">我来说一句</a>
+	</div>
+			<div class="comment-list-container">
+		<a id="comments"></a>
+		<div class="comment-list-box">
+		</div>
+		<div id="commentPage" class="pagination-box d-none"></div>
+		<div class="opt-box text-center">
+			<button class="btn btn-sm btn-link-blue" id="btnMoreComment"></button>
+		</div>
+	</div>
+</div>        <div class="recommend-box">
+            		<div class="recommend-item-box type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/wh_sjc/article/details/70283843,BlogCommendFromBaidu_0"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/wh_sjc/article/details/70283843,BlogCommendFromBaidu_0"}'>
+		<a href="https://blog.csdn.net/wh_sjc/article/details/70283843" target="_blank" title="进<em>程间</em>的五种<em>通信</em><em>方式</em>介绍">
+			<div class="content">
+				<h4 class="text-truncate oneline">
+						进<em>程间</em>的五种<em>通信</em><em>方式</em>介绍				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="avatar">
+							<img src="https://avatar.csdn.net/F/5/D/3_wh_sjc.jpg" alt="wh_sjc" class="avatar-pic">
+							<span class="namebox">
+								<span class="name">wh_sjc</span>
+								<span class="triangle"></span>
+							</span>
+					</p>
+					<p class="date-and-readNum">
+						<span class="date hover-show">04-20</span>
+						<span class="read-num hover-hide">
+							<svg class="icon csdnc-yuedushu" aria-hidden="true">
+								<use xlink:href="#csdnc-yuedushu"></use>
+							</svg>
+							4万</span>
+						</p>
+					</div>
+					<p class="content oneline">
+							进程间通信（IPC）介绍
+
+
+
+
+进程间通信（IPC，InterProcess Communication）是指在不同进程之间传播或交换信息。
+IPC的方式通常有管道（包括无名管道和命名管...					</p>
+			</div>
+					</a>
+	</div>
+					<div class="recommend-item-box type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/violet_echo_0908/article/details/51201278,BlogCommendFromBaidu_1"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/violet_echo_0908/article/details/51201278,BlogCommendFromBaidu_1"}'>
+		<a href="https://blog.csdn.net/violet_echo_0908/article/details/51201278" target="_blank" title="进<em>程间</em>8种<em>通信</em><em>方式</em>详解">
+			<div class="content">
+				<h4 class="text-truncate oneline">
+						进<em>程间</em>8种<em>通信</em><em>方式</em>详解				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="avatar">
+							<img src="https://avatar.csdn.net/A/5/4/3_violet_echo_0908.jpg" alt="violet_echo_0908" class="avatar-pic">
+							<span class="namebox">
+								<span class="name">violet_echo_0908</span>
+								<span class="triangle"></span>
+							</span>
+					</p>
+					<p class="date-and-readNum">
+						<span class="date hover-show">04-20</span>
+						<span class="read-num hover-hide">
+							<svg class="icon csdnc-yuedushu" aria-hidden="true">
+								<use xlink:href="#csdnc-yuedushu"></use>
+							</svg>
+							3.2万</span>
+						</p>
+					</div>
+					<p class="content oneline">
+							1 无名管道通信无名管道( pipe )：管道是一种半双工的通信方式，数据只能单向流动，而且只能在具有亲缘关系的进程间使用。进程的亲缘关系通常是指父子进程关系。2 高级管道通信高级管道(popen)：...					</p>
+			</div>
+								<div class="img-box float-left">
+						<img src="https://csdnimg.cn/release/phoenix/article_rand_pic/ops/ops19.jpg" alt="">	
+				</div>
+				</a>
+	</div>
+														<div class="recommend-item-box recommend-ad-box">
+						<script type="text/javascript" src="//cee1.iteye.com/pkcgstjjm.js"></script>
+					</div>
+							
+				<div class="recommend-item-box type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/xinianbuxiu/article/details/54562633,BlogCommendFromBaidu_2"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/xinianbuxiu/article/details/54562633,BlogCommendFromBaidu_2"}'>
+		<a href="https://blog.csdn.net/xinianbuxiu/article/details/54562633" target="_blank" title="进<em>程间</em><em>通信</em><em>方式</em>有哪些？各自有哪些优缺点？">
+			<div class="content">
+				<h4 class="text-truncate oneline">
+						进<em>程间</em><em>通信</em><em>方式</em>有哪些？各自有哪些优缺点？				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="avatar">
+							<img src="https://avatar.csdn.net/F/5/1/3_xinianbuxiu.jpg" alt="xinianbuxiu" class="avatar-pic">
+							<span class="namebox">
+								<span class="name">xinianbuxiu</span>
+								<span class="triangle"></span>
+							</span>
+					</p>
+					<p class="date-and-readNum">
+						<span class="date hover-show">01-15</span>
+						<span class="read-num hover-hide">
+							<svg class="icon csdnc-yuedushu" aria-hidden="true">
+								<use xlink:href="#csdnc-yuedushu"></use>
+							</svg>
+							5457</span>
+						</p>
+					</div>
+					<p class="content oneline">
+							1)管道
+管道分为有名管道和无名管道
+无名管道是一种半双工的通信方式,数据只能单向流动,而且只能在具有亲缘关系的进程间使用.进程的亲缘关系一般指的是父子关系。无明管道一般用于两个不同进程之间的通信...					</p>
+			</div>
+					</a>
+	</div>
+					<div class="recommend-item-box type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/u014673901/article/details/51089449,BlogCommendFromBaidu_3"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/u014673901/article/details/51089449,BlogCommendFromBaidu_3"}'>
+		<a href="https://blog.csdn.net/u014673901/article/details/51089449" target="_blank" title="4种进<em>程间</em><em>通信</em><em>方式</em>详解">
+			<div class="content">
+				<h4 class="text-truncate oneline">
+						4种进<em>程间</em><em>通信</em><em>方式</em>详解				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="avatar">
+							<img src="https://avatar.csdn.net/2/B/1/3_u014673901.jpg" alt="u014673901" class="avatar-pic">
+							<span class="namebox">
+								<span class="name">u014673901</span>
+								<span class="triangle"></span>
+							</span>
+					</p>
+					<p class="date-and-readNum">
+						<span class="date hover-show">04-07</span>
+						<span class="read-num hover-hide">
+							<svg class="icon csdnc-yuedushu" aria-hidden="true">
+								<use xlink:href="#csdnc-yuedushu"></use>
+							</svg>
+							2.1万</span>
+						</p>
+					</div>
+					<p class="content oneline">
+							进程间通信有4种方式，以下从简单到复杂的方式出场:
+1.管道(pipe)
+    管道是一种具有两个端点的通信通道，一个管道实际上就是只存在在内存中的文件，对这个文件操作需要两个已经打开文件进行，...					</p>
+			</div>
+					</a>
+	</div>
+					<div class="recommend-item-box type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/yufaw/article/details/7409596,BlogCommendFromBaidu_4"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/yufaw/article/details/7409596,BlogCommendFromBaidu_4"}'>
+		<a href="https://blog.csdn.net/yufaw/article/details/7409596" target="_blank" title="进<em>程间</em>的几种<em>通信</em><em>方式</em>">
+			<div class="content">
+				<h4 class="text-truncate oneline">
+						进<em>程间</em>的几种<em>通信</em><em>方式</em>				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="avatar">
+							<img src="https://avatar.csdn.net/4/E/2/3_yufaw.jpg" alt="yufaw" class="avatar-pic">
+							<span class="namebox">
+								<span class="name">yufaw</span>
+								<span class="triangle"></span>
+							</span>
+					</p>
+					<p class="date-and-readNum">
+						<span class="date hover-show">03-30</span>
+						<span class="read-num hover-hide">
+							<svg class="icon csdnc-yuedushu" aria-hidden="true">
+								<use xlink:href="#csdnc-yuedushu"></use>
+							</svg>
+							5万</span>
+						</p>
+					</div>
+					<p class="content oneline">
+							进程间通信就是在不同进程之间传播或交换信息，那么不同进程之间存在着什么双方都可以访问的介质呢？进程的用户空间是互相独立的，一般而言是不能互相访问的，唯一的例外是共享内存区。但是，系统空间却是“公共场所...					</p>
+			</div>
+					</a>
+	</div>
+					<div class="recommend-item-box type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/snow_5288/article/details/73274449,searchFromBaidu_5"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/snow_5288/article/details/73274449,searchFromBaidu_5"}'>
+		<a href="https://blog.csdn.net/snow_5288/article/details/73274449" target="_blank" title="<em>Linux</em>下的进程概论与编程三（进<em>程间</em><em>通信</em>的5种<em>方式</em>）">
+			<div class="content">
+				<h4 class="text-truncate oneline">
+						<em>Linux</em>下的进程概论与编程三（进<em>程间</em><em>通信</em>的5种<em>方式</em>）				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="avatar">
+							<img src="https://avatar.csdn.net/A/0/E/3_snow_5288.jpg" alt="snow_5288" class="avatar-pic">
+							<span class="namebox">
+								<span class="name">snow_5288</span>
+								<span class="triangle"></span>
+							</span>
+					</p>
+					<p class="date-and-readNum">
+						<span class="date hover-show">06-15</span>
+						<span class="read-num hover-hide">
+							<svg class="icon csdnc-yuedushu" aria-hidden="true">
+								<use xlink:href="#csdnc-yuedushu"></use>
+							</svg>
+							1580</span>
+						</p>
+					</div>
+					<p class="content oneline">
+							Linux下的进程概论与编程一（进程概念与编程）Linux下的进程概论与编程二（进程控制）一、进程间通信1、IPC—-InterProcess Communication 
+每个进程各自有不同的用户地...					</p>
+			</div>
+					</a>
+	</div>
+								<div class="recommend-item-box recommend-ad-box" id="a_d_feed_0"></div>
+			<script>
+				var width = $("div.recommend-box").outerWidth() - 48;
+				NEWS_FEED({
+					w: width,
+					h: 60,
+					showid: 'Afihld',
+					placeholderId: 'a_d_feed_0',
+					inject: 'define',
+					define: {
+						imagePosition: 'left',
+						imageBorderRadius: 0,
+						imageWidth: 90,
+						imageHeight: 60,
+						imageFill: 'clip',
+						displayImage: true,
+						displayTitle: true,
+						titleFontSize: 20,
+						titleFontColor: '#333',
+						titleFontFamily: 'Microsoft Yahei',
+						titleFontWeight: 'bold',
+						titlePaddingTop: 0,
+						titlePaddingRight: 0,
+						titlePaddingBottom: 10,
+						titlePaddingLeft: 8,
+						displayDesc: true,
+						descFontSize: 14,
+						descPaddingLeft: 14,
+						descFontColor: '#6b6b6b',
+						descFontFamily: 'Microsoft Yahei',
+						paddingTop: 0,
+						paddingRight: 0,
+						paddingBottom: 0,
+						paddingLeft: 0,
+						backgroundColor: '#fff',
+						hoverColor: '#ca0c16'
+					}
+				})
+			</script>
+					<div class="recommend-item-box type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/baidu_34928905/article/details/78047124,searchFromBaidu_6"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/baidu_34928905/article/details/78047124,searchFromBaidu_6"}'>
+		<a href="https://blog.csdn.net/baidu_34928905/article/details/78047124" target="_blank" title="安卓进<em>程间</em><em>通信</em>的四种<em>方式</em>（含案例）">
+			<div class="content">
+				<h4 class="text-truncate oneline">
+						安卓进<em>程间</em><em>通信</em>的四种<em>方式</em>（含案例）				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="avatar">
+							<img src="https://avatar.csdn.net/6/E/4/3_baidu_34928905.jpg" alt="baidu_34928905" class="avatar-pic">
+							<span class="namebox">
+								<span class="name">baidu_34928905</span>
+								<span class="triangle"></span>
+							</span>
+					</p>
+					<p class="date-and-readNum">
+						<span class="date hover-show">09-21</span>
+						<span class="read-num hover-hide">
+							<svg class="icon csdnc-yuedushu" aria-hidden="true">
+								<use xlink:href="#csdnc-yuedushu"></use>
+							</svg>
+							672</span>
+						</p>
+					</div>
+					<p class="content oneline">
+							由于应用程序之间不能共享内存。在不同应用程序之间交互数据（跨进程通讯），在android SDK中提供了4种用于跨进程通讯的方式。这4种方式正好对应于android系统中4种应用程序组件：Activi...					</p>
+			</div>
+								<div class="img-box float-left">
+						<img src="https://csdnimg.cn/release/phoenix/article_rand_pic/mobile/mobile30.jpg" alt="">	
+				</div>
+				</a>
+	</div>
+					<div class="recommend-item-box type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/zm1_1zm/article/details/54142296,searchFromBaidu_7"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/zm1_1zm/article/details/54142296,searchFromBaidu_7"}'>
+		<a href="https://blog.csdn.net/zm1_1zm/article/details/54142296" target="_blank" title="进<em>程间</em><em>通信</em><em>方式</em>有哪些？各自有哪些优缺点？">
+			<div class="content">
+				<h4 class="text-truncate oneline">
+						进<em>程间</em><em>通信</em><em>方式</em>有哪些？各自有哪些优缺点？				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="avatar">
+							<img src="https://avatar.csdn.net/3/2/C/3_zm1_1zm.jpg" alt="zm1_1zm" class="avatar-pic">
+							<span class="namebox">
+								<span class="name">zm1_1zm</span>
+								<span class="triangle"></span>
+							</span>
+					</p>
+					<p class="date-and-readNum">
+						<span class="date hover-show">01-06</span>
+						<span class="read-num hover-hide">
+							<svg class="icon csdnc-yuedushu" aria-hidden="true">
+								<use xlink:href="#csdnc-yuedushu"></use>
+							</svg>
+							1124</span>
+						</p>
+					</div>
+					<p class="content oneline">
+							进程间通信方式有哪些？各自有哪些优缺点？
+1)管道
+管道分为有名管道和无名管道
+无名管道是一种半双工的通信方式,数据只能单向流动,而且只能在具有亲缘关系的进程间使用.进程的亲缘关系一般指的是父子...					</p>
+			</div>
+					</a>
+	</div>
+					<div class="recommend-item-box type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/tf_apologize/article/details/70194480,searchFromBaidu_8"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/tf_apologize/article/details/70194480,searchFromBaidu_8"}'>
+		<a href="https://blog.csdn.net/tf_apologize/article/details/70194480" target="_blank" title="进<em>程间</em><em>通信</em><em>方式</em>总结——消息队列">
+			<div class="content">
+				<h4 class="text-truncate oneline">
+						进<em>程间</em><em>通信</em><em>方式</em>总结——消息队列				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="avatar">
+							<img src="https://avatar.csdn.net/5/E/8/3_tf_apologize.jpg" alt="tf_apologize" class="avatar-pic">
+							<span class="namebox">
+								<span class="name">tf_apologize</span>
+								<span class="triangle"></span>
+							</span>
+					</p>
+					<p class="date-and-readNum">
+						<span class="date hover-show">04-16</span>
+						<span class="read-num hover-hide">
+							<svg class="icon csdnc-yuedushu" aria-hidden="true">
+								<use xlink:href="#csdnc-yuedushu"></use>
+							</svg>
+							1563</span>
+						</p>
+					</div>
+					<p class="content oneline">
+							Linux/Unix系统IPC是各种进程间通信方式的统称，但是其中极少能在所有Linux/Unix系统实现中进行移植。随着POSIX和Open
+ Group（X/Open）标准化的推进呵护影响的扩大...					</p>
+			</div>
+					</a>
+	</div>
+					<div class="recommend-item-box type_blog clearfix" data-track-view='{"mod":"popu_387","con":",https://blog.csdn.net/younkerjqb/article/details/53635773,searchFromBaidu_9"}' data-track-click='{"mod":"popu_387","con":",https://blog.csdn.net/younkerjqb/article/details/53635773,searchFromBaidu_9"}'>
+		<a href="https://blog.csdn.net/younkerjqb/article/details/53635773" target="_blank" title="进<em>程间</em><em>通信</em>之：socket">
+			<div class="content">
+				<h4 class="text-truncate oneline">
+						进<em>程间</em><em>通信</em>之：socket				</h4>
+				<div class="info-box d-flex align-content-center">
+					<p class="avatar">
+							<img src="https://avatar.csdn.net/E/2/3/3_younkerjqb.jpg" alt="younkerjqb" class="avatar-pic">
+							<span class="namebox">
+								<span class="name">younkerjqb</span>
+								<span class="triangle"></span>
+							</span>
+					</p>
+					<p class="date-and-readNum">
+						<span class="date hover-show">12-14</span>
+						<span class="read-num hover-hide">
+							<svg class="icon csdnc-yuedushu" aria-hidden="true">
+								<use xlink:href="#csdnc-yuedushu"></use>
+							</svg>
+							3054</span>
+						</p>
+					</div>
+					<p class="content oneline">
+							最近初步学习了本地进程间通信的方式（PIPE、FIFO、message queue、semaphore、shared memary），计划按照“unix 环境高级编程”来学习socket，但是书本上来...					</p>
+			</div>
+					</a>
+	</div>
+			
+            <div class="recommend-loading-box">
+                <img src='https://csdnimg.cn/release/phoenix/images/feedLoading.gif'>
+            </div>
+            <div class="recommend-end-box">
+                <p class="text-center">没有更多推荐了，<a href="https://blog.csdn.net/" class="c-blue c-blue-hover c-blue-focus">返回首页</a></p>
+            </div>
+        </div>
+    </main>
+    <aside>
+		    <div id="asideProfile" class="aside-box">
+    <h3 class="aside-title">个人资料</h3>
+    <div class="profile-intro d-flex">
+        <div class="avatar-box d-flex justify-content-center flex-column">
+            <a href="https://blog.csdn.net/c15522627353">
+                <img src="https://avatar.csdn.net/6/0/6/3_c15522627353.jpg" class="avatar_pic">
+            </a>
+        </div>
+        <div class="user-info d-flex justify-content-center flex-column">
+            <p class="name csdn-tracking-statistics tracking-click" data-mod="popu_379">
+                <a href="https://blog.csdn.net/c15522627353" target="_blank" class="text-truncate" id="uid">NicolaAndMartin</a>
+            </p>
+                    </div>
+                <div class="opt-box d-flex justify-content-center flex-column">
+            <span  class="csdn-tracking-statistics tracking-click" data-mod="popu_379">
+                                <a class="btn btn-sm btn-red-hollow" href="https://passport.csdn.net/account/login?from=https://blog.csdn.net/c15522627353/article/details/52972941" target="_self">关注</a>
+                            </span>
+                    </div>
+            </div>
+    <div class="data-info d-flex item-tiling">
+                <dl class="text-center" title="63">
+                        <dt><a href="https://blog.csdn.net/c15522627353?t=1">原创</a></dt>
+            <dd><a href="https://blog.csdn.net/c15522627353?t=1"><span class="count">63</span></a></dd>
+                    </dl>
+        <dl class="text-center" title="9">
+            <dt>粉丝</dt>
+            <dd><span class="count" id="fan">9</span></dd>
+        </dl>
+        <dl class="text-center" title="16">
+            <dt>喜欢</dt>
+            <dd><span class="count">16</span></dd>
+        </dl>
+        <dl class="text-center" title="12">
+            <dt>评论</dt>
+            <dd><span class="count">12</span></dd>
+        </dl>
+    </div>
+    <div class="grade-box clearfix">
+        <dl>
+            <dt>等级：</dt>
+            <dd>
+                <a href="https://blog.csdn.net/home/help.html#level" title="4级,点击查看等级说明" target="_blank">
+                    <svg class="icon icon-level" aria-hidden="true">
+                        <use xlink:href="#csdnc-bloglevel-4"></use>
+                    </svg>
+                </a>
+            </dd>
+        </dl>
+        <dl>
+            <dt>访问：</dt>
+            <dd title="108031">
+                10万+            </dd>
+        </dl>
+        <dl>
+            <dt>积分：</dt>
+            <dd title="1487">
+                1487            </dd>
+        </dl>
+        <dl title="36889">
+            <dt>排名：</dt>
+            <dd>3万+</dd>
+        </dl>
+    </div>
+        <div class="badge-box d-flex">
+        <span>勋章：</span>
+                        <a class="icon-badge" title="持之以恒">
+            <svg class="icon" aria-hidden="true">
+                <use xlink:href="#csdnc-m-lasting"></use>
+            </svg>
+            <div class="icon-arrow"></div>
+            <div class="grade-detail-box item2">
+                <div class="pos-box">
+                    <div class="left-box d-flex justify-content-center align-items-center flex-column">
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#csdnc-m-lasting"></use>
+                        </svg>
+                        <p>持之以恒</p>
+                    </div>
+                    <div class="right-box d-flex justify-content-center align-items-center">
+                        授予每个自然月内发布4篇或4篇以上原创或翻译IT博文的用户。不积跬步无以至千里，不积小流无以成江海，程序人生的精彩需要坚持不懈地积累！
+                    </div>
+                </div>
+            </div>
+        </a>
+                            </div>
+    </div>		    <div class="csdn-tracking-statistics mb8 box-shadow" data-pid="blog" data-mod="popu_4" style="height:250px;">
+    <div class="aside-content text-center" id="cpro_u2734133">
+      <!-- 广告位：PC-博客内页-百度联盟-300x250 -->
+                      <script type="text/javascript" src="//cee1.iteye.com/lgyyovfyh.js"></script>    </div>
+</div>
+		    <div id="asideNewArticle" class="aside-box">
+    <h3 class="aside-title">最新文章</h3>
+    <div class="aside-content">
+        <ul class="inf_list clearfix csdn-tracking-statistics tracking-click" data-mod="popu_382">
+                        <li class="clearfix">
+                <a href="https://blog.csdn.net/c15522627353/article/details/79439154" target="_blank">ionic sildemenu在大屏幕下一直显示，在小屏幕上隐藏的办法</a>
+            </li>
+                        <li class="clearfix">
+                <a href="https://blog.csdn.net/c15522627353/article/details/70201001" target="_blank">Ionic1 跳转页面时的参数传递</a>
+            </li>
+                        <li class="clearfix">
+                <a href="https://blog.csdn.net/c15522627353/article/details/70163430" target="_blank">Ionic开发遇到的问题和解决方法</a>
+            </li>
+                        <li class="clearfix">
+                <a href="https://blog.csdn.net/c15522627353/article/details/64923634" target="_blank">Ionic 环境搭建</a>
+            </li>
+                        <li class="clearfix">
+                <a href="https://blog.csdn.net/c15522627353/article/details/58139768" target="_blank">CSS选择器介绍</a>
+            </li>
+                    </ul>
+    </div>
+</div>
+		    		    <div id="asideCategory" class="aside-box flexible-box">
+    <h3 class="aside-title">个人分类</h3>
+    <div class="aside-content">
+        <ul>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/5602783">
+                    安卓开发                    <span class="count float-right">56篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/5610723">
+                    ListView                    <span class="count float-right">5篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/5611267">
+                    Fragment                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/5614463">
+                    Java                    <span class="count float-right">10篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/5614465">
+                    正则表达式                    <span class="count float-right">2篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/5622007">
+                    控件                    <span class="count float-right">8篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/5625183">
+                    数据库                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/5632587">
+                    Dialog                    <span class="count float-right">4篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/5678303">
+                    Data处理                    <span class="count float-right">3篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/5678305">
+                    动画                    <span class="count float-right">2篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/5695145">
+                    网络                    <span class="count float-right">3篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/5717027">
+                    Activity                    <span class="count float-right">2篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/5736269">
+                    File                    <span class="count float-right">3篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/5743149">
+                    provider                    <span class="count float-right">2篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/5761427">
+                    安卓菜单                    <span class="count float-right">6篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/5772805">
+                    service                    <span class="count float-right">3篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/5796141">
+                    模式                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/5796143">
+                    模式识别                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/5799169">
+                    推送                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/5805789">
+                    错误集                    <span class="count float-right">3篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/5813785">
+                    ViewPager                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/5820399">
+                    媒体播放                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/5828507">
+                    多态                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/5838765">
+                    环境配置                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/5866663">
+                    图形处理                    <span class="count float-right">3篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/5866711">
+                    子线程                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/5924217">
+                    自定义控件                    <span class="count float-right">2篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/6025937">
+                    githup                    <span class="count float-right">2篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/6180748">
+                    设计模式                    <span class="count float-right">2篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/6181972">
+                    快捷键                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/6183268">
+                    安卓源码研究之旅                    <span class="count float-right">2篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/6224272">
+                    测试                    <span class="count float-right">2篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/6404713">
+                    适配                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/6490047">
+                    操作系统                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/6490048">
+                    Linux                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/6561641">
+                    程序设计                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/6751021">
+                    Css                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+                        <li>
+                <a href="https://blog.csdn.net/c15522627353/article/category/6807509">
+                    移动Web开发                    <span class="count float-right">4篇</span>
+                </a>
+            </li>
+                    </ul>
+    </div>
+        <p class="text-center">
+        <a class="btn btn-link-blue flexible-btn" data-fbox="aside-archive">展开</a>
+    </p>
+    </div>
+		    <div id="asideArchive" class="aside-box flexible-box">
+    <h3 class="aside-title">归档</h3>
+    <div class="aside-content">
+        <ul class="archive-list">
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/c15522627353/article/month/2018/03">
+                    2018年3月                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/c15522627353/article/month/2017/04">
+                    2017年4月                    <span class="count float-right">2篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/c15522627353/article/month/2017/03">
+                    2017年3月                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/c15522627353/article/month/2017/02">
+                    2017年2月                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/c15522627353/article/month/2017/01">
+                    2017年1月                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/c15522627353/article/month/2016/12">
+                    2016年12月                    <span class="count float-right">1篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/c15522627353/article/month/2016/11">
+                    2016年11月                    <span class="count float-right">2篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/c15522627353/article/month/2016/10">
+                    2016年10月                    <span class="count float-right">3篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/c15522627353/article/month/2016/09">
+                    2016年9月                    <span class="count float-right">4篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/c15522627353/article/month/2016/05">
+                    2016年5月                    <span class="count float-right">5篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/c15522627353/article/month/2016/04">
+                    2016年4月                    <span class="count float-right">6篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/c15522627353/article/month/2015/12">
+                    2015年12月                    <span class="count float-right">4篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/c15522627353/article/month/2015/11">
+                    2015年11月                    <span class="count float-right">2篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/c15522627353/article/month/2015/10">
+                    2015年10月                    <span class="count float-right">7篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/c15522627353/article/month/2015/09">
+                    2015年9月                    <span class="count float-right">8篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/c15522627353/article/month/2015/08">
+                    2015年8月                    <span class="count float-right">16篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/c15522627353/article/month/2015/07">
+                    2015年7月                    <span class="count float-right">7篇</span>
+                </a>
+            </li>
+                        <!--归档统计-->
+            <li>
+                <a href="https://blog.csdn.net/c15522627353/article/month/2015/06">
+                    2015年6月                    <span class="count float-right">9篇</span>
+                </a>
+            </li>
+                    </ul>
+    </div>
+        <p class="text-center">
+        <a class="btn btn-link-blue flexible-btn" data-fbox="aside-archive">展开</a>
+    </p>
+    </div>
+		    <div id="asideHotArticle" class="aside-box">
+	<h3 class="aside-title">热门文章</h3>
+	<div class="aside-content">
+		<ul class="hotArticle-list csdn-tracking-statistics tracking-click" data-mod="popu_521">
+							<li>
+					<a href="https://blog.csdn.net/c15522627353/article/details/52452490">Android适配底部返回键等虚拟键盘的完美解决方案</a>
+					<p class="read">阅读量：<span>33827</span></p>
+				</li>
+							<li>
+					<a href="https://blog.csdn.net/c15522627353/article/details/52972941">Linux进程间的通信方式和原理</a>
+					<p class="read">阅读量：<span>6795</span></p>
+				</li>
+							<li>
+					<a href="https://blog.csdn.net/c15522627353/article/details/47664241">setGravity修改Toast弹出的位置</a>
+					<p class="read">阅读量：<span>5995</span></p>
+				</li>
+							<li>
+					<a href="https://blog.csdn.net/c15522627353/article/details/54342247">Android 截取View，获取View的Bitmap的方法</a>
+					<p class="read">阅读量：<span>4375</span></p>
+				</li>
+							<li>
+					<a href="https://blog.csdn.net/c15522627353/article/details/48290073">极光推送,注册账户，集成SDK</a>
+					<p class="read">阅读量：<span>3085</span></p>
+				</li>
+					</ul>
+	</div>
+</div>
+		    <div id="asideNewComments" class="aside-box">
+    <h3 class="aside-title">最新评论</h3>
+    <div class="aside-content">
+        <ul class="newcomment-list">
+                        <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/c15522627353/article/details/52452490#comments">Android适配底部返回键等虚拟...</a>
+                <p class="comment">
+                    <a href="https://my.csdn.net/lichongyan2016" class="user-name" target="_blank">lichongyan2016</a>：如果这篇文章没有作用 可以看看这篇 非常靠谱 https://blog.csdn.net/qq_3...                </p>
+            </li>
+                        <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/c15522627353/article/details/52452490#comments">Android适配底部返回键等虚拟...</a>
+                <p class="comment">
+                    <a href="https://my.csdn.net/c15522627353" class="user-name" target="_blank">c15522627353</a>：我已经转战ionic2了。                </p>
+            </li>
+                        <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/c15522627353/article/details/52452490#comments">Android适配底部返回键等虚拟...</a>
+                <p class="comment">
+                    <a href="https://my.csdn.net/c15522627353" class="user-name" target="_blank">c15522627353</a>：没想到会有那么多回复，这是我从国外的网站找到的解决方案，当时确实解决了我的应用场景。
+我找了一下网...                </p>
+            </li>
+                        <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/c15522627353/article/details/52452490#comments">Android适配底部返回键等虚拟...</a>
+                <p class="comment">
+                    <a href="https://my.csdn.net/lzw2497727771" class="user-name" target="_blank">lzw2497727771</a>：博主这个命名不忍直视  类名和方法名里面包含数字？ 建议看一下阿里巴巴的java规范                </p>
+            </li>
+                        <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/c15522627353/article/details/52452490#comments">Android适配底部返回键等虚拟...</a>
+                <p class="comment">
+                    <a href="https://my.csdn.net/Jack20170316" class="user-name" target="_blank">Jack20170316</a>：楼主  第一个方法不好用  尤其是有switch滑动的时候                </p>
+            </li>
+                    </ul>
+    </div>
+</div>
+		<div id="asideFooter">
+			
+		<div class="aside-box">
+						<script type="text/javascript" src="//cee1.iteye.com/avneunkwb.js"></script>
+					</div>
+				<div class="aside-box">
+			<div class="persion_article">
+			</div>
+		</div>
+	</div>
+</aside>
+<script src="https://csdnimg.cn/pubfooter/js/publib_footer-1.0.3.js" data-isfootertrack="false" type="text/javascript"></script>
+<script>
+	$("a.flexible-btn").click(function(){
+		$(this).parents('div.aside-box').removeClass('flexible-box');
+		$(this).remove();
+	})
+</script>
+</div>
+<div class="mask-dark"></div>
+<div class="pulllog-box" style="display: block;">
+	<div class="pulllog clearfix">
+		<span class="text float-left">
+			<!-- 广告位：PC-博客内页底通 文字链位置 -->
+			<script>
+			(function() {
+				var s = "_" + Math.random().toString(36).slice(2);
+				document.write('<div id="baidufooter_0001"></div>');
+				(window.slotbydup=window.slotbydup || []).push({
+					id: '5851901',
+					container: 'baidufooter_0001',
+					size: '520,40',
+					display: 'inlay-fix'
+				});
+			})();
+			</script>
+			<script src="https://dup.baidustatic.com/js/os.js"></script>
+			<style>
+				#baidufooter_0001{
+					display: none !important;
+				}
+			</style>
+		</span>
+		<div class="pulllog-btn float-right clearfix">
+            <button class="pulllog-login float-left csdn-tracking-statistics tracking-click" data-mod="popu_557">
+                登录
+            </button>
+            <div class="pulllog-sigin float-left csdn-tracking-statistics tracking-click" data-mod="popu_558">
+                <a href="https://passport.csdn.net/account/mobileregister" target="_blank">注册</a>
+            </div>
+            <button class="btn-close">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#csdnc-times"></use>
+                </svg>
+            </button>
+		</div>
+	</div>
+</div>
+<div id="loginWrap" style="display:none"></div>
+<div class="tool-box">
+	<ul class="meau-list">
+		<li>
+			<button class="btn-like " title="点赞">
+				<svg class="icon active" aria-hidden="true">
+					<use xlink:href="#csdnc-thumbsup-ok"></use>
+				</svg><svg class="icon no-active" aria-hidden="true">
+					<use xlink:href="#csdnc-thumbsup"></use>
+				</svg>
+				<p>4</p>
+			</button>
+		</li>
+		<li>
+			<a class="btn-comments" title="写评论" href="#commentBox">
+				<svg class="icon" aria-hidden="true">
+					<use xlink:href="#csdnc-comments"></use>
+				</svg><br>写评论			</a>
+		</li>
+		<li class="toc-container-box" id="liTocBox">
+			<button class="btn-toc" title="目录">
+				<svg class="icon" aria-hidden="true">
+					<use xlink:href="#csdnc-contents"></use>
+				</svg><br>目录
+			</button>
+			<div class="toc-container">
+				<div class="pos-box">
+					<div class="icon-arrow"></div>
+					<div class="scroll-box">
+						<div class="toc-box"></div>
+					</div>
+				</div>
+				<div class="opt-box">
+					<button class="btn-opt prev nomore" title="向上">
+						<svg class="icon" aria-hidden="true">
+							<use xlink:href="#csdnc-chevronup"></use>
+						</svg>
+					</button>
+					<button class="btn-opt next">
+						<svg class="icon" aria-hidden="true">
+							<use xlink:href="#csdnc-chevrondown"></use>
+						</svg>
+					</button>
+				</div>
+			</div>
+		</li>
+		<li>
+			<button class="btn-bookmark" title="收藏">
+				<svg class="icon active" aria-hidden="true">
+					<use xlink:href="#csdnc-bookmark-ok"></use>
+				</svg><svg class="icon no-active" aria-hidden="true">
+					<use xlink:href="#csdnc-bookmark"></use>
+				</svg><br>收藏
+			</button>
+		</li>
+				<li class="bdsharebuttonbox">
+			<a class="btn-comments bds_weixin" data-cmd="weixin" title="微信分享">
+				<svg class="icon" aria-hidden="true">
+					<use xlink:href="#csdnc-wechat"></use>
+				</svg><br>微信
+			</a>
+		</li>
+		<li class="bdsharebuttonbox">
+			<a class="btn-comments bds_tsina" data-cmd="tsina" title="微博分享">
+				<svg class="icon" aria-hidden="true">
+					<use xlink:href="#csdnc-weibo"></use>
+				</svg><br>微博
+			</a>
+		</li>
+		<li class="bdsharebuttonbox">
+			<a class="btn-comments bds_qzone" data-cmd="qzone" title="QQ分享">
+				<svg class="icon" aria-hidden="true">
+					<use xlink:href="#csdnc-qq"></use>
+				</svg><br>QQ
+			</a>
+		</li>
+				<li class="bdsharebuttonbox"style="margin-top: 8px;">
+			<script type="text/javascript" src="//cjhd.mediav.com/js/interactive_plugin.js"></script> 
+			<style>
+				#_360_interactive > *{
+					 margin-left: -8px;
+				}
+			</style>
+			<div id="_360_interactive" > 
+				<script> INTERACTIVE_PLUGIN.render({ showid : 'N0ufqn', w: 60, h: 60, type: 'hover', placeholderId: '_360_interactive' }); </script> 
+			</div>
+			<img src="//img-ads.csdn.net/2016/201608021757063065.png" style="margin: 0 auto;display: block;" alt="">
+		</li>
+	  	</ul>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'https://csdnimg.cn/static/api/js/share.js?v=89860594'];</script>
+<script>
+    var recommendCount = 10;
+    recommendCount = recommendCount > 1 ? (recommendCount + (recommendCount>6 ? 2 : 1)) : recommendCount;
+    var articleTit = "Linux进程间的通信方式和原理";
+    var ChannelId = 12;
+    var articleId = "52972941";
+    var commentscount = 0;
+    var islock = false;
+    var curentUrl = "https://blog.csdn.net/c15522627353/article/details/52972941";
+    var myUrl = "https://my.csdn.net/";
+    //1禁止评论，2正常
+    var commentAuth = 2;
+    //百度搜索
+    var baiduKey = "%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E7%9A%84%E5%8E%9F%E7%90%86";
+    var needInsertBaidu = true;
+    // 代码段样式
+    var codeStyle = '';
+    var highlight = ["linux","\u7a0b\u95f4","\u901a\u4fe1","\u65b9\u5f0f","\u539f\u7406"];//高亮数组
+</script>
+<script src="https://csdnimg.cn/public/sandalstrap/1.3/js/sandalstrap.min.js"></script>
+<script src="https://csdnimg.cn/release/phoenix/vendor/pagination/paging.js"></script>
+<script src='https://csdnimg.cn/public/common/gotop/js/goTop-v1.0.min.js?v201803151422'></script>
+<script>
+    GoTop({
+        right: 8,
+        hasReport: true,
+        reportFun: function() {
+            showReport(false,"Linux进程间的通信方式和原理");
+        }
+    })
+</script>
+<script src="https://csdnimg.cn/release/phoenix/template/js/common-a4f198c74c.min.js"></script>
+<script src="https://csdnimg.cn/release/phoenix/template/js/detail-bb93eacac4.min.js"></script>
+<script src="https://csdnimg.cn/release/phoenix/themes/skin3-template/skin3-template-73eea35575.min.js"></script>
+<script src="https://csdnimg.cn/search/baidu_search-1.1.2.js?v=201802071056&autorun=true&install=true&keyword=%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E7%9A%84%E5%8E%9F%E7%90%86"  type="text/javascript"></script>
+</body>
+<div class="box-box-aways">
+    <a class="btn-remove">
+        关闭
+    </a>
+    <div id="adAways">
+        <script>
+            (function() {
+            (window.slotbydup=window.slotbydup || []).push({
+            id: '5868728',
+            container: 'adAways',
+            size: '250,500',
+            display: 'inlay-fix'
+            });
+            })();
+            </script>
+        <script src="https://dup.baidustatic.com/js/os.js"></script>
+    </div>
+</div>
+<div class="box-box-default">
+    <a class="btn-remove">
+        关闭
+    </a>
+    <script type="text/javascript" src="//cee1.iteye.com/mhzzjepzz.js"></script>
+</div>
+<div class="box-box-large">
+    <a class="btn-remove">
+        关闭
+    </a>
+    <script type="text/javascript" src="//cee1.iteye.com/idvveasfs.js"></script>
+</div>
+<!-- 第四范式SDK -->
+
+<!-- 高亮未与 markdown兼容  -->
+<script type="text/javascript" src="https://static-blog.csdn.net/mdeditor/public/res/bower-libs/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+            "HTML-CSS": {
+                    linebreaks: { automatic: true, width: "94%container" },
+                    imageFont: null
+            },
+            tex2jax: {
+                preview: "none"
+            },
+            mml2jax: {
+                preview: 'none'
+            }
+    });
+</script>
+</html>

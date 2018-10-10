@@ -1,0 +1,576 @@
+<!DOCTYPE html><html><head>    <meta charset="utf-8"/>    <meta http-equiv="Content-Language" content="zh-CN">    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>    <meta name="referrer" content="always"/>    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>    <title>Mysql索引为啥要用B+树？ - 陈_二的个人空间 - 开源中国</title>            <meta name="keywords" content="mysql,B+树,索引,红黑树,陈二C,chener,Mysql索引为啥要用B+树？ - 陈_二的个人空间,开源中国博客"/>                <meta name="description" content="我们都知道Mysql索引用的B+树作为数据结构，但是为啥呢？王侯将相宁有种乎，树有这么多，凭啥就是你B+树，我AVL树，红黑树，Trie树等表示不服。 不服先等着，我们看看树旋转。树旋转是在二叉树中的一种子树调整操作, 每一次旋转并不影响对该二叉树进行中序遍历的结果。 AVL树 AVL树是最先发明的自平衡二叉查找树。在AVL..."/>        <link rel="stylesheet" type="text/css" href="/new-osc/js/utils/semantic-ui/semantic.min.css?v180824"/>                <link type="text/css" rel="stylesheet" href="/new-osc/dist/css/space.56d52038.css">        <script src="/new-osc/js/utils/jquery.min.js"></script>    <link rel="shortcut icon" type="image/x-icon" href="/new-osc/img/favicon.ico"/>    <link rel="alternate" type="application/rss+xml" title="最新开源项目" href="https://www.oschina.net/project/rss"/>    <link rel="alternate" type="application/rss+xml" title="最新开源资讯" href="https://www.oschina.net/news/rss"/>    <link rel="alternate" type="application/rss+xml" title="最新问题列表" href="https://www.oschina.net/question/rss"/>    <link rel="alternate" type="application/rss+xml" title="最新翻译列表" href="https://www.oschina.net/translate/rss"/>    <link rel="alternate" type="application/rss+xml" title="最新博客列表" href="https://www.oschina.net/blog/rss"/>    <link rel="alternate" type="application/rss+xml" title="推荐博客列表" href="https://www.oschina.net/blog/rss?show=more"/>    <link rel="alternate" type="application/rss+xml" title="推荐软件列表" href="https://www.oschina.net/project/rss?show=recomms"/>    <link rel="alternate" type="application/rss+xml" title="最新代码分享列表" href="https://www.oschina.net/code/rss"/>    <link rel="alternate" type="application/rss+xml" title="开源中国 - 源码列表" href="https://www.oschina.net/code/source_rss"/></head><body>        <val data-name="space_user_url" data-value="https://my.oschina.net/chener"></val>      <val data-name="g_user_url" data-value=""></val>      <val data-name="api_prefix" data-value="/action"></val>      <val data-name="g_user_code" data-value=""></val>     <val data-name="g_user_id" data-value=""></val>     <val data-name="g_user" data-value=""></val>     <val data-name="login_page" data-value="https://www.oschina.net/home/login?goto_page=https%3A%2F%2Fmy.oschina.net%2Fchener%2Fblog%2F1603098"></val>                         <val data-name="weixinAppId" data-value="wx880def15e694b905"></val>        <val data-name="weixinTimestamp" data-value="1539171758110"></val>        <val data-name="weixinNonceStr" data-value="5e187002-4902-412a-82c7-79fd4fdc784b"></val>        <val data-name="weixinSignature" data-value="fb1bd773828c40bad6dbfd3b8b2c75e7d2083b5e"></val>        <val data-name="weixinShareUrl" data-value="https://my.oschina.net/chener/blog/1603098"></val>                                             <div class="ui left inverted sidebar vertical menu" id="mobileNavSidebar">        <a href="https://www.oschina.net/project" class="item project">开源软件</a>        <a href="https://www.oschina.net/question" class="item question">问答</a>        <a href="https://www.oschina.net/tweets" class="item tweet">动弹</a>        <a href="https://www.oschina.net/blog" class="item blog">博客</a>        <a href="https://www.oschina.net/translate" class="item translate">翻译</a>        <a href="https://www.oschina.net/news" class="item news">资讯</a>        <a href="https://gitee.com/?from=osc-index" class="item gitee" target="_blank">码云</a>        <a href="https://zb.oschina.net/" class="item" target="_blank">众包</a>        <a href="https://www.oschina.net/event/ych" class="item meetup">源创会</a>        <a href="https://www.oschina.net/event" class="item">活动</a>        <a href="https://job.oschina.net/" class="item" target="_blank">求职/招聘</a>        <a href="https://www.oschina.net/question/tag/高手问答" class="item">高手问答</a>        <a href="https://www.oschina.net/question/tag/开源访谈" class="item">开源访谈</a>        <a href="https://my.oschina.net/editorial-story" class="item">周刊</a>    </div>        <div class="ui right inverted sidebar vertical menu" id="mobileUserSidebar">                    <a class="item" href="https://www.oschina.net/home/login?goto_page=https%3A%2F%2Fmy.oschina.net%2Fchener%2Fblog%2F1603098">登录</a>            <a class="item" href="https://www.oschina.net/home/reg?goto_page=https%3A%2F%2Fmy.oschina.net%2Fchener%2Fblog%2F1603098">注册</a>            </div>        <div class="ui vertical inverted right sidebar menu" id="sideMenu">
+    <div class="header">
+        <b>文档章节</b>
+    </div>
+    <div class="ui basic segment" id="sideMenuBody"></div>
+</div>
+<div class="ui black big launch right attached fixed button" id="sideMenuLauncher">
+    <i class="list icon"></i>
+    <span class="text">文档章节</span>
+</div>
+                <div class="pusher  mobile-disabled-fixed-menu  ">                <div class="ui secondary inverted fixed menu" id="headerNavMenu">            <a class="item logo" href="https://www.oschina.net" title="开源中国"><img src="/new-osc/img/logo.svg" alt="开源中国"></a>            <form action="https://www.oschina.net/search" class="item search-item">                <div class="ui icon input">                    <input placeholder="大家都在搜...." id="keyword" name="q" size="24" value="" type="text"/>                    <i class="search link icon"></i>                </div>                <div class="results"></div>            </form>            <div class="item download-item">                <a class="ui primary button" id="btnDownloadApp" href="https://www.oschina.net/app" target="_blank">下载APP</a>            </div>            <div class="ui popup top left transition hidden" id="btnDownloadAppContent">                <h3 class="header">开源中国 App —— <br/>关注技术领域的头条文章</h3>                <p>聚合全网技术文章，根据你的阅读喜好进行个性推荐</p>                <img width="200" src='/new-osc/img/osc_app_download_qrcode.png?t=1451964198000' alt="下载APP"/>            </div>            <div class="ui secondary text menu" id="menuList">                <a href="https://www.oschina.net/project" class="item project">开源软件</a>                <a href="https://www.oschina.net/question" class="item question">问答</a>                <a href="https://www.oschina.net/tweets" class="item tweet">动弹</a>                <a href="https://www.oschina.net/blog" class="item blog">博客</a>                <a href="https://www.oschina.net/translate" class="item translate">翻译</a>                <a href="https://www.oschina.net/news" class="item news">资讯</a>                <a href="https://gitee.com/?from=osc-index" class="item gitee" target="_blank">码云<span class="floating ui red label giteetip">代码托管</span></a>                <a href="https://zb.oschina.net/" class="item" target="_blank">众包</a>            </div>            <div class="ui dropdown item" id="moreMenu">                更多 <i class="dropdown icon"></i>                <div class="menu">                    <a href="https://www.oschina.net/event/ych" class="item meetup"><i class="world icon"></i>源创会</a>                    <a href="https://www.oschina.net/event" class="item"><i class="calendar icon"></i>活动</a>                    <a href="https://job.oschina.net/" class="item" target="_blank"><i class="address card outline icon"></i>求职/招聘</a>                    <a href="https://www.oschina.net/question/tag/高手问答" class="item"><i class="spy icon"></i>高手问答</a>                    <a href="https://www.oschina.net/question/tag/开源访谈" class="item"><i class="coffee icon"></i>开源访谈</a>                    <a href="https://my.oschina.net/editorial-story" class="item"><i class="calendar outline icon"></i>周刊</a>                </div>            </div>            <div class="right menu">                                    <a class="item" href="https://www.oschina.net/home/login?goto_page=https%3A%2F%2Fmy.oschina.net%2Fchener%2Fblog%2F1603098">登录</a>                    <a class="item" href="https://www.oschina.net/home/reg?goto_page=https%3A%2F%2Fmy.oschina.net%2Fchener%2Fblog%2F1603098">注册</a>                            </div>        </div>                <div class="ui secondary inverted fixed menu" id="mobileHeaderNavMenu">            <a class="icon item toggle-mobile-nav-sidebar">                <i class="large content icon"></i>            </a>            <div class="logo back-to-top-toggle"><img src="/new-osc/img/logo.svg" alt="开源中国"></div>            <a class="icon item toggle-mobile-user-sidebar">                                    <i class="large user outline icon"></i>                            </a>        </div>                <div class="ui basic segment" id="mainScreen">            <div class="ui container">                
+
+
+
+
+
+
+
+
+
+
+<x-foo-define data-define="space-blog-detail"></x-foo-define> 
+<val data-name="objId" data-value="1603098"></val> <val data-name="author_id" data-value="1383237"></val> <val data-name="space_user_id" data-value="1383237"></val> 
+<val data-name="fetchCommentsUrl" data-value="?type=comments"></val>              <val data-name="publishCommentUrl" data-value="/space/blog/add_comment"></val>    <val data-name="replyCommentUrl" data-value="/space/blog/add_comment"></val>      <val data-name="deleteCommentUrl" data-value="/space/blog/delete_blog_comments"></val>  
+<val data-name="weixinShareTitle" data-value="Mysql索引为啥要用B+树？"></val> <val data-name="weixinShareImgUrl" data-value="https://oscimg.oschina.net/oscnet/bc0dc21bdf627e20e22c7703f2081651ff9.jpg!/both/300x300"></val> 
+<div class="ui internally grid blog-detail bg-wrap">
+    <div class="row">
+        <div class="two wide computer only column">
+            <div class="ui sticky float-menu" id="floatMenu">
+                <div class="ui vertical large compact menu">
+                                            <a class="item donate" donate
+                           data-id="1603098"                            data-obj-type="16344358"                            data-subject="Mysql索引为啥要用B+树？"                            data-donater=""                            data-author="1383237"                            data-return-url="https://my.oschina.net/chener/blog/1603098"                            data-notify-url="https://my.oschina.net/action/donate/paySuccess">                             <i class="yen icon"></i>打赏</a>
+                                        <a class="item comment-btn" href="#comments" title="共有 0 条评论"><i class="comment outline icon"></i>评论</a>
+                    <a class="item collect-btn "
+                       data-id="1603098" data-user-id="1383237" data-obj-type="3" data-max="99" data-tag-required
+                       data-current-user-id=""
+                       data-recommend-tags="mysql,B+树,索引,红黑树"><i class="star outline icon"></i>收藏</a>
+                    <a class="item like article-like " data-id="1603098"><i class="thumbs up outline icon"></i>点赞</a>
+                    <h5 class="ui item inverted brown header">分享文章</h5>
+                    <div class="bdsharebuttonbox reset left-menu" data-tag="share-news">
+                        <a class="item" data-cmd="tsina"><i class="weibo icon"></i>微博</a>
+                        <a class="item" data-cmd="sqq"><i class="qq icon"></i>QQ</a>
+                        <a class="item" data-cmd="weixin"><i class="weixin icon"></i>微信</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="twelve wide computer sixteen wide tablet sixteen wide mobile column body-container">
+            <div class="float-menu-content">
+                <div class="ui large breadcrumb">
+                    <a class="section" href="https://my.oschina.net/chener">陈_二的个人空间</a>
+                                                                <i class="right chevron icon divider"></i>
+                        <a class="section" href="https://my.oschina.net/chener?tab=newest&catalogId=2955946">日常记录</a>
+                                        <i class="right chevron icon divider"></i>
+                    <div class="active section">正文</div>
+                </div>
+                <div class="article-detail">
+                                            <div class="ad-wrap">
+                                                        </div>
+                                        <h1 class="header">
+                        Mysql索引为啥要用B+树？
+                                                                            <div class="ui teal label horizontal" data-tooltip="原创">原</div>
+                                                                                            </h1>
+                    <div class="extra ui horizontal list meta-wrap">
+                        <div class="item">
+                            <a href="https://my.oschina.net/chener" class="__user">                        <div class="osc-avatar small-portrait _35x35 avatar" title="陈二C" data-user-id="1383237">
+                <img src="https://static.oschina.net/uploads/user/691/1383237_50.jpg?t=1466147035000" alt="陈二C" title="陈二C"/>
+            </div>
+            &nbsp;<span>陈二C</span></a>
+                            发布于 01/05 17:25</div>
+                        <div class="item">字数 1499</div>
+                        <div class="item">阅读 1839</div>
+                        <div class="item collect-btn "
+                             data-id="1603098" data-user-id="1383237" data-obj-type="3" data-max="99" data-tag-required
+                             data-current-user-id=""
+                             data-recommend-tags="mysql,B+树,索引,红黑树">收藏 <span data-collect-count data-id="1603098" data-obj-type="3">0</span></div>
+                        <div class="item"><a class="normal like article-like " data-id="1603098">点赞 <span data-article-like-count>0</span></a></div>
+                        <div class="item comment-count"><a href="#comments" class="normal"><i class="comment outline icon"></i> 评论 <span data-article-reply-count>0</span></a></div>
+                                            </div>
+                                                                        <div class="tags">
+                                <a class="ui horizontal label" href="https://my.oschina.net/chener?q=mysql">mysql</a><a class="ui horizontal label" href="https://my.oschina.net/chener?q=B+树">B+树</a><a class="ui horizontal label" href="https://my.oschina.net/chener?q=索引">索引</a><a class="ui horizontal label" href="https://my.oschina.net/chener?q=红黑树">红黑树</a>                            </div>
+                                                                <div class="content" id="articleContent">
+                                                    <div class="ad-wrap">
+                                                                </div>
+                                                <p>&nbsp; &nbsp; &nbsp;我们都知道Mysql索引用的B+树作为数据结构，但是为啥呢？王侯将相宁有种乎，树有这么多，凭啥就是你B+树，我AVL树，红黑树，Trie树等表示不服。</p> 
+<p>&nbsp; &nbsp; &nbsp;不服先等着，我们看看树旋转。<strong>树旋转</strong>是在二叉树中的一种子树调整操作, 每一次旋转并不影响对该二叉树进行中序遍历的结果。</p> 
+<ul> 
+ <li><strong>AVL树</strong></li> 
+</ul> 
+<p><strong>&nbsp; &nbsp;<span style="color:#696969"> &nbsp;</span><span style="color:#000000">AVL树</span></strong><span style="color:#000000">是最先发明的</span><a href="https://zh.wikipedia.org/wiki/%E8%87%AA%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91" rel="nofollow"><span style="color:#000000">自平衡二叉查找树</span></a><span style="color:#000000">。在AVL树中任何节点的两个子树的高度最大差别为1，所以它也被称为<strong>高度平衡树</strong>。</span></p> 
+<p><span style="color:#000000">&nbsp; &nbsp; &nbsp;性质：</span>任一节点的左子树深度和右子树深度相差不超过1</p> 
+<p>&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;<img alt="" height="200" src="https://static.oschina.net/uploads/space/2017/1228/183851_mqZx_1383237.svg" width="200">&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<img alt="" height="150" src="https://static.oschina.net/uploads/space/2017/1228/183933_8GfI_1383237.svg" width="337"></p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<strong>（非AVL树）&nbsp; &nbsp;</strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<strong>（前面的树转化成的AVL树）&nbsp; </strong>&nbsp; &nbsp; &nbsp;</p> 
+<p>&nbsp; &nbsp; &nbsp; 时间复杂度：</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp;插入:O(1)。只需要一次或者两次旋转来维持平衡。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp;删除:O(logN)。最差的情况就要每层的节点进行树旋转，所以时间复杂度为O(logN)。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp;查询：O(logN)。</p> 
+<ul> 
+ <li><strong>红黑树</strong></li> 
+</ul> 
+<p>&nbsp; &nbsp;<span style="color:#696969"> &nbsp;红黑树是每个节点都带有颜色属性的</span><a href="https://zh.wikipedia.org/wiki/%E4%BA%8C%E5%85%83%E6%90%9C%E5%B0%8B%E6%A8%B9" rel="nofollow"><span style="color:#696969">二叉查找树</span></a><span style="color:#696969">，颜色为红色和黑色。</span></p> 
+<p><span style="color:#696969">&nbsp; &nbsp; &nbsp;性质：</span></p> 
+<ol> 
+ <li>节点是红色或黑色。</li> 
+ <li>&nbsp;根是黑色。</li> 
+ <li>所有nill节点都是黑色。</li> 
+ <li>从每个叶子到根的所有路径上不能有两个连续的红色节点。</li> 
+ <li>从任一节点到其每个叶子的所有简单路径都包含相同数目的黑色节点。</li> 
+</ol> 
+<p>&nbsp; &nbsp; &nbsp; 注意性质4导致了路径不能有两个毗连的红色节点，最短的可能路径都是黑色节点，最长的可能路径有交替的红色和黑色节点。因为根据性质5所有最长的路径都有相同数目的黑色节点，这就表明了没有路径能多于任何其他路径的两倍长。&nbsp; &nbsp; &nbsp;&nbsp;</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<img alt="" height="200" src="https://static.oschina.net/uploads/space/2018/0102/160430_fuyZ_1383237.svg" width="415">&nbsp; &nbsp; &nbsp;</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong>（ 一颗普通的红黑树）</strong></p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp;时间复杂度：</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp;插入：O(1)。在一些插入情形，红黑树最多只要两次旋转就能保持其性质。但是在只需要更改颜色就能保持颜色的情形下，红黑树可能需要logN次变换颜色才能保持其性质。但是变换颜色的需要的开销远远小于树旋转的开销，所以算作O(1)。</p> 
+<p>&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;删除：O(1)。&nbsp;同插入，最多三次旋转就能保持其性质。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp;插入：O(logN)。&nbsp;</p> 
+<ul> 
+ <li><strong>Trie树</strong>&nbsp;</li> 
+</ul> 
+<p><strong>&nbsp; &nbsp; &nbsp; </strong>&nbsp;trie，又称前缀树或字典树，是一种有序树，用于保存关联数组，其中的键通常是字符串。与二叉查找树不同，键不是直接保存在节点中，而是由节点在树中的位置决定。一个节点的所有子孙都有相同的前缀，也就是这个节点对应的字符串，而根节点对应空字符串。一般情况下，不是所有的节点都有对应的值，只有叶子节点和部分内部节点所对应的键才有相关的值。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <img alt="" height="300" src="https://static.oschina.net/uploads/space/2018/0105/155829_eYAu_1383237.svg" width="320"></p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<strong>（一课普通的Trie树）</strong></p> 
+<p><strong>&nbsp; &nbsp; &nbsp; &nbsp;</strong>trie树常用于搜索提示。如当输入一个网址，可以自动搜索出可能的选择。当没有完全匹配的搜索结果，可以返回前缀最相似的可能。</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp;介绍完3位重量级选手，如果我们想自己设计mysql的索引会选用什么数据结构呢？<strong>trie树死在了开始，无疑AVL树在查询方面是最出色的，但是在删除的时候可能会引起噩梦，这样看来好像是红黑树最适合咯，虽然他牺牲了一部分查询性能，但是使删除性能在大部分情况保持了常数的时间复杂度。但是，有一个最重要的问题是，mysql的数据是放在外部存储的，也就是说磁盘IO才是性能瓶颈的关键，所以我们需要的是减少树的深度，所以我们需要更多分叉的树 ,还需要更适合磁盘操作特性的数据结构。</strong></p> 
+<p>&nbsp; &nbsp; &nbsp;<strong>&nbsp; B+树是为磁盘或其他直接存取的辅助存储设备而设计的一种数据结构。mysql为什么选取B+树，本质上是因为mysql数据是存放在外部存储的。</strong></p> 
+<ul> 
+ <li><strong>B+树</strong></li> 
+</ul> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp;未见其字，先闻其图。（实在是不好定义）</p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<img alt="" height="300" src="https://static.oschina.net/uploads/space/2018/0105/163713_7XL3_1383237.jpeg" width="554"></p> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<strong>（一颗普通的B+树）</strong></p> 
+<p>&nbsp; &nbsp; &nbsp;性质（m叉B+树）：</p> 
+<ol> 
+ <li>树中每个结点至多有m个孩子。</li> 
+ <li>除根结点和叶子结点外，其它每个结点至少有[m/2]个孩子。</li> 
+ <li>若根结点不是叶子结点，则至少有2个孩子。</li> 
+ <li>所有叶子结点都出现在同一层。</li> 
+ <li>每个非终端节点中包含n个关键字信息：(A0，K1，A1，K2，A2，......，Kn，An)。其中，Ki (i=1...n)为关键字，且关键字按顺序排序Ki &lt; K(i-1)。Ai为指向子树根的接点，且指针A(i-1)指向子树种所有结点的关键字均小于Ki，但都大于K(i-1)。关键字的个数n必须满足： [m/2]-1 &lt;= n &lt;= m-1</li> 
+</ol> 
+<p>&nbsp; &nbsp; &nbsp; &nbsp;当然还有一种性质是说n个关键字只有n个孩子，这里就不讨论了。</p> 
+<p>&nbsp; &nbsp; 优势：</p> 
+<ol> 
+ <li> <p>只有叶子节点才记录数据，非叶子节点只包含索引；所有的非终端节点（内部节点）并不存储数据信息，而是保存其叶子节点的最小值作为索引。 这样，一次性读入内存中的需要查找的关键字也就越多。相对来说IO读写次数也就降低了。</p> </li> 
+ <li> <p>能够提供稳定高效的范围扫描（range-query）功能；这也是为什么数据库和操作系统中的文件系统通常会采用b+树作为数据索引的原因，这个特点主要因为所有叶子节点相互连接，并且叶子节点本身依关键字的大小自小而大顺序链接。</p> </li> 
+</ol> 
+<p>&nbsp; &nbsp; &nbsp;&nbsp;</p>
+                                                    <div class="ad-wrap" style="margin-top: 12px;">
+                                                        <div data-traceid="blog_down_1" data-tracepid="blog_down" style="text-align:center">
+    <!-- oschina-blog-728x90 -->
+    <ins class="adsbygoogle"
+         style="display:inline-block;width:728px;height:90px"
+         data-ad-client="ca-pub-7090564139599510"
+         data-ad-slot="5590362768"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    <script type="text/javascript">
+        function googleAdJSAtOnload() {
+            var element = document.createElement("script");
+            element.src = "//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
+            element.async = true;
+            document.body.appendChild(element);
+        }
+        if (window.addEventListener) {
+            window.addEventListener("load", googleAdJSAtOnload, false);
+        } else if (window.attachEvent) {
+            window.attachEvent("onload", googleAdJSAtOnload);
+        } else {
+            window.onload = googleAdJSAtOnload;
+        }
+    </script>
+</div>
+                                        </div>
+                                            </div>
+                    <div class="ui hidden divider"></div>
+                    <p style="text-align:center;">
+                                                    &copy; 著作权归作者所有
+                                            </p>
+                </div>
+
+                                <div class="ui basic center aligned segment action">
+                    <div class="ui huge buttons">
+                                                    <a class="ui green button donate" donate
+                               data-id="1603098"                                data-obj-type="16344358"                                data-subject="Mysql索引为啥要用B+树？"                                data-donater=""                                data-author="1383237"                                data-return-url="https://my.oschina.net/chener/blog/1603098"                                data-notify-url="https://my.oschina.net/action/donate/paySuccess">                                 <i class="yen icon"></i>打赏</a>
+                                                <a class="ui basic button like article-like " data-id="1603098">
+                            <i class="thumbs up outline icon"></i>点赞 (<span data-article-like-count>0</span>)
+                        </a>
+                        <a class="ui basic button collect-btn hover"
+                           data-id="1603098" data-user-id="1383237" data-obj-type="3" data-max="99" data-tag-required
+                           data-current-user-id=""
+                           data-recommend-tags="mysql,B+树,索引,红黑树"><i class="star outline icon"></i>收藏 (<span data-collect-count data-id="1603098" data-obj-type="3">0</span>)</a>
+                        <div class="ui basic dropdown share button bdsharebuttonbox reset dropdown-share"
+                             data-tag="share-blog">
+                            <i class="share icon"></i> <span>分享</span>
+                            <div class="menu">
+                                <a class="item" data-cmd="tsina"><i class="weibo icon"></i>微博</a>
+                                <a class="item" data-cmd="sqq"><i class="qq icon"></i>QQ</a>
+                                <a class="item" data-cmd="weixin"><i class="weixin icon"></i>微信</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui basic segment">
+                        <a class="ban" style="cursor: pointer"
+                           ban-report data-id="1603098" data-obj-type="3"
+                           data-url="https://my.oschina.net/chener/blog/1603098">
+                            <i class="flag red icon"></i>举报</a>
+                    </div>
+                </div>
+
+                                                    <div class="reward-list hide">
+                        <div class="reward-list-title">
+                            共有 <span id="reward-num"></span> 人打赏支持<span id="donate_money"></span>
+                        </div>
+                                                <div class="donate-user-list" id="donate_user_list"></div>
+                    </div>
+                
+                                <div class="ui info message author-card">
+                    <div class="ui items">
+                        <div class="item author-card-item">
+                            <a class="ui avatar tiny image" href="https://my.oschina.net/chener">
+                                                        <div class="osc-avatar large-portrait _80x80" title="陈二C" data-user-id="1383237">
+                <img src="https://static.oschina.net/uploads/user/691/1383237_200.jpg?t=1466147035000" alt="陈二C" title="陈二C"/>
+            </div>
+                                        </a>
+                            <div class="content author-card-info">
+                                <div class="author-header clearfix">
+                                                                        <h3 class="author-name"><a class="__user" href="https://my.oschina.net/chener">陈二C</a></h3>
+                                                                                                        </div>
+                                <div class="ui horizontal list">
+                                    <div class="item">粉丝 5</div>
+                                    <div class="item">博文 9</div>
+                                    <div class="item">码字总数 15584</div>
+                                    <div class="item">作品 0</div>
+                                </div>
+                                <div class="ui hidden fitted clearing divider"></div>
+                                                                                                    <div class="ui horizontal list">
+                                                                                    <div class="item"><i class="map marker alternate icon"></i> 杭州</div>
+                                                                                                                    </div>
+                                                                <div class="ui hidden fitted clearing divider"></div>
+                                                                                                                                                    <a class="ui green compact button follow-btn" data-user-id="1383237" data-follow-status="1"><i class="heart outline icon"></i><span class="text">关注</span></a>
+                                                                                                </div>
+                            <div class="content panel-skills-radar" style="display: none">
+                                <div class="skills-radar">
+                                    <div class="radar-wrap" radar data-user-id="1383237"
+                                         data-skills-num="5"
+                                         data-detail-url="https://my.oschina.net/chener/radar"
+                                         data-container=".panel-skills-radar">
+                                        <div class="radar-map"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                                                            </div>
+                        <div class="ui basic segment article-list">
+                <div class="scroll-tab hidden-scroll">
+                    <div class="ui green pointing secondary massive menu spaceBlog-tab">
+                        <a class="active item" data-tab="relArticleList">相关文章</a>
+                        <a class="item" data-tab="newArticleList">最新文章</a>
+                    </div>
+                </div>
+                <div class="ui basic segment active tab article-list" data-tab="relArticleList" id="relArticleList">
+                                          
+
+    <div class="ui very relaxed items list-container blog-detail-list-container">
+                                    <div class="item blog-item">
+                    <div class="content">
+                        <a class="header" href="https://blog.csdn.net/gitchat/article/details/80326842" target="_blank" title="MySQL 数据库索引优化项目实战">MySQL 数据库索引优化项目实战</a>
+                        <div class="description">
+                            <p class="line-clamp">本文来自作者 奋斗 在 GitChat 上分享 「MySQL 数据库索引优化项目实战」 索引是应用程序设计和开发的一个重要方面。如果索引过多，应用程序中的更新、删除等操作会变慢，性能会受到影响；如...</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui horizontal list">
+                                <div class="item">gitchat</div>
+                                <div class="item">05/15</div>
+
+                                <div class="item"><i class="eye icon"></i> 0</div>
+                                <div class="item"><i class="comment outline icon"></i> 0</div>
+                            </div>
+                        </div>
+                    </div>
+                                                        </div>
+                                                <div class="item blog-item">
+                    <div class="content">
+                        <a class="header" href="http://www.jianshu.com/p/089a66addb1d" target="_blank" title="MySQL中的索引(二)InnoDB中的索引">MySQL中的索引(二)InnoDB中的索引</a>
+                        <div class="description">
+                            <p class="line-clamp">相关的数据结构 在InnoDB存储引擎中，建立索引所使用的数据结构是B+树。这里我们看看和B+树相关的数据结构。 二叉树 我们把最多能有2个子节点的树称为二叉树。 二叉树的分类 满二叉树：从高到...</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui horizontal list">
+                                <div class="item">Coding小聪</div>
+                                <div class="item">09/02</div>
+
+                                <div class="item"><i class="eye icon"></i> 0</div>
+                                <div class="item"><i class="comment outline icon"></i> 0</div>
+                            </div>
+                        </div>
+                    </div>
+                                                                <div class="images">
+                            <a class="ui small image" href="http://www.jianshu.com/p/089a66addb1d" target="_blank" title="MySQL中的索引(二)InnoDB中的索引">
+                                <img src="http://img.oschina.net/itags/a3951a09098862a311b6c8ce9310d5cb8fb0b308.png" alt="" data-img-render>
+                            </a>
+                        </div>
+                                    </div>
+                                                <div class="item blog-item">
+                    <div class="content">
+                        <a class="header" href="https://my.oschina.net/u/1269959/blog/516202" target="_blank" title="MySQL 索引选择原则分析（一）">MySQL 索引选择原则分析（一）</a>
+                        <div class="description">
+                            <p class="line-clamp">目的 数据库中很重要的设计一部分，莫过于索引了。B+树索引是MySQL中设计的索引。B+树索引是基于B+树基础发展而来的。 然而，在理解了B+树索引结构以后，对优化SQL会事半功倍。还针对前面MyS...</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui horizontal list">
+                                <div class="item">tara_qri</div>
+                                <div class="item">2015/10/13</div>
+
+                                <div class="item"><i class="eye icon"></i> 140</div>
+                                <div class="item"><i class="comment outline icon"></i> 0</div>
+                            </div>
+                        </div>
+                    </div>
+                                                        </div>
+                                                <div class="item blog-item">
+                    <div class="content">
+                        <a class="header" href="https://my.oschina.net/u/572362/blog/681279" target="_blank" title="Mysql索引介绍及常见索引(主键索引、唯一索引、普通索引、全文索引、组合索引)的区别">Mysql索引介绍及常见索引(主键索引、唯一索引、普通索引、全文索引、组合索引)的区别</a>
+                        <div class="description">
+                            <p class="line-clamp">Mysql索引概念： 说说Mysql索引，看到一个很少比如：索引就好比一本书的目录，它会让你更快的找到内容，显然目录（索引）并不是越多越好，假如这本书1000页，有500也是目录，它当然效率低，目...</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui horizontal list">
+                                <div class="item">zhdan</div>
+                                <div class="item">2016/05/26</div>
+
+                                <div class="item"><i class="eye icon"></i> 196</div>
+                                <div class="item"><i class="comment outline icon"></i> 0</div>
+                            </div>
+                        </div>
+                    </div>
+                                                        </div>
+                                                <div class="item blog-item">
+                    <div class="content">
+                        <a class="header" href="https://my.oschina.net/u/2834932/blog/759759" target="_blank" title="B 树 B+树 mysql索引，性能分析">B 树 B+树 mysql索引，性能分析</a>
+                        <div class="description">
+                            <p class="line-clamp">接着上一篇对红黑树的分析，本文对B树，及其应用进行介绍。 http://blog.csdn.net/vjulyv/article/details/6530142 算法本身的分析 http://tech.meituan.com/mysql-index.html mysql性能 慢查...</p>
+                        </div>
+                        <div class="extra">
+                            <div class="ui horizontal list">
+                                <div class="item">ovirtKg</div>
+                                <div class="item">2016/10/17</div>
+
+                                <div class="item"><i class="eye icon"></i> 320</div>
+                                <div class="item"><i class="comment outline icon"></i> 0</div>
+                            </div>
+                        </div>
+                    </div>
+                                                                <div class="images">
+                            <a class="ui small image" href="https://my.oschina.net/u/2834932/blog/759759" target="_blank" title="B 树 B+树 mysql索引，性能分析">
+                                <img src="http://img.oschina.net/itags/1edff328bf882f9d42792fc3905535a4578cebda.png" alt="" data-img-render>
+                            </a>
+                        </div>
+                                    </div>
+                        </div>
+    <div class="page-load-status">
+        <p class="infinite-scroll-request">
+            <i class="ui active small inline loader" style="display: none;"></i>
+        </p>
+        <p class="infinite-scroll-last">没有更多内容</p>
+        <p class="infinite-scroll-error">加载失败，请刷新页面</p>
+    </div>
+    <a class="ui fluid button load-more-button">加载更多</a>
+                <p class="pagination">
+            <a class="rel-pagination pagination__next" style="display: none" href="https://my.oschina.net/chener/blog/widgets/_blog_detail_list_rel?obj=1603098&p=2&type=ajax">下一页</a>
+        </p>
+                    </div>
+                <div class="ui basic segment tab article-list" data-tab="newArticleList" id="newArticleList">
+                                          
+
+    <div class="ui very relaxed items list-container blog-detail-list-container">
+                                                        <div class="item blog-item">
+                        <div class="content">
+                            <a class="header" href="https://my.oschina.net/peakfang/blog/2240236" target="_blank" title="Hive DDL 内部表外部表 分区 分桶 行格式 存储文件格式 概述">Hive DDL 内部表外部表 分区 分桶 行格式 存储文件格式 概述</a>
+                            <div class="description">
+                                <p class="line-clamp">创建数据库 CREATE DATABASE [IF NOT EXISTS] database_name  [COMMENT database_comment]  [LOCATION hdfs_path] 删除数据库 DROP DATABASE [IF EXISTS] database_name [RESTRICT|CA......</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui horizontal list">
+                                    <div class="item">PeakFang-BOK</div>
+                                    <div class="item">12分钟前</div>
+
+                                    <div class="item"><i class="eye icon"></i> 0</div>
+                                    <div class="item"><i class="comment outline icon"></i> 0</div>
+                                                                    </div>
+                            </div>
+                        </div>
+                                                                            <div class="images">
+                                <a class="ui small image" href="https://my.oschina.net/peakfang/blog/2240236" target="_blank" title="Hive DDL 内部表外部表 分区 分桶 行格式 存储文件格式 概述">
+                                    <img src="https://oscimg.oschina.net/oscnet/1104a0c2e38db20dcfadd30b313ac9a8b5b.jpg" alt="" data-img-render>
+                                </a>
+                            </div>
+                                            </div>
+                                                                                    <div class="item blog-item">
+                        <div class="content">
+                            <a class="header" href="https://my.oschina.net/u/3972077/blog/2240235" target="_blank" title="Spring Cloud使用总结">Spring Cloud使用总结</a>
+                            <div class="description">
+                                <p class="line-clamp">Spring Cloud 是spring团队推出的基于SpringBoot的分布式微服务框架，为开发者提供了在分布式系统（如配置管理、服务发现、断路器、智能路由、微代理、控制总线、一次性 Token、全局锁、决策...</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui horizontal list">
+                                    <div class="item">小刀爱编程</div>
+                                    <div class="item">15分钟前</div>
+
+                                    <div class="item"><i class="eye icon"></i> 0</div>
+                                    <div class="item"><i class="comment outline icon"></i> 0</div>
+                                                                    </div>
+                            </div>
+                        </div>
+                                                                    </div>
+                                                                                    <div class="item blog-item">
+                        <div class="content">
+                            <a class="header" href="https://my.oschina.net/zz006/blog/2240233" target="_blank" title="push to origin/master was rejected错误解决方案">push to origin/master was rejected错误解决方案</a>
+                            <div class="description">
+                                <p class="line-clamp">idea中，发布项目到OSChina的Git中，当时按照这样的流程添加Git，然后push，提示：push to origin/master war rejected"。 解决方案如下： 1.切换到自己项目所在的目录，右键选择GIT BASH He...</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui horizontal list">
+                                    <div class="item">流氓兔-</div>
+                                    <div class="item">18分钟前</div>
+
+                                    <div class="item"><i class="eye icon"></i> 0</div>
+                                    <div class="item"><i class="comment outline icon"></i> 0</div>
+                                                                    </div>
+                            </div>
+                        </div>
+                                                                    </div>
+                                                                                    <div class="item blog-item">
+                        <div class="content">
+                            <a class="header" href="https://my.oschina.net/u/612750/blog/2240185" target="_blank" title="fabio负载均衡入门">fabio负载均衡入门</a>
+                            <div class="description">
+                                <p class="line-clamp">当开发完一个 HTTP Restful服务后，准备配置一个负载均衡。我想弄一个比较简单的方案， [1] 不要依赖于Docker/K8S。 [2] 在Windows 和 Linux 均可。 [3] Go语言实现优先。并且不要有负载的配...</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui horizontal list">
+                                    <div class="item">shengjuntu</div>
+                                    <div class="item">42分钟前</div>
+
+                                    <div class="item"><i class="eye icon"></i> 2</div>
+                                    <div class="item"><i class="comment outline icon"></i> 0</div>
+                                                                    </div>
+                            </div>
+                        </div>
+                                                                    </div>
+                                                                                    <div class="item blog-item">
+                        <div class="content">
+                            <a class="header" href="https://my.oschina.net/wangxu3655/blog/2240183" target="_blank" title="RocketMQ双Master集群搭建">RocketMQ双Master集群搭建</a>
+                            <div class="description">
+                                <p class="line-clamp">机器准备 2台独立的linux主机, 内网IP分别为: 172.31.175.142/143 172.31.175.142 NameServer1、 Broker Master1 172.31.175.143 NameServer2、 Broker Master2 安装配置 安装 下载二进制版本......</p>
+                            </div>
+                            <div class="extra">
+                                <div class="ui horizontal list">
+                                    <div class="item">零二一七</div>
+                                    <div class="item">58分钟前</div>
+
+                                    <div class="item"><i class="eye icon"></i> 4</div>
+                                    <div class="item"><i class="comment outline icon"></i> 0</div>
+                                                                    </div>
+                            </div>
+                        </div>
+                                                                    </div>
+                                        </div>
+    <div class="page-load-status">
+        <p class="infinite-scroll-request">
+            <i class="ui active small inline loader" style="display: none"></i>
+        </p>
+        <p class="infinite-scroll-last">没有更多内容</p>
+        <p class="infinite-scroll-error">加载失败，请刷新页面</p>
+    </div>
+    <a class="ui fluid button load-more-button">加载更多</a>
+                <p class="pagination">
+            <a class="news-pagination pagination__next" style="display: none" href="https://my.oschina.net/chener/blog/widgets/_blog_detail_list_news?p=2&type=ajax">下一页</a>
+        </p>
+                    </div>
+            </div>
+        </div>
+        <div class="two wide computer only column">
+                        <div class="ad-wrap">
+                                </div>
+                    </div>
+    </div>
+</div>
+
+
+<div class="ui mini delete-blog modal">
+    <div class="header">删除文章</div>
+    <div class="content">
+        <p>文章删除后无法恢复，确定取消删除此文章吗？</p>
+    </div>
+    <div class="actions">
+        <div class="ui cancel button">取消</div>
+        <div class="ui red ok button">确定</div>
+    </div>
+</div>
+<div class="ui mini recommend-self modal">
+    <div class="header">自荐文章</div>
+    <div class="content">
+        <p>亲，自荐的博客将通过私信方式通知管理员，优秀的博客文章审核通过后将在博客推荐列表中显示</p>
+    </div>
+    <div class="actions">
+        <div class="ui cancel button">取消</div>
+        <div class="ui red ok button">确定</div>
+    </div>
+</div>
+<div class="ui mini recommend-blog modal">
+    <div class="header">推荐文章</div>
+    <div class="content">
+        <p>确定推荐此文章吗？</p>
+    </div>
+    <div class="actions">
+        <div class="ui cancel button">取消</div>
+        <div class="ui green ok button">确定</div>
+    </div>
+</div>
+<div class="ui mini recommend-author modal">
+    <div class="header">推荐博主</div>
+    <div class="content">
+        <p>确定推荐此博主吗？</p>
+    </div>
+    <div class="actions">
+        <div class="ui cancel button">取消</div>
+        <div class="ui green ok button">确定</div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/action/visit/blog?id=1603098" defer="defer"></script>
+<script type="text/javascript" src="/action/visit/space?id=1383237"></script>
+
+<script>
+    // 百度分享
+    window._bd_share_config = {
+        common : {
+            bdText : 'Mysql索引为啥要用B+树？ - 陈_二的个人空间 - 开源中国',
+            bdDesc : '我们都知道Mysql索引用的B+树作为数据结构，但是为啥呢？王侯将相宁有种乎，树有这么多，凭啥就是你B+树，我AVL树，红黑树，Trie树等表示不服。 不服先等着，我们看看树旋转。树旋转是在二叉树中的一种子树调整操作, 每一次旋转并不影响对该二叉树进行中序遍历的结果。 AVL树 AVL树是最先发明的自平衡二叉查找树。在AVL...',
+            bdUrl  : 'https://my.oschina.net/chener/blog/1603098',
+            bdPic  : 'https://static.oschina.net/uploads/space/2017/1228/183851_mqZx_1383237.svg'
+        },
+        share : [{
+            bdSize : 16
+        }]
+    };
+    with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/new-osc/js/utils/plugins/bdshare_api/share.js?v='+~(-new Date()/36e5)];
+</script>
+                </div>        </div>                <div id="footer" class="ui vertical footer segment mb-hide">            <div class="ui container">                <div class="ui grid">                    <div class="eight wide mobile four wide tablet four wide computer column">                        <h4 class="ui header">开源中国社区</h4>                        <div class="ui link list">                            <a class="item" href="https://www.oschina.net/home/aboutosc" target="_blank">关于我们</a>                            <a class="item" href="https://www.oschina.net/home/aboutosc" target="_blank">联系我们</a>                            <a class="item" href="https://www.oschina.net/home/aboutosc#partners#" target="_blank">合作伙伴</a>                            <a class="item" href="https://www.oschina.net/openapi" target="_blank">Open API</a>                        </div>                    </div>                    <div class="eight wide mobile four wide tablet four wide computer column">                        <h4 class="ui header">在线工具</h4>                        <div class="ui link list">                            <a class="item" href="https://gitee.com/" target="_blank">码云 Gitee.com</a>                            <a class="item" href="http://tool.oschina.net" target="_blank">在线工具</a>                            <a class="item" href="http://team.oschina.net/" target="_blank">Team@OSC 项目协作平台</a>                            <a class="item" href="http://runjs.cn/" target="_blank">RunJS 在线开发</a>                        </div>                    </div>                    <div class="center aligned eight wide mobile two wide tablet two wide computer column">                        <h4 class="ui header">微信公众号</h4>                        <img src="/new-osc/img/wechat_qrcode.jpg?t=1484694603000" alt="微信公众号"/>                    </div>                    <div class="center aligned eight wide mobile six wide tablet six wide computer column">                        <h3 class="ui header">开源中国 APP</h3>                        <p>聚合全网技术文章，根据你的阅读喜好进行个性推荐</p>                        <a href="https://www.oschina.net/app" target="_blank" class="ui large primary button">下载 APP</a>                    </div>                </div>            </div>        </div>                <div id="copyright">            <div class="ui container">                <div class="ui clearing basic segment">                    <div class="ui left floated horizontal link list">                        <div class="item">©开源中国(OSChina.NET)</div>                        <div class="item mb-hide">工信部</div>                        <a class="item mb-hide" href="http://www.copu.org.cn/" target="_blank" title="开源软件推进联盟">开源软件推进联盟</a>                        <div class="item mb-hide">指定官方社区</div>                    </div>                    <div class="ui right floated horizontal link list">                        <div class="item mb-hide">深圳市奥思网络科技有限公司版权所有</div>                        <a href="http://www.miitbeian.gov.cn/" target="_blank" class="item">粤ICP备12009483号-3</a>                    </div>                </div>            </div>        </div>    </div>                                                        <div class="back-to-top back-to-top-toggle">        <div class="icon"><img src="/new-osc/img/icon/back-to-top.svg" alt="返回顶部"></div>        <div class="text">顶部</div>    </div>        <script src="/new-osc/js/utils/semantic-ui/semantic.min.js?v180824"></script>    <script src="/new-osc/js/utils/jweixin-1.2.0.js"></script>                <script type="text/javascript" src="/new-osc/dist/js/space.92b39051.js"></script>                <script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https'){
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else{
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?cb47adfe0fabd7059a2a90a495077efe";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+    </body></html>
+<!-- Generated by oschina (init:4[ms],page:60[ms],ip:133.41.75.54) //-->
